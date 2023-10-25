@@ -26,12 +26,12 @@ const StyledFooter = styled.footer`
 `;
 
 export const Footer = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   return (
     <StyledFooter>
       <Stack direction="row" justifyContent="space-between" mb={2}>
         <Stack direction="row" alignItems="flex-end">
-          <StyledLink  replace href="/feedback">
+          <StyledLink replace href="/feedback">
             {t("footer.submitIssue")}
           </StyledLink>
           <StyledLink replace href="/help">
@@ -44,7 +44,7 @@ export const Footer = () => {
             <StyledAnchor key={label} href={href} target="_blank">
               <Stack direction="row" alignItems="center" gap={0.8}>
                 <FontAwesomeIcon icon={icon} fontSize="xs" />
-                <Typography level="body2">{label}</Typography>
+                <Typography level="body-sm">{label}</Typography>
               </Stack>
             </StyledAnchor>
           ))}
@@ -52,7 +52,7 @@ export const Footer = () => {
       </Stack>
       <Divider />
       <Box>
-        <Typography level="body3" sx={{ margin: "8px" }}>
+        <Typography level="body-xs" sx={{ margin: "8px" }}>
           {t("footer.appVersion")} 001{" "}
         </Typography>
       </Box>

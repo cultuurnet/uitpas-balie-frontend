@@ -7,9 +7,9 @@ export const SidebarContent = () => {
   return (
     <Stack spacing={2}>
       <Typography level="h1"> {t("expenseReport.title")}</Typography>
-      <Typography level="body1">{t("expenseReport.description")}</Typography>
+      <Typography level="body-md">{t("expenseReport.description")}</Typography>
       <Typography
-        level="body2"
+        level="body-sm"
         variant="soft"
         color="info"
         sx={{ padding: "8px" }}

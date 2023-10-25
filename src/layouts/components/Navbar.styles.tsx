@@ -28,7 +28,7 @@ const navItemStyles = ({ theme }: { theme: Theme }) => ({
   display: "block",
   color: theme.vars.palette.neutral[50],
   // @ts-ignore
-  fontSize: theme.typography.body1.fontSize,
+  fontSize: theme.typography["body-md"].fontSize,
   textDecoration: "underline",
   "&:hover": {
     textDecoration: "none",
