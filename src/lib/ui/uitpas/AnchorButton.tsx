@@ -19,7 +19,7 @@ export const AnchorButton = ({ children, ...props }: Props) => {
   return (
     <StyledTypography
       display="inline"
-      level="body1"
+      level="body-md"
       component="span"
       {...props}
     >

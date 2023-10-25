@@ -1,8 +1,21 @@
-import { extendTheme } from "@mui/joy/styles";
+import { PaletteRange, extendTheme } from "@mui/joy/styles";
 import { Open_Sans } from "next/font/google";
 declare module "@mui/joy/styles" {
-  // No custom tokens found, you can skip the theme augmentation.
+  // Info palette removed:
+  // https://mui.com/joy-ui/migration/migrating-default-theme/#info-palette-removed
+  interface ColorPalettePropOverrides {
+    info: true;
+  }
+
+  interface Palette {
+    info: PaletteInfo;
+  }
+
+  interface PaletteInfo extends PaletteRange {
+    softBorder: string;
+  }
 }
+
 export const openSansFont = Open_Sans({
   weight: ["400", "700"],
   subsets: ["latin"],
@@ -81,10 +94,10 @@ export const theme = extendTheme({
       lineHeight: 1.1,
       margin: "0 0 1em",
     },
-    body1: {
+    "body-md": {
       fontSize: 15,
     },
-    body2: {
+    "body-sm": {
       fontSize: 13,
     },
   },

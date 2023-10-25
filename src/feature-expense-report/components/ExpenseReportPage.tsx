@@ -61,7 +61,7 @@ export const ExpenseReportPage = () => {
   return (
     <PageWithSideBarNew sideBarContent={<SidebarContent />} hasBackButton>
       <Stack m={2} gap={3} alignContent="flex-start">
-        <Typography level="body1">{t("expenseReport.summary")}</Typography>
+        <Typography level="body-md">{t("expenseReport.summary")}</Typography>
         {hasFailed && (
           <Alert color="danger">{t("expenseReport.noReportsAvailable")}</Alert>
         )}
@@ -73,7 +73,7 @@ export const ExpenseReportPage = () => {
         >
           <FormControl sx={{ flexGrow: 1 }}>
             <FormLabel>
-              <Typography level="body2">
+              <Typography level="body-sm">
                 <strong> {t("common.startDate")}</strong>
               </Typography>
             </FormLabel>
@@ -85,7 +85,7 @@ export const ExpenseReportPage = () => {
           </FormControl>
           <FormControl sx={{ flexGrow: 1 }}>
             <FormLabel>
-              <Typography level="body2">
+              <Typography level="body-sm">
                 <strong> {t("common.endDate")}</strong>
               </Typography>
             </FormLabel>
@@ -136,17 +136,17 @@ export const ExpenseReportPage = () => {
           {periods?.map((period, index) => (
             <ListItem key={`period-${index}`}>
               <Stack display={"inline"} direction={"row"} gap={1}>
-                <Typography level="body1" display="inline" mr={0.5}>
+                <Typography level="body-md" display="inline" mr={0.5}>
                   {period.startDate}
                 </Typography>
-                <Typography level="body1" display="inline" mr={0.5}>
+                <Typography level="body-md" display="inline" mr={0.5}>
                   -
                 </Typography>
-                <Typography level="body1" display="inline" mr={1}>
+                <Typography level="body-md" display="inline" mr={1}>
                   {period.endDate}
                 </Typography>
                 <AnchorButton
-                  level="body3"
+                  level="body-xs"
                   onClick={() => createReport(period.startDate, period.endDate)}
                 >
                   Maak en download

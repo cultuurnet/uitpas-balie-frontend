@@ -42,7 +42,7 @@ export const Navbar = () => {
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Typography
-            level="body2"
+            level="body-sm"
             sx={(theme) => ({ color: theme.vars.palette.neutral[200] })}
           >
             {t("login.loggedInAs", { name: userInfo.nickname })}
