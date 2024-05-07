@@ -2,6 +2,10 @@
 
 import { createTheme } from "@mui/material/styles";
 import { poppinsFont } from "./fonts";
+import {
+  PaletteColor,
+  PaletteColorOptions,
+} from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -95,8 +99,8 @@ export const palette = {
     900: "#0B5641",
   },
   error: {
-    errorMain: "#F82E58",
-    500: "#FA5273",
+    main: "#F82E58",
+    light: "#FA5273",
   },
 };
 
@@ -111,8 +115,8 @@ export const theme = createTheme({
       dark: palette.secondaryDark,
     },
     error: {
-      main: palette.error.errorMain,
-      500: palette.error[500],
+      main: palette.error.main,
+      light: palette.error.light,
     },
     navigation: {
       primary: palette.navigationPrimary,

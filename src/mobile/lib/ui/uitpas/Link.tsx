@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 
 type LinkProps = NextLinkProps &
   PropsWithChildren & {
-    color: "primary" | "secondary";
+    color?: "primary" | "secondary";
   };
 
 export const Link = ({ ...props }: LinkProps) => {
@@ -15,7 +15,7 @@ export const Link = ({ ...props }: LinkProps) => {
     <NextLink
       {...props}
       style={{
-        color: theme.palette[props.color].main,
+        color: theme.palette[props.color || "primary"].main,
         padding: "0 16px",
         textAlign: "center",
         fontSize: "16px",

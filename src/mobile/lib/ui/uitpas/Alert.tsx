@@ -10,9 +10,8 @@ type AlertProps = PropsWithChildren &
 export const Alert = ({ type, style, ...props }: AlertProps) => {
   const theme = useTheme();
 
-  // TODO: fix this TS-error via theme augmentation
   const backgroundColor =
-    type === "success" ? theme.palette.brand[200] : theme.palette.error[500];
+    type === "success" ? theme.palette.brand[200] : theme.palette.error.light;
   const borderColor =
     type === "success" ? theme.palette.brand[300] : theme.palette.error.main;
   const color =

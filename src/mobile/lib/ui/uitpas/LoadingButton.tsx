@@ -1,11 +1,10 @@
 "use client";
 
-import {
-  LoadingButton as MuiLoadingButton,
-  LoadingButtonProps,
-} from "@mui/lab";
+import { LoadingButton as MuiLoadingButton } from "@mui/lab";
+import { ButtonProps } from "@mui/material";
 
-export const LoadingButton = ({ ...props }: LoadingButtonProps) => {
+// ⚠️ Using LoadingButtonProps gives an error during build: "Type error: Excessive complexity comparing types"
+export const LoadingButton = (props: ButtonProps & { loading?: boolean }) => {
   return (
     <MuiLoadingButton
       variant="contained"
@@ -19,8 +18,6 @@ export const LoadingButton = ({ ...props }: LoadingButtonProps) => {
         fontSize: "16px",
         ...props.sx,
       }}
-    >
-      {props.children}
-    </MuiLoadingButton>
+    />
   );
 };
