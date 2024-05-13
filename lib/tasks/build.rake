@@ -6,5 +6,5 @@ task :build do |task|
   system('bin/yarn install') or exit 1
   system('NODE_OPTIONS="--max-old-space-size=4096" bin/yarn build') or exit 1
   system('rm -rf node_modules') or exit 1
-  system('bin/yarn install --production') or exit 1
+  system('bin/yarn workspaces focus') or exit 1
 end
