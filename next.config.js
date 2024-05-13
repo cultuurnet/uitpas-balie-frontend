@@ -6,7 +6,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/app";
 const paths = getPathsFromFolderStructure("./src/app");
 
 process.env.NEXT_PUBLIC_RUNTIME_CONFIG = JSON.stringify({
-  legacyAppUrl: process.env.NEXT_PUBLIC_LEGACY_APP_URL ?? "",
+  legacyAppUrl:
+    process.env.NEXT_PUBLIC_LEGACY_APP_URL ?? "http://localhost:9999",
   basePath,
   legacyApiPath: process.env.NEXT_PUBLIC_LEGACY_API_PATH ?? "",
   apiPaths: {
