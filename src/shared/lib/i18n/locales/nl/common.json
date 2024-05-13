@@ -174,8 +174,7 @@
       "noActivity": "Geen activiteit gekozen",
       "passholder": "Pashouder",
       "namePointsTxt": "{{firstName}} {{lastName}} ({{points}} punten)",
-      "opportunityState": "Kansenstatuut tot: {{endDate}}",
-      "opportunityStateExpired": "Kansenstatuut vervallen ({{endDate}})",
+      "pointSaved": "Punt gespaard",
       "failure": {
         "tryAgainBtn": "Probeer opnieuw",
         "inputCardNoBtn": "Een kaartnummer invullen"
@@ -183,7 +182,27 @@
       "chooseTariffBtn": "Kies tarief",
       "tradeBenefitBtn": "Voordeel omruilen",
       "scanNextBtn": "Volgende UitPAS scannen",
-      "or": "Of"
+      "or": "Of",
+      "opportunityState": {
+        "active": {
+          "title": "Kansenstatuut Geldig",
+          "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}.",
+          "gracePeriod": "De pashouder is momenteel in grace period. Dit wil zeggen dat het kansenstatuut is vervallen, maar de pashouder wel nog 30 dagen na vervaldatum recht heeft op het kansenstatuut."
+        },
+        "expired": {
+          "title": "Kansenstatuut Vervallen",
+          "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}."
+        },
+        "suspended": {
+          "title": "Kansenstatuut Geschorst",
+          "content": "Pashouder in {{cardSystemName}} geschorst tot {{suspendedUntilDate}}. {{firstName}} {{lastName}} kan hierdoor tot {{suspendedUntilDate}} geen korting aan kansentarief meer ontvangen. De pashouder kan wel punten sparen en voordelen omruilen."
+        },
+        "blocked": {
+          "title": "Geblokkeerd",
+          "content": "De pashouder is geblokkeerd in {{cardSystemName}}.",
+          "content2": "Neem contact op met de UiTPAS-trekker in je regio indien de pashouder toch nog gebruik wil maken van UiTPAS."
+        }
+      }
     }
   },
   "pagination": {

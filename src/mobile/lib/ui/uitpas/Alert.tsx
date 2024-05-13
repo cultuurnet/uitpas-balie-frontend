@@ -12,8 +12,7 @@ export const Alert = ({ type, style, ...props }: AlertProps) => {
 
   const backgroundColor =
     type === "success" ? theme.palette.brand[200] : theme.palette.error.light;
-  const borderColor =
-    type === "success" ? theme.palette.brand[300] : theme.palette.error.main;
+  const borderColor = theme.palette.brand[300];
   const color =
     type === "success" ? theme.palette.brand[900] : theme.palette.neutral[0];
 
@@ -26,7 +25,6 @@ export const Alert = ({ type, style, ...props }: AlertProps) => {
         alignItems: "center",
         columnGap: "13px",
         padding: "8px 12px",
-        maxHeight: "50px",
         backgroundColor,
         color,
         ...style,
@@ -38,7 +36,9 @@ export const Alert = ({ type, style, ...props }: AlertProps) => {
           sx={{ fontSize: "36px", color: theme.palette.primary.main }}
         />
       )}
-      <p style={{ fontWeight: 700, fontSize: "16px" }}>{props.children}</p>
+      <p style={{ fontWeight: 700, fontSize: "16px", margin: 0 }}>
+        {props.children}
+      </p>
     </div>
   );
 };

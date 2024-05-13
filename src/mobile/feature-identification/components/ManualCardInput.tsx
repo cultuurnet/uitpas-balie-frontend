@@ -4,7 +4,11 @@ import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const ManualCardInput = () => {
+export const ManualCardInput = ({
+  resetSavedPoints,
+}: {
+  resetSavedPoints: () => void;
+}) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -28,10 +32,12 @@ export const ManualCardInput = () => {
       if (controlNumber !== checksum) {
         errorKey = "invalidInszNo";
       } else {
+        resetSavedPoints();
         return router.push("/mobile/saving?insz=" + sanitizedCardNumber);
       }
     } else if (sanitizedCardNumber.length === 13) {
       // Uitpasnummer
+      resetSavedPoints();
       return router.push("/mobile/saving?uitpas=" + sanitizedCardNumber);
     } else if (sanitizedCardNumber.length === 0) {
       errorKey = "required";
