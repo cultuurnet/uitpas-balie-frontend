@@ -14,6 +14,18 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   basePath,
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "balie-acc.uitpas.be",
+        "balie-test.uitpas.be",
+        "balie.uitpas.be",
+        "balie-next-acc.uitpas.be",
+        "balie-next-test.uitpas.be",
+        "balie-next.uitpas.be",
+      ],
+    },
+  },
 };
 
 module.exports = nextConfig;
