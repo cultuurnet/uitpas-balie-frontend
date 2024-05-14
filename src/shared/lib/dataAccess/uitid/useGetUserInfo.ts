@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 
 export type UserInfo = {
   email: string;
@@ -20,12 +20,12 @@ type Props = {
   enabled?: boolean;
 };
 export const useGetUserInfo = ({ token, enabled = true }: Props) => {
-  const { publicRuntimeConfig } = getConfig();
+  const { publicRuntimeConfig } = useConfig();
 
   return useQuery(
     ["auth0", "userInfo"],
     () => {
-      return axios.get<UserInfo>(publicRuntimeConfig.oauthUserInfoPath ?? "");
+      return axios.get<UserInfo>(publicRuntimeConfig?.oauthUserInfoPath ?? "");
     },
     {
       enabled,

@@ -5,7 +5,7 @@ import {
   useHandleWindowMessage,
   WindowMessageTypesReceived,
 } from "./useHandleWindowMessage";
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 import { useLogout } from "@/shared/lib/auth";
 
 function removeDoubleSlashesFromUrl(url: string): string {
@@ -17,8 +17,8 @@ export const useUrlChanged = () => {
   const router = useRouter();
   const logout = useLogout();
 
-  const { publicRuntimeConfig } = getConfig();
-  const legacyUrl = new URL(publicRuntimeConfig.legacyAppUrl);
+  const { publicRuntimeConfig } = useConfig();
+  const legacyUrl = new URL(publicRuntimeConfig?.legacyAppUrl ?? "");
 
   useHandleWindowMessage({
     [WindowMessageTypesReceived.URL_CHANGED]: ({ payload }) => {
@@ -33,7 +33,7 @@ export const useUrlChanged = () => {
         )
       );
 
-      if (publicRuntimeConfig.Routes.includes(url.pathname)) {
+      if (publicRuntimeConfig?.Routes.includes(url.pathname)) {
         router.push(`${url.pathname}?${url.searchParams}`);
       } else {
         history.pushState(null, "", url.pathname + url.search);

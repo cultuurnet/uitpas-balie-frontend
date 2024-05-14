@@ -1,12 +1,12 @@
 "use client";
 
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { prefixWhenNotEmpty } from "@/shared/lib/utils";
 
 export const useLegacyPath = () => {
-  const { publicRuntimeConfig } = getConfig();
+  const { publicRuntimeConfig } = useConfig();
   const queryWithoutParams = useSearchParams();
 
   const asPath = usePathname();
@@ -19,6 +19,6 @@ export const useLegacyPath = () => {
       "?"
     );
 
-    return `${publicRuntimeConfig.legacyAppUrl}${path}${queryString}`;
-  }, [asPath, publicRuntimeConfig.legacyAppUrl, queryWithoutParams]);
+    return `${publicRuntimeConfig?.legacyAppUrl}${path}${queryString}`;
+  }, [asPath, publicRuntimeConfig?.legacyAppUrl, queryWithoutParams]);
 };

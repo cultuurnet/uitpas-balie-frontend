@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Metadata, Viewport } from "next";
 import { Providers } from "@/app/Providers";
 import { palette } from "@/mobile/lib/ui";
+import { ConfigProvider } from "@/shared/feature-config/context/ConfigProvider";
 
 const APP_NAME = "UiTPAS Beheer";
 const APP_DEFAULT_TITLE = "UiTPAS Beheer";
@@ -30,7 +31,9 @@ export default function RootLayout({
     <html lang="nl">
       <head />
       <body style={{ overflowX: "hidden" }}>
-        <Providers>{children}</Providers>
+        <ConfigProvider>
+          <Providers>{children}</Providers>
+        </ConfigProvider>
       </body>
     </html>
   );

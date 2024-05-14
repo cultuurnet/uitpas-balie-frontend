@@ -2,11 +2,15 @@
 
 import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { addInterceptor, removeHeader, setHeaders } from "../dataAccess";
 import { AuthContext } from "./AuthContext";
 import { useFetchToken } from "./legacy/useFetchToken";
 import { useSilexLogout } from "@/shared/lib/auth/legacy/useSilexLogout";
 import { UitpasLoading } from "@/mobile/lib/ui";
+import {
+  addInterceptor,
+  removeHeader,
+  setHeaders,
+} from "@/shared/lib/dataAccess/initAxios";
 
 // const LS_KEY = "@uitpas-balie/token";
 

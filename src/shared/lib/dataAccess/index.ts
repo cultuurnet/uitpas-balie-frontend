@@ -13,4 +13,3 @@ export * from "./uitpas/generated/ui-ti-d/ui-ti-d";
 export * from "./search/generated/events-places/events-places";
 export * as Search from "./search/generated/model";
 export * from "./uitid/useGetUserInfo";
-export * from "./initAxios";

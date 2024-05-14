@@ -1,9 +1,13 @@
+"use client";
+
 import axios from "axios";
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { PublicRuntimeConfig } from "@/shared/feature-config/types";
 
-(function init() {
-  const { publicRuntimeConfig } = getConfig();
-
+export function initAxios({
+  publicRuntimeConfig,
+}: {
+  publicRuntimeConfig: PublicRuntimeConfig;
+}) {
   // Replace generated endpoints with runtime api endpoints
   axios.interceptors.request.use((config) => {
     const url = Object.keys(publicRuntimeConfig.apiPaths).reduce(
@@ -21,7 +25,7 @@ import { getConfig } from "@/shared/lib/utils/getConfig";
       url,
     };
   });
-})();
+}
 
 export const removeHeader = (headerKey: string) => {
   delete axios.defaults.headers[headerKey];

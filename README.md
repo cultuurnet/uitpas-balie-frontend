@@ -71,7 +71,7 @@ After logging in, you will be redirected to the deployed frontend (e.g., [https:
 
 ### Main Framework & Libraries
 
-This project is based on Next.js v13, utilizing the pages router. It also employs the following libraries:
+This project is based on Next.js v14, utilizing the app router. It also employs the following libraries:
 
 - Joy UI (MUI) for UI components.
 - Orval to generate React Query + Axios hooks for data fetching.
@@ -90,10 +90,11 @@ Once the migration is complete, the `feature-legacy` can be safely removed along
 
 ### Internationalization (I18n)
 
-For text translation, `next-i18next` is used. You can find the translations in the `public/locales/nl/common.json` file.
+For text translation, `next-i18next` is used. You can find the translations in the `src/shared/lib/i18n/locales/nl/common.json` file.
 
 ⚠️ Remember to restart the server whenever you make changes to the JSON file.
 
 ### Environment Variables
 
-All variables specified in the `.env(.local)` file should also be passed to `publicRuntimeConfig` in `next.config.js`, but only if they need to be available client-side.
+All variables specified in the `.env(.local)` file should also be passed to `publicRuntimeConfig` in `src/shared/feature-config/getConfig.ts`, but only if they need to be available client-side.
+Use the `useConfig` hook to get the environment variables.

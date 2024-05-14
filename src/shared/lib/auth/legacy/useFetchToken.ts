@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 
 export const useFetchToken = () => {
-  const { publicRuntimeConfig } = getConfig();
+  const { publicRuntimeConfig } = useConfig();
 
   const { data, refetch, remove, isFetching } = useQuery<{
     data: { token: string };
   }>(
     ["token"],
     () => {
-      const tokenEndpoint = publicRuntimeConfig.legacyTokenEndpoint;
+      const tokenEndpoint = publicRuntimeConfig?.legacyTokenEndpoint;
       if (!tokenEndpoint)
         throw new Error(
           'Required env variable "NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT" not set.'

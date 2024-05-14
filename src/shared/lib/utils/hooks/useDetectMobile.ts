@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { useEffect } from "react";
-import { getConfig } from "@/shared/lib/utils/getConfig";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 
 export enum DEVICE {
   mobile = "mobile",
@@ -12,8 +12,8 @@ export enum DEVICE {
 }
 
 export const useDetectMobile = () => {
-  const { publicRuntimeConfig } = getConfig();
-  const disableMobile = publicRuntimeConfig.blacklist.includes("mobile");
+  const { publicRuntimeConfig } = useConfig();
+  const disableMobile = publicRuntimeConfig?.blacklist.includes("mobile");
   const path = usePathname();
   const { replace } = useRouter();
   const theme = useTheme();

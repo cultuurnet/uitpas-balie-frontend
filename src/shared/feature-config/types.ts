@@ -1,4 +1,4 @@
-type PublicRuntimeConfig = {
+export type PublicRuntimeConfig = {
   legacyAppUrl: string;
   basePath: string;
   legacyApiPath: string;
@@ -11,14 +11,4 @@ type PublicRuntimeConfig = {
   legacyTokenEndpoint: string;
   legacyLogoutEndpoint: string;
   blacklist: string;
-};
-
-const publicRuntimeConfig = JSON.parse(
-  process.env.NEXT_PUBLIC_RUNTIME_CONFIG || ""
-);
-
-export const getConfig = (): { publicRuntimeConfig: PublicRuntimeConfig } => {
-  return {
-    publicRuntimeConfig,
-  };
 };
