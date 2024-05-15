@@ -17,6 +17,8 @@ import { ActivitiesPicker } from "@/mobile/feature-activities";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 import { useRouter } from "next/navigation";
 
+type ExtendedEvent = Search.Event & { isNew: boolean };
+
 export const ActivitiesPage = () => {
   const { t } = useTranslation();
   const { activeCounter } = useCounter();
@@ -29,13 +31,16 @@ export const ActivitiesPage = () => {
   const INITIAL_DATA = {
     facet: undefined,
     itemsPerPage: 0,
-    member: [],
+    member: new Set<ExtendedEvent>(),
+    memberIndex: new Map<string, ExtendedEvent>(),
     totalItems: 0,
   };
+
   const [offset, setOffset] = useState<number>(0);
   const [data, setData] = useState<
     Omit<Search.GetEvents200, "member"> & {
-      member: (Search.Event & { isNew: boolean })[];
+      member: Set<ExtendedEvent>;
+      memberIndex: Map<string, ExtendedEvent>;
     }
   >(INITIAL_DATA);
   const {
@@ -51,8 +56,6 @@ export const ActivitiesPage = () => {
     // @ts-expect-error Orval didn't include pagination in generated types
     limit: FETCH_LIMIT,
     start: offset,
-    availableFrom: "*",
-    availableTo: "*",
   });
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
@@ -67,16 +70,32 @@ export const ActivitiesPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setData((prev) => ({
-        ...fetchedData.data,
-        member: [
-          ...prev.member.map((member) => ({ ...member, isNew: false })),
-          ...fetchedData.data.member.map((member) => ({
-            ...member,
-            isNew: prev.member.length !== 0,
-          })),
-        ],
-      }));
+      setData((prev) => {
+        const updatedMembers = new Set<ExtendedEvent>(
+          [...prev.member].map((member) => ({ ...member, isNew: false }))
+        );
+        const updatedIndex = new Map<string, ExtendedEvent>(prev.memberIndex);
+
+        fetchedData.data.member.forEach((member) => {
+          const existingMember = prev.memberIndex.get(member["@id"]!);
+          if (existingMember) {
+            Object.assign(existingMember, member);
+          } else {
+            const newMember: ExtendedEvent = {
+              ...member,
+              isNew: prev.member.size === 0,
+            };
+            updatedMembers.add(newMember);
+            updatedIndex.set(member["@id"]!, newMember);
+          }
+        });
+
+        return {
+          ...fetchedData.data,
+          member: updatedMembers,
+          memberIndex: updatedIndex,
+        };
+      });
 
       setIsInitialLoading(false);
 

@@ -18,7 +18,7 @@ import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 type ActivitiesPickerProps = {
   isInitialLoading: boolean;
   data: Omit<Search.GetEvents200, "member"> & {
-    member: (Search.Event & { isNew: boolean })[];
+    member: Set<Search.Event & { isNew: boolean }>;
   };
   fetchLimit: number;
   totalFetchedItems: number;
@@ -45,10 +45,10 @@ export const ActivitiesPicker = ({
   const [hasMoreItems, setHasMoreItems] = useState<boolean>(false);
 
   useEffect(() => {
-    if (scrollRef.current && data.member.length > fetchLimit) {
+    if (scrollRef.current && data.member.size > fetchLimit) {
       // Scroll one (new) item down
       scrollRef.current.scrollTo({
-        top: scrollPosition + (data.member.length > 7 ? 56 : 0),
+        top: scrollPosition + (data.member.size > 7 ? 56 : 0),
         behavior: "smooth",
       });
     }
@@ -58,8 +58,8 @@ export const ActivitiesPicker = ({
 
   useEffect(() => {
     if (totalFetchedItems === 0) return;
-    setHasMoreItems(totalFetchedItems > data.member.length);
-  }, [data.member.length, totalFetchedItems]);
+    setHasMoreItems(totalFetchedItems > data.member.size);
+  }, [data.member.size, totalFetchedItems]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =
@@ -97,7 +97,7 @@ export const ActivitiesPicker = ({
     return (
       <Stack>
         <ScrollableActivitesContainer ref={scrollRef} onScroll={handleScroll}>
-          {data.member.map((activity) => (
+          {Array.from(data.member).map((activity) => (
             <OutlinedButton
               onClick={() => handleActivityClick(activity)}
               key={activity["@id"]}
