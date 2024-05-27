@@ -7,9 +7,6 @@ export const ScrollableActivitesContainer = styled(Stack)(({ theme }) => ({
     width: "6px",
     color: theme.palette.primary.main,
   },
-  "::-webkit-scrollbar-button": {
-    background: "transparent",
-  },
   "::-webkit-scrollbar-track-piece": {
     background: "transparent",
   },

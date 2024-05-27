@@ -2,7 +2,7 @@ import { Passholder } from "@/shared/lib/dataAccess";
 import dayjs from "dayjs";
 import React, { Fragment } from "react";
 import { useTranslation } from "@/shared/lib/i18n/client";
-import { OpportunityStateCard } from "@/mobile/feature-saving/components/OpportunityStateCard";
+import { OpportunityStateCard } from "@/mobile/feature-saving";
 
 type OpportunityStateDateProps = {
   passholder: Passholder;

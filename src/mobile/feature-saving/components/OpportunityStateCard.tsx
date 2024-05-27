@@ -1,10 +1,10 @@
 import { HTMLAttributes, PropsWithChildren, useState } from "react";
-import { IconButton, useTheme } from "@mui/material";
+import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 type OpportunityStateCardProps = PropsWithChildren &
-  HTMLAttributes<HTMLDivElement> & {
+  BoxProps & {
     status: "ACTIVE" | "SUSPENDED" | "EXPIRED" | "BLOCKED";
   };
 
@@ -30,8 +30,11 @@ export const OpportunityStateCard = ({
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
+        "&:hover": {
+          cursor: "pointer",
+        },
         display: "flex",
         flexDirection: "column",
         borderRadius: "8px",
@@ -40,7 +43,7 @@ export const OpportunityStateCard = ({
         padding: "8px 12px",
         backgroundColor,
         color: theme.palette.neutral[0],
-        ...props.style,
+        ...props.sx,
       }}
       onClick={handleClick}
       {...props}
@@ -70,6 +73,6 @@ export const OpportunityStateCard = ({
         </IconButton>
       </div>
       {open && <>{props.children}</>}
-    </div>
+    </Box>
   );
 };

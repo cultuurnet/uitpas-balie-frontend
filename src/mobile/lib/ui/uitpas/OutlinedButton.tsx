@@ -1,11 +1,13 @@
-import { Button as MuiButton, ButtonProps, Theme } from "@mui/material";
+import { Button as MuiButton, ButtonProps, useTheme } from "@mui/material";
 
-export const OutlinedButton = ({ ...props }: ButtonProps) => {
+export const OutlinedButton = ({ children, ...props }: ButtonProps) => {
+  const theme = useTheme();
+  const { sx, ...restProps } = props;
+
   return (
     <MuiButton
       variant="outlined"
       fullWidth
-      {...props}
       sx={{
         minHeight: "44px",
         height: "44px",
@@ -13,17 +15,17 @@ export const OutlinedButton = ({ ...props }: ButtonProps) => {
         textTransform: "none",
         fontWeight: 700,
         fontSize: "16px",
-        border: "2px solid",
+        border: `2px solid ${theme.palette.primary.main}`,
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textAlign: "center",
         display: "block",
-        borderColor: (theme: Theme) => theme.palette.primary.main,
-        ...props.sx,
+        ...sx,
       }}
+      {...restProps}
     >
-      {props.children}
+      {children}
     </MuiButton>
   );
 };

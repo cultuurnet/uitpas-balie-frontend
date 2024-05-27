@@ -202,6 +202,20 @@
           "content": "De pashouder is geblokkeerd in {{cardSystemName}}.",
           "content2": "Neem contact op met de UiTPAS-trekker in je regio indien de pashouder toch nog gebruik wil maken van UiTPAS."
         }
+      },
+      "tariff": {
+        "discountRegistered": "Korting geregistreerd (€ {{price}})",
+        "drawer": {
+          "title": "Kies tarief voor {{name}}",
+          "titleNoName": "Kies een tarief",
+          "close": "Sluiten"
+        },
+        "card": {
+          "socialtariff": "Kansentarief",
+          "coupon": "Coupon",
+          "applyTariff": "Tarief toekennen (€ {{price}})",
+          "noDiscount": "Geen korting beschikbaar"
+        }
       }
     }
   },
