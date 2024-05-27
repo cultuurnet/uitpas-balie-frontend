@@ -102,6 +102,7 @@ export const palette = {
   neutral: {
     0: "#FFFFFF",
     200: "#CFD3D3",
+    500: "#787474",
     900: "#2E3333",
   },
   brand: {
@@ -144,6 +145,7 @@ export const theme = createTheme({
     neutral: {
       0: palette.neutral[0],
       200: palette.neutral[200],
+      500: palette.neutral[500],
       900: palette.neutral[900],
     },
     brand: {

@@ -54,12 +54,29 @@ export const TariffCard = ({
         </Typography>
       </Box>
       {tariffType ? (
-        <Box sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}>
-          <Typography variant="h6">{tariffType}:</Typography>
-          <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
-            {`€ ${tariffPrice}`}
-          </Typography>
-        </Box>
+        <>
+          <Box
+            sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}
+          >
+            <Typography variant="h6">{tariffType}:</Typography>
+            <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
+              {`€ ${tariffPrice}`}
+            </Typography>
+          </Box>
+          {tariffType === "Coupon" && tariffPrice && (
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.neutral[500], fontWeight: 500 }}
+            >
+              {t("saving.mobile.tariff.card.couponDiscountPercentage", {
+                discount:
+                  tariffPrice === 0
+                    ? "100"
+                    : Math.round(100 * (tariffPrice / regularPrice)),
+              })}
+            </Typography>
+          )}
+        </>
       ) : (
         <Box
           sx={{
@@ -74,6 +91,7 @@ export const TariffCard = ({
           <Typography variant="body2">{tariffMessage}</Typography>
         </Box>
       )}
+      {tariffPrice ? (
         <Button
           onClick={handleApplyTariffClick}
           sx={{
@@ -86,6 +104,7 @@ export const TariffCard = ({
         >
           {t("saving.mobile.tariff.card.applyTariff", { price: tariffPrice })}
         </Button>
+      ) : null}
     </Box>
   );
 };

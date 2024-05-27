@@ -102,7 +102,7 @@ export const TariffDrawer = ({
           msOverflowStyle: "none",
         })}
       >
-        {data?.data.priceInfo && (
+        {data?.data.priceInfo ? (
           <Tariff
             eventId={eventId}
             uitpasNumber={uitpasNumber}
@@ -110,7 +110,7 @@ export const TariffDrawer = ({
             ticketSaleMutation={ticketSaleMutation}
             onDrawerClose={handleClose}
           />
-        )}
+        ) : null}
       </Stack>
 
       <OutlinedButton

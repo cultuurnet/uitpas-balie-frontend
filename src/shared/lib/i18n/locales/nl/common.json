@@ -213,6 +213,7 @@
         "card": {
           "socialtariff": "Kansentarief",
           "coupon": "Coupon",
+          "couponDiscountPercentage": "{{discount}}% korting eens per dag",
           "applyTariff": "Tarief toekennen (€ {{price}})",
           "noDiscount": "Geen korting beschikbaar"
         }

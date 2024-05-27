@@ -241,7 +241,7 @@ export const MobileSavingPage = () => {
                   ? ticketSaleError?.response?.data.endUserMessage &&
                     ticketSaleError.response.data.endUserMessage[LANG_KEY]
                   : t("saving.mobile.tariff.discountRegistered", {
-                      price: ticketSaleData?.data?.at(0)?.regularPrice,
+                      price: ticketSaleData?.data?.at(0)?.tariff.price,
                     })}
               </Alert>
             ) : (
