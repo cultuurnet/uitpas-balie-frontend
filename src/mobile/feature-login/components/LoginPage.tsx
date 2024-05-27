@@ -14,7 +14,7 @@ export const MobileLoginPage = () => {
   return (
     <Stack
       sx={(theme) => ({
-        height: "100vh",
+        height: "100dvh",
         backgroundColor: theme.palette.background.primary,
         alignItems: "center",
         justifyContent: "space-between",

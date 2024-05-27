@@ -14,7 +14,7 @@ export const CounterNoData = () => {
   return (
     <Stack
       sx={(theme) => ({
-        height: "100vh",
+        height: "100dvh",
         backgroundColor: theme.palette.background.primary,
         justifyContent: "space-between",
         padding: "49px 16px 0 16px",
