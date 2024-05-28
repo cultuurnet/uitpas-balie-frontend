@@ -2,7 +2,11 @@
 
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useGetPassholders } from "@/shared/lib/dataAccess";
+import {
+  type TicketSale,
+  useGetPassholders,
+  usePostTicketSales,
+} from "@/shared/lib/dataAccess";
 import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
@@ -12,14 +16,29 @@ import {
   OutlinedButton,
   UitpasLoading,
 } from "@/mobile/lib/ui";
-import { ScanFailed } from "@/mobile/feature-saving";
-import { IconButton, Stack, Typography, Divider } from "@mui/material";
+import {
+  ScanFailed,
+  OpportunityState,
+  TariffDrawer,
+} from "@/mobile/feature-saving";
+import {
+  IconButton,
+  Stack,
+  Typography,
+  Divider,
+  useTheme,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import React, { useEffect, useState } from "react";
-import { OpportunityState } from "@/mobile/feature-saving/components/OpportunityState";
-import { ManualCardInput } from "@/mobile/feature-identification/components/ManualCardInput";
+import React, {
+  ElementRef,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
@@ -32,6 +51,9 @@ export const MobileSavingPage = () => {
   const inszNumber = params.get("insz");
   const { selectedActivity, setSelectedActivity } = useActivity();
   const [savedPoints, setSavedPoints] = useState<boolean>(false);
+  const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
+  const activityRef = useRef<ElementRef<typeof Typography>>(null);
+  const theme = useTheme();
 
   const {
     data: passHoldersData,
@@ -45,11 +67,19 @@ export const MobileSavingPage = () => {
   });
 
   const {
-    mutateAsync: postCheckin,
+    mutate: postCheckin,
     isLoading: isCheckinLoading,
     isError: isCheckinError,
     error: checkinError,
   } = usePostCheckins();
+
+  const {
+    mutate: postTicketSale,
+    data: ticketSaleData,
+    isLoading: isTicketSaleLoading,
+    isError: isTicketSaleError,
+    error: ticketSaleError,
+  } = usePostTicketSales();
 
   const LANG_KEY = i18n.language as keyof EventName;
 
@@ -66,21 +96,42 @@ export const MobileSavingPage = () => {
     setSavedPoints(false);
   };
 
+  const handleChooseTariffClick = () => {
+    setShowTariffModal(true);
+  };
+
+  const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
+    if (!passHoldersData?.data?.member) return;
+
+    postTicketSale({
+      data: Array.of({
+        eventId: getUuid(selectedActivity?.["@id"] ?? ""),
+        tariff: {
+          id: tariffId,
+        },
+        regularPrice,
+        uitpasNumber: passHoldersData?.data?.member
+          ?.at(0)
+          ?.cardSystemMemberships?.at(0)?.uitpasNumber,
+      }) as TicketSale[],
+    });
+  };
+
   useEffect(() => {
     if (passHoldersData?.data?.member && !savedPoints) {
       const uitpasNumber = passHoldersData.data.member[0].uitpasNumber;
-      if (!uitpasNumber) return;
       const eventId = getUuid(selectedActivity?.["@id"] ?? "");
-      if (!eventId) return;
+
+      if (!uitpasNumber || !eventId) return;
+
       postCheckin({
         data: {
           uitpasNumber,
           eventId,
         },
-      }).then(() => {
-        setSavedPoints(true);
-        refetchPassholders();
       });
+      setSavedPoints(true);
+      refetchPassholders().catch(() => null);
     }
   }, [
     passHoldersData?.data.member,
@@ -90,7 +141,12 @@ export const MobileSavingPage = () => {
     selectedActivity,
   ]);
 
-  if (isPassholdersLoading || isCheckinLoading || !selectedActivity)
+  if (
+    isPassholdersLoading ||
+    isCheckinLoading ||
+    isTicketSaleLoading ||
+    !selectedActivity
+  )
     return (
       <MobileNavBar>
         <UitpasLoading />
@@ -120,8 +176,9 @@ export const MobileSavingPage = () => {
           }}
         >
           <Typography
+            ref={activityRef}
             variant="h1"
-            sx={(theme) => ({ color: theme.palette.neutral[900] })}
+            sx={{ color: theme.palette.neutral[900] }}
           >
             {selectedActivity
               ? selectedActivity.name[LANG_KEY]
@@ -130,10 +187,10 @@ export const MobileSavingPage = () => {
           <IconButton
             disableRipple
             onClick={handleChangeActivityClick}
-            sx={(theme) => ({
+            sx={{
               color: theme.palette.neutral[900],
               fontSize: 32,
-            })}
+            }}
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </IconButton>
@@ -152,10 +209,10 @@ export const MobileSavingPage = () => {
                 {t("saving.mobile.passholder")}
               </Typography>
               <Typography
-                sx={(theme) => ({
+                sx={{
                   color: theme.palette.brand[800],
                   fontSize: "13px",
-                })}
+                }}
               >
                 {formatUitpasNumber(
                   passHoldersData.data.member
@@ -168,7 +225,7 @@ export const MobileSavingPage = () => {
             <Stack sx={{ rowGap: "4px" }}>
               <Typography
                 variant="h1"
-                sx={(theme) => ({ color: theme.palette.neutral[900] })}
+                sx={{ color: theme.palette.neutral[900] }}
               >
                 {t("saving.mobile.namePointsTxt", {
                   firstName: passHoldersData.data.member[0].firstName,
@@ -178,17 +235,28 @@ export const MobileSavingPage = () => {
               </Typography>
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
-            <Alert type={isCheckinError ? "error" : "success"}>
-              {isCheckinError
-                ? checkinError?.response?.data.endUserMessage &&
-                  checkinError.response.data.endUserMessage[LANG_KEY]
-                : t("saving.mobile.pointSaved")}
-            </Alert>
+            {isTicketSaleError || ticketSaleData ? (
+              <Alert type={isTicketSaleError ? "error" : "success"}>
+                {isTicketSaleError
+                  ? ticketSaleError?.response?.data.endUserMessage &&
+                    ticketSaleError.response.data.endUserMessage[LANG_KEY]
+                  : t("saving.mobile.tariff.discountRegistered", {
+                      price: ticketSaleData?.data?.at(0)?.tariff.price,
+                    })}
+              </Alert>
+            ) : (
+              <Alert type={isCheckinError ? "error" : "success"}>
+                {isCheckinError
+                  ? checkinError?.response?.data.endUserMessage &&
+                    checkinError.response.data.endUserMessage[LANG_KEY]
+                  : t("saving.mobile.pointSaved")}
+              </Alert>
+            )}
           </Stack>
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
-          <OutlinedButton onClick={() => console.log("TODO")}>
+          <OutlinedButton onClick={handleChooseTariffClick}>
             {t("saving.mobile.chooseTariffBtn")}
           </OutlinedButton>
           <OutlinedButton onClick={() => console.log("TODO")}>
@@ -203,15 +271,35 @@ export const MobileSavingPage = () => {
         </Button>
         <Typography
           variant="h1"
-          sx={(theme) => ({
+          sx={{
             color: theme.palette.neutral[900],
             textAlign: "center",
-          })}
+          }}
         >
           {t("saving.mobile.or")}
         </Typography>
 
         <ManualCardInput resetSavedPoints={handleSavedPointsReset} />
+        {selectedActivity["@id"] &&
+          passHoldersData?.data?.member &&
+          activityRef.current && (
+            <TariffDrawer
+              eventId={selectedActivity["@id"]}
+              name={
+                passHoldersData.data.member
+                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                  : undefined
+              }
+              isOpen={showTariffModal}
+              setIsOpen={setShowTariffModal}
+              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              uitpasNumber={
+                passHoldersData.data.member?.at(0)?.cardSystemMemberships?.at(0)
+                  ?.uitpasNumber!
+              }
+              ticketSaleMutation={handleTicketSaleMutation}
+            />
+          )}
       </MobileContentStack>
     </MobileNavBar>
   );

@@ -17,6 +17,8 @@ export async function getConfig(): Promise<{
       legacyApiPath: process.env.NEXT_PUBLIC_LEGACY_API_PATH ?? "",
       apiPaths: {
         NEXT_PUBLIC_API_PATH: process.env.NEXT_PUBLIC_API_PATH ?? "",
+        NEXT_PUBLIC_ENTRY_API_PATH:
+          process.env.NEXT_PUBLIC_ENTRY_API_PATH ?? "",
         NEXT_PUBLIC_SEARCH_API_PATH:
           process.env.NEXT_PUBLIC_SEARCH_API_PATH ?? "",
       },

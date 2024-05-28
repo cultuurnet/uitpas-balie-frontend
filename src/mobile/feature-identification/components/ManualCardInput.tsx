@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export const ManualCardInput = ({
   resetSavedPoints,
 }: {
-  resetSavedPoints: () => void;
+  resetSavedPoints?: () => void;
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -32,12 +32,12 @@ export const ManualCardInput = ({
       if (controlNumber !== checksum) {
         errorKey = "invalidInszNo";
       } else {
-        resetSavedPoints();
+        resetSavedPoints?.();
         return router.push("/mobile/saving?insz=" + sanitizedCardNumber);
       }
     } else if (sanitizedCardNumber.length === 13) {
       // Uitpasnummer
-      resetSavedPoints();
+      resetSavedPoints?.();
       return router.push("/mobile/saving?uitpas=" + sanitizedCardNumber);
     } else if (sanitizedCardNumber.length === 0) {
       errorKey = "required";

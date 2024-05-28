@@ -39,6 +39,7 @@ declare module "@mui/material/styles" {
       800: string;
       900: string;
       1000: string;
+      darkCyan: string;
       blue: string;
       red: string;
       orange: string;
@@ -76,6 +77,7 @@ declare module "@mui/material/styles" {
       800?: string;
       900?: string;
       1000?: string;
+      darkCyan?: string;
       blue?: string;
       red?: string;
       orange?: string;
@@ -100,6 +102,7 @@ export const palette = {
   neutral: {
     0: "#FFFFFF",
     200: "#CFD3D3",
+    500: "#787474",
     900: "#2E3333",
   },
   brand: {
@@ -107,6 +110,7 @@ export const palette = {
     300: "#81D5BE",
     800: "#127173",
     900: "#0B5641",
+    darkCyan: "#1AA4A7",
     blue: "#1AA5A8",
     orange: "#F79F1A",
     purple: "#340C7F",
@@ -141,6 +145,7 @@ export const theme = createTheme({
     neutral: {
       0: palette.neutral[0],
       200: palette.neutral[200],
+      500: palette.neutral[500],
       900: palette.neutral[900],
     },
     brand: {
@@ -148,6 +153,7 @@ export const theme = createTheme({
       300: palette.brand[300],
       800: palette.brand[800],
       900: palette.brand[900],
+      darkCyan: palette.brand.darkCyan,
       blue: palette.brand.blue,
       red: palette.error.main,
       orange: palette.brand.orange,
