@@ -34,10 +34,16 @@ export const TariffDrawer = ({
 }: TariffModalProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { data } = useEventGet(getUuid(eventId) ?? "");
+  const { data, refetch } = useEventGet(getUuid(eventId) ?? "");
 
   const handleClose = () => {
     setIsOpen(false);
+  };
+
+  const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
+    ticketSaleMutation(tariffId, regularPrice);
+    refetch();
+    handleClose();
   };
 
   return (
@@ -107,8 +113,7 @@ export const TariffDrawer = ({
             eventId={eventId}
             uitpasNumber={uitpasNumber}
             priceInfo={data?.data.priceInfo}
-            ticketSaleMutation={ticketSaleMutation}
-            onDrawerClose={handleClose}
+            ticketSaleMutation={handleTicketSaleMutation}
           />
         ) : null}
       </Stack>

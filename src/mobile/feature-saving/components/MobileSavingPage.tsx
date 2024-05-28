@@ -31,13 +31,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import React, {
-  ElementRef,
-  MutableRefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";

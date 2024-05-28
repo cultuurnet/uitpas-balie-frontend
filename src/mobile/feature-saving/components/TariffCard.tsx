@@ -10,7 +10,6 @@ type TariffCardProps = {
   tariffPrice?: number;
   tariffMessage?: string;
   ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
-  onDrawerClose: () => void;
 };
 
 export const TariffCard = ({
@@ -21,7 +20,6 @@ export const TariffCard = ({
   tariffPrice,
   tariffMessage,
   ticketSaleMutation,
-  onDrawerClose,
 }: TariffCardProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -34,7 +32,6 @@ export const TariffCard = ({
     if (!tariffId) return;
 
     ticketSaleMutation(tariffId, regularPrice);
-    onDrawerClose();
   };
 
   return (
@@ -72,7 +69,9 @@ export const TariffCard = ({
                 discount:
                   tariffPrice === 0
                     ? "100"
-                    : Math.round(100 * (tariffPrice / regularPrice)),
+                    : Math.round(
+                        100 * ((regularPrice - tariffPrice) / regularPrice)
+                      ),
               })}
             </Typography>
           )}
