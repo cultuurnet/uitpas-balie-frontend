@@ -26,9 +26,6 @@ export const BarcodeScanner = () => {
   const scannerRef = useRef<HTMLDivElement>();
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
-  const [avgErrorRate, setAvgErrorRate] = useState<number | undefined>(
-    undefined
-  );
 
   const handleFlashToggle = () => {
     setIsFlashOn((flashWasOn) => {
@@ -105,7 +102,7 @@ export const BarcodeScanner = () => {
         },
         (err) => {
           if (err) {
-            console.error(err);
+            console.error("Could not initialize barcode scanner:", err);
             return;
           }
           Quagga.start();
