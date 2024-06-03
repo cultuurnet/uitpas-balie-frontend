@@ -47,7 +47,7 @@ export const BarcodeScanner = () => {
   };
 
   const handleValidScan = (code: string) => {
-    router.push(`/mobile/saving?code=${code}`);
+    router.push(`/mobile/saving?uitpas=${code}`);
   };
 
   const handleFlipCamera = () => {
