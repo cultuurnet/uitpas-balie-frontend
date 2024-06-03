@@ -26,6 +26,9 @@ export const BarcodeScanner = () => {
   const scannerRef = useRef<HTMLDivElement>();
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
+  const [avgErrorRate, setAvgErrorRate] = useState<number | undefined>(
+    undefined
+  );
 
   const handleFlashToggle = () => {
     setIsFlashOn((flashWasOn) => {
@@ -64,8 +67,12 @@ export const BarcodeScanner = () => {
           ? (errors[mid - 1] + errors[mid]) / 2
           : errors[mid];
 
-      // 80% confidence that the scan is correct
-      if (err < 0.2 && result.codeResult.code) {
+      // 90% confidence that the scan is correct
+      if (
+        err < 0.1 &&
+        result.codeResult.code &&
+        result.codeResult.code.length === 13
+      ) {
         handleValidScan(result.codeResult.code);
       }
     },
@@ -79,9 +86,9 @@ export const BarcodeScanner = () => {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              width: { ideal: window.innerHeight },
-              height: { ideal: window.innerWidth },
-              aspectRatio: { ideal: window.innerHeight / window.innerWidth },
+              width: { ideal: 1080 },
+              height: { ideal: 1920 },
+              aspectRatio: { ideal: 9 / 16 },
               deviceId: currentVideoDevice.deviceId,
             },
             target: scannerRef.current,
@@ -90,7 +97,7 @@ export const BarcodeScanner = () => {
             patchSize: "medium",
             halfSample: true,
           },
-          frequency: 10,
+          frequency: 30,
           decoder: {
             readers: ["code_128_reader"],
           },
@@ -103,10 +110,17 @@ export const BarcodeScanner = () => {
           }
           Quagga.start();
           setScannerReady(true);
-          setTorchAvailable(
-            Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
-              false
-          );
+          setTorchAvailable(() => {
+            if (navigator.userAgent.includes("Firefox")) {
+              // Firefox doesn't support torch or getCapabilities()
+              return false;
+            } else {
+              return (
+                Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
+                false
+              );
+            }
+          });
         }
       );
 
@@ -148,24 +162,26 @@ export const BarcodeScanner = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
-        <IconButton
-          disableRipple
-          disabled={!torchAvailable}
-          size="large"
-          sx={(theme) => ({
-            position: "absolute",
-            color: theme.palette.neutral[0],
-            right: "0%",
-            zIndex: 20,
-          })}
-          onClick={handleFlashToggle}
-        >
-          {isFlashOn ? (
-            <FlashlightOn sx={{ fontSize: 30 }} />
-          ) : (
-            <FlashlightOff sx={{ fontSize: 30 }} />
-          )}
-        </IconButton>
+        {navigator.userAgent.includes("Firefox") ? null : (
+          <IconButton
+            disableRipple
+            disabled={!torchAvailable}
+            size="large"
+            sx={(theme) => ({
+              position: "absolute",
+              color: theme.palette.neutral[0],
+              right: "0%",
+              zIndex: 20,
+            })}
+            onClick={handleFlashToggle}
+          >
+            {isFlashOn ? (
+              <FlashlightOn sx={{ fontSize: 30 }} />
+            ) : (
+              <FlashlightOff sx={{ fontSize: 30 }} />
+            )}
+          </IconButton>
+        )}
         {frontBackCameraAvailable() && (
           <IconButton
             disableRipple
@@ -173,7 +189,7 @@ export const BarcodeScanner = () => {
             sx={(theme) => ({
               position: "absolute",
               color: theme.palette.neutral[0],
-              right: "15%",
+              right: navigator.userAgent.includes("Firefox") ? "0%" : "15%",
               zIndex: 20,
             })}
             onClick={handleFlipCamera}
