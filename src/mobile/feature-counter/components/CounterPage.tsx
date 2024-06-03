@@ -5,11 +5,13 @@ import { CounterNoData, CounterPicker } from "@/mobile/feature-counter";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
 import { UitpasLoading } from "@/mobile/lib/ui";
+import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 
 export const CounterPage = () => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
   const [searchString, setSearchString] = useState<string>("");
   const { setActiveCounter, lastCounterUsed } = useCounter();
+  const { setSelectedActivity } = useActivity();
 
   const dataWithoutLastCounter =
     allData?.data?.filter(
@@ -37,6 +39,8 @@ export const CounterPage = () => {
   const handleCounterClick = (organizer: Organizer) => () => {
     setActiveCounter(organizer);
   };
+
+  useEffect(() => setSelectedActivity(null));
 
   useEffect(() => {
     const data = allData?.data || [];

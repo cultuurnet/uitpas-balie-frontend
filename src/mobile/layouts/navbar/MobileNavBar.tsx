@@ -8,16 +8,13 @@ import Image from "next/image";
 import { Settings } from "@mui/icons-material";
 import { Typography } from "@/mobile/lib/ui";
 import Link from "next/link";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
   const { setLastCounterUsed, setActiveCounter, activeCounter } = useCounter();
-  const { setSelectedActivity } = useActivity();
 
   const handleCurrentCounterClick = () => {
     setLastCounterUsed(activeCounter);
     setActiveCounter(null);
-    setSelectedActivity(null);
   };
 
   return (
