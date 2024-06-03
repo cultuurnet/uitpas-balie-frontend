@@ -36,13 +36,15 @@ export const Tariff = ({
   const LANG_KEY = i18n.language as keyof EventName;
 
   const data = useQueries({
-    queries: priceInfo.map((tariff) =>
-      getGetTariffsQueryOptions({
+    queries: priceInfo.map((tariff) => ({
+      ...getGetTariffsQueryOptions({
         eventId: getUuid(eventId)!,
         regularPrice: tariff.price,
         uitpasNumber,
-      })
-    ),
+      }),
+      cacheTime: 0,
+      staleTime: 0,
+    })),
   }).map((res) => res.data?.data);
 
   const socialTariffs = [] as SortedType[];
