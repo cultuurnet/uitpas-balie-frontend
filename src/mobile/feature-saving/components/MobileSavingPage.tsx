@@ -31,13 +31,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import React, {
-  ElementRef,
-  MutableRefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
@@ -101,7 +95,7 @@ export const MobileSavingPage = () => {
   };
 
   const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
-    if (!passHoldersData?.data?.member) return;
+    if (!passHoldersData?.data?.member || !selectedActivity) return;
 
     postTicketSale({
       data: Array.of({
@@ -141,12 +135,7 @@ export const MobileSavingPage = () => {
     selectedActivity,
   ]);
 
-  if (
-    isPassholdersLoading ||
-    isCheckinLoading ||
-    isTicketSaleLoading ||
-    !selectedActivity
-  )
+  if (isPassholdersLoading || isCheckinLoading || isTicketSaleLoading)
     return (
       <MobileNavBar>
         <UitpasLoading />
@@ -256,10 +245,16 @@ export const MobileSavingPage = () => {
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
-          <OutlinedButton onClick={handleChooseTariffClick}>
+          <OutlinedButton
+            onClick={handleChooseTariffClick}
+            disabled={selectedActivity === null}
+          >
             {t("saving.mobile.chooseTariffBtn")}
           </OutlinedButton>
-          <OutlinedButton onClick={() => console.log("TODO")}>
+          <OutlinedButton
+            onClick={() => console.log("TODO")}
+            disabled={selectedActivity === null}
+          >
             {t("saving.mobile.tradeBenefitBtn")}
           </OutlinedButton>
         </Stack>
@@ -280,7 +275,8 @@ export const MobileSavingPage = () => {
         </Typography>
 
         <ManualCardInput resetSavedPoints={handleSavedPointsReset} />
-        {selectedActivity["@id"] &&
+        {selectedActivity &&
+          selectedActivity["@id"] &&
           passHoldersData?.data?.member &&
           activityRef.current && (
             <TariffDrawer

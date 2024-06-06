@@ -17,7 +17,6 @@ type TariffProps = {
   uitpasNumber: string;
   priceInfo: EventPriceInfo;
   ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
-  onDrawerClose: () => void;
 };
 
 type SortedType = {
@@ -32,19 +31,20 @@ export const Tariff = ({
   eventId,
   priceInfo,
   ticketSaleMutation,
-  onDrawerClose,
 }: TariffProps) => {
   const { t, i18n } = useTranslation();
   const LANG_KEY = i18n.language as keyof EventName;
 
   const data = useQueries({
-    queries: priceInfo.map((tariff) =>
-      getGetTariffsQueryOptions({
+    queries: priceInfo.map((tariff) => ({
+      ...getGetTariffsQueryOptions({
         eventId: getUuid(eventId)!,
         regularPrice: tariff.price,
         uitpasNumber,
-      })
-    ),
+      }),
+      cacheTime: 0,
+      staleTime: 0,
+    })),
   }).map((res) => res.data?.data);
 
   const socialTariffs = [] as SortedType[];
@@ -53,19 +53,17 @@ export const Tariff = ({
 
   priceInfo.forEach((priceInfo, index) => {
     const tariff = data[index];
-    const available = tariff?.available || [];
 
-    if (!available.length) {
-      if (tariff) {
-        invalidTariffs.push({
-          name: priceInfo.name,
-          price: priceInfo.price,
-          tariff: undefined,
-          tariffMessage: tariff.endUserMessage?.[LANG_KEY],
-        });
-      }
+    if (tariff?.available?.findIndex((t) => t.type === "SOCIALTARIFF") === -1) {
+      socialTariffs.push({
+        name: priceInfo.name,
+        price: priceInfo.price,
+        tariff: undefined,
+        tariffMessage: tariff.endUserMessage?.[LANG_KEY],
+      });
     }
-    available.forEach((tariff) => {
+
+    tariff?.available?.forEach((tariff, i) => {
       const item = {
         name: priceInfo.name,
         price: priceInfo.price,
@@ -100,7 +98,6 @@ export const Tariff = ({
           tariffMessage={tariff.tariffMessage}
           tariffPrice={tariff.tariff?.price}
           ticketSaleMutation={ticketSaleMutation}
-          onDrawerClose={onDrawerClose}
         />
       ))}
     </>

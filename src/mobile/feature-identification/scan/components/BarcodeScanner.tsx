@@ -25,6 +25,7 @@ export const BarcodeScanner = () => {
   const router = useRouter();
   const scannerRef = useRef<HTMLDivElement>();
   const [scannerReady, setScannerReady] = useState<boolean>(false);
+  const [torchSupported, setTorchSupported] = useState<boolean>(false);
   const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
 
   const handleFlashToggle = () => {
@@ -44,7 +45,7 @@ export const BarcodeScanner = () => {
   };
 
   const handleValidScan = (code: string) => {
-    router.push(`/mobile/saving?code=${code}`);
+    router.push(`/mobile/saving?uitpas=${code}`);
   };
 
   const handleFlipCamera = () => {
@@ -64,8 +65,12 @@ export const BarcodeScanner = () => {
           ? (errors[mid - 1] + errors[mid]) / 2
           : errors[mid];
 
-      // 80% confidence that the scan is correct
-      if (err < 0.2 && result.codeResult.code) {
+      // 90% confidence that the scan is correct
+      if (
+        err < 0.1 &&
+        result.codeResult.code &&
+        result.codeResult.code.length === 13
+      ) {
         handleValidScan(result.codeResult.code);
       }
     },
@@ -79,9 +84,9 @@ export const BarcodeScanner = () => {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              width: { ideal: window.innerHeight },
-              height: { ideal: window.innerWidth },
-              aspectRatio: { ideal: window.innerHeight / window.innerWidth },
+              width: { ideal: 1080 },
+              height: { ideal: 1920 },
+              aspectRatio: { ideal: 9 / 16 },
               deviceId: currentVideoDevice.deviceId,
             },
             target: scannerRef.current,
@@ -90,7 +95,7 @@ export const BarcodeScanner = () => {
             patchSize: "medium",
             halfSample: true,
           },
-          frequency: 10,
+          frequency: 30,
           decoder: {
             readers: ["code_128_reader"],
           },
@@ -98,15 +103,23 @@ export const BarcodeScanner = () => {
         },
         (err) => {
           if (err) {
-            console.error(err);
+            console.error("Could not initialize barcode scanner:", err);
             return;
           }
           Quagga.start();
           setScannerReady(true);
-          setTorchAvailable(
-            Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
-              false
-          );
+          setTorchAvailable(() => {
+            try {
+              setTorchSupported(true);
+              return (
+                Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
+                false
+              );
+            } catch (err) {
+              setTorchSupported(false);
+              return false;
+            }
+          });
         }
       );
 
@@ -148,24 +161,26 @@ export const BarcodeScanner = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
-        <IconButton
-          disableRipple
-          disabled={!torchAvailable}
-          size="large"
-          sx={(theme) => ({
-            position: "absolute",
-            color: theme.palette.neutral[0],
-            right: "0%",
-            zIndex: 20,
-          })}
-          onClick={handleFlashToggle}
-        >
-          {isFlashOn ? (
-            <FlashlightOn sx={{ fontSize: 30 }} />
-          ) : (
-            <FlashlightOff sx={{ fontSize: 30 }} />
-          )}
-        </IconButton>
+        {!torchSupported ? null : (
+          <IconButton
+            disableRipple
+            disabled={!torchAvailable}
+            size="large"
+            sx={(theme) => ({
+              position: "absolute",
+              color: theme.palette.neutral[0],
+              right: "0%",
+              zIndex: 20,
+            })}
+            onClick={handleFlashToggle}
+          >
+            {isFlashOn ? (
+              <FlashlightOn sx={{ fontSize: 30 }} />
+            ) : (
+              <FlashlightOff sx={{ fontSize: 30 }} />
+            )}
+          </IconButton>
+        )}
         {frontBackCameraAvailable() && (
           <IconButton
             disableRipple
@@ -173,7 +188,7 @@ export const BarcodeScanner = () => {
             sx={(theme) => ({
               position: "absolute",
               color: theme.palette.neutral[0],
-              right: "15%",
+              right: !torchSupported ? "0%" : "15%",
               zIndex: 20,
             })}
             onClick={handleFlipCamera}
