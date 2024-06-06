@@ -33,7 +33,7 @@ export const IdentificationPage = () => {
   };
 
   const handleScanBarcodeClick = () => {
-    router.push("/mobile/identification/scan");
+    router.push("/mobile/identification/scan?firstCardEntry=true");
     setIsNavigating(true);
   };
 
@@ -95,7 +95,7 @@ export const IdentificationPage = () => {
           {t("identification.mobile.or")}
         </Typography>
 
-        <ManualCardInput />
+        <ManualCardInput firstCardEntry={true} />
       </MobileContentStack>
     </MobileNavBar>
   );
