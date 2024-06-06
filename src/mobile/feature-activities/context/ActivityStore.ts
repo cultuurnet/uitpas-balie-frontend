@@ -18,6 +18,6 @@ export const storeActivity = (activity: Activity) => {
 
 export const readActivity = (): Activity => {
   return localstorageSupport
-    ? readData(ACTIVITY_STORAGE_KEY, undefined)
-    : readCookie(ACTIVITY_STORAGE_KEY, undefined);
+    ? readData(ACTIVITY_STORAGE_KEY, null)
+    : readCookie(ACTIVITY_STORAGE_KEY, null);
 };

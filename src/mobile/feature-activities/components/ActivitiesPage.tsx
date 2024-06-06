@@ -144,7 +144,7 @@ export const ActivitiesPage = () => {
           <Link
             color="primary"
             href="/mobile/identification"
-            onClick={() => setSelectedActivity(undefined)}
+            onClick={() => setSelectedActivity(null)}
           >
             {t("activities.mobile.continueNoActivity")}
           </Link>
