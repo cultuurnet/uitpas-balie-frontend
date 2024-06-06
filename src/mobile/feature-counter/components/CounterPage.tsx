@@ -40,7 +40,7 @@ export const CounterPage = () => {
     setActiveCounter(organizer);
   };
 
-  useEffect(() => setSelectedActivity(null));
+  useEffect(() => setSelectedActivity(null), [setSelectedActivity]);
 
   useEffect(() => {
     const data = allData?.data || [];

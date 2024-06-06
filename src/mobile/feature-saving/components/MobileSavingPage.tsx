@@ -49,8 +49,6 @@ export const MobileSavingPage = () => {
   const activityRef = useRef<ElementRef<typeof Typography>>(null);
   const theme = useTheme();
 
-  console.log({ selectedActivity });
-
   const {
     data: passHoldersData,
     isError: isPassholdersError,
