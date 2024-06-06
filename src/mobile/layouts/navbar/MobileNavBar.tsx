@@ -28,6 +28,9 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           backgroundColor: theme.palette.navigation.primary,
           alignItems: "center",
           boxShadow: "0px 6px 9px rgba(0, 0, 0, 0.1)",
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
         })}
       >
         <Image
