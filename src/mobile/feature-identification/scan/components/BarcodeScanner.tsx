@@ -8,7 +8,7 @@ import {
   Cameraswitch,
   Close,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PermissionBox } from "@/mobile/feature-identification/scan/components/PermissionBox";
 import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
 import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
@@ -21,12 +21,14 @@ export const BarcodeScanner = () => {
     frontBackCameraAvailable,
     toggleFrontBackCamera,
   } = useCamera();
+  const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
   const router = useRouter();
   const scannerRef = useRef<HTMLDivElement>();
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [torchSupported, setTorchSupported] = useState<boolean>(false);
   const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
+  const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
 
   const handleFlashToggle = () => {
     setIsFlashOn((flashWasOn) => {
@@ -45,7 +47,11 @@ export const BarcodeScanner = () => {
   };
 
   const handleValidScan = (code: string) => {
-    router.push(`/mobile/saving?uitpas=${code}`);
+    router.push(
+      `/mobile/saving?uitpas=${code}${
+        firstCardEntry ? "&firstCardEntry=true" : ""
+      }`
+    );
   };
 
   const handleFlipCamera = () => {

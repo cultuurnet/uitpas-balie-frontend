@@ -4,11 +4,15 @@ import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+type ManualCardInputProps = {
+  resetSavedPoints?: () => void;
+  firstCardEntry: boolean;
+};
+
 export const ManualCardInput = ({
   resetSavedPoints,
-}: {
-  resetSavedPoints?: () => void;
-}) => {
+  firstCardEntry,
+}: ManualCardInputProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -19,6 +23,18 @@ export const ManualCardInput = ({
   const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValidationError(undefined);
     setCardNumber(event.target.value);
+  };
+
+  const handleRouteChange = (
+    cardType: "inz" | "uitpas",
+    cardNumber: string
+  ) => {
+    resetSavedPoints?.();
+    return router.push(
+      `/mobile/saving?${cardType}=${cardNumber}${
+        firstCardEntry ? "&firstCardEntry=true" : ""
+      }`
+    );
   };
 
   const handleConfirmClick = () => {
@@ -32,13 +48,10 @@ export const ManualCardInput = ({
       if (controlNumber !== checksum) {
         errorKey = "invalidInszNo";
       } else {
-        resetSavedPoints?.();
-        return router.push("/mobile/saving?insz=" + sanitizedCardNumber);
+        handleRouteChange("inz", sanitizedCardNumber);
       }
     } else if (sanitizedCardNumber.length === 13) {
-      // Uitpasnummer
-      resetSavedPoints?.();
-      return router.push("/mobile/saving?uitpas=" + sanitizedCardNumber);
+      handleRouteChange("uitpas", sanitizedCardNumber);
     } else if (sanitizedCardNumber.length === 0) {
       errorKey = "required";
     } else {

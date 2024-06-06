@@ -43,6 +43,7 @@ export const MobileSavingPage = () => {
   const params = useSearchParams();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
+  const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
   const { selectedActivity, setSelectedActivity } = useActivity();
   const [savedPoints, setSavedPoints] = useState<boolean>(false);
   const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
@@ -225,7 +226,10 @@ export const MobileSavingPage = () => {
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
             {isTicketSaleError || ticketSaleData ? (
-              <Alert type={isTicketSaleError ? "error" : "success"}>
+              <Alert
+                type={isTicketSaleError ? "error" : "success"}
+                newAlert={!firstCardEntry}
+              >
                 {isTicketSaleError
                   ? ticketSaleError?.response?.data.endUserMessage &&
                     ticketSaleError.response.data.endUserMessage[LANG_KEY]
@@ -234,7 +238,10 @@ export const MobileSavingPage = () => {
                     })}
               </Alert>
             ) : (
-              <Alert type={isCheckinError ? "error" : "success"}>
+              <Alert
+                type={isCheckinError ? "error" : "success"}
+                newAlert={!firstCardEntry}
+              >
                 {isCheckinError
                   ? checkinError?.response?.data.endUserMessage &&
                     checkinError.response.data.endUserMessage[LANG_KEY]
@@ -274,7 +281,10 @@ export const MobileSavingPage = () => {
           {t("saving.mobile.or")}
         </Typography>
 
-        <ManualCardInput resetSavedPoints={handleSavedPointsReset} />
+        <ManualCardInput
+          resetSavedPoints={handleSavedPointsReset}
+          firstCardEntry={false}
+        />
         {selectedActivity &&
           selectedActivity["@id"] &&
           passHoldersData?.data?.member &&
