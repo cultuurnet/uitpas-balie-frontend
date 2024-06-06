@@ -25,6 +25,7 @@ export const BarcodeScanner = () => {
   const router = useRouter();
   const scannerRef = useRef<HTMLDivElement>();
   const [scannerReady, setScannerReady] = useState<boolean>(false);
+  const [torchSupported, setTorchSupported] = useState<boolean>(false);
   const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
 
   const handleFlashToggle = () => {
@@ -108,14 +109,15 @@ export const BarcodeScanner = () => {
           Quagga.start();
           setScannerReady(true);
           setTorchAvailable(() => {
-            if (navigator.userAgent.includes("Firefox")) {
-              // Firefox doesn't support torch or getCapabilities()
-              return false;
-            } else {
+            try {
+              setTorchSupported(true);
               return (
                 Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
                 false
               );
+            } catch (err) {
+              setTorchSupported(false);
+              return false;
             }
           });
         }
@@ -159,7 +161,7 @@ export const BarcodeScanner = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
-        {navigator.userAgent.includes("Firefox") ? null : (
+        {!torchSupported ? null : (
           <IconButton
             disableRipple
             disabled={!torchAvailable}
@@ -186,7 +188,7 @@ export const BarcodeScanner = () => {
             sx={(theme) => ({
               position: "absolute",
               color: theme.palette.neutral[0],
-              right: navigator.userAgent.includes("Firefox") ? "0%" : "15%",
+              right: !torchSupported ? "0%" : "15%",
               zIndex: 20,
             })}
             onClick={handleFlipCamera}
