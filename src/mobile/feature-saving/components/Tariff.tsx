@@ -11,8 +11,11 @@ import {
 } from "@/lib/dataAccess/entry/generated/model";
 import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { TariffCard } from "@/mobile/feature-saving";
+import { CircularProgress, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 
 type TariffProps = {
+  name?: string;
   eventId: string;
   uitpasNumber: string;
   priceInfo: EventPriceInfo;
@@ -27,15 +30,22 @@ type SortedType = {
 };
 
 export const Tariff = ({
+  name,
   uitpasNumber,
   eventId,
   priceInfo,
   ticketSaleMutation,
 }: TariffProps) => {
   const { t, i18n } = useTranslation();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const LANG_KEY = i18n.language as keyof EventName;
+  const theme = useTheme();
 
   const priceInfoFiltered = priceInfo.filter((price) => price.price !== 0);
+
+  useEffect(() => {
+    if (priceInfoFiltered.length === 0) setIsLoading(false);
+  }, [priceInfoFiltered.length]);
 
   const data = useQueries({
     queries: priceInfoFiltered.map((tariff) => ({
@@ -46,6 +56,7 @@ export const Tariff = ({
       }),
       cacheTime: 0,
       staleTime: 0,
+      onSettled: () => setIsLoading(false),
     })),
   }).map((res) => res.data?.data);
 
@@ -83,26 +94,36 @@ export const Tariff = ({
 
   const sorted = [...invalidTariffs, ...socialTariffs, ...coupons];
 
-  return (
+  return isLoading ? (
+    <CircularProgress sx={{ m: "auto auto" }} />
+  ) : (
     <>
-      {sorted.map((tariff, i) => (
-        <TariffCard
-          key={`${tariff.tariff?.id}-${tariff.name?.[LANG_KEY]}`}
-          tariffId={tariff.tariff?.id}
-          tariffName={tariff.name?.[LANG_KEY]}
-          regularPrice={tariff.price}
-          tariffType={
-            tariff.tariff
-              ? t(
-                  `saving.mobile.tariff.card.${tariff.tariff?.type?.toLowerCase()}`
-                )
-              : undefined
-          }
-          tariffMessage={tariff.tariffMessage}
-          tariffPrice={tariff.tariff?.price}
-          ticketSaleMutation={ticketSaleMutation}
-        />
-      ))}
+      {sorted.length > 0 ? (
+        sorted.map((tariff, i) => (
+          <TariffCard
+            key={`${tariff.tariff?.id}-${tariff.name?.[LANG_KEY]}`}
+            tariffId={tariff.tariff?.id}
+            tariffName={tariff.name?.[LANG_KEY]}
+            regularPrice={tariff.price}
+            tariffType={
+              tariff.tariff
+                ? t(
+                    `saving.mobile.tariff.card.${tariff.tariff?.type?.toLowerCase()}`
+                  )
+                : undefined
+            }
+            tariffMessage={tariff.tariffMessage}
+            tariffPrice={tariff.tariff?.price}
+            ticketSaleMutation={ticketSaleMutation}
+          />
+        ))
+      ) : (
+        <Typography variant="body2" sx={{ color: theme.palette.neutral[900] }}>
+          {name
+            ? t("saving.mobile.tariff.drawer.noTariffs", { name: name })
+            : t("saving.mobile.tariff.drawer.noTariffsNoName")}
+        </Typography>
+      )}
     </>
   );
 };
