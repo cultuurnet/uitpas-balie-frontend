@@ -35,8 +35,10 @@ export const Tariff = ({
   const { t, i18n } = useTranslation();
   const LANG_KEY = i18n.language as keyof EventName;
 
+  const priceInfoFiltered = priceInfo.filter((price) => price.price !== 0);
+
   const data = useQueries({
-    queries: priceInfo.map((tariff) => ({
+    queries: priceInfoFiltered.map((tariff) => ({
       ...getGetTariffsQueryOptions({
         eventId: getUuid(eventId)!,
         regularPrice: tariff.price,
@@ -51,7 +53,7 @@ export const Tariff = ({
   const coupons = [] as SortedType[];
   const invalidTariffs = [] as SortedType[];
 
-  priceInfo.forEach((priceInfo, index) => {
+  priceInfoFiltered.forEach((priceInfo, index) => {
     const tariff = data[index];
 
     if (tariff?.available?.findIndex((t) => t.type === "SOCIALTARIFF") === -1) {
@@ -63,7 +65,8 @@ export const Tariff = ({
       });
     }
 
-    tariff?.available?.forEach((tariff, i) => {
+    tariff?.available?.forEach((tariff) => {
+      if (tariff.price === 0) return;
       const item = {
         name: priceInfo.name,
         price: priceInfo.price,
