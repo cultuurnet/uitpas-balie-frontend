@@ -2,6 +2,7 @@ import { useEventGet } from "@/lib/dataAccess/entry/generated/events/events";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { getUuid } from "@/shared/lib/utils";
 import {
+  CircularProgress,
   IconButton,
   Stack,
   SwipeableDrawer,
@@ -34,7 +35,7 @@ export const TariffDrawer = ({
 }: TariffModalProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { data, refetch } = useEventGet(getUuid(eventId) ?? "");
+  const { data, refetch, isLoading } = useEventGet(getUuid(eventId) ?? "");
 
   const handleClose = () => {
     setIsOpen(false);
@@ -108,11 +109,14 @@ export const TariffDrawer = ({
           msOverflowStyle: "none",
         })}
       >
-        {data?.data.priceInfo ? (
+        {isLoading ? (
+          <CircularProgress sx={{ m: "auto auto" }} />
+        ) : data?.data.priceInfo ? (
           <Tariff
             eventId={eventId}
             uitpasNumber={uitpasNumber}
             priceInfo={data?.data.priceInfo}
+            name={name}
             ticketSaleMutation={handleTicketSaleMutation}
           />
         ) : null}
