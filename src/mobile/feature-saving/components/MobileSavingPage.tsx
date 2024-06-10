@@ -211,12 +211,14 @@ export const MobileSavingPage = () => {
               </Alert>
             ) : (
               <Alert
-                type={isCheckinError ? "error" : "success"}
+                type={isCheckinError || !selectedActivity ? "error" : "success"}
                 newAlert={!firstCardEntry}
               >
                 {isCheckinError
                   ? checkinError?.response?.data.endUserMessage &&
                     checkinError.response.data.endUserMessage[LANG_KEY]
+                  : !selectedActivity
+                  ? t("saving.mobile.pointNoActivity")
                   : t("saving.mobile.pointSaved")}
               </Alert>
             )}
