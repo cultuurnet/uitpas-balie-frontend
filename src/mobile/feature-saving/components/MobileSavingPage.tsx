@@ -44,11 +44,13 @@ export const MobileSavingPage = () => {
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
-  const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
   const { selectedActivity, setSelectedActivity } = useActivity();
   const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<typeof Typography>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
+  const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
+    Boolean(params.get("firstCardEntry")) ?? false
+  );
 
   const {
     data: passHoldersData,
@@ -78,7 +80,14 @@ export const MobileSavingPage = () => {
     isLoading: isTicketSaleLoading,
     isError: isTicketSaleError,
     error: ticketSaleError,
-  } = usePostTicketSales();
+  } = usePostTicketSales({
+    mutation: {
+      onSuccess: () => {
+        setFirstCardEntry(false);
+        refetchPassholders().catch(() => null);
+      },
+    },
+  });
 
   const LANG_KEY = i18n.language as keyof EventName;
 

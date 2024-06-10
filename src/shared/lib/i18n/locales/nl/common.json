@@ -208,6 +208,8 @@
         "drawer": {
           "title": "Kies tarief voor {{name}}",
           "titleNoName": "Kies een tarief",
+          "noTariffs": "Er zijn momenteel geen kortingen beschikbaar voor {{name}}.",
+          "noTariffsNoName": "Er zijn momenteel geen kortingen beschikbaar.",
           "close": "Sluiten"
         },
         "card": {

@@ -60,19 +60,12 @@ export const TariffCard = ({
               {`€ ${tariffPrice}`}
             </Typography>
           </Box>
-          {tariffType === "Coupon" && tariffPrice !== undefined && (
+          {tariffMessage && (
             <Typography
               variant="body2"
               sx={{ color: theme.palette.neutral[500], fontWeight: 500 }}
             >
-              {t("saving.mobile.tariff.card.couponDiscountPercentage", {
-                discount:
-                  tariffPrice === 0
-                    ? "100"
-                    : Math.round(
-                        100 * ((regularPrice - tariffPrice) / regularPrice)
-                      ),
-              })}
+              {tariffMessage}
             </Typography>
           )}
         </>
