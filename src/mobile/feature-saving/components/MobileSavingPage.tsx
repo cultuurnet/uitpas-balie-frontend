@@ -238,43 +238,44 @@ export const MobileSavingPage = () => {
               </Typography>
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
-            {isTicketSaleError || ticketSaleData ? (
-              <Alert
-                type={isTicketSaleError ? "error" : "success"}
-                newAlert={!firstCardEntry}
-              >
-                {isTicketSaleError
-                  ? ticketSaleError?.response?.data.endUserMessage &&
-                    ticketSaleError.response.data.endUserMessage[LANG_KEY]
-                  : t("saving.mobile.tariff.discountRegistered", {
-                      price: ticketSaleData?.data?.at(0)?.tariff.price,
-                    })}
-              </Alert>
-            ) : (
-              <Alert
-                type={isCheckinError ? "error" : "success"}
-                newAlert={!firstCardEntry}
-              >
-                {isCheckinError
-                  ? checkinError?.response?.data.endUserMessage &&
-                    checkinError.response.data.endUserMessage[LANG_KEY]
-                  : t("saving.mobile.pointSaved")}
-              </Alert>
+            {selectedActivity && (
+              <>
+                {(isTicketSaleError || ticketSaleData) && (
+                  <Alert
+                    type={isTicketSaleError ? "error" : "success"}
+                    newAlert={!firstCardEntry}
+                  >
+                    {isTicketSaleError
+                      ? ticketSaleError?.response?.data.endUserMessage?.[
+                          LANG_KEY
+                        ]
+                      : t("saving.mobile.tariff.discountRegistered", {
+                          price: ticketSaleData?.data?.[0]?.tariff.price,
+                        })}
+                  </Alert>
+                )}
+                {!(isTicketSaleError || ticketSaleData) && (
+                  <Alert
+                    type={isCheckinError ? "error" : "success"}
+                    newAlert={!firstCardEntry}
+                  >
+                    {isCheckinError
+                      ? checkinError?.response?.data.endUserMessage?.[LANG_KEY]
+                      : t("saving.mobile.pointSaved")}
+                  </Alert>
+                )}
+              </>
             )}
           </Stack>
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
-          <OutlinedButton
-            onClick={handleChooseTariffClick}
-            disabled={selectedActivity === null}
-          >
-            {t("saving.mobile.chooseTariffBtn")}
-          </OutlinedButton>
-          <OutlinedButton
-            onClick={() => console.log("TODO")}
-            disabled={selectedActivity === null}
-          >
+          {selectedActivity && (
+            <OutlinedButton onClick={handleChooseTariffClick}>
+              {t("saving.mobile.chooseTariffBtn")}
+            </OutlinedButton>
+          )}
+          <OutlinedButton onClick={() => console.log("TODO")}>
             {t("saving.mobile.tradeBenefitBtn")}
           </OutlinedButton>
         </Stack>
