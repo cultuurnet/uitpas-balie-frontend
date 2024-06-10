@@ -175,7 +175,6 @@
       "passholder": "Pashouder",
       "namePointsTxt": "{{firstName}} {{lastName}} ({{points}} punten)",
       "pointSaved": "Punt gespaard",
-      "pointNoActivity": "Er kan geen punt gespaard worden zonder activiteit",
       "failure": {
         "tryAgainBtn": "Probeer opnieuw",
         "inputCardNoBtn": "Een kaartnummer invullen"
