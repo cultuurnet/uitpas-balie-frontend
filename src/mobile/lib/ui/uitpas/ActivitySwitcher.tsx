@@ -26,6 +26,7 @@ export const ActivitySwitcher = () => {
         alignItems: "center",
         justifyContent: "space-between",
         cursor: "pointer",
+        mt: "-20px",
       }}
     >
       <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
