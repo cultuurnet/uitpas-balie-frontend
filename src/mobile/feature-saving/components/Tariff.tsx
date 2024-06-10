@@ -3,16 +3,15 @@ import {
   TariffAvailibility,
 } from "@/shared/lib/dataAccess";
 import { getUuid } from "@/shared/lib/utils";
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { useQueries } from "@tanstack/react-query";
 import {
   CommonName,
   EventPriceInfo,
 } from "@/lib/dataAccess/entry/generated/model";
-import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { TariffCard } from "@/mobile/feature-saving";
 import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/shared/lib/utils/hooks";
 
 type TariffProps = {
   name?: string;
@@ -36,9 +35,8 @@ export const Tariff = ({
   priceInfo,
   ticketSaleMutation,
 }: TariffProps) => {
-  const { t, i18n } = useTranslation();
+  const { t, LANG_KEY } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const LANG_KEY = i18n.language as keyof EventName;
   const theme = useTheme();
 
   const priceInfoFiltered = priceInfo.filter((price) => price.price !== 0);

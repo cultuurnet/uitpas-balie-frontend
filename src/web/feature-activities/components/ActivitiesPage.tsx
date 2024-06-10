@@ -11,16 +11,10 @@ import {
   PageWithSideBarNew,
   Typography,
 } from "@/web/lib/ui";
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { RangeMenu } from "./RangeMenu";
 import { SearchInput } from "./SearchInput";
-
 import dayjs from "dayjs";
-import {
-  EventAllOf,
-  EventName,
-} from "@/shared/lib/dataAccess/search/generated/model";
-import { useRouter } from "next/navigation";
+import { EventAllOf } from "@/shared/lib/dataAccess/search/generated/model";
 import {
   ActionLink,
   StyledActionsStack,
@@ -46,9 +40,10 @@ import { usePaginationQuery } from "@/shared/lib/utils/hooks/usePaginationQuery"
 import { ActionButton } from "@/web/lib/ui/uitpas/ActionButton";
 import { useRangeQuery } from "@/shared/lib/utils/hooks/useRangeQuery";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
+import { useTranslation } from "@/shared/lib/utils/hooks";
 
 export const ActivitiesPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t, LANG_KEY } = useTranslation();
   const { activeCounter: counter } = useCounter();
 
   const { fetchLimit, offset } = usePaginationQuery();
@@ -72,8 +67,6 @@ export const ActivitiesPage = () => {
     availableFrom: "*",
     availableTo: "*",
   });
-
-  const LANG_KEY = i18n.language as keyof EventName;
 
   return (
     <>

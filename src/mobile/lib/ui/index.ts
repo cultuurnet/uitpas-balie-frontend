@@ -10,3 +10,4 @@ export * from "./uitpas/UitpasLoading";
 export * from "./uitpas/MobileContentStack";
 export * from "./uitpas/Textfield";
 export * from "./uitpas/Alert";
+export * from "./uitpas/ActivitySwitcher";

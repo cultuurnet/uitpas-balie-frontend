@@ -1,4 +1,4 @@
-import { HTMLAttributes, PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
@@ -32,9 +32,7 @@ export const OpportunityStateCard = ({
   return (
     <Box
       sx={{
-        "&:hover": {
-          cursor: "pointer",
-        },
+        cursor: "pointer",
         display: "flex",
         flexDirection: "column",
         borderRadius: "8px",
@@ -48,8 +46,8 @@ export const OpportunityStateCard = ({
       onClick={handleClick}
       {...props}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -71,7 +69,7 @@ export const OpportunityStateCard = ({
         >
           {open ? <ExpandLess /> : <ExpandMore />}
         </IconButton>
-      </div>
+      </Box>
       {open && <>{props.children}</>}
     </Box>
   );

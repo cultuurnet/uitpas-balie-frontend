@@ -1,15 +1,14 @@
 "use client";
 
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   type TicketSale,
   useGetPassholders,
   usePostTicketSales,
 } from "@/shared/lib/dataAccess";
-import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
+  ActivitySwitcher,
   Alert,
   Button,
   MobileContentStack,
@@ -21,30 +20,23 @@ import {
   OpportunityState,
   TariffDrawer,
 } from "@/mobile/feature-saving";
-import {
-  IconButton,
-  Stack,
-  Typography,
-  Divider,
-  useTheme,
-} from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
+import { useTranslation } from "@/shared/lib/utils/hooks";
 
 export const MobileSavingPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t, LANG_KEY } = useTranslation();
   const router = useRouter();
   const params = useSearchParams();
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
-  const { selectedActivity, setSelectedActivity } = useActivity();
+  const { selectedActivity } = useActivity();
   const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<typeof Typography>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
@@ -88,13 +80,6 @@ export const MobileSavingPage = () => {
       },
     },
   });
-
-  const LANG_KEY = i18n.language as keyof EventName;
-
-  const handleChangeActivityClick = () => {
-    setSelectedActivity(null);
-    router.push("/mobile/activities");
-  };
 
   const handleNextScanClick = () => {
     router.push("/mobile/identification/scan");
@@ -171,33 +156,7 @@ export const MobileSavingPage = () => {
         <Typography variant="h1">
           {t("saving.mobile.chosenActivity")}
         </Typography>
-        <Stack
-          sx={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            ref={activityRef}
-            variant="h1"
-            sx={{ color: theme.palette.neutral[900] }}
-          >
-            {selectedActivity
-              ? selectedActivity.name[LANG_KEY]
-              : t("saving.mobile.noActivity")}
-          </Typography>
-          <IconButton
-            disableRipple
-            onClick={handleChangeActivityClick}
-            sx={{
-              color: theme.palette.neutral[900],
-              fontSize: 32,
-            }}
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </IconButton>
-        </Stack>
+        <ActivitySwitcher />
 
         {passHoldersData?.data.member?.[0] && (
           <Stack sx={{ rowGap: "10px" }}>
