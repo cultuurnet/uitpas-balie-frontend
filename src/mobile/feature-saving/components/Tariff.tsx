@@ -101,7 +101,7 @@ export const Tariff = ({
   ) : (
     <>
       {sorted.length > 0 ? (
-        sorted.map((tariff, i) => (
+        sorted.map((tariff) => (
           <TariffCard
             key={`${tariff.tariff?.id}-${tariff.name?.[LANG_KEY]}`}
             tariffId={tariff.tariff?.id}
