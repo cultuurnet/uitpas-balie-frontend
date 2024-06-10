@@ -65,19 +65,21 @@ export const Tariff = ({
   const invalidTariffs = [] as SortedType[];
 
   priceInfoFiltered.forEach((priceInfo, index) => {
-    const tariff = data[index];
+    const tariffResponse = data[index];
 
-    if (tariff?.available?.findIndex((t) => t.type === "SOCIALTARIFF") === -1) {
+    if (
+      tariffResponse?.available?.findIndex((t) => t.type === "SOCIALTARIFF") ===
+      -1
+    ) {
       socialTariffs.push({
         name: priceInfo.name,
         price: priceInfo.price,
         tariff: undefined,
-        tariffMessage: tariff.endUserMessage?.[LANG_KEY],
+        tariffMessage: tariffResponse.endUserMessage?.[LANG_KEY],
       });
     }
 
-    tariff?.available?.forEach((tariff) => {
-      if (tariff.price === 0) return;
+    tariffResponse?.available?.forEach((tariff) => {
       const item = {
         name: priceInfo.name,
         price: priceInfo.price,
@@ -87,7 +89,7 @@ export const Tariff = ({
       if (tariff.type === "SOCIALTARIFF") {
         socialTariffs.push(item);
       } else if (tariff.type === "COUPON") {
-        coupons.push(item);
+        coupons.push({ ...item, tariffMessage: tariff.name });
       }
     });
   });
