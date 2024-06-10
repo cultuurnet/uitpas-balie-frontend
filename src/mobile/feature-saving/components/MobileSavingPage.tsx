@@ -41,13 +41,13 @@ export const MobileSavingPage = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const params = useSearchParams();
+  const theme = useTheme();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
   const { selectedActivity, setSelectedActivity } = useActivity();
-  const [savedPoints, setSavedPoints] = useState<boolean>(false);
   const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<typeof Typography>>(null);
-  const theme = useTheme();
+  const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
     Boolean(params.get("firstCardEntry")) ?? false
   );
@@ -64,11 +64,15 @@ export const MobileSavingPage = () => {
   });
 
   const {
-    mutate: postCheckin,
+    mutateAsync: postCheckin,
     isLoading: isCheckinLoading,
     isError: isCheckinError,
     error: checkinError,
-  } = usePostCheckins();
+  } = usePostCheckins({
+    mutation: {
+      onSuccess: () => refetchPassholders().catch(() => null),
+    },
+  });
 
   const {
     mutate: postTicketSale,
@@ -96,10 +100,6 @@ export const MobileSavingPage = () => {
     router.push("/mobile/identification/scan");
   };
 
-  const handleSavedPointsReset = () => {
-    setSavedPoints(false);
-  };
-
   const handleChooseTariffClick = () => {
     setShowTariffModal(true);
   };
@@ -122,25 +122,30 @@ export const MobileSavingPage = () => {
   };
 
   useEffect(() => {
-    if (passHoldersData?.data?.member && !savedPoints) {
-      const uitpasNumber = passHoldersData.data.member[0].uitpasNumber;
+    if (passHoldersData?.data?.member) {
+      const uitpasNumber =
+        passHoldersData.data.member[0].uitpasNumber ??
+        passHoldersData.data.member[0].cardSystemMemberships?.at(0)
+          ?.uitpasNumber;
       const eventId = getUuid(selectedActivity?.["@id"] ?? "");
 
-      if (!uitpasNumber || !eventId) return;
+      if (!uitpasNumber || !eventId || uitpasNumber === prevUitpasNumber)
+        return;
 
       postCheckin({
         data: {
           uitpasNumber,
           eventId,
         },
-      });
-      setSavedPoints(true);
+      })
+        .catch(() => null)
+        .finally(() => setPrevUitpasNumber(uitpasNumber));
     }
   }, [
-    passHoldersData?.data.member,
+    passHoldersData,
     postCheckin,
+    prevUitpasNumber,
     refetchPassholders,
-    savedPoints,
     selectedActivity,
   ]);
 
@@ -289,10 +294,7 @@ export const MobileSavingPage = () => {
           {t("saving.mobile.or")}
         </Typography>
 
-        <ManualCardInput
-          resetSavedPoints={handleSavedPointsReset}
-          firstCardEntry={false}
-        />
+        <ManualCardInput firstCardEntry={false} />
         {selectedActivity &&
           selectedActivity["@id"] &&
           passHoldersData?.data?.member &&

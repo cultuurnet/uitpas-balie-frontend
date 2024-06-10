@@ -5,14 +5,10 @@ import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type ManualCardInputProps = {
-  resetSavedPoints?: () => void;
   firstCardEntry: boolean;
 };
 
-export const ManualCardInput = ({
-  resetSavedPoints,
-  firstCardEntry,
-}: ManualCardInputProps) => {
+export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [cardNumber, setCardNumber] = useState<string>("");
@@ -29,7 +25,6 @@ export const ManualCardInput = ({
     cardType: "inz" | "uitpas",
     cardNumber: string
   ) => {
-    resetSavedPoints?.();
     return router.push(
       `/mobile/saving?${cardType}=${cardNumber}${
         firstCardEntry ? "&firstCardEntry=true" : ""
