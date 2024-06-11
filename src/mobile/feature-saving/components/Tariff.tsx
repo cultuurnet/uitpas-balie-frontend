@@ -7,14 +7,15 @@ import { useQueries } from "@tanstack/react-query";
 import {
   CommonName,
   EventPriceInfo,
-} from "@/lib/dataAccess/entry/generated/model";
+} from "@/shared/lib/dataAccess/entry/generated/model";
+import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { TariffCard } from "@/mobile/feature-saving";
 import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 
 type TariffProps = {
-  name?: string;
+  passHolderName?: string;
   eventId: string;
   uitpasNumber: string;
   priceInfo: EventPriceInfo;
@@ -30,7 +31,7 @@ type SortedType = {
 };
 
 export const Tariff = ({
-  name,
+  passHolderName,
   uitpasNumber,
   eventId,
   priceInfo,
@@ -132,8 +133,10 @@ export const Tariff = ({
         ))
       ) : (
         <Typography variant="body2" sx={{ color: theme.palette.neutral[900] }}>
-          {name
-            ? t("saving.mobile.tariff.drawer.noTariffs", { name: name })
+          {passHolderName
+            ? t("saving.mobile.tariff.drawer.noTariffs", {
+                name: passHolderName,
+              })
             : t("saving.mobile.tariff.drawer.noTariffsNoName")}
         </Typography>
       )}

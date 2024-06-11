@@ -1,4 +1,4 @@
-import { useEventGet } from "@/lib/dataAccess/entry/generated/events/events";
+import { useEventGet } from "@/shared/lib/dataAccess/entry/generated/events/events";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { getUuid } from "@/shared/lib/utils";
 import {
@@ -15,7 +15,7 @@ import { OutlinedButton } from "@/mobile/lib/ui";
 import { Tariff } from "@/mobile/feature-saving";
 
 type TariffModalProps = {
-  name?: string;
+  passHolderName?: string;
   eventId: string;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -25,7 +25,7 @@ type TariffModalProps = {
 };
 
 export const TariffDrawer = ({
-  name,
+  passHolderName,
   eventId,
   isOpen,
   setIsOpen,
@@ -80,8 +80,8 @@ export const TariffDrawer = ({
         }}
       >
         <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
-          {name
-            ? t("saving.mobile.tariff.drawer.title", { name })
+          {passHolderName
+            ? t("saving.mobile.tariff.drawer.title", { name: passHolderName })
             : t("saving.mobile.tariff.drawer.titleNoName")}
         </Typography>
         <IconButton
@@ -122,7 +122,7 @@ export const TariffDrawer = ({
             eventId={eventId}
             uitpasNumber={uitpasNumber}
             priceInfo={data?.data.priceInfo}
-            name={name}
+            passHolderName={passHolderName}
             ticketSaleMutation={handleTicketSaleMutation}
             isDrawerOpen={isOpen}
           />
