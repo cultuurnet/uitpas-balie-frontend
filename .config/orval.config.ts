@@ -8,11 +8,16 @@ export default defineConfig({
     },
     output: {
       mode: "tags-split",
-      target: "../src/lib/dataAccess/uitpas/generated/uitpas.ts",
-      schemas: "../src/lib/dataAccess/uitpas/generated/model",
+      target: "../src/shared/lib/dataAccess/uitpas/generated/uitpas.ts",
+      schemas: "../src/shared/lib/dataAccess/uitpas/generated/model",
       client: "react-query",
       mock: false,
       baseUrl: "NEXT_PUBLIC_API_PATH",
+      override: {
+        query: {
+          useInfinite: true,
+        },
+      },
     },
   },
   search: {
@@ -22,8 +27,8 @@ export default defineConfig({
     },
     output: {
       mode: "tags-split",
-      target: "../src/lib/dataAccess/search/generated/search.ts",
-      schemas: "../src/lib/dataAccess/search/generated/model",
+      target: "../src/shared/lib/dataAccess/search/generated/search.ts",
+      schemas: "../src/shared/lib/dataAccess/search/generated/model",
       client: "react-query",
       mock: false,
       baseUrl: "NEXT_PUBLIC_SEARCH_API_PATH",
@@ -36,8 +41,8 @@ export default defineConfig({
     },
     output: {
       mode: "tags-split",
-      target: "../src/lib/dataAccess/entry/generated/entry.ts",
-      schemas: "../src/lib/dataAccess/entry/generated/model",
+      target: "../src/shared/lib/dataAccess/entry/generated/entry.ts",
+      schemas: "../src/shared/lib/dataAccess/entry/generated/model",
       client: "react-query",
       mock: false,
       baseUrl: "NEXT_PUBLIC_ENTRY_API_PATH",
