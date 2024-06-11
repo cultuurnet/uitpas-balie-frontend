@@ -219,6 +219,15 @@
           "applyTariff": "Tarief toekennen (€ {{price}})",
           "noDiscount": "Geen korting beschikbaar"
         }
+      },
+      "benefit": {
+        "drawer": {
+          "title": "Kies voordeel voor {{name}}",
+          "titleNoName": "Kies een voordeel",
+          "subtitle": "Dit zijn de voordelen die {{name}} met {{points}} punten nu kan omruilen aan deze balie.",
+          "searchPlaceholder": "Zoek een voordeel",
+          "close": "Sluiten"
+        }
       }
     }
   },

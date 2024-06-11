@@ -31,11 +31,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import React, { ElementRef, useEffect, useRef, useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
+import { BenefitsDrawer } from "./BenefitsDrawer";
 
 export const MobileSavingPage = () => {
   const { t, i18n } = useTranslation();
@@ -45,7 +46,8 @@ export const MobileSavingPage = () => {
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
   const { selectedActivity, setSelectedActivity } = useActivity();
-  const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
+  const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
+  const [showBenefitsDrawer, setShowBenefitsDrawer] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<typeof Typography>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
@@ -101,7 +103,11 @@ export const MobileSavingPage = () => {
   };
 
   const handleChooseTariffClick = () => {
-    setShowTariffModal(true);
+    setShowTariffDrawer(true);
+  };
+
+  const handleChooseBenefitClick = () => {
+    setShowBenefitsDrawer(true);
   };
 
   const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
@@ -272,7 +278,7 @@ export const MobileSavingPage = () => {
             {t("saving.mobile.chooseTariffBtn")}
           </OutlinedButton>
           <OutlinedButton
-            onClick={() => console.log("TODO")}
+            onClick={handleChooseBenefitClick}
             disabled={selectedActivity === null}
           >
             {t("saving.mobile.tradeBenefitBtn")}
@@ -301,19 +307,36 @@ export const MobileSavingPage = () => {
           activityRef.current && (
             <TariffDrawer
               eventId={selectedActivity["@id"]}
-              name={
+              passHolderName={
                 passHoldersData.data.member
                   ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
                   : undefined
               }
-              isOpen={showTariffModal}
-              setIsOpen={setShowTariffModal}
+              isOpen={showTariffDrawer}
+              setIsOpen={setShowTariffDrawer}
               startPosition={activityRef.current.getBoundingClientRect().bottom}
               uitpasNumber={
                 passHoldersData.data.member?.at(0)?.cardSystemMemberships?.at(0)
                   ?.uitpasNumber!
               }
               ticketSaleMutation={handleTicketSaleMutation}
+            />
+          )}
+        {activityRef.current &&
+          passHoldersData?.data?.member &&
+          passHoldersData.data.member[0].points && (
+            <BenefitsDrawer
+              isOpen={showBenefitsDrawer}
+              setIsOpen={setShowBenefitsDrawer}
+              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              passHolderId={passHoldersData.data.member[0].id}
+              passHolderName={
+                passHoldersData.data.member
+                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                  : undefined
+              }
+              passHolderPoints={passHoldersData.data.member[0].points}
+              benefitExchangeMutation={() => null}
             />
           )}
       </MobileContentStack>
