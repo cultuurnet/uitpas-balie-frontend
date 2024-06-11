@@ -10,10 +10,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { Typography } from "@/mobile/lib/ui";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
 
 type ActivitiesPickerProps = {
   isInitialLoading: boolean;
@@ -38,7 +38,7 @@ export const ActivitiesPicker = ({
   setScrollPosition,
   isFetching,
 }: ActivitiesPickerProps) => {
-  const { t, i18n } = useTranslation();
+  const { t, LANG_KEY } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const { searchQuery } = useSearchQuery();
   const { setSelectedActivity } = useActivity();
@@ -53,8 +53,6 @@ export const ActivitiesPicker = ({
       });
     }
   }, [data.member]);
-
-  const LANG_KEY = i18n.language as keyof Search.EventName;
 
   useEffect(() => {
     if (totalFetchedItems === 0) return;
