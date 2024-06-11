@@ -5,17 +5,27 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import axios from "axios";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   Error,
   ForbiddenResponse,
@@ -23,8 +33,10 @@ import type {
   GetUitidPassholderStatus200,
   Passholder,
   PassholderSelfRegistration,
-  UnauthorizedResponse,
-} from "../model";
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * This is step 1 of the process to register an UiTPAS passholder in UiTiD using their UiTPAS number and date of birth. It is used to retrieve an UiTiD registration token for the passholder. If the passholder already has a token via an email they received to register in UiTiD, this step can be skipped.
@@ -45,80 +57,96 @@ This caller of this method is identified with [client identification](https://do
  * @summary Retrieve UiTiD registration token
  */
 export const getUitidPassholderRegistrationToken = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetUitidPassholderRegistrationToken200>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`,
-    options
-  );
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetUitidPassholderRegistrationToken200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`,options
+    );
+  }
+
 
 export const getGetUitidPassholderRegistrationTokenQueryKey = () => {
-  return [
-    `NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`,
-  ] as const;
-};
+    
+    return [`NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`] as const;
+    }
 
-export const getGetUitidPassholderRegistrationTokenQueryOptions = <
-  TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+    
+export const getGetUitidPassholderRegistrationTokenInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetUitidPassholderRegistrationTokenQueryKey();
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>
-  > = ({ signal }) =>
-    getUitidPassholderRegistrationToken({ signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetUitidPassholderRegistrationTokenQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetUitidPassholderRegistrationTokenQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>
->;
-export type GetUitidPassholderRegistrationTokenQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>> = ({ signal }) => getUitidPassholderRegistrationToken({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUitidPassholderRegistrationTokenInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>>
+export type GetUitidPassholderRegistrationTokenInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Retrieve UiTiD registration token
  */
-export const useGetUitidPassholderRegistrationToken = <
-  TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions =
-    getGetUitidPassholderRegistrationTokenQueryOptions(options);
+export const useGetUitidPassholderRegistrationTokenInfinite = <TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetUitidPassholderRegistrationTokenInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+export const getGetUitidPassholderRegistrationTokenQueryOptions = <TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUitidPassholderRegistrationTokenQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>> = ({ signal }) => getUitidPassholderRegistrationToken({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUitidPassholderRegistrationTokenQueryResult = NonNullable<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>>
+export type GetUitidPassholderRegistrationTokenQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+
+/**
+ * @summary Retrieve UiTiD registration token
+ */
+export const useGetUitidPassholderRegistrationToken = <TData = Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderRegistrationToken>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetUitidPassholderRegistrationTokenQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
 
 /**
  * Retrieves the UiTiD registration status of a passholder. This is step 2 in the process of registering an UiTPAS passholder in UiTiD.
@@ -142,73 +170,96 @@ This caller of this method, identified with [client identification](https://docs
  * @summary Retrieve UiTiD registration status
  */
 export const getUitidPassholderStatus = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetUitidPassholderStatus200>> => {
-  return axios.get(`NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`, options);
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetUitidPassholderStatus200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`,options
+    );
+  }
+
 
 export const getGetUitidPassholderStatusQueryKey = () => {
-  return [`NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`] as const;
-};
+    
+    return [`NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`] as const;
+    }
 
-export const getGetUitidPassholderStatusQueryOptions = <
-  TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderStatus>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+    
+export const getGetUitidPassholderStatusInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetUitidPassholderStatusQueryKey();
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getUitidPassholderStatus>>
-  > = ({ signal }) => getUitidPassholderStatus({ signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetUitidPassholderStatusQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderStatus>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetUitidPassholderStatusQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getUitidPassholderStatus>>
->;
-export type GetUitidPassholderStatusQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUitidPassholderStatus>>> = ({ signal }) => getUitidPassholderStatus({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUitidPassholderStatusInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUitidPassholderStatus>>>
+export type GetUitidPassholderStatusInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Retrieve UiTiD registration status
  */
-export const useGetUitidPassholderStatus = <
-  TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getUitidPassholderStatus>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetUitidPassholderStatusQueryOptions(options);
+export const useGetUitidPassholderStatusInfinite = <TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetUitidPassholderStatusInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+export const getGetUitidPassholderStatusQueryOptions = <TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUitidPassholderStatusQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUitidPassholderStatus>>> = ({ signal }) => getUitidPassholderStatus({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUitidPassholderStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getUitidPassholderStatus>>>
+export type GetUitidPassholderStatusQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+
+/**
+ * @summary Retrieve UiTiD registration status
+ */
+export const useGetUitidPassholderStatus = <TData = Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUitidPassholderStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetUitidPassholderStatusQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
 
 /**
  * Registers the UiTiD for this passholder. This is step 4, and the final step, in the process of registering an UiTPAS passholder in UiTiD.
@@ -219,146 +270,149 @@ A user access token of a client with `PASSHOLDERS_REGISTER_UITID` permission is 
  * @summary Register UiTiD for passholder
  */
 export const registerUitidPassholder = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_API_PATH/passholders/me/uitid`,
-    undefined,
-    options
-  );
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_API_PATH/passholders/me/uitid`,undefined,options
+    );
+  }
 
-export const getRegisterUitidPassholderMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TVariables = void,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof registerUitidPassholder>>,
-    TError,
-    TVariables,
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof registerUitidPassholder>>,
-  TError,
-  TVariables,
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof registerUitidPassholder>>,
-    TVariables
-  > = () => {
-    return registerUitidPassholder(axiosOptions);
-  };
 
-  return { mutationFn, ...mutationOptions };
-};
+export const getRegisterUitidPassholderMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TVariables = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUitidPassholder>>, TError,TVariables, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof registerUitidPassholder>>, TError,TVariables, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-export type RegisterUitidPassholderMutationResult = NonNullable<
-  Awaited<ReturnType<typeof registerUitidPassholder>>
->;
+      
 
-export type RegisterUitidPassholderMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof registerUitidPassholder>>, TVariables> = () => {
+          
+
+          return  registerUitidPassholder(axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type RegisterUitidPassholderMutationResult = NonNullable<Awaited<ReturnType<typeof registerUitidPassholder>>>
+    
+    export type RegisterUitidPassholderMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary Register UiTiD for passholder
  */
-export const useRegisterUitidPassholder = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TVariables = void,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof registerUitidPassholder>>,
-    TError,
-    TVariables,
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const mutationOptions = getRegisterUitidPassholderMutationOptions(options);
+export const useRegisterUitidPassholder = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TVariables = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof registerUitidPassholder>>, TError,TVariables, TContext>, axios?: AxiosRequestConfig}
+) => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getRegisterUitidPassholderMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Allows users to retrieve their passholder using a user access token.
 
 A user access token of a client with `PASSHOLDERS_SELF_READ` permission is mandatory. The passholder is retrieved by `inszNumber` if the access token contains the custom claim `https://publiq.be/rrn` (i.e. user has logged in using connection ACM), or by linked UiTiD user (`sub` or `https://publiq.be/uitidv1id` claim of the user access token).
  * @summary Retrieve passholder for the current user
  */
 export const getPassholdersMe = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Passholder>> => {
-  return axios.get(`NEXT_PUBLIC_API_PATH/passholders/me`, options);
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Passholder>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/passholders/me`,options
+    );
+  }
+
 
 export const getGetPassholdersMeQueryKey = () => {
-  return [`NEXT_PUBLIC_API_PATH/passholders/me`] as const;
-};
+    
+    return [`NEXT_PUBLIC_API_PATH/passholders/me`] as const;
+    }
 
-export const getGetPassholdersMeQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPassholdersMe>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getPassholdersMe>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+    
+export const getGetPassholdersMeInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMe>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
 
-  const queryKey = queryOptions?.queryKey ?? getGetPassholdersMeQueryKey();
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getPassholdersMe>>
-  > = ({ signal }) => getPassholdersMe({ signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersMeQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPassholdersMe>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetPassholdersMeQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getPassholdersMe>>
->;
-export type GetPassholdersMeQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersMe>>> = ({ signal }) => getPassholdersMe({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPassholdersMeInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersMe>>>
+export type GetPassholdersMeInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Retrieve passholder for the current user
  */
-export const useGetPassholdersMe = <
-  TData = Awaited<ReturnType<typeof getPassholdersMe>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof getPassholdersMe>>,
-    TError,
-    TData
-  >;
-  axios?: AxiosRequestConfig;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetPassholdersMeQueryOptions(options);
+export const useGetPassholdersMeInfinite = <TData = Awaited<ReturnType<typeof getPassholdersMe>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetPassholdersMeInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+export const getGetPassholdersMeQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMe>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersMeQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersMe>>> = ({ signal }) => getPassholdersMe({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPassholdersMeQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersMe>>>
+export type GetPassholdersMeQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+
+/**
+ * @summary Retrieve passholder for the current user
+ */
+export const useGetPassholdersMe = <TData = Awaited<ReturnType<typeof getPassholdersMe>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMe>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetPassholdersMeQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
 
 /**
  * <!-- theme: warning -->
@@ -375,71 +429,51 @@ Please note a user can only self-register one passholder. Use `GET /passholders/
  * @summary Register passholder for the current user
  */
 export const postPassholdersMe = (
-  passholderSelfRegistration: PassholderSelfRegistration,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Passholder>> => {
-  return axios.post(
-    `NEXT_PUBLIC_API_PATH/passholders/me`,
-    passholderSelfRegistration,
-    options
-  );
-};
+    passholderSelfRegistration: PassholderSelfRegistration, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Passholder>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_API_PATH/passholders/me`,
+      passholderSelfRegistration,options
+    );
+  }
 
-export const getPostPassholdersMeMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postPassholdersMe>>,
-    TError,
-    { data: PassholderSelfRegistration },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postPassholdersMe>>,
-  TError,
-  { data: PassholderSelfRegistration },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postPassholdersMe>>,
-    { data: PassholderSelfRegistration }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return postPassholdersMe(data, axiosOptions);
-  };
+export const getPostPassholdersMeMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPassholdersMe>>, TError,{data: PassholderSelfRegistration}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postPassholdersMe>>, TError,{data: PassholderSelfRegistration}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PostPassholdersMeMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postPassholdersMe>>
->;
-export type PostPassholdersMeMutationBody = PassholderSelfRegistration;
-export type PostPassholdersMeMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postPassholdersMe>>, {data: PassholderSelfRegistration}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postPassholdersMe(data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type PostPassholdersMeMutationResult = NonNullable<Awaited<ReturnType<typeof postPassholdersMe>>>
+    export type PostPassholdersMeMutationBody = PassholderSelfRegistration
+    export type PostPassholdersMeMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary Register passholder for the current user
  */
-export const usePostPassholdersMe = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postPassholdersMe>>,
-    TError,
-    { data: PassholderSelfRegistration },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const mutationOptions = getPostPassholdersMeMutationOptions(options);
+export const usePostPassholdersMe = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPassholdersMe>>, TError,{data: PassholderSelfRegistration}, TContext>, axios?: AxiosRequestConfig}
+) => {
 
-  return useMutation(mutationOptions);
-};
+      const mutationOptions = getPostPassholdersMeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

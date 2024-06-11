@@ -5,50 +5,54 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import { useMutation } from "@tanstack/react-query";
+import {
+  useMutation
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
-  UseMutationOptions,
-} from "@tanstack/react-query";
-import axios from "axios";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+  UseMutationOptions
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   Checkin,
   Error,
   ForbiddenResponse,
-  UnauthorizedResponse,
-} from "../model";
+  UnauthorizedResponse
+} from '.././model'
 
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
-  T
+T,
 >() => T extends Y ? 1 : 2
-  ? A
-  : B;
+? A
+: B;
 
 type WritableKeys<T> = {
-  [P in keyof T]-?: IfEquals<
-    { [Q in P]: T[P] },
-    { -readonly [Q in P]: T[P] },
-    P
-  >;
+[P in keyof T]-?: IfEquals<
+  { [Q in P]: T[P] },
+  { -readonly [Q in P]: T[P] },
+  P
+>;
 }[keyof T];
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never;
+type UnionToIntersection<U> =
+  (U extends any ? (k: U)=>void : never) extends ((k: infer I)=>void) ? I : never;
 type DistributeReadOnlyOverUnions<T> = T extends any ? NonReadonly<T> : never;
 
 type Writable<T> = Pick<T, WritableKeys<T>>;
-type NonReadonly<T> = [T] extends [UnionToIntersection<T>]
-  ? {
-      [P in keyof Writable<T>]: T[P] extends object
-        ? NonReadonly<NonNullable<T[P]>>
-        : T[P];
-    }
-  : DistributeReadOnlyOverUnions<T>;
+type NonReadonly<T> = [T] extends [UnionToIntersection<T>] ? {
+  [P in keyof Writable<T>]: T[P] extends object
+    ? NonReadonly<NonNullable<T[P]>>
+    : T[P];
+} : DistributeReadOnlyOverUnions<T>;
+
+
+
 
 /**
  * Check in a passholder at a given event.
@@ -66,67 +70,51 @@ The caller of this request must have `CHECKINS_WRITE` permission for the organiz
  * @summary Check in passholder
  */
 export const postCheckins = (
-  checkin: NonReadonly<Checkin>,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Checkin>> => {
-  return axios.post(`NEXT_PUBLIC_API_PATH/checkins`, checkin, options);
-};
+    checkin: NonReadonly<Checkin>, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Checkin>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_API_PATH/checkins`,
+      checkin,options
+    );
+  }
 
-export const getPostCheckinsMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postCheckins>>,
-    TError,
-    { data: NonReadonly<Checkin> },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postCheckins>>,
-  TError,
-  { data: NonReadonly<Checkin> },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postCheckins>>,
-    { data: NonReadonly<Checkin> }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return postCheckins(data, axiosOptions);
-  };
+export const getPostCheckinsMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCheckins>>, TError,{data: NonReadonly<Checkin>}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postCheckins>>, TError,{data: NonReadonly<Checkin>}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PostCheckinsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postCheckins>>
->;
-export type PostCheckinsMutationBody = NonReadonly<Checkin>;
-export type PostCheckinsMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postCheckins>>, {data: NonReadonly<Checkin>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postCheckins(data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type PostCheckinsMutationResult = NonNullable<Awaited<ReturnType<typeof postCheckins>>>
+    export type PostCheckinsMutationBody = NonReadonly<Checkin>
+    export type PostCheckinsMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary Check in passholder
  */
-export const usePostCheckins = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postCheckins>>,
-    TError,
-    { data: NonReadonly<Checkin> },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const mutationOptions = getPostCheckinsMutationOptions(options);
+export const usePostCheckins = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postCheckins>>, TError,{data: NonReadonly<Checkin>}, TContext>, axios?: AxiosRequestConfig}
+) => {
 
-  return useMutation(mutationOptions);
-};
+      const mutationOptions = getPostCheckinsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
