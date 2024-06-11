@@ -19,6 +19,7 @@ type TariffProps = {
   uitpasNumber: string;
   priceInfo: EventPriceInfo;
   ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
+  isDrawerOpen: boolean;
 };
 
 type SortedType = {
@@ -34,6 +35,7 @@ export const Tariff = ({
   eventId,
   priceInfo,
   ticketSaleMutation,
+  isDrawerOpen,
 }: TariffProps) => {
   const { t, LANG_KEY } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -41,11 +43,7 @@ export const Tariff = ({
 
   const priceInfoFiltered = priceInfo.filter((price) => price.price !== 0);
 
-  useEffect(() => {
-    if (priceInfoFiltered.length === 0) setIsLoading(false);
-  }, [priceInfoFiltered.length]);
-
-  const data = useQueries({
+  const queryResults = useQueries({
     queries: priceInfoFiltered.map((tariff) => ({
       ...getGetTariffsQueryOptions({
         eventId: getUuid(eventId)!,
@@ -56,8 +54,23 @@ export const Tariff = ({
       staleTime: 0,
       onSettled: () => setIsLoading(false),
     })),
-  }).map((res) => res.data?.data);
+  });
 
+  useEffect(() => {
+    if (priceInfoFiltered.length === 0) setIsLoading(false);
+  }, [priceInfoFiltered.length]);
+
+  useEffect(() => {
+    if (isDrawerOpen) {
+      queryResults.forEach((queryResult) => {
+        if (queryResult.refetch) {
+          queryResult.refetch();
+        }
+      });
+    }
+  }, [isDrawerOpen]);
+
+  const data = queryResults.map((result) => result.data?.data);
   const socialTariffs = [] as SortedType[];
   const coupons = [] as SortedType[];
   const invalidTariffs = [] as SortedType[];

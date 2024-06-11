@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { OutlinedButton } from "@/mobile/lib/ui";
 import { Tariff } from "@/mobile/feature-saving";
 
@@ -36,6 +36,12 @@ export const TariffDrawer = ({
   const theme = useTheme();
   const { t } = useTranslation();
   const { data, refetch, isLoading } = useEventGet(getUuid(eventId) ?? "");
+
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -118,6 +124,7 @@ export const TariffDrawer = ({
             priceInfo={data?.data.priceInfo}
             name={name}
             ticketSaleMutation={handleTicketSaleMutation}
+            isDrawerOpen={isOpen}
           />
         ) : null}
       </Stack>
