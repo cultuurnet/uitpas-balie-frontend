@@ -6,14 +6,11 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query'
 import type {
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -57,44 +54,6 @@ export const getGetCardSystemsQueryKey = (params?: GetCardSystemsParams,) => {
     }
 
     
-export const getGetCardSystemsInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(params?: GetCardSystemsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetCardSystemsQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardSystems>>> = ({ signal }) => getCardSystems(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetCardSystemsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getCardSystems>>>
-export type GetCardSystemsInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Search card systems
- */
-export const useGetCardSystemsInfinite = <TData = Awaited<ReturnType<typeof getCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- params?: GetCardSystemsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetCardSystemsInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetCardSystemsQueryOptions = <TData = Awaited<ReturnType<typeof getCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(params?: GetCardSystemsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 

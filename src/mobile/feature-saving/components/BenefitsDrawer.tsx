@@ -1,6 +1,6 @@
 import { SearchInput } from "@/mobile/lib/ui";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { useGetRewardsInfinite } from "@/shared/lib/dataAccess";
+import { useGetRewards } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { Close } from "@mui/icons-material";
 import {
@@ -35,47 +35,25 @@ export const BenefitsDrawer = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
-  //   const [start, setStart] = useState<number>(0);
+  const [start, setStart] = useState<number>(0);
 
   const FETCH_LIMIT = 10;
+
   const {
     data,
     error,
-    fetchNextPage,
-    hasNextPage,
+    // fetchNextPage,
+    // hasNextPage,
     isFetching,
-    isFetchingNextPage,
+    // isFetchingNextPage,
     status,
     isSuccess,
-  } = useGetRewardsInfinite(
-    {
-      ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
-      ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
-      type: "ANY",
-      limit: FETCH_LIMIT,
-      //   start,
-    }
-    /* {
-      query: {
-        keepPreviousData: true,
-        onSuccess: (data) => console.log("success"),
-        getNextPageParam: (lastPage, pages) => {
-          console.log({ lastPage, pages });
-          return 1;
-        },
-      },
-    } */
-  );
-
-  console.log({
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-    isSuccess,
+  } = useGetRewards({
+    ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
+    ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
+    type: "ANY",
+    limit: FETCH_LIMIT,
+    start,
   });
 
   const handleClose = () => {
@@ -172,25 +150,12 @@ export const BenefitsDrawer = ({
         {isFetching ? (
           <CircularProgress sx={{ m: "auto auto" }} />
         ) : (
-          /* data?.data.member ? (
+          data?.data.member &&
           data.data.member.map((reward) => (
             <Typography key={reward.id} variant="body2">
               {reward.title}
             </Typography>
           ))
-        )  : */ hasNextPage && (
-            <button
-              style={{
-                padding: "8px 16px",
-                fontSize: "16px",
-                fontWeight: 700,
-                textAlign: "center",
-              }}
-              onClick={() => fetchNextPage()}
-            >
-              Fetch more
-            </button>
-          )
         )}
       </Stack>
     </SwipeableDrawer>

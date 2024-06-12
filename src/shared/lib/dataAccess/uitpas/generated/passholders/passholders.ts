@@ -6,7 +6,6 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query'
@@ -14,8 +13,6 @@ import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
   UseQueryResult
@@ -97,44 +94,6 @@ export const getGetPassholdersQueryKey = (params?: GetPassholdersParams,) => {
     }
 
     
-export const getGetPassholdersInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholders>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetPassholdersParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholders>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholders>>> = ({ signal }) => getPassholders(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholders>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholders>>>
-export type GetPassholdersInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Search passholders
- */
-export const useGetPassholdersInfinite = <TData = Awaited<ReturnType<typeof getPassholders>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetPassholdersParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholders>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassholdersInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassholdersQueryOptions = <TData = Awaited<ReturnType<typeof getPassholders>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetPassholdersParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholders>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -316,44 +275,6 @@ export const getGetPassholdersPassholderIdMembershipPricesQueryKey = (params?: G
     }
 
     
-export const getGetPassholdersPassholderIdMembershipPricesInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetPassholdersPassholderIdMembershipPricesParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdMembershipPricesQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>> = ({ signal }) => getPassholdersPassholderIdMembershipPrices(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersPassholderIdMembershipPricesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>>
-export type GetPassholdersPassholderIdMembershipPricesInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve new membership prices
- */
-export const useGetPassholdersPassholderIdMembershipPricesInfinite = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetPassholdersPassholderIdMembershipPricesParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassholdersPassholderIdMembershipPricesInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassholdersPassholderIdMembershipPricesQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetPassholdersPassholderIdMembershipPricesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -420,44 +341,6 @@ export const getGetPassholdersMembershipPricesQueryKey = (passholderId: string,)
     }
 
     
-export const getGetPassholdersMembershipPricesInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(passholderId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersMembershipPricesQueryKey(passholderId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>> = ({ signal }) => getPassholdersMembershipPrices(passholderId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersMembershipPricesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>>
-export type GetPassholdersMembershipPricesInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve upgrade membership prices
- */
-export const useGetPassholdersMembershipPricesInfinite = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(
- passholderId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassholdersMembershipPricesInfiniteQueryOptions(passholderId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassholdersMembershipPricesQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(passholderId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -591,46 +474,6 @@ export const getGetPassholdersPassholderIdTransactionsQueryKey = (passholderId: 
     }
 
     
-export const getGetPassholdersPassholderIdTransactionsInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(passholderId: string,
-    params?: GetPassholdersPassholderIdTransactionsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdTransactionsQueryKey(passholderId,params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>> = ({ signal }) => getPassholdersPassholderIdTransactions(passholderId,params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersPassholderIdTransactionsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>>
-export type GetPassholdersPassholderIdTransactionsInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve transaction history of a passholder
- */
-export const useGetPassholdersPassholderIdTransactionsInfinite = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- passholderId: string,
-    params?: GetPassholdersPassholderIdTransactionsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassholdersPassholderIdTransactionsInfiniteQueryOptions(passholderId,params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassholdersPassholderIdTransactionsQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(passholderId: string,
     params?: GetPassholdersPassholderIdTransactionsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdTransactions>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
@@ -695,44 +538,6 @@ export const getGetPassesUitpasNumberQueryKey = (uitpasNumber: string,) => {
     }
 
     
-export const getGetPassesUitpasNumberInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(uitpasNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassesUitpasNumberQueryKey(uitpasNumber);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassesUitpasNumber>>> = ({ signal }) => getPassesUitpasNumber(uitpasNumber, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(uitpasNumber), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassesUitpasNumberInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassesUitpasNumber>>>
-export type GetPassesUitpasNumberInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve pass by UiTPAS number
- */
-export const useGetPassesUitpasNumberInfinite = <TData = Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- uitpasNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassesUitpasNumberInfiniteQueryOptions(uitpasNumber,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassesUitpasNumberQueryOptions = <TData = Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(uitpasNumber: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassesUitpasNumber>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -795,44 +600,6 @@ export const getGetInszNumbersInszNumberQueryKey = (inszNumber: string,) => {
     }
 
     
-export const getGetInszNumbersInszNumberInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(inszNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetInszNumbersInszNumberQueryKey(inszNumber);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInszNumbersInszNumber>>> = ({ signal }) => getInszNumbersInszNumber(inszNumber, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(inszNumber), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetInszNumbersInszNumberInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getInszNumbersInszNumber>>>
-export type GetInszNumbersInszNumberInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve pass by INSZ number
- */
-export const useGetInszNumbersInszNumberInfinite = <TData = Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- inszNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetInszNumbersInszNumberInfiniteQueryOptions(inszNumber,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetInszNumbersInszNumberQueryOptions = <TData = Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(inszNumber: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getInszNumbersInszNumber>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -895,44 +662,6 @@ export const getGetChipNumbersChipNumberQueryKey = (chipNumber: string,) => {
     }
 
     
-export const getGetChipNumbersChipNumberInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(chipNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetChipNumbersChipNumberQueryKey(chipNumber);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getChipNumbersChipNumber>>> = ({ signal }) => getChipNumbersChipNumber(chipNumber, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(chipNumber), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetChipNumbersChipNumberInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getChipNumbersChipNumber>>>
-export type GetChipNumbersChipNumberInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve pass by chip number
- */
-export const useGetChipNumbersChipNumberInfinite = <TData = Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- chipNumber: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetChipNumbersChipNumberInfiniteQueryOptions(chipNumber,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetChipNumbersChipNumberQueryOptions = <TData = Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(chipNumber: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getChipNumbersChipNumber>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
