@@ -6,7 +6,6 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query'
@@ -14,8 +13,6 @@ import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
   UseQueryResult
@@ -63,44 +60,6 @@ export const getGetPassholdersSchoolQueryKey = (passholderId: string,) => {
     }
 
     
-export const getGetPassholdersSchoolInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersSchool>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(passholderId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersSchool>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersSchoolQueryKey(passholderId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersSchool>>> = ({ signal }) => getPassholdersSchool(passholderId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersSchool>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersSchoolInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersSchool>>>
-export type GetPassholdersSchoolInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get passholder school
- */
-export const useGetPassholdersSchoolInfinite = <TData = Awaited<ReturnType<typeof getPassholdersSchool>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- passholderId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPassholdersSchool>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPassholdersSchoolInfiniteQueryOptions(passholderId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetPassholdersSchoolQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersSchool>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(passholderId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPassholdersSchool>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 

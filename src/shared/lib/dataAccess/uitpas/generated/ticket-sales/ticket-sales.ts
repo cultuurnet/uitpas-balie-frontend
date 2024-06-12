@@ -6,7 +6,6 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query'
@@ -14,8 +13,6 @@ import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
   UseQueryResult
@@ -101,44 +98,6 @@ export const getGetTariffsQueryKey = (params: GetTariffsParams,) => {
     }
 
     
-export const getGetTariffsInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getTariffs>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetTariffsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffs>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetTariffsQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTariffs>>> = ({ signal }) => getTariffs(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffs>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetTariffsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getTariffs>>>
-export type GetTariffsInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Get tariffs
- */
-export const useGetTariffsInfinite = <TData = Awaited<ReturnType<typeof getTariffs>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params: GetTariffsParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffs>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetTariffsInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetTariffsQueryOptions = <TData = Awaited<ReturnType<typeof getTariffs>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetTariffsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getTariffs>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -215,44 +174,6 @@ export const getGetTariffsStaticQueryKey = (params: GetTariffsStaticParams,) => 
     }
 
     
-export const getGetTariffsStaticInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getTariffsStatic>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetTariffsStaticParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffsStatic>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetTariffsStaticQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTariffsStatic>>> = ({ signal }) => getTariffsStatic(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffsStatic>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetTariffsStaticInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getTariffsStatic>>>
-export type GetTariffsStaticInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Get static tariffs without passholder
- */
-export const useGetTariffsStaticInfinite = <TData = Awaited<ReturnType<typeof getTariffsStatic>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params: GetTariffsStaticParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTariffsStatic>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetTariffsStaticInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetTariffsStaticQueryOptions = <TData = Awaited<ReturnType<typeof getTariffsStatic>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetTariffsStaticParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getTariffsStatic>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -394,44 +315,6 @@ export const getGetTicketSalesQueryKey = (params: GetTicketSalesParams,) => {
     }
 
     
-export const getGetTicketSalesInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getTicketSales>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(params: GetTicketSalesParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTicketSales>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetTicketSalesQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTicketSales>>> = ({ signal }) => getTicketSales(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTicketSales>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetTicketSalesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getTicketSales>>>
-export type GetTicketSalesInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve existing ticket sales
- */
-export const useGetTicketSalesInfinite = <TData = Awaited<ReturnType<typeof getTicketSales>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(
- params: GetTicketSalesParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTicketSales>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetTicketSalesInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetTicketSalesQueryOptions = <TData = Awaited<ReturnType<typeof getTicketSales>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(params: GetTicketSalesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getTicketSales>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 

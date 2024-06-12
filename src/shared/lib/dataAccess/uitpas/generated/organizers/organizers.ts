@@ -6,14 +6,11 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query'
 import type {
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -57,44 +54,6 @@ export const getGetOrganizersQueryKey = (params?: GetOrganizersParams,) => {
     }
 
     
-export const getGetOrganizersInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizers>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetOrganizersParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizers>>> = ({ signal }) => getOrganizers(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizers>>>
-export type GetOrganizersInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Get organizers
- */
-export const useGetOrganizersInfinite = <TData = Awaited<ReturnType<typeof getOrganizers>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetOrganizersParams, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetOrganizersQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizers>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetOrganizersParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 

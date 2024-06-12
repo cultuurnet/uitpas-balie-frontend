@@ -6,7 +6,6 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query'
@@ -14,8 +13,6 @@ import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseMutationOptions,
   UseQueryOptions,
   UseQueryResult
@@ -140,44 +137,6 @@ export const getGetEventsCardSystemsQueryKey = (eventId: string,) => {
     }
 
     
-export const getGetEventsCardSystemsInfiniteQueryOptions = <TData = Awaited<ReturnType<typeof getEventsCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(eventId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetEventsCardSystemsQueryKey(eventId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventsCardSystems>>> = ({ signal }) => getEventsCardSystems(eventId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetEventsCardSystemsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getEventsCardSystems>>>
-export type GetEventsCardSystemsInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get event card systems
- */
-export const useGetEventsCardSystemsInfinite = <TData = Awaited<ReturnType<typeof getEventsCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- eventId: string, options?: { query?:UseInfiniteQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetEventsCardSystemsInfiniteQueryOptions(eventId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
 export const getGetEventsCardSystemsQueryOptions = <TData = Awaited<ReturnType<typeof getEventsCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(eventId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
