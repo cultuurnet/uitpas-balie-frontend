@@ -228,6 +228,12 @@
           "subtitleNoBenefits": "Er zijn momenteel geen voordelen die {{name}} kan omruilen met {{points}} punten aan deze balie.",
           "searchPlaceholder": "Zoek een voordeel",
           "close": "Sluiten"
+        },
+        "card": {
+          "for": "voor",
+          "pointsCost": "{{price}} punten",
+          "exchange": "Omruilen ({{points}} punten)",
+          "online": "Dit is een online voordeel. De pashouder ontvangt dit voordeel na omruilen via email en in de UiTPAS-app onder \"omgeruilde voordelen\"."
         }
       }
     }

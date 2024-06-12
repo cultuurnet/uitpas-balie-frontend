@@ -38,7 +38,13 @@ export const BenefitsPicker = ({
     return (
       <ScrollableActivitesContainer>
         {Array.from(data.member).map((reward) => (
-          <BenefitCard key={reward.id} />
+          <BenefitCard
+            key={reward.id}
+            benefitTitle={reward.title}
+            pointsCost={reward.points}
+            benefitType={reward.type}
+            online={reward.online}
+          />
         ))}
       </ScrollableActivitesContainer>
     );

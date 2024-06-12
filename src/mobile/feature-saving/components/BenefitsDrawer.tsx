@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BenefitsPicker } from "./BenefitsPicker";
-import { useInfiniteQuery } from "@/shared/lib/utils/hooks/useInfiniteScroll";
 
 type BenefitsDrawerProps = {
   isOpen: boolean;
@@ -162,10 +161,15 @@ export const BenefitsDrawer = ({
         variant="body2"
         sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: "-8px" }}
       >
-        {t("saving.mobile.benefit.drawer.subtitle", {
-          name: passHolderName,
-          points: passHolderPoints,
-        })}
+        {data.totalItems === 0
+          ? t("saving.mobile.benefit.drawer.subtitleNoBenefits", {
+              name: passHolderName,
+              points: passHolderPoints,
+            })
+          : t("saving.mobile.benefit.drawer.subtitle", {
+              name: passHolderName,
+              points: passHolderPoints,
+            })}
       </Typography>
       {isSuccess && data.totalItems && data.totalItems >= 5 && (
         <SearchInput
@@ -196,32 +200,6 @@ export const BenefitsDrawer = ({
           isFetching={false}
         />
       )}
-
-      {/* Scrollable Stack */}
-      {/* <Stack
-        sx={(theme) => ({
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          rowGap: "20px",
-          overflowY: "auto",
-          pr: "6px",
-          "::-webkit-scrollbar": {
-            width: "6px",
-            color: theme.palette.primary.main,
-          },
-          "::-webkit-scrollbar-track-piece": {
-            background: "transparent",
-          },
-          "::-webkit-scrollbar-thumb": {
-            background: theme.palette.primary.main,
-            borderRadius: "10px",
-          },
-          msOverflowStyle: "none",
-        })}
-      >
-        
-      </Stack> */}
 
       <OutlinedButton
         sx={{

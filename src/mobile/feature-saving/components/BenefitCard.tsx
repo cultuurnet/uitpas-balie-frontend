@@ -1,7 +1,21 @@
+import { Button } from "@/mobile/lib/ui";
+import { RewardType } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
-export const BenefitCard = () => {
+type BenefitCardProps = {
+  benefitTitle: string;
+  pointsCost?: number;
+  benefitType: RewardType;
+  online?: boolean;
+};
+
+export const BenefitCard = ({
+  benefitTitle,
+  pointsCost,
+  benefitType,
+  online,
+}: BenefitCardProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -13,40 +27,47 @@ export const BenefitCard = () => {
         backgroundColor: theme.palette.background.default,
         padding: "16px 12px 12px 12px",
         borderRadius: "6px",
+        rowGap: "10px",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}>
-        <Typography variant="h6">{`tariffName:`}</Typography>
-        <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
-          {`€ regularPrice`}
-        </Typography>
-      </Box>
+      <Typography variant="h6" sx={{ fontSize: 16, lineHeight: 1.1 }}>
+        {benefitTitle}
+      </Typography>
 
-      <>
-        <Box sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}>
-          <Typography variant="h6">tariffType:</Typography>
-          <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
-            {`€ tariffPrice`}
-          </Typography>
-        </Box>
+      <Box sx={{ display: "flex", alignItems: "center", columnGap: "6px" }}>
         <Typography
-          variant="body2"
-          sx={{ color: theme.palette.neutral[500], fontWeight: 500 }}
+          variant="h6"
+          sx={{ color: theme.palette.brand.blue, fontSize: 16 }}
         >
-          tariffMessage
+          {t("saving.mobile.benefit.card.for")}
         </Typography>
-      </>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          columnGap: "10px",
-        }}
-      >
-        <Typography variant="h6">
-          {t("saving.mobile.tariff.card.noDiscount")}
+        <Typography
+          variant="h6"
+          sx={{
+            color: theme.palette.brand.blue,
+            fontSize: 16,
+            fontWeight: 600,
+          }}
+        >
+          {t("saving.mobile.benefit.card.pointsCost", {
+            price: pointsCost ?? 0,
+          })}
         </Typography>
-        <Typography variant="body2">tariffMessage</Typography>
+        {/* TODO: get colors from theme */}
+        {benefitType === RewardType.WELCOME && (
+          <Box
+            sx={{
+              backgroundColor: "#2f127a",
+              color: "white",
+              p: "2px 12px",
+              borderRadius: "4px",
+            }}
+          >
+            <Typography variant="body2" sx={{ fontWeight: 500, fontSize: 10 }}>
+              welkomstvoordeel
+            </Typography>
+          </Box>
+        )}
       </Box>
 
       <Button
@@ -56,11 +77,17 @@ export const BenefitCard = () => {
           borderRadius: "6px",
           fontWeight: 400,
           height: "38px",
-          mt: "16px",
+          mt: "auto",
         }}
       >
-        {t("saving.mobile.tariff.card.applyTariff", { price: "tariffPrice" })}
+        {t("saving.mobile.benefit.card.exchange", { points: pointsCost ?? 0 })}
       </Button>
+
+      {online && (
+        <Typography variant="body1">
+          {t("saving.mobile.benefit.card.online")}
+        </Typography>
+      )}
     </Box>
   );
 };
