@@ -225,6 +225,7 @@
           "title": "Kies voordeel voor {{name}}",
           "titleNoName": "Kies een voordeel",
           "subtitle": "Dit zijn de voordelen die {{name}} met {{points}} punten nu kan omruilen aan deze balie.",
+          "subtitleNoBenefits": "Er zijn momenteel geen voordelen die {{name}} kan omruilen met {{points}} punten aan deze balie.",
           "searchPlaceholder": "Zoek een voordeel",
           "close": "Sluiten"
         }

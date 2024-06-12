@@ -8,7 +8,6 @@ import {
   CommonName,
   EventPriceInfo,
 } from "@/shared/lib/dataAccess/entry/generated/model";
-import { EventName } from "@/shared/lib/dataAccess/search/generated/model";
 import { TariffCard } from "@/mobile/feature-saving";
 import { CircularProgress, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";

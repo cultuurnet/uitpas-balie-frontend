@@ -19,6 +19,7 @@ import {
   ScanFailed,
   OpportunityState,
   TariffDrawer,
+  BenefitsDrawer,
 } from "@/mobile/feature-saving";
 import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
@@ -28,7 +29,6 @@ import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
-import { BenefitsDrawer } from "./BenefitsDrawer";
 
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
@@ -37,10 +37,10 @@ export const MobileSavingPage = () => {
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
-  const { selectedActivity, setSelectedActivity } = useActivity();
+  const { selectedActivity } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showBenefitsDrawer, setShowBenefitsDrawer] = useState<boolean>(false);
-  const activityRef = useRef<ElementRef<typeof Typography>>(null);
+  const activityRef = useRef<ElementRef<"div">>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
     Boolean(params.get("firstCardEntry")) ?? false
@@ -162,7 +162,7 @@ export const MobileSavingPage = () => {
         <Typography variant="h1">
           {t("saving.mobile.chosenActivity")}
         </Typography>
-        <ActivitySwitcher />
+        <ActivitySwitcher ref={activityRef} />
 
         {passHoldersData?.data.member?.[0] && (
           <Stack sx={{ rowGap: "10px" }}>
@@ -230,10 +230,7 @@ export const MobileSavingPage = () => {
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
-          <OutlinedButton
-            onClick={handleChooseTariffClick}
-            disabled={selectedActivity === null}
-          >
+          <OutlinedButton onClick={handleChooseTariffClick}>
             {t("saving.mobile.chooseTariffBtn")}
           </OutlinedButton>
           <OutlinedButton
@@ -281,6 +278,7 @@ export const MobileSavingPage = () => {
               ticketSaleMutation={handleTicketSaleMutation}
             />
           )}
+
         {activityRef.current &&
           passHoldersData?.data?.member &&
           passHoldersData.data.member[0].points && (

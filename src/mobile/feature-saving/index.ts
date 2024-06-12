@@ -5,3 +5,6 @@ export * from "./components/OpportunityState";
 export * from "./components/OpportunityStateCard";
 export * from "./components/Tariff";
 export * from "./components/TariffCard";
+export * from "./components/BenefitsDrawer";
+export * from "./components/BenefitsPicker";
+export * from "./components/BenefitCard";

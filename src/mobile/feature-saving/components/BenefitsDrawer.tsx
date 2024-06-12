@@ -1,6 +1,10 @@
-import { SearchInput } from "@/mobile/lib/ui";
+import { OutlinedButton, SearchInput } from "@/mobile/lib/ui";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { useGetRewards } from "@/shared/lib/dataAccess";
+import {
+  Reward,
+  RewardsPaginatedResponse,
+  useGetRewards,
+} from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { Close } from "@mui/icons-material";
 import {
@@ -11,7 +15,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { BenefitsPicker } from "./BenefitsPicker";
+import { useInfiniteQuery } from "@/shared/lib/utils/hooks/useInfiniteScroll";
 
 type BenefitsDrawerProps = {
   isOpen: boolean;
@@ -22,6 +28,8 @@ type BenefitsDrawerProps = {
   startPosition?: number;
   benefitExchangeMutation?: () => void;
 };
+
+type ExtendedReward = Reward & { isNew: boolean };
 
 export const BenefitsDrawer = ({
   isOpen,
@@ -35,26 +43,73 @@ export const BenefitsDrawer = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
-  const [start, setStart] = useState<number>(0);
-
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [offset, setOffset] = useState<number>(0);
   const FETCH_LIMIT = 10;
+  const INITIAL_DATA = {
+    facet: undefined,
+    member: new Set<ExtendedReward>(),
+    memberIndex: new Map<string, ExtendedReward>(),
+    totalItems: 0,
+  };
+  const [data, setData] = useState<
+    Omit<RewardsPaginatedResponse, "member"> & {
+      member: Set<ExtendedReward>;
+      memberIndex: Map<string, ExtendedReward>;
+    }
+  >(INITIAL_DATA);
 
   const {
-    data,
-    error,
-    // fetchNextPage,
-    // hasNextPage,
-    isFetching,
-    // isFetchingNextPage,
-    status,
+    data: fetchedData,
     isSuccess,
+    isFetching,
   } = useGetRewards({
     ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
     ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
     type: "ANY",
     limit: FETCH_LIMIT,
-    start,
+    start: offset,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setData((prev) => {
+        const updatedMembers = new Set<ExtendedReward>(
+          [...prev.member].map((member) => ({ ...member, isNew: false }))
+        );
+        const updatedIndex = new Map<string, ExtendedReward>(prev.memberIndex);
+
+        fetchedData.data.member?.forEach((member) => {
+          const existingMember = prev.memberIndex.get(member.id!);
+          if (existingMember) {
+            Object.assign(existingMember, member);
+          } else {
+            const newMember: ExtendedReward = {
+              ...member,
+              isNew: prev.member.size === 0,
+            };
+            updatedMembers.add(newMember);
+            updatedIndex.set(member.id!, newMember);
+          }
+        });
+
+        return {
+          ...fetchedData.data,
+          member: updatedMembers,
+          memberIndex: updatedIndex,
+        };
+      });
+
+      setIsInitialLoading(false);
+
+      if (showSearchInput === null && fetchedData.data.totalItems) {
+        setShowSearchInput(fetchedData.data.totalItems > 10 || !!searchQuery);
+      }
+    }
+  }, [fetchedData?.data]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -89,7 +144,9 @@ export const BenefitsDrawer = ({
           variant="h1"
           sx={{ color: theme.palette.neutral[900], fontSize: "16px" }}
         >
-          {passHolderName
+          {!isSuccess || data.totalItems === 0
+            ? t("saving.mobile.benefit.drawer.noBenefits")
+            : passHolderName
             ? t("saving.mobile.benefit.drawer.title", { name: passHolderName })
             : t("saving.mobile.benefit.drawer.titleNoName")}
         </Typography>
@@ -110,8 +167,8 @@ export const BenefitsDrawer = ({
           points: passHolderPoints,
         })}
       </Typography>
-      {isSuccess && (
-        /* data.data.totalItems && data.data.totalItems >= 5 && */ <SearchInput
+      {isSuccess && data.totalItems && data.totalItems >= 5 && (
+        <SearchInput
           sx={{ my: "8px" }}
           inputProps={{
             sx: {
@@ -124,8 +181,24 @@ export const BenefitsDrawer = ({
           placeholder={t("saving.mobile.benefit.drawer.searchPlaceholder")}
         />
       )}
+
+      {isFetching ? (
+        <CircularProgress sx={{ m: "auto auto" }} />
+      ) : (
+        <BenefitsPicker
+          isInitialLoading={false}
+          data={data}
+          fetchLimit={FETCH_LIMIT}
+          totalFetchedItems={fetchedData?.data.totalItems ?? 0}
+          setOffset={setOffset}
+          scrollPosition={scrollPosition}
+          setScrollPosition={setScrollPosition}
+          isFetching={false}
+        />
+      )}
+
       {/* Scrollable Stack */}
-      <Stack
+      {/* <Stack
         sx={(theme) => ({
           display: "flex",
           flexDirection: "column",
@@ -147,17 +220,20 @@ export const BenefitsDrawer = ({
           msOverflowStyle: "none",
         })}
       >
-        {isFetching ? (
-          <CircularProgress sx={{ m: "auto auto" }} />
-        ) : (
-          data?.data.member &&
-          data.data.member.map((reward) => (
-            <Typography key={reward.id} variant="body2">
-              {reward.title}
-            </Typography>
-          ))
-        )}
-      </Stack>
+        
+      </Stack> */}
+
+      <OutlinedButton
+        sx={{
+          mt: "20px",
+          border: `1px solid ${theme.palette.brand.darkCyan}`,
+          color: theme.palette.brand.darkCyan,
+          borderRadius: "6px",
+        }}
+        onClick={handleClose}
+      >
+        {t("saving.mobile.benefit.drawer.close")}
+      </OutlinedButton>
     </SwipeableDrawer>
   );
 };
