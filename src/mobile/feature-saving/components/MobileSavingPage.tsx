@@ -28,6 +28,7 @@ import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
+import { BenefitsDrawer } from "./BenefitsDrawer";
 
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
