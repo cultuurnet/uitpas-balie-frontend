@@ -276,6 +276,7 @@ export const MobileSavingPage = () => {
               </Typography>
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
+
             {alertData && (
               <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
                 {alertData.message}
