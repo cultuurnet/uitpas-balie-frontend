@@ -285,13 +285,12 @@ export const MobileSavingPage = () => {
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
-          <OutlinedButton onClick={handleChooseTariffClick}>
-            {t("saving.mobile.chooseTariffBtn")}
-          </OutlinedButton>
-          <OutlinedButton
-            onClick={handleChooseBenefitClick}
-            disabled={selectedActivity === null}
-          >
+          {selectedActivity && (
+            <OutlinedButton onClick={handleChooseTariffClick}>
+              {t("saving.mobile.chooseTariffBtn")}
+            </OutlinedButton>
+          )}
+          <OutlinedButton onClick={handleChooseBenefitClick}>
             {t("saving.mobile.tradeBenefitBtn")}
           </OutlinedButton>
         </Stack>
