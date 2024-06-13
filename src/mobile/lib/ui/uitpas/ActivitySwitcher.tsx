@@ -56,3 +56,5 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
     </Box>
   );
 });
+
+ActivitySwitcher.displayName = "ActivitySwitcher";
