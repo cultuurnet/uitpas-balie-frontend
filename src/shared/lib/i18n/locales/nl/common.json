@@ -233,6 +233,7 @@
           "for": "voor",
           "pointsCost": "{{price}} punten",
           "exchange": "Omruilen ({{points}} punten)",
+          "welcomeChip": "welkomstvoordeel",
           "online": "Dit is een online voordeel. De pashouder ontvangt dit voordeel na omruilen via email en in de UiTPAS-app onder \"omgeruilde voordelen\"."
         }
       }

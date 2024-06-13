@@ -53,18 +53,17 @@ export const BenefitCard = ({
             price: pointsCost ?? 0,
           })}
         </Typography>
-        {/* TODO: get colors from theme */}
         {benefitType === RewardType.WELCOME && (
           <Box
             sx={{
-              backgroundColor: "#2f127a",
-              color: "white",
+              backgroundColor: theme.palette.brand.purple,
+              color: theme.palette.neutral[0],
               p: "2px 12px",
               borderRadius: "4px",
             }}
           >
-            <Typography variant="body2" sx={{ fontWeight: 500, fontSize: 10 }}>
-              welkomstvoordeel
+            <Typography sx={{ fontWeight: 500, fontSize: 10 }}>
+              {t("saving.mobile.benefit.card.welcomeChip")}
             </Typography>
           </Box>
         )}
