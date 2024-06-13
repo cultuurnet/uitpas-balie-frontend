@@ -8,7 +8,6 @@ import {
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { Close } from "@mui/icons-material";
 import {
-  CircularProgress,
   IconButton,
   Stack,
   SwipeableDrawer,
@@ -42,7 +41,6 @@ export const BenefitsDrawer = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -105,7 +103,7 @@ export const BenefitsDrawer = ({
       setIsInitialLoading(false);
 
       if (showSearchInput === null && fetchedData.data.totalItems) {
-        setShowSearchInput(fetchedData.data.totalItems > 10 || !!searchQuery);
+        setShowSearchInput(fetchedData.data.totalItems > 5 || !!searchQuery);
       }
     }
   }, [fetchedData?.data]);
@@ -143,9 +141,7 @@ export const BenefitsDrawer = ({
           variant="h1"
           sx={{ color: theme.palette.neutral[900], fontSize: "16px" }}
         >
-          {!isSuccess || data.totalItems === 0
-            ? t("saving.mobile.benefit.drawer.noBenefits")
-            : passHolderName
+          {passHolderName
             ? t("saving.mobile.benefit.drawer.title", { name: passHolderName })
             : t("saving.mobile.benefit.drawer.titleNoName")}
         </Typography>
@@ -157,6 +153,7 @@ export const BenefitsDrawer = ({
           <Close />
         </IconButton>
       </Stack>
+
       <Typography
         variant="body2"
         sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: "-8px" }}
@@ -171,7 +168,8 @@ export const BenefitsDrawer = ({
               points: passHolderPoints,
             })}
       </Typography>
-      {isSuccess && data.totalItems && data.totalItems >= 5 && (
+
+      {showSearchInput && (
         <SearchInput
           sx={{ my: "8px" }}
           inputProps={{
@@ -186,24 +184,18 @@ export const BenefitsDrawer = ({
         />
       )}
 
-      {isFetching ? (
-        <CircularProgress sx={{ m: "auto auto" }} />
-      ) : (
-        <BenefitsPicker
-          isInitialLoading={false}
-          data={data}
-          fetchLimit={FETCH_LIMIT}
-          totalFetchedItems={fetchedData?.data.totalItems ?? 0}
-          setOffset={setOffset}
-          scrollPosition={scrollPosition}
-          setScrollPosition={setScrollPosition}
-          isFetching={false}
-        />
-      )}
+      <BenefitsPicker
+        data={data}
+        isInitialLoading={isInitialLoading}
+        fetchLimit={FETCH_LIMIT}
+        totalFetchedItems={fetchedData?.data.totalItems ?? 0}
+        setOffset={setOffset}
+        isFetching={isFetching}
+      />
 
       <OutlinedButton
         sx={{
-          mt: "20px",
+          mt: "auto",
           border: `1px solid ${theme.palette.brand.darkCyan}`,
           color: theme.palette.brand.darkCyan,
           borderRadius: "6px",

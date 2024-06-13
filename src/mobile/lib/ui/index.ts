@@ -11,3 +11,4 @@ export * from "./uitpas/MobileContentStack";
 export * from "./uitpas/Textfield";
 export * from "./uitpas/Alert";
 export * from "./uitpas/ActivitySwitcher";
+export * from "./uitpas/ScrollableContainer";

@@ -1,9 +1,9 @@
 import { Button } from "@/mobile/lib/ui";
 import { RewardType } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, BoxProps, Typography, useTheme } from "@mui/material";
 
-type BenefitCardProps = {
+type BenefitCardProps = BoxProps & {
   benefitTitle: string;
   pointsCost?: number;
   benefitType: RewardType;
@@ -15,9 +15,11 @@ export const BenefitCard = ({
   pointsCost,
   benefitType,
   online,
+  ...props
 }: BenefitCardProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { sx, ...restProps } = props;
 
   return (
     <Box
@@ -28,7 +30,9 @@ export const BenefitCard = ({
         padding: "16px 12px 12px 12px",
         borderRadius: "6px",
         rowGap: "10px",
+        ...sx,
       }}
+      {...restProps}
     >
       <Typography variant="h6" sx={{ fontSize: 16, lineHeight: 1.1 }}>
         {benefitTitle}
@@ -83,7 +87,7 @@ export const BenefitCard = ({
       </Button>
 
       {online && (
-        <Typography variant="body1">
+        <Typography variant="body2" sx={{ fontSize: 11, fontWeight: 600 }}>
           {t("saving.mobile.benefit.card.online")}
         </Typography>
       )}

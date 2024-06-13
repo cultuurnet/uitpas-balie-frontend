@@ -1,7 +1,6 @@
 import { CircularProgress, Stack } from "@mui/material";
 import { Search } from "@/shared/lib/dataAccess";
 import { OutlinedButton } from "@/mobile/lib/ui/uitpas/OutlinedButton";
-import { ScrollableActivitesContainer } from "@/mobile/feature-activities/components/ActivitiesPage.styles";
 import {
   Dispatch,
   SetStateAction,
@@ -10,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Typography } from "@/mobile/lib/ui";
+import { ScrollableContainer, Typography } from "@/mobile/lib/ui";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
@@ -94,7 +93,11 @@ export const ActivitiesPicker = ({
   if (data.totalItems > 0) {
     return (
       <Stack>
-        <ScrollableActivitesContainer ref={scrollRef} onScroll={handleScroll}>
+        <ScrollableContainer
+          sx={{ height: "410px" }}
+          ref={scrollRef}
+          onScroll={handleScroll}
+        >
           {Array.from(data.member).map((activity) => (
             <OutlinedButton
               onClick={() => handleActivityClick(activity)}
@@ -122,7 +125,7 @@ export const ActivitiesPicker = ({
           ))}
 
           {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={20} />}
-        </ScrollableActivitesContainer>
+        </ScrollableContainer>
       </Stack>
     );
   }

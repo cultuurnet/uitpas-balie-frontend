@@ -130,8 +130,8 @@ export const ActivitiesPage = () => {
         )}
 
         <ActivitiesPicker
-          isInitialLoading={isInitialLoading}
           data={data}
+          isInitialLoading={isInitialLoading}
           fetchLimit={FETCH_LIMIT}
           totalFetchedItems={fetchedData ? fetchedData.data.totalItems : 0}
           setOffset={setOffset}

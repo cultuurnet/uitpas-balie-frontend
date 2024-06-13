@@ -1,7 +1,8 @@
+"use client";
+
 import { Stack, styled } from "@mui/material";
 
-export const ScrollableActivitesContainer = styled(Stack)(({ theme }) => ({
-  height: "410px",
+export const ScrollableContainer = styled(Stack)(({ theme }) => ({
   overflowY: "scroll",
   "::-webkit-scrollbar": {
     width: "6px",
