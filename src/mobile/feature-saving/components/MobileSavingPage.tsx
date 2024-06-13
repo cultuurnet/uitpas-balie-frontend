@@ -5,6 +5,7 @@ import {
   type TicketSale,
   useGetPassholders,
   usePostTicketSales,
+  usePostRewardsRedeemed,
 } from "@/shared/lib/dataAccess";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
@@ -19,7 +20,7 @@ import {
   ScanFailed,
   OpportunityState,
   TariffDrawer,
-  BenefitsDrawer,
+  RewardsDrawer,
 } from "@/mobile/feature-saving";
 import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
@@ -39,12 +40,19 @@ export const MobileSavingPage = () => {
   const inszNumber = params.get("insz");
   const { selectedActivity } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
-  const [showBenefitsDrawer, setShowBenefitsDrawer] = useState<boolean>(false);
+  const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<"div">>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
     Boolean(params.get("firstCardEntry")) ?? false
   );
+  const [alertData, setAlertData] = useState<
+    | {
+        alertType: "error" | "success";
+        message?: string;
+      }
+    | undefined
+  >(undefined);
 
   const {
     data: passHoldersData,
@@ -57,31 +65,69 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const {
-    mutateAsync: postCheckin,
-    isLoading: isCheckinLoading,
-    isError: isCheckinError,
-    error: checkinError,
-  } = usePostCheckins({
-    mutation: {
-      onSuccess: () => refetchPassholders().catch(() => null),
-    },
-  });
-
-  const {
-    mutate: postTicketSale,
-    data: ticketSaleData,
-    isLoading: isTicketSaleLoading,
-    isError: isTicketSaleError,
-    error: ticketSaleError,
-  } = usePostTicketSales({
-    mutation: {
-      onSuccess: () => {
-        setFirstCardEntry(false);
-        refetchPassholders().catch(() => null);
+  const { mutateAsync: postCheckin, isLoading: isCheckinLoading } =
+    usePostCheckins({
+      mutation: {
+        onSuccess: () => {
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.pointSaved"),
+          });
+          refetchPassholders().catch(() => null);
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
       },
-    },
-  });
+    });
+
+  const { mutate: postTicketSale, isLoading: isTicketSaleLoading } =
+    usePostTicketSales({
+      mutation: {
+        onSuccess: (data) => {
+          setFirstCardEntry(false);
+          refetchPassholders().catch(() => null);
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.tariff.discountRegistered", {
+              price: data.data.at(0)?.tariff.price,
+            }),
+          });
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
+      },
+    });
+
+  const { mutate: postRewardsRedeemed, isLoading: isRewardsRedeemedLoading } =
+    usePostRewardsRedeemed({
+      mutation: {
+        onSuccess: () => {
+          setFirstCardEntry(false);
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.reward.redeemed"),
+          });
+          refetchPassholders().catch(() => null);
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
+      },
+    });
 
   const handleNextScanClick = () => {
     router.push("/mobile/identification/scan");
@@ -92,11 +138,17 @@ export const MobileSavingPage = () => {
   };
 
   const handleChooseBenefitClick = () => {
-    setShowBenefitsDrawer(true);
+    setShowRewardsDrawer(true);
   };
 
   const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
     if (!passHoldersData?.data?.member || !selectedActivity) return;
+
+    const uitpasNumber =
+      passHoldersData.data.member[0].uitpasNumber ??
+      passHoldersData.data.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
+
+    if (!uitpasNumber) return;
 
     postTicketSale({
       data: Array.of({
@@ -105,11 +157,27 @@ export const MobileSavingPage = () => {
           id: tariffId,
         },
         regularPrice,
-        uitpasNumber: passHoldersData?.data?.member
-          ?.at(0)
-          ?.cardSystemMemberships?.at(0)?.uitpasNumber,
+        uitpasNumber,
       }) as TicketSale[],
     });
+  };
+
+  const handleRewardRedemption = (rewardId: string) => {
+    if (passHoldersData?.data.member) {
+      const uitpasNumber =
+        passHoldersData.data.member[0].uitpasNumber ??
+        passHoldersData.data.member[0].cardSystemMemberships?.at(0)
+          ?.uitpasNumber;
+
+      if (!uitpasNumber) return;
+
+      postRewardsRedeemed({
+        data: {
+          uitpasNumber,
+          rewardId,
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -140,7 +208,12 @@ export const MobileSavingPage = () => {
     selectedActivity,
   ]);
 
-  if (isPassholdersLoading || isCheckinLoading || isTicketSaleLoading)
+  if (
+    isPassholdersLoading ||
+    isCheckinLoading ||
+    isTicketSaleLoading ||
+    isRewardsRedeemedLoading
+  )
     return (
       <MobileNavBar>
         <UitpasLoading />
@@ -203,27 +276,9 @@ export const MobileSavingPage = () => {
               </Typography>
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
-            {isTicketSaleError || ticketSaleData ? (
-              <Alert
-                type={isTicketSaleError ? "error" : "success"}
-                newAlert={!firstCardEntry}
-              >
-                {isTicketSaleError
-                  ? ticketSaleError?.response?.data.endUserMessage &&
-                    ticketSaleError.response.data.endUserMessage[LANG_KEY]
-                  : t("saving.mobile.tariff.discountRegistered", {
-                      price: ticketSaleData?.data?.at(0)?.tariff.price,
-                    })}
-              </Alert>
-            ) : (
-              <Alert
-                type={isCheckinError ? "error" : "success"}
-                newAlert={!firstCardEntry}
-              >
-                {isCheckinError
-                  ? checkinError?.response?.data.endUserMessage &&
-                    checkinError.response.data.endUserMessage[LANG_KEY]
-                  : t("saving.mobile.pointSaved")}
+            {alertData && (
+              <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
+                {alertData.message}
               </Alert>
             )}
           </Stack>
@@ -282,9 +337,9 @@ export const MobileSavingPage = () => {
         {activityRef.current &&
           passHoldersData?.data?.member &&
           passHoldersData.data.member[0].points && (
-            <BenefitsDrawer
-              isOpen={showBenefitsDrawer}
-              setIsOpen={setShowBenefitsDrawer}
+            <RewardsDrawer
+              isOpen={showRewardsDrawer}
+              setIsOpen={setShowRewardsDrawer}
               startPosition={activityRef.current.getBoundingClientRect().bottom}
               passHolderId={passHoldersData.data.member[0].id}
               passHolderName={
@@ -293,7 +348,7 @@ export const MobileSavingPage = () => {
                   : undefined
               }
               passHolderPoints={passHoldersData.data.member[0].points}
-              benefitExchangeMutation={() => null}
+              rewardRedemptionMutation={handleRewardRedemption}
             />
           )}
       </MobileContentStack>

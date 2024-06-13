@@ -3,23 +3,31 @@ import { RewardType } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
 import { Box, BoxProps, Typography, useTheme } from "@mui/material";
 
-type BenefitCardProps = BoxProps & {
-  benefitTitle: string;
-  pointsCost?: number;
-  benefitType: RewardType;
+type rewardCardProps = BoxProps & {
+  rewardId: string;
+  rewardTitle: string;
+  rewardCost?: number;
+  rewardType: RewardType;
   online?: boolean;
+  rewardExchangeMutation: (rewardId: string) => void;
 };
 
-export const BenefitCard = ({
-  benefitTitle,
-  pointsCost,
-  benefitType,
+export const RewardCard = ({
+  rewardId,
+  rewardTitle,
+  rewardCost,
+  rewardType,
   online,
+  rewardExchangeMutation,
   ...props
-}: BenefitCardProps) => {
+}: rewardCardProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { sx, ...restProps } = props;
+
+  const handleRedemptionClick = () => {
+    rewardExchangeMutation(rewardId);
+  };
 
   return (
     <Box
@@ -35,7 +43,7 @@ export const BenefitCard = ({
       {...restProps}
     >
       <Typography variant="h6" sx={{ fontSize: 16, lineHeight: 1.1 }}>
-        {benefitTitle}
+        {rewardTitle}
       </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", columnGap: "6px" }}>
@@ -43,7 +51,7 @@ export const BenefitCard = ({
           variant="h6"
           sx={{ color: theme.palette.brand.blue, fontSize: 16 }}
         >
-          {t("saving.mobile.benefit.card.for")}
+          {t("saving.mobile.reward.card.for")}
         </Typography>
         <Typography
           variant="h6"
@@ -53,11 +61,11 @@ export const BenefitCard = ({
             fontWeight: 600,
           }}
         >
-          {t("saving.mobile.benefit.card.pointsCost", {
-            price: pointsCost ?? 0,
+          {t("saving.mobile.reward.card.cost", {
+            price: rewardCost ?? 0,
           })}
         </Typography>
-        {benefitType === RewardType.WELCOME && (
+        {rewardType === RewardType.WELCOME && (
           <Box
             sx={{
               backgroundColor: theme.palette.brand.purple,
@@ -67,14 +75,14 @@ export const BenefitCard = ({
             }}
           >
             <Typography sx={{ fontWeight: 500, fontSize: 10 }}>
-              {t("saving.mobile.benefit.card.welcomeChip")}
+              {t("saving.mobile.reward.card.welcomeChip")}
             </Typography>
           </Box>
         )}
       </Box>
 
       <Button
-        onClick={() => null}
+        onClick={handleRedemptionClick}
         sx={{
           backgroundColor: theme.palette.brand.blue,
           borderRadius: "6px",
@@ -83,12 +91,12 @@ export const BenefitCard = ({
           mt: "auto",
         }}
       >
-        {t("saving.mobile.benefit.card.exchange", { points: pointsCost ?? 0 })}
+        {t("saving.mobile.reward.card.exchange", { points: rewardCost ?? 0 })}
       </Button>
 
       {online && (
         <Typography variant="body2" sx={{ fontSize: 11, fontWeight: 600 }}>
-          {t("saving.mobile.benefit.card.online")}
+          {t("saving.mobile.reward.card.online")}
         </Typography>
       )}
     </Box>

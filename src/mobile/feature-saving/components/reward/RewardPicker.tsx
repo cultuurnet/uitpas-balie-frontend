@@ -8,10 +8,10 @@ import {
   useState,
   useEffect,
 } from "react";
-import { BenefitCard } from "@/mobile/feature-saving";
+import { RewardCard } from "@/mobile/feature-saving";
 import { ScrollableContainer } from "@/mobile/lib/ui";
 
-type BenefitsPickerProps = {
+type RewardPickerProps = {
   isInitialLoading: boolean;
   data: Omit<RewardsPaginatedResponse, "member"> & {
     member: Set<Reward & { isNew: boolean }>;
@@ -19,20 +19,25 @@ type BenefitsPickerProps = {
   fetchLimit: number;
   totalFetchedItems: number;
   setOffset: Dispatch<SetStateAction<number>>;
+  scrollPosition: number;
+  setScrollPosition: Dispatch<SetStateAction<number>>;
   isFetching: boolean;
+  rewardRedemptionMutation: (rewardId: string) => void;
 };
 
-export const BenefitsPicker = ({
+export const RewardPicker = ({
   isInitialLoading,
   data,
   fetchLimit,
   totalFetchedItems,
   setOffset,
+  scrollPosition,
+  setScrollPosition,
   isFetching,
-}: BenefitsPickerProps) => {
+  rewardRedemptionMutation,
+}: RewardPickerProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hasMoreItems, setHasMoreItems] = useState<boolean>(false);
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   useEffect(() => {
     if (scrollRef.current && data.member.size > fetchLimit) {
@@ -78,8 +83,6 @@ export const BenefitsPicker = ({
     return <CircularProgress sx={{ m: "auto auto" }} />;
   }
 
-  const handleExchangeClick = () => {};
-
   if (data.totalItems && data.totalItems > 0) {
     return (
       <ScrollableContainer
@@ -89,32 +92,37 @@ export const BenefitsPicker = ({
           mb: 1,
         }}
       >
-        {Array.from(data.member).map((reward) => (
-          <BenefitCard
-            key={reward.id}
-            benefitTitle={reward.title}
-            pointsCost={reward.points}
-            benefitType={reward.type}
-            online={reward.online}
-            sx={{
-              ...(reward.isNew && {
-                opacity: 0,
-                transform: "translateY(20px)",
-                animation: "fade-in 0.3s ease-out forwards",
-                "@keyframes fade-in": {
-                  "0%": {
+        {Array.from(data.member).map(
+          (reward) =>
+            reward.id && (
+              <RewardCard
+                key={reward.id}
+                rewardId={reward.id}
+                rewardTitle={reward.title}
+                rewardCost={reward.points}
+                rewardType={reward.type}
+                online={reward.online}
+                rewardExchangeMutation={rewardRedemptionMutation}
+                sx={{
+                  ...(reward.isNew && {
                     opacity: 0,
                     transform: "translateY(20px)",
-                  },
-                  "100%": {
-                    opacity: 1,
-                    transform: "translateY(0)",
-                  },
-                },
-              }),
-            }}
-          />
-        ))}
+                    animation: "fade-in 0.3s ease-out forwards",
+                    "@keyframes fade-in": {
+                      "0%": {
+                        opacity: 0,
+                        transform: "translateY(20px)",
+                      },
+                      "100%": {
+                        opacity: 1,
+                        transform: "translateY(0)",
+                      },
+                    },
+                  }),
+                }}
+              />
+            )
+        )}
 
         {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={20} />}
       </ScrollableContainer>

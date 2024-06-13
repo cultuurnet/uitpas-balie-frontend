@@ -12,39 +12,48 @@ import {
   Stack,
   SwipeableDrawer,
   Typography,
+  debounce,
   useTheme,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { BenefitsPicker } from "./BenefitsPicker";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { RewardPicker } from "./RewardPicker";
 
-type BenefitsDrawerProps = {
+type RewardsDrawerProps = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   passHolderId?: string;
   passHolderName?: string;
   passHolderPoints: number;
   startPosition?: number;
-  benefitExchangeMutation?: () => void;
+  rewardRedemptionMutation: (rewardId: string) => void;
 };
 
 type ExtendedReward = Reward & { isNew: boolean };
 
-export const BenefitsDrawer = ({
+export const RewardsDrawer = ({
   isOpen,
   setIsOpen,
   passHolderId,
   passHolderName,
   passHolderPoints,
   startPosition,
-  benefitExchangeMutation,
-}: BenefitsDrawerProps) => {
+  rewardRedemptionMutation,
+}: RewardsDrawerProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
+  const [maxItems, setMaxItems] = useState<number | undefined>(undefined);
   const FETCH_LIMIT = 10;
   const INITIAL_DATA = {
     facet: undefined,
@@ -63,13 +72,21 @@ export const BenefitsDrawer = ({
     data: fetchedData,
     isSuccess,
     isFetching,
+    refetch,
   } = useGetRewards({
     ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
     ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
+    ...(searchQuery && { text: searchQuery }),
     type: "ANY",
     limit: FETCH_LIMIT,
     start: offset,
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -100,16 +117,33 @@ export const BenefitsDrawer = ({
         };
       });
 
+      if (!maxItems && !!searchQuery === false) {
+        setMaxItems(fetchedData.data.totalItems);
+      }
+
       setIsInitialLoading(false);
 
       if (showSearchInput === null && fetchedData.data.totalItems) {
-        setShowSearchInput(fetchedData.data.totalItems > 5 || !!searchQuery);
+        setShowSearchInput(fetchedData.data.totalItems >= 5 || !!searchQuery);
       }
     }
   }, [fetchedData?.data]);
 
   const handleClose = () => {
     setIsOpen(false);
+  };
+
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setScrollPosition(0);
+    setOffset(0);
+    setIsInitialLoading(true);
+    setData(INITIAL_DATA);
+  };
+
+  const handleRewardRedemption = (rewardId: string) => {
+    rewardRedemptionMutation(rewardId);
+    handleClose();
   };
 
   return (
@@ -142,8 +176,8 @@ export const BenefitsDrawer = ({
           sx={{ color: theme.palette.neutral[900], fontSize: "16px" }}
         >
           {passHolderName
-            ? t("saving.mobile.benefit.drawer.title", { name: passHolderName })
-            : t("saving.mobile.benefit.drawer.titleNoName")}
+            ? t("saving.mobile.reward.drawer.title", { name: passHolderName })
+            : t("saving.mobile.reward.drawer.titleNoName")}
         </Typography>
         <IconButton
           disableRipple
@@ -158,12 +192,12 @@ export const BenefitsDrawer = ({
         variant="body2"
         sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: "-8px" }}
       >
-        {data.totalItems === 0
-          ? t("saving.mobile.benefit.drawer.subtitleNoBenefits", {
+        {!isFetching && maxItems === 0
+          ? t("saving.mobile.reward.drawer.subtitleNoRewards", {
               name: passHolderName,
               points: passHolderPoints,
             })
-          : t("saving.mobile.benefit.drawer.subtitle", {
+          : t("saving.mobile.reward.drawer.subtitle", {
               name: passHolderName,
               points: passHolderPoints,
             })}
@@ -180,17 +214,21 @@ export const BenefitsDrawer = ({
               },
             },
           }}
-          placeholder={t("saving.mobile.benefit.drawer.searchPlaceholder")}
+          placeholder={t("saving.mobile.reward.drawer.searchPlaceholder")}
+          onChange={debounce(handleSearchInputChange, 500)}
         />
       )}
 
-      <BenefitsPicker
+      <RewardPicker
         data={data}
         isInitialLoading={isInitialLoading}
         fetchLimit={FETCH_LIMIT}
         totalFetchedItems={fetchedData?.data.totalItems ?? 0}
         setOffset={setOffset}
+        scrollPosition={scrollPosition}
+        setScrollPosition={setScrollPosition}
         isFetching={isFetching}
+        rewardRedemptionMutation={handleRewardRedemption}
       />
 
       <OutlinedButton
@@ -202,7 +240,7 @@ export const BenefitsDrawer = ({
         }}
         onClick={handleClose}
       >
-        {t("saving.mobile.benefit.drawer.close")}
+        {t("saving.mobile.reward.drawer.close")}
       </OutlinedButton>
     </SwipeableDrawer>
   );
