@@ -73,15 +73,21 @@ export const RewardsDrawer = ({
     isSuccess,
     isFetching,
     refetch,
-    // @ts-expect-error - we should be able to pass a string instead of an array
-  } = useGetRewards({
-    ...(activeCounter?.id && { organizerId: activeCounter?.id }),
-    ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
-    ...(searchQuery && { text: searchQuery }),
-    type: "ANY",
-    limit: FETCH_LIMIT,
-    start: offset,
-  });
+  } = useGetRewards(
+    {
+      ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
+      ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
+      ...(searchQuery && { text: searchQuery }),
+      type: "ANY",
+      limit: FETCH_LIMIT,
+      start: offset,
+    },
+    {
+      axios: {
+        paramsSerializer: { indexes: null },
+      },
+    }
+  );
 
   useEffect(() => {
     if (isOpen) {
