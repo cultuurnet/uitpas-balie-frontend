@@ -5,6 +5,7 @@ import {
   type TicketSale,
   useGetPassholders,
   usePostTicketSales,
+  usePostRewardsRedeemed,
 } from "@/shared/lib/dataAccess";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
@@ -19,10 +20,11 @@ import {
   ScanFailed,
   OpportunityState,
   TariffDrawer,
+  RewardsDrawer,
 } from "@/mobile/feature-saving";
 import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import React, { ElementRef, useEffect, useRef, useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
@@ -37,12 +39,20 @@ export const MobileSavingPage = () => {
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
   const { selectedActivity } = useActivity();
-  const [showTariffModal, setShowTariffModal] = useState<boolean>(false);
-  const activityRef = useRef<ElementRef<typeof Typography>>(null);
+  const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
+  const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
+  const activityRef = useRef<ElementRef<"div">>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
     Boolean(params.get("firstCardEntry")) ?? false
   );
+  const [alertData, setAlertData] = useState<
+    | {
+        alertType: "error" | "success";
+        message?: string;
+      }
+    | undefined
+  >(undefined);
 
   const {
     data: passHoldersData,
@@ -55,42 +65,90 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const {
-    mutateAsync: postCheckin,
-    isLoading: isCheckinLoading,
-    isError: isCheckinError,
-    error: checkinError,
-  } = usePostCheckins({
-    mutation: {
-      onSuccess: () => refetchPassholders().catch(() => null),
-    },
-  });
-
-  const {
-    mutate: postTicketSale,
-    data: ticketSaleData,
-    isLoading: isTicketSaleLoading,
-    isError: isTicketSaleError,
-    error: ticketSaleError,
-  } = usePostTicketSales({
-    mutation: {
-      onSuccess: () => {
-        setFirstCardEntry(false);
-        refetchPassholders().catch(() => null);
+  const { mutateAsync: postCheckin, isLoading: isCheckinLoading } =
+    usePostCheckins({
+      mutation: {
+        onSuccess: () => {
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.pointSaved"),
+          });
+          refetchPassholders().catch(() => null);
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
       },
-    },
-  });
+    });
+
+  const { mutate: postTicketSale, isLoading: isTicketSaleLoading } =
+    usePostTicketSales({
+      mutation: {
+        onSuccess: (data) => {
+          setFirstCardEntry(false);
+          refetchPassholders().catch(() => null);
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.tariff.discountRegistered", {
+              price: data.data.at(0)?.tariff.price,
+            }),
+          });
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
+      },
+    });
+
+  const { mutate: postRewardsRedeemed, isLoading: isRewardsRedeemedLoading } =
+    usePostRewardsRedeemed({
+      mutation: {
+        onSuccess: () => {
+          setFirstCardEntry(false);
+          setAlertData({
+            alertType: "success",
+            message: t("saving.mobile.reward.redeemed"),
+          });
+          refetchPassholders().catch(() => null);
+        },
+        onError: (error) =>
+          setAlertData({
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          }),
+      },
+    });
 
   const handleNextScanClick = () => {
     router.push("/mobile/identification/scan");
   };
 
   const handleChooseTariffClick = () => {
-    setShowTariffModal(true);
+    setShowTariffDrawer(true);
+  };
+
+  const handleChooseBenefitClick = () => {
+    setShowRewardsDrawer(true);
   };
 
   const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
     if (!passHoldersData?.data?.member || !selectedActivity) return;
+
+    const uitpasNumber =
+      passHoldersData.data.member[0].uitpasNumber ??
+      passHoldersData.data.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
+
+    if (!uitpasNumber) return;
 
     postTicketSale({
       data: Array.of({
@@ -99,11 +157,27 @@ export const MobileSavingPage = () => {
           id: tariffId,
         },
         regularPrice,
-        uitpasNumber: passHoldersData?.data?.member
-          ?.at(0)
-          ?.cardSystemMemberships?.at(0)?.uitpasNumber,
+        uitpasNumber,
       }) as TicketSale[],
     });
+  };
+
+  const handleRewardRedemption = (rewardId: string) => {
+    if (passHoldersData?.data.member) {
+      const uitpasNumber =
+        passHoldersData.data.member[0].uitpasNumber ??
+        passHoldersData.data.member[0].cardSystemMemberships?.at(0)
+          ?.uitpasNumber;
+
+      if (!uitpasNumber) return;
+
+      postRewardsRedeemed({
+        data: {
+          uitpasNumber,
+          rewardId,
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -134,7 +208,12 @@ export const MobileSavingPage = () => {
     selectedActivity,
   ]);
 
-  if (isPassholdersLoading || isCheckinLoading || isTicketSaleLoading)
+  if (
+    isPassholdersLoading ||
+    isCheckinLoading ||
+    isTicketSaleLoading ||
+    isRewardsRedeemedLoading
+  )
     return (
       <MobileNavBar>
         <UitpasLoading />
@@ -156,7 +235,7 @@ export const MobileSavingPage = () => {
         <Typography variant="h1">
           {t("saving.mobile.chosenActivity")}
         </Typography>
-        <ActivitySwitcher />
+        <ActivitySwitcher ref={activityRef} />
 
         {passHoldersData?.data.member?.[0] && (
           <Stack sx={{ rowGap: "10px" }}>
@@ -197,33 +276,11 @@ export const MobileSavingPage = () => {
               </Typography>
               <OpportunityState passholder={passHoldersData.data.member[0]} />
             </Stack>
-            {selectedActivity && (
-              <>
-                {(isTicketSaleError || ticketSaleData) && (
-                  <Alert
-                    type={isTicketSaleError ? "error" : "success"}
-                    newAlert={!firstCardEntry}
-                  >
-                    {isTicketSaleError
-                      ? ticketSaleError?.response?.data.endUserMessage?.[
-                          LANG_KEY
-                        ]
-                      : t("saving.mobile.tariff.discountRegistered", {
-                          price: ticketSaleData?.data?.[0]?.tariff.price,
-                        })}
-                  </Alert>
-                )}
-                {!(isTicketSaleError || ticketSaleData) && (
-                  <Alert
-                    type={isCheckinError ? "error" : "success"}
-                    newAlert={!firstCardEntry}
-                  >
-                    {isCheckinError
-                      ? checkinError?.response?.data.endUserMessage?.[LANG_KEY]
-                      : t("saving.mobile.pointSaved")}
-                  </Alert>
-                )}
-              </>
+
+            {alertData && (
+              <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
+                {alertData.message}
+              </Alert>
             )}
           </Stack>
         )}
@@ -234,7 +291,7 @@ export const MobileSavingPage = () => {
               {t("saving.mobile.chooseTariffBtn")}
             </OutlinedButton>
           )}
-          <OutlinedButton onClick={() => console.log("TODO")}>
+          <OutlinedButton onClick={handleChooseBenefitClick}>
             {t("saving.mobile.tradeBenefitBtn")}
           </OutlinedButton>
         </Stack>
@@ -261,19 +318,37 @@ export const MobileSavingPage = () => {
           activityRef.current && (
             <TariffDrawer
               eventId={selectedActivity["@id"]}
-              name={
+              passHolderName={
                 passHoldersData.data.member
                   ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
                   : undefined
               }
-              isOpen={showTariffModal}
-              setIsOpen={setShowTariffModal}
+              isOpen={showTariffDrawer}
+              setIsOpen={setShowTariffDrawer}
               startPosition={activityRef.current.getBoundingClientRect().bottom}
               uitpasNumber={
                 passHoldersData.data.member?.at(0)?.cardSystemMemberships?.at(0)
                   ?.uitpasNumber!
               }
               ticketSaleMutation={handleTicketSaleMutation}
+            />
+          )}
+
+        {activityRef.current &&
+          passHoldersData?.data?.member &&
+          passHoldersData.data.member[0].points && (
+            <RewardsDrawer
+              isOpen={showRewardsDrawer}
+              setIsOpen={setShowRewardsDrawer}
+              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              passHolderId={passHoldersData.data.member[0].id}
+              passHolderName={
+                passHoldersData.data.member
+                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                  : undefined
+              }
+              passHolderPoints={passHoldersData.data.member[0].points}
+              rewardRedemptionMutation={handleRewardRedemption}
             />
           )}
       </MobileContentStack>

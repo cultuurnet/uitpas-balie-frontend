@@ -5,23 +5,32 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
   UseMutationOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import axios from "axios";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   Error,
   EventCardSystem,
   ForbiddenResponse,
-  UnauthorizedResponse,
-} from "../model";
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * Update the `EventCardSystem` objects of the given event.
@@ -48,76 +57,55 @@ The caller of this request must have `EVENTS_UPDATE` permission for the organize
  * @summary Update event card systems
  */
 export const putEventsCardSystems = (
-  eventId: string,
-  eventCardSystem: EventCardSystem[],
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`,
-    eventCardSystem,
-    options
-  );
-};
+    eventId: string,
+    eventCardSystem: EventCardSystem[], options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`,
+      eventCardSystem,options
+    );
+  }
 
-export const getPutEventsCardSystemsMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof putEventsCardSystems>>,
-    TError,
-    { eventId: string; data: EventCardSystem[] },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof putEventsCardSystems>>,
-  TError,
-  { eventId: string; data: EventCardSystem[] },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof putEventsCardSystems>>,
-    { eventId: string; data: EventCardSystem[] }
-  > = (props) => {
-    const { eventId, data } = props ?? {};
 
-    return putEventsCardSystems(eventId, data, axiosOptions);
-  };
+export const getPutEventsCardSystemsMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putEventsCardSystems>>, TError,{eventId: string;data: EventCardSystem[]}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof putEventsCardSystems>>, TError,{eventId: string;data: EventCardSystem[]}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PutEventsCardSystemsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof putEventsCardSystems>>
->;
-export type PutEventsCardSystemsMutationBody = EventCardSystem[];
-export type PutEventsCardSystemsMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putEventsCardSystems>>, {eventId: string;data: EventCardSystem[]}> = (props) => {
+          const {eventId,data} = props ?? {};
+
+          return  putEventsCardSystems(eventId,data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type PutEventsCardSystemsMutationResult = NonNullable<Awaited<ReturnType<typeof putEventsCardSystems>>>
+    export type PutEventsCardSystemsMutationBody = EventCardSystem[]
+    export type PutEventsCardSystemsMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary Update event card systems
  */
-export const usePutEventsCardSystems = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof putEventsCardSystems>>,
-    TError,
-    { eventId: string; data: EventCardSystem[] },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const mutationOptions = getPutEventsCardSystemsMutationOptions(options);
+export const usePutEventsCardSystems = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putEventsCardSystems>>, TError,{eventId: string;data: EventCardSystem[]}, TContext>, axios?: AxiosRequestConfig}
+) => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPutEventsCardSystemsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Get all (enabled and disabled) `EventCardSystem` objects of the given event.
 
 The `EventCardSystem` object specifies that the event is available in
@@ -134,86 +122,56 @@ The caller of this request must have `EVENTS_READ` permission for the organizer 
  * @summary Get event card systems
  */
 export const getEventsCardSystems = (
-  eventId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<EventCardSystem[]>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`,
-    options
-  );
-};
-
-export const getGetEventsCardSystemsQueryKey = (eventId: string) => {
-  return [`NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`] as const;
-};
-
-export const getGetEventsCardSystemsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getEventsCardSystems>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  eventId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getEventsCardSystems>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
+    eventId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<EventCardSystem[]>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`,options
+    );
   }
+
+
+export const getGetEventsCardSystemsQueryKey = (eventId: string,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`] as const;
+    }
+
+    
+export const getGetEventsCardSystemsQueryOptions = <TData = Awaited<ReturnType<typeof getEventsCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(eventId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetEventsCardSystemsQueryKey(eventId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getEventsCardSystems>>
-  > = ({ signal }) =>
-    getEventsCardSystems(eventId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetEventsCardSystemsQueryKey(eventId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!eventId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getEventsCardSystems>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetEventsCardSystemsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getEventsCardSystems>>
->;
-export type GetEventsCardSystemsQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEventsCardSystems>>> = ({ signal }) => getEventsCardSystems(eventId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetEventsCardSystemsQueryResult = NonNullable<Awaited<ReturnType<typeof getEventsCardSystems>>>
+export type GetEventsCardSystemsQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Get event card systems
  */
-export const useGetEventsCardSystems = <
-  TData = Awaited<ReturnType<typeof getEventsCardSystems>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  eventId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getEventsCardSystems>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetEventsCardSystemsQueryOptions(eventId, options);
+export const useGetEventsCardSystems = <TData = Awaited<ReturnType<typeof getEventsCardSystems>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ eventId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getEventsCardSystems>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetEventsCardSystemsQueryOptions(eventId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+

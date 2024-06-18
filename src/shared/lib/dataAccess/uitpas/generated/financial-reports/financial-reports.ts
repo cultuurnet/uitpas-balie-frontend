@@ -5,25 +5,34 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
   UseMutationOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import axios from "axios";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   Error,
   ForbiddenResponse,
   GetOrganizersFinancialReportsReportIdDownloadLink200,
   Report,
   ReportPeriod,
-  UnauthorizedResponse,
-} from "../model";
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * Retrieve suggested report periods for an organizer.
@@ -33,100 +42,58 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Get suggested financial report periods
  */
 export const getOrganizersFinancialReportsPeriods = (
-  organizerId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<ReportPeriod[]>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/periods`,
-    options
-  );
-};
-
-export const getGetOrganizersFinancialReportsPeriodsQueryKey = (
-  organizerId: string
-) => {
-  return [
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/periods`,
-  ] as const;
-};
-
-export const getGetOrganizersFinancialReportsPeriodsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
+    organizerId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<ReportPeriod[]>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/periods`,options
+    );
   }
+
+
+export const getGetOrganizersFinancialReportsPeriodsQueryKey = (organizerId: string,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/periods`] as const;
+    }
+
+    
+export const getGetOrganizersFinancialReportsPeriodsQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetOrganizersFinancialReportsPeriodsQueryKey(organizerId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>
-  > = ({ signal }) =>
-    getOrganizersFinancialReportsPeriods(organizerId, {
-      signal,
-      ...axiosOptions,
-    });
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsPeriodsQueryKey(organizerId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!organizerId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetOrganizersFinancialReportsPeriodsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>
->;
-export type GetOrganizersFinancialReportsPeriodsQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>> = ({ signal }) => getOrganizersFinancialReportsPeriods(organizerId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(organizerId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizersFinancialReportsPeriodsQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>>
+export type GetOrganizersFinancialReportsPeriodsQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Get suggested financial report periods
  */
-export const useGetOrganizersFinancialReportsPeriods = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetOrganizersFinancialReportsPeriodsQueryOptions(
-    organizerId,
-    options
-  );
+export const useGetOrganizersFinancialReportsPeriods = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ organizerId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOrganizersFinancialReportsPeriodsQueryOptions(organizerId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
 /**
  * Starts a financial report export. The result of this request is a `reportId` that can be used to request the status of the report export and the download.
@@ -136,77 +103,55 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Start an export of a financial report
  */
 export const postOrganizersFinancialReports = (
-  organizerId: string,
-  reportPeriod: ReportPeriod,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Report>> => {
-  return axios.post(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`,
-    reportPeriod,
-    options
-  );
-};
+    organizerId: string,
+    reportPeriod: ReportPeriod, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Report>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`,
+      reportPeriod,options
+    );
+  }
 
-export const getPostOrganizersFinancialReportsMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postOrganizersFinancialReports>>,
-    TError,
-    { organizerId: string; data: ReportPeriod },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postOrganizersFinancialReports>>,
-  TError,
-  { organizerId: string; data: ReportPeriod },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postOrganizersFinancialReports>>,
-    { organizerId: string; data: ReportPeriod }
-  > = (props) => {
-    const { organizerId, data } = props ?? {};
 
-    return postOrganizersFinancialReports(organizerId, data, axiosOptions);
-  };
+export const getPostOrganizersFinancialReportsMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postOrganizersFinancialReports>>, TError,{organizerId: string;data: ReportPeriod}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof postOrganizersFinancialReports>>, TError,{organizerId: string;data: ReportPeriod}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PostOrganizersFinancialReportsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postOrganizersFinancialReports>>
->;
-export type PostOrganizersFinancialReportsMutationBody = ReportPeriod;
-export type PostOrganizersFinancialReportsMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postOrganizersFinancialReports>>, {organizerId: string;data: ReportPeriod}> = (props) => {
+          const {organizerId,data} = props ?? {};
+
+          return  postOrganizersFinancialReports(organizerId,data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type PostOrganizersFinancialReportsMutationResult = NonNullable<Awaited<ReturnType<typeof postOrganizersFinancialReports>>>
+    export type PostOrganizersFinancialReportsMutationBody = ReportPeriod
+    export type PostOrganizersFinancialReportsMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary Start an export of a financial report
  */
-export const usePostOrganizersFinancialReports = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postOrganizersFinancialReports>>,
-    TError,
-    { organizerId: string; data: ReportPeriod },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const mutationOptions =
-    getPostOrganizersFinancialReportsMutationOptions(options);
+export const usePostOrganizersFinancialReports = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postOrganizersFinancialReports>>, TError,{organizerId: string;data: ReportPeriod}, TContext>, axios?: AxiosRequestConfig}
+) => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPostOrganizersFinancialReportsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Get previously exported financial reports. 
 
 > Note: Reports will only be available for a limited amount of time. When they become unavailable, a new export can be requested using `POST /organizers/{organizerId}/financial-reports`  
@@ -217,97 +162,58 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Get financial report exports
  */
 export const getOrganizersFinancialReports = (
-  organizerId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Report[]>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`,
-    options
-  );
-};
-
-export const getGetOrganizersFinancialReportsQueryKey = (
-  organizerId: string
-) => {
-  return [
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`,
-  ] as const;
-};
-
-export const getGetOrganizersFinancialReportsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReports>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReports>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
+    organizerId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Report[]>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`,options
+    );
   }
+
+
+export const getGetOrganizersFinancialReportsQueryKey = (organizerId: string,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports`] as const;
+    }
+
+    
+export const getGetOrganizersFinancialReportsQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetOrganizersFinancialReportsQueryKey(organizerId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getOrganizersFinancialReports>>
-  > = ({ signal }) =>
-    getOrganizersFinancialReports(organizerId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsQueryKey(organizerId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!organizerId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getOrganizersFinancialReports>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetOrganizersFinancialReportsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getOrganizersFinancialReports>>
->;
-export type GetOrganizersFinancialReportsQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReports>>> = ({ signal }) => getOrganizersFinancialReports(organizerId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(organizerId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizersFinancialReportsQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReports>>>
+export type GetOrganizersFinancialReportsQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Get financial report exports
  */
-export const useGetOrganizersFinancialReports = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReports>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReports>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetOrganizersFinancialReportsQueryOptions(
-    organizerId,
-    options
-  );
+export const useGetOrganizersFinancialReports = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ organizerId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOrganizersFinancialReportsQueryOptions(organizerId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
 /**
  * Retrieve the status of a previously started report export.
@@ -317,105 +223,62 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Get financial report status
  */
 export const getOrganizersFinancialReportsReportId = (
-  organizerId: string,
-  reportId: number,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Report>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}`,
-    options
-  );
-};
-
-export const getGetOrganizersFinancialReportsReportIdQueryKey = (
-  organizerId: string,
-  reportId: number
-) => {
-  return [
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}`,
-  ] as const;
-};
-
-export const getGetOrganizersFinancialReportsReportIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  reportId: number,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
+    organizerId: string,
+    reportId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Report>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}`,options
+    );
   }
+
+
+export const getGetOrganizersFinancialReportsReportIdQueryKey = (organizerId: string,
+    reportId: number,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}`] as const;
+    }
+
+    
+export const getGetOrganizersFinancialReportsReportIdQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetOrganizersFinancialReportsReportIdQueryKey(organizerId, reportId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>
-  > = ({ signal }) =>
-    getOrganizersFinancialReportsReportId(organizerId, reportId, {
-      signal,
-      ...axiosOptions,
-    });
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdQueryKey(organizerId,reportId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!(organizerId && reportId),
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetOrganizersFinancialReportsReportIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>
->;
-export type GetOrganizersFinancialReportsReportIdQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>> = ({ signal }) => getOrganizersFinancialReportsReportId(organizerId,reportId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizersFinancialReportsReportIdQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>>
+export type GetOrganizersFinancialReportsReportIdQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Get financial report status
  */
-export const useGetOrganizersFinancialReportsReportId = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  reportId: number,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetOrganizersFinancialReportsReportIdQueryOptions(
-    organizerId,
-    reportId,
-    options
-  );
+export const useGetOrganizersFinancialReportsReportId = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOrganizersFinancialReportsReportIdQueryOptions(organizerId,reportId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
 /**
  * Retrieve a temporary download link of an `available` report.
@@ -427,126 +290,62 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Get financial report temporary download link
  */
 export const getOrganizersFinancialReportsReportIdDownloadLink = (
-  organizerId: string,
-  reportId: number,
-  options?: AxiosRequestConfig
-): Promise<
-  AxiosResponse<GetOrganizersFinancialReportsReportIdDownloadLink200>
-> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}/download-link`,
-    options
-  );
-};
-
-export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey = (
-  organizerId: string,
-  reportId: number
-) => {
-  return [
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}/download-link`,
-  ] as const;
-};
-
-export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryOptions =
-  <
-    TData = Awaited<
-      ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-    >,
-    TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-  >(
     organizerId: string,
-    reportId: number,
-    options?: {
-      query?: UseQueryOptions<
-        Awaited<
-          ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-        >,
-        TError,
-        TData
-      >;
-      axios?: AxiosRequestConfig;
+    reportId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetOrganizersFinancialReportsReportIdDownloadLink200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}/download-link`,options
+    );
+  }
+
+
+export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey = (organizerId: string,
+    reportId: number,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}/download-link`] as const;
     }
-  ) => {
-    const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-    const queryKey =
-      queryOptions?.queryKey ??
-      getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey(
-        organizerId,
-        reportId
-      );
+    
+export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
 
-    const queryFn: QueryFunction<
-      Awaited<
-        ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-      >
-    > = ({ signal }) =>
-      getOrganizersFinancialReportsReportIdDownloadLink(organizerId, reportId, {
-        signal,
-        ...axiosOptions,
-      });
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-    return {
-      queryKey,
-      queryFn,
-      enabled: !!(organizerId && reportId),
-      ...queryOptions,
-    } as UseQueryOptions<
-      Awaited<
-        ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-      >,
-      TError,
-      TData
-    > & { queryKey: QueryKey };
-  };
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey(organizerId,reportId);
 
-export type GetOrganizersFinancialReportsReportIdDownloadLinkQueryResult =
-  NonNullable<
-    Awaited<
-      ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-    >
-  >;
-export type GetOrganizersFinancialReportsReportIdDownloadLinkQueryError =
-  AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>;
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>> = ({ signal }) => getOrganizersFinancialReportsReportIdDownloadLink(organizerId,reportId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizersFinancialReportsReportIdDownloadLinkQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>>
+export type GetOrganizersFinancialReportsReportIdDownloadLinkQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Get financial report temporary download link
  */
-export const useGetOrganizersFinancialReportsReportIdDownloadLink = <
-  TData = Awaited<
-    ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-  >,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  reportId: number,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<
-        ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>
-      >,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions =
-    getGetOrganizersFinancialReportsReportIdDownloadLinkQueryOptions(
-      organizerId,
-      reportId,
-      options
-    );
+export const useGetOrganizersFinancialReportsReportIdDownloadLink = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOrganizersFinancialReportsReportIdDownloadLinkQueryOptions(organizerId,reportId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
 /**
  * Retrieve the actual report zip file of an `available` report.
@@ -558,105 +357,62 @@ The caller of this request must have `ORGANIZERS_REPORTS` permission for the giv
  * @summary Download financial report
  */
 export const getOrganizersFinancialReportsReportIdZip = (
-  organizerId: string,
-  reportId: number,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Blob>> => {
-  return axios.get(
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}.zip`,
-    {
-      responseType: "blob",
-      ...options,
-    }
-  );
-};
-
-export const getGetOrganizersFinancialReportsReportIdZipQueryKey = (
-  organizerId: string,
-  reportId: number
-) => {
-  return [
-    `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}.zip`,
-  ] as const;
-};
-
-export const getGetOrganizersFinancialReportsReportIdZipQueryOptions = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  reportId: number,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
+    organizerId: string,
+    reportId: number, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Blob>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}.zip`,{
+        responseType: 'blob',
+    ...options,}
+    );
   }
+
+
+export const getGetOrganizersFinancialReportsReportIdZipQueryKey = (organizerId: string,
+    reportId: number,) => {
+    
+    return [`NEXT_PUBLIC_API_PATH/organizers/${organizerId}/financial-reports/${reportId}.zip`] as const;
+    }
+
+    
+export const getGetOrganizersFinancialReportsReportIdZipQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetOrganizersFinancialReportsReportIdZipQueryKey(organizerId, reportId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>
-  > = ({ signal }) =>
-    getOrganizersFinancialReportsReportIdZip(organizerId, reportId, {
-      signal,
-      ...axiosOptions,
-    });
+  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdZipQueryKey(organizerId,reportId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!(organizerId && reportId),
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetOrganizersFinancialReportsReportIdZipQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>
->;
-export type GetOrganizersFinancialReportsReportIdZipQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | Error
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>> = ({ signal }) => getOrganizersFinancialReportsReportIdZip(organizerId,reportId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOrganizersFinancialReportsReportIdZipQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>>
+export type GetOrganizersFinancialReportsReportIdZipQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
  * @summary Download financial report
  */
-export const useGetOrganizersFinancialReportsReportIdZip = <
-  TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>,
-  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
->(
-  organizerId: string,
-  reportId: number,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>,
-      TError,
-      TData
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetOrganizersFinancialReportsReportIdZipQueryOptions(
-    organizerId,
-    reportId,
-    options
-  );
+export const useGetOrganizersFinancialReportsReportIdZip = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ organizerId: string,
+    reportId: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOrganizersFinancialReportsReportIdZipQueryOptions(organizerId,reportId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
