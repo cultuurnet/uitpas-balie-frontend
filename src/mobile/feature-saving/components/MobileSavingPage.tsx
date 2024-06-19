@@ -65,27 +65,27 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const { mutateAsync: postCheckin, isLoading: isCheckinLoading } =
-    usePostCheckins({
-      mutation: {
-        onSuccess: () => {
-          setAlertData({
-            alertType: "success",
-            message: t("saving.mobile.pointSaved"),
-          });
-          refetchPassholders().catch(() => null);
-        },
-        onError: (error) =>
-          setAlertData({
-            alertType: "error",
-            message:
-              error.response?.data.endUserMessage &&
-              error.response.data.endUserMessage[LANG_KEY],
-          }),
+  const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
+    mutation: {
+      onSuccess: () => {
+        setAlertData({
+          alertType: "success",
+          message: t("saving.mobile.pointSaved"),
+        });
+        refetchPassholders().catch(() => null);
       },
-    });
+      onError: (error) =>
+        setAlertData({
+          alertType: "error",
+          message:
+            error.response?.data.endUserMessage &&
+            error.response.data.endUserMessage[LANG_KEY],
+        }),
+    },
+  });
+  const isCheckinLoading = checkinStatus === "pending";
 
-  const { mutate: postTicketSale, isLoading: isTicketSaleLoading } =
+  const { mutate: postTicketSale, status: ticketSaleStatus } =
     usePostTicketSales({
       mutation: {
         onSuccess: (data) => {
@@ -107,8 +107,9 @@ export const MobileSavingPage = () => {
           }),
       },
     });
+  const isTicketSaleLoading = ticketSaleStatus === "pending";
 
-  const { mutate: postRewardsRedeemed, isLoading: isRewardsRedeemedLoading } =
+  const { mutate: postRewardsRedeemed, status: rewardsStatus } =
     usePostRewardsRedeemed({
       mutation: {
         onSuccess: () => {
@@ -128,6 +129,7 @@ export const MobileSavingPage = () => {
           }),
       },
     });
+  const isRewardsRedeemedLoading = rewardsStatus === "pending";
 
   const handleNextScanClick = () => {
     router.push("/mobile/identification/scan");

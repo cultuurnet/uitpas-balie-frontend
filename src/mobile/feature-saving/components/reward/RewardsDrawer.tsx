@@ -1,10 +1,6 @@
 import { OutlinedButton, SearchInput } from "@/mobile/lib/ui";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import {
-  Reward,
-  RewardsPaginatedResponse,
-  useGetRewards,
-} from "@/shared/lib/dataAccess";
+import { Reward, useGetRewardsInfinite } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { Close } from "@mui/icons-material";
 import {
@@ -34,7 +30,7 @@ type RewardsDrawerProps = {
   rewardRedemptionMutation: (rewardId: string) => void;
 };
 
-type ExtendedReward = Reward & { isNew: boolean };
+const FETCH_LIMIT = 10;
 
 export const RewardsDrawer = ({
   isOpen,
@@ -48,93 +44,62 @@ export const RewardsDrawer = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
-  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
-  const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
-  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [offset, setOffset] = useState<number>(0);
-  const [maxItems, setMaxItems] = useState<number | undefined>(undefined);
-  const FETCH_LIMIT = 10;
-  const INITIAL_DATA = {
-    facet: undefined,
-    member: new Set<ExtendedReward>(),
-    memberIndex: new Map<string, ExtendedReward>(),
-    totalItems: 0,
-  };
-  const [data, setData] = useState<
-    Omit<RewardsPaginatedResponse, "member"> & {
-      member: Set<ExtendedReward>;
-      memberIndex: Map<string, ExtendedReward>;
-    }
-  >(INITIAL_DATA);
 
   const {
     data: fetchedData,
-    isSuccess,
+    status,
     isFetching,
     refetch,
-  } = useGetRewards(
+    fetchNextPage,
+  } = useGetRewardsInfinite(
     {
       ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
       ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
       ...(searchQuery && { text: searchQuery }),
       type: "ANY",
       limit: FETCH_LIMIT,
-      start: offset,
     },
     {
+      query: {
+        enabled: false,
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+          return (lastPage.config.params["start"] || 0) + FETCH_LIMIT;
+        },
+      },
       axios: {
         paramsSerializer: { indexes: null },
       },
     }
   );
 
+  const isInitialLoading = status === "pending";
+
+  const data: Reward[] =
+    fetchedData?.pages.reduce((prev: Reward[], group) => {
+      return [...prev, ...((group.data.member as Reward[]) || [])];
+    }, []) || [];
+
+  const totalItems = fetchedData?.pages[0]?.data.totalItems;
+
+  const noRewards = !searchQuery && !isFetching && totalItems === 0;
+  const showSearchInput =
+    (typeof totalItems === "number" && totalItems >= 5) || Boolean(searchQuery);
+
+  // Fetch rewards when the drawer opens
   useEffect(() => {
     if (isOpen) {
       refetch();
     }
   }, [isOpen, refetch]);
 
+  // Fetch rewards when the searchQuery changes
   useEffect(() => {
-    if (isSuccess) {
-      setData((prev) => {
-        const updatedMembers = new Set<ExtendedReward>(
-          [...prev.member].map((member) => ({ ...member, isNew: false }))
-        );
-        const updatedIndex = new Map<string, ExtendedReward>(prev.memberIndex);
-
-        fetchedData.data.member?.forEach((member) => {
-          const existingMember = prev.memberIndex.get(member.id!);
-          if (existingMember) {
-            Object.assign(existingMember, member);
-          } else {
-            const newMember: ExtendedReward = {
-              ...member,
-              isNew: prev.member.size === 0,
-            };
-            updatedMembers.add(newMember);
-            updatedIndex.set(member.id!, newMember);
-          }
-        });
-
-        return {
-          ...fetchedData.data,
-          member: updatedMembers,
-          memberIndex: updatedIndex,
-        };
-      });
-
-      if (!maxItems && !!searchQuery === false) {
-        setMaxItems(fetchedData.data.totalItems);
-      }
-
-      setIsInitialLoading(false);
-
-      if (showSearchInput === null && fetchedData.data.totalItems) {
-        setShowSearchInput(fetchedData.data.totalItems >= 5 || !!searchQuery);
-      }
+    if (searchQuery) {
+      refetch();
     }
-  }, [fetchedData?.data]);
+  }, [searchQuery]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -142,10 +107,6 @@ export const RewardsDrawer = ({
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setScrollPosition(0);
-    setOffset(0);
-    setIsInitialLoading(true);
-    setData(INITIAL_DATA);
   };
 
   const handleRewardRedemption = (rewardId: string) => {
@@ -199,7 +160,7 @@ export const RewardsDrawer = ({
         variant="body2"
         sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: "-8px" }}
       >
-        {!isFetching && maxItems === 0
+        {noRewards
           ? t("saving.mobile.reward.drawer.subtitleNoRewards", {
               name: passHolderName,
               points: passHolderPoints,
@@ -230,10 +191,9 @@ export const RewardsDrawer = ({
         data={data}
         isInitialLoading={isInitialLoading}
         fetchLimit={FETCH_LIMIT}
-        totalFetchedItems={fetchedData?.data.totalItems ?? 0}
-        setOffset={setOffset}
-        scrollPosition={scrollPosition}
-        setScrollPosition={setScrollPosition}
+        totalFetchedItems={data.length}
+        totalItems={totalItems ?? 0}
+        onFetchNextPage={fetchNextPage}
         isFetching={isFetching}
         rewardRedemptionMutation={handleRewardRedemption}
       />

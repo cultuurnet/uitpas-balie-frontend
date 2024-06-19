@@ -13,6 +13,16 @@ export default defineConfig({
       client: "react-query",
       mock: false,
       baseUrl: "NEXT_PUBLIC_API_PATH",
+      override: {
+        operations: {
+          "get-rewards": {
+            query: {
+              useInfinite: true,
+              useInfiniteQueryParam: "start",
+            },
+          },
+        },
+      },
     },
   },
   search: {
