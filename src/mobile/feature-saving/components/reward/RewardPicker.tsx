@@ -1,28 +1,25 @@
-import { Reward, RewardsPaginatedResponse } from "@/shared/lib/dataAccess";
+import { Reward } from "@/shared/lib/dataAccess";
 import { CircularProgress } from "@mui/material";
 import {
   Dispatch,
   SetStateAction,
   useRef,
   UIEvent,
-  useState,
   useEffect,
+  useState,
 } from "react";
 import { RewardCard } from "@/mobile/feature-saving";
 import { ScrollableContainer } from "@/mobile/lib/ui";
 
 type RewardPickerProps = {
   isInitialLoading: boolean;
-  data: Omit<RewardsPaginatedResponse, "member"> & {
-    member: Set<Reward & { isNew: boolean }>;
-  };
+  data: Reward[];
   fetchLimit: number;
   totalFetchedItems: number;
-  setOffset: Dispatch<SetStateAction<number>>;
-  scrollPosition: number;
-  setScrollPosition: Dispatch<SetStateAction<number>>;
+  onFetchNextPage: () => void;
   isFetching: boolean;
   rewardRedemptionMutation: (rewardId: string) => void;
+  totalItems: number;
 };
 
 export const RewardPicker = ({
@@ -30,29 +27,25 @@ export const RewardPicker = ({
   data,
   fetchLimit,
   totalFetchedItems,
-  setOffset,
-  scrollPosition,
-  setScrollPosition,
+  onFetchNextPage,
   isFetching,
   rewardRedemptionMutation,
+  totalItems,
 }: RewardPickerProps) => {
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [hasMoreItems, setHasMoreItems] = useState<boolean>(false);
+
+  const hasMoreItems = totalFetchedItems < totalItems;
 
   useEffect(() => {
-    if (scrollRef.current && data.member.size > fetchLimit) {
+    if (scrollRef.current && data.length > fetchLimit) {
       // Scroll one (new) item down
       scrollRef.current.scrollTo({
-        top: scrollPosition + (data.member.size > 1 ? 165 : 0),
+        top: scrollPosition + (data.length > 1 ? 165 : 0),
         behavior: "smooth",
       });
     }
-  }, [data.member]);
-
-  useEffect(() => {
-    if (totalFetchedItems === 0) return;
-    setHasMoreItems(totalFetchedItems > data.member.size);
-  }, [data.member.size, totalFetchedItems]);
+  }, [data]);
 
   useEffect(() => {
     // Ensure that we're showing the loading spinner when fetching
@@ -69,9 +62,9 @@ export const RewardPicker = ({
       Math.trunc(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) <=
       e.currentTarget.clientHeight;
 
-    if (!bottom || !hasMoreItems) return;
+    if (!bottom || !hasMoreItems || isFetching) return;
 
-    setOffset((prev) => prev + fetchLimit);
+    onFetchNextPage();
     setScrollPosition(e.currentTarget.scrollTop);
     scrollRef.current?.scrollTo({
       top: e.currentTarget.scrollTop,
@@ -83,7 +76,7 @@ export const RewardPicker = ({
     return <CircularProgress sx={{ m: "auto auto" }} />;
   }
 
-  if (data.totalItems && data.totalItems > 0) {
+  if (totalItems && totalItems > 0) {
     return (
       <ScrollableContainer
         ref={scrollRef}
@@ -92,8 +85,8 @@ export const RewardPicker = ({
           mb: 1,
         }}
       >
-        {Array.from(data.member).map(
-          (reward) =>
+        {data.map(
+          (reward, index) =>
             reward.id && (
               <RewardCard
                 key={reward.id}
@@ -104,27 +97,25 @@ export const RewardPicker = ({
                 online={reward.online}
                 rewardExchangeMutation={rewardRedemptionMutation}
                 sx={{
-                  ...(reward.isNew && {
-                    opacity: 0,
-                    transform: "translateY(20px)",
-                    animation: "fade-in 0.3s ease-out forwards",
-                    "@keyframes fade-in": {
-                      "0%": {
-                        opacity: 0,
-                        transform: "translateY(20px)",
-                      },
-                      "100%": {
-                        opacity: 1,
-                        transform: "translateY(0)",
-                      },
+                  opacity: 0,
+                  transform: "translateY(20px)",
+                  animation: "fade-in 0.6s ease-out forwards",
+                  "@keyframes fade-in": {
+                    "0%": {
+                      opacity: 0,
+                      transform: "translateY(20px)",
                     },
-                  }),
+                    "100%": {
+                      opacity: 1,
+                      transform: "translateY(0)",
+                    },
+                  },
                 }}
               />
             )
         )}
 
-        {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={20} />}
+        {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={32} />}
       </ScrollableContainer>
     );
   }
