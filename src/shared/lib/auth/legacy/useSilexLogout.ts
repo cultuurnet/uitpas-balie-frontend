@@ -5,9 +5,9 @@ import { useConfig } from "@/shared/feature-config/context/useConfig";
 export const useSilexLogout = () => {
   const { publicRuntimeConfig } = useConfig();
 
-  const { refetch } = useQuery<{ data: { token: string } }>(
-    ["logout"],
-    () => {
+  const { refetch } = useQuery<{ data: { token: string } }>({
+    queryKey: ["logout"],
+    queryFn: () => {
       const tokenEndpoint = publicRuntimeConfig?.legacyLogoutEndpoint;
       if (!tokenEndpoint)
         throw new Error(
@@ -21,10 +21,8 @@ export const useSilexLogout = () => {
         },
       });
     },
-    {
-      enabled: false,
-    }
-  );
+    enabled: false,
+  });
 
   return refetch;
 };
