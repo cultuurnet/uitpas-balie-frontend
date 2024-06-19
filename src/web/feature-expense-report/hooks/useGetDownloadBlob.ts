@@ -9,14 +9,14 @@ export const useGetOrganizersFinancialReportsReportIdZip = (
 ) => {
   const { publicRuntimeConfig } = useConfig();
 
-  return useQuery<Blob, Error>(
-    [],
-    async () => {
+  return useQuery<Blob, Error>({
+    queryKey: [],
+    queryFn: async () => {
       const { data } = await axios.get(
         `${publicRuntimeConfig?.legacyApiPath}/organizers/${organizerId}/financial-reports/${reportId}.zip`
       );
       return new Blob([data]); //,{type:"application/zip"});
     },
-    queryOptions.query
-  );
+    ...queryOptions.query,
+  });
 };

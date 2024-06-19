@@ -28,22 +28,25 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   const {
     mutate: postReports,
     data: createReportData,
-    isLoading: isCreateLoading,
+    status: createStatus,
   } = usePostOrganizersFinancialReports();
+  const isCreateLoading = createStatus === "pending";
   const {
     data: reportStatusData,
     refetch: getReportStatus,
-    isLoading: isStatusLoading,
+    status: reportStatusStatus,
   } = useGetOrganizersFinancialReportsReportId(organizerId, reportId, {
     query: { enabled: false },
   });
+  const isStatusLoading = reportStatusStatus === "pending";
   const {
     data: reportZipData,
     refetch: getReportZip,
-    isLoading: isZipLoading,
+    status: zipStatus,
   } = useGetOrganizersFinancialReportsReportIdZip(organizerId, reportId, {
     query: { enabled: false },
   });
+  const isZipLoading = zipStatus === "pending";
 
   const startReportRequest = (organizerId: string, period: PeriodType) => {
     //if downloading same period as last time, skip creation

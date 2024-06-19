@@ -137,46 +137,6 @@ export const useGetRewardsInfinite = <TData = InfiniteData<Awaited<ReturnType<ty
 
 
 
-export const getGetRewardsQueryOptions = <TData = Awaited<ReturnType<typeof getRewards>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetRewardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetRewardsQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRewards>>> = ({ signal }) => getRewards(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetRewardsQueryResult = NonNullable<Awaited<ReturnType<typeof getRewards>>>
-export type GetRewardsQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Search rewards
- */
-export const useGetRewards = <TData = Awaited<ReturnType<typeof getRewards>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetRewardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetRewardsQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 /**
  * Create a new reward.
 
@@ -255,46 +215,6 @@ export const getGetRewardsIdQueryKey = (rewardId: string,) => {
     }
 
     
-export const getGetRewardsIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsId>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(rewardId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsId>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetRewardsIdQueryKey(rewardId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRewardsId>>> = ({ signal }) => getRewardsId(rewardId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(rewardId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsId>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetRewardsIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getRewardsId>>>
-export type GetRewardsIdInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Retrieve reward
- */
-export const useGetRewardsIdInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsId>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- rewardId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsId>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetRewardsIdInfiniteQueryOptions(rewardId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetRewardsIdQueryOptions = <TData = Awaited<ReturnType<typeof getRewardsId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(rewardId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRewardsId>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -427,48 +347,6 @@ export const getGetRewardsIdRedeemStatusQueryKey = (rewardId: string,
     }
 
     
-export const getGetRewardsIdRedeemStatusInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, GetRewardsIdRedeemStatusParams['start']>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(rewardId: string,
-    params: GetRewardsIdRedeemStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, TError, TData, Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, QueryKey, GetRewardsIdRedeemStatusParams['start']>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetRewardsIdRedeemStatusQueryKey(rewardId,params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, QueryKey, GetRewardsIdRedeemStatusParams['start']> = ({ signal, pageParam }) => getRewardsIdRedeemStatus(rewardId,{...params, start: pageParam || params?.['start']}, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(rewardId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, TError, TData, Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, QueryKey, GetRewardsIdRedeemStatusParams['start']> & { queryKey: QueryKey }
-}
-
-export type GetRewardsIdRedeemStatusInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>>
-export type GetRewardsIdRedeemStatusInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Check redeem status of a reward for a passholder
- */
-export const useGetRewardsIdRedeemStatusInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, GetRewardsIdRedeemStatusParams['start']>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- rewardId: string,
-    params: GetRewardsIdRedeemStatusParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, TError, TData, Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, QueryKey, GetRewardsIdRedeemStatusParams['start']>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetRewardsIdRedeemStatusInfiniteQueryOptions(rewardId,params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetRewardsIdRedeemStatusQueryOptions = <TData = Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(rewardId: string,
     params: GetRewardsIdRedeemStatusParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRewardsIdRedeemStatus>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
@@ -591,46 +469,6 @@ export const getGetRewardsRedeemedQueryKey = (params: GetRewardsRedeemedParams,)
     }
 
     
-export const getGetRewardsRedeemedInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsRedeemed>>, GetRewardsRedeemedParams['start']>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetRewardsRedeemedParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsRedeemed>>, TError, TData, Awaited<ReturnType<typeof getRewardsRedeemed>>, QueryKey, GetRewardsRedeemedParams['start']>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetRewardsRedeemedQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRewardsRedeemed>>, QueryKey, GetRewardsRedeemedParams['start']> = ({ signal, pageParam }) => getRewardsRedeemed({...params, start: pageParam || params?.['start']}, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsRedeemed>>, TError, TData, Awaited<ReturnType<typeof getRewardsRedeemed>>, QueryKey, GetRewardsRedeemedParams['start']> & { queryKey: QueryKey }
-}
-
-export type GetRewardsRedeemedInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getRewardsRedeemed>>>
-export type GetRewardsRedeemedInfiniteQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Retrieve redeemed rewards
- */
-export const useGetRewardsRedeemedInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getRewardsRedeemed>>, GetRewardsRedeemedParams['start']>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params: GetRewardsRedeemedParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewardsRedeemed>>, TError, TData, Awaited<ReturnType<typeof getRewardsRedeemed>>, QueryKey, GetRewardsRedeemedParams['start']>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetRewardsRedeemedInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetRewardsRedeemedQueryOptions = <TData = Awaited<ReturnType<typeof getRewardsRedeemed>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetRewardsRedeemedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRewardsRedeemed>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 

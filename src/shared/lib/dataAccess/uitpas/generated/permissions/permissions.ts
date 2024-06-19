@@ -6,15 +6,11 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query'
 import type {
-  InfiniteData,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -51,46 +47,6 @@ export const getGetPermissionsQueryKey = () => {
     }
 
     
-export const getGetPermissionsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getPermissions>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPermissions>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetPermissionsQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPermissions>>> = ({ signal }) => getPermissions({ signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPermissions>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPermissionsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getPermissions>>>
-export type GetPermissionsInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
-
-/**
- * @summary Get permissions
- */
-export const useGetPermissionsInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getPermissions>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getPermissions>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetPermissionsInfiniteQueryOptions(options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetPermissionsQueryOptions = <TData = Awaited<ReturnType<typeof getPermissions>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPermissions>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 

@@ -6,15 +6,11 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useQuery
 } from '@tanstack/react-query'
 import type {
-  InfiniteData,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -62,46 +58,6 @@ export const getGetUitidEmailQueryKey = (email: string,) => {
     }
 
     
-export const getGetUitidEmailInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUitidEmail>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidEmail>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetUitidEmailQueryKey(email);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUitidEmail>>> = ({ signal }) => getUitidEmail(email, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(email), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidEmail>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetUitidEmailInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUitidEmail>>>
-export type GetUitidEmailInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Retrieve UiTiD email address status
- */
-export const useGetUitidEmailInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getUitidEmail>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUitidEmail>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetUitidEmailInfiniteQueryOptions(email,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetUitidEmailQueryOptions = <TData = Awaited<ReturnType<typeof getUitidEmail>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(email: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUitidEmail>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 

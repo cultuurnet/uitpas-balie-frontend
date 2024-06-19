@@ -6,17 +6,13 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery
 } from '@tanstack/react-query'
 import type {
-  InfiniteData,
   MutationFunction,
   QueryFunction,
   QueryKey,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -61,46 +57,6 @@ export const getGetOrganizersFinancialReportsPeriodsQueryKey = (organizerId: str
     }
 
     
-export const getGetOrganizersFinancialReportsPeriodsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsPeriodsQueryKey(organizerId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>> = ({ signal }) => getOrganizersFinancialReportsPeriods(organizerId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersFinancialReportsPeriodsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>>
-export type GetOrganizersFinancialReportsPeriodsInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get suggested financial report periods
- */
-export const useGetOrganizersFinancialReportsPeriodsInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- organizerId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersFinancialReportsPeriodsInfiniteQueryOptions(organizerId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetOrganizersFinancialReportsPeriodsQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsPeriods>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -225,46 +181,6 @@ export const getGetOrganizersFinancialReportsQueryKey = (organizerId: string,) =
     }
 
     
-export const getGetOrganizersFinancialReportsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReports>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsQueryKey(organizerId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReports>>> = ({ signal }) => getOrganizersFinancialReports(organizerId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersFinancialReportsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReports>>>
-export type GetOrganizersFinancialReportsInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get financial report exports
- */
-export const useGetOrganizersFinancialReportsInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReports>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- organizerId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersFinancialReportsInfiniteQueryOptions(organizerId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetOrganizersFinancialReportsQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReports>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
@@ -329,48 +245,6 @@ export const getGetOrganizersFinancialReportsReportIdQueryKey = (organizerId: st
     }
 
     
-export const getGetOrganizersFinancialReportsReportIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdQueryKey(organizerId,reportId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>> = ({ signal }) => getOrganizersFinancialReportsReportId(organizerId,reportId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersFinancialReportsReportIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>>
-export type GetOrganizersFinancialReportsReportIdInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get financial report status
- */
-export const useGetOrganizersFinancialReportsReportIdInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersFinancialReportsReportIdInfiniteQueryOptions(organizerId,reportId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetOrganizersFinancialReportsReportIdQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
     reportId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportId>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
@@ -439,48 +313,6 @@ export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey = (org
     }
 
     
-export const getGetOrganizersFinancialReportsReportIdDownloadLinkInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey(organizerId,reportId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>> = ({ signal }) => getOrganizersFinancialReportsReportIdDownloadLink(organizerId,reportId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersFinancialReportsReportIdDownloadLinkInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>>
-export type GetOrganizersFinancialReportsReportIdDownloadLinkInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Get financial report temporary download link
- */
-export const useGetOrganizersFinancialReportsReportIdDownloadLinkInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersFinancialReportsReportIdDownloadLinkInfiniteQueryOptions(organizerId,reportId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
     reportId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdDownloadLink>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
@@ -551,48 +383,6 @@ export const getGetOrganizersFinancialReportsReportIdZipQueryKey = (organizerId:
     }
 
     
-export const getGetOrganizersFinancialReportsReportIdZipInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersFinancialReportsReportIdZipQueryKey(organizerId,reportId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>> = ({ signal }) => getOrganizersFinancialReportsReportIdZip(organizerId,reportId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId && reportId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersFinancialReportsReportIdZipInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>>
-export type GetOrganizersFinancialReportsReportIdZipInfiniteQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-/**
- * @summary Download financial report
- */
-export const useGetOrganizersFinancialReportsReportIdZipInfinite = <TData = InfiniteData<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- organizerId: string,
-    reportId: number, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getGetOrganizersFinancialReportsReportIdZipInfiniteQueryOptions(organizerId,reportId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 export const getGetOrganizersFinancialReportsReportIdZipQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(organizerId: string,
     reportId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizersFinancialReportsReportIdZip>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {

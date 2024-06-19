@@ -45,7 +45,7 @@ export const RewardPicker = ({
         behavior: "smooth",
       });
     }
-  }, [data]);
+  }, [data, fetchLimit, scrollPosition]);
 
   useEffect(() => {
     // Ensure that we're showing the loading spinner when fetching
@@ -55,7 +55,7 @@ export const RewardPicker = ({
         behavior: "smooth",
       });
     }
-  }, [isFetching]);
+  }, [isFetching, scrollPosition]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =
