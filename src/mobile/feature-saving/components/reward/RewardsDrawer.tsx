@@ -50,6 +50,7 @@ export const RewardsDrawer = ({
     data: fetchedData,
     status,
     isFetching,
+    isFetchingNextPage,
     refetch,
     fetchNextPage,
   } = useGetRewardsInfinite(
@@ -194,7 +195,7 @@ export const RewardsDrawer = ({
         totalFetchedItems={data.length}
         totalItems={totalItems ?? 0}
         onFetchNextPage={fetchNextPage}
-        isFetching={isFetching}
+        isFetchingNextPage={isFetchingNextPage}
         rewardRedemptionMutation={handleRewardRedemption}
       />
 

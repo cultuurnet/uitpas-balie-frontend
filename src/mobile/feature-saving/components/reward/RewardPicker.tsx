@@ -17,7 +17,7 @@ type RewardPickerProps = {
   fetchLimit: number;
   totalFetchedItems: number;
   onFetchNextPage: () => void;
-  isFetching: boolean;
+  isFetchingNextPage: boolean;
   rewardRedemptionMutation: (rewardId: string) => void;
   totalItems: number;
 };
@@ -28,7 +28,7 @@ export const RewardPicker = ({
   fetchLimit,
   totalFetchedItems,
   onFetchNextPage,
-  isFetching,
+  isFetchingNextPage,
   rewardRedemptionMutation,
   totalItems,
 }: RewardPickerProps) => {
@@ -49,20 +49,20 @@ export const RewardPicker = ({
 
   useEffect(() => {
     // Ensure that we're showing the loading spinner when fetching
-    if (isFetching) {
+    if (isFetchingNextPage) {
       scrollRef.current?.scrollTo({
         top: scrollPosition + 100, // 100 -> doesn't have to be exact, it will bottom out anyway
         behavior: "smooth",
       });
     }
-  }, [isFetching, scrollPosition]);
+  }, [isFetchingNextPage, scrollPosition]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =
       Math.trunc(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) <=
       e.currentTarget.clientHeight;
 
-    if (!bottom || !hasMoreItems || isFetching) return;
+    if (!bottom || !hasMoreItems || isFetchingNextPage) return;
 
     onFetchNextPage();
     setScrollPosition(e.currentTarget.scrollTop);
@@ -115,7 +115,9 @@ export const RewardPicker = ({
             )
         )}
 
-        {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={32} />}
+        {isFetchingNextPage && (
+          <CircularProgress sx={{ m: "auto auto" }} size={32} />
+        )}
       </ScrollableContainer>
     );
   }
