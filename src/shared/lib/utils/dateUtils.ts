@@ -81,6 +81,11 @@ export const getRangeDateFromSelection = (
 export function dateToISODateString(date?: Date | null): string {
   return ISOStringToISODateString((date ?? new Date()).toISOString());
 }
+
 export function ISOStringToISODateString(ISOString: string): string {
   return (ISOString ?? new Date().toISOString()).split("T")[0];
+}
+
+export function dateToISODateTimeString(date?: Date | null): string {
+  return (date ? dayjs(date) : dayjs()).format(RANGE_DATE_FORMAT);
 }

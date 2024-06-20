@@ -11,13 +11,17 @@ import { useTranslation } from "@/shared/lib/i18n/client";
 import { debounce } from "@mui/material";
 import { useGetEvents, Search } from "@/shared/lib/dataAccess";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState, useEffect, useMemo } from "react";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
 import { ActivitiesPicker } from "@/mobile/feature-activities";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
 import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import { dateToISODateTimeString } from "@/shared/lib/utils";
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
+
+const FETCH_LIMIT = 10;
 
 export const ActivitiesPage = () => {
   const { t } = useTranslation();
@@ -27,7 +31,6 @@ export const ActivitiesPage = () => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
   const { selectedActivity, setSelectedActivity } = useActivity();
 
-  const FETCH_LIMIT = 10;
   const INITIAL_DATA = {
     facet: undefined,
     itemsPerPage: 0,
@@ -43,6 +46,13 @@ export const ActivitiesPage = () => {
       memberIndex: Map<string, ExtendedEvent>;
     }
   >(INITIAL_DATA);
+
+  const dates = useMemo(() => {
+    const dateFrom = dateToISODateTimeString();
+    const dateTo = dateToISODateTimeString(dayjs().add(90, "days").toDate());
+    return { dateFrom, dateTo };
+  }, []);
+
   const {
     data: fetchedData,
     isSuccess,
@@ -56,6 +66,8 @@ export const ActivitiesPage = () => {
     // @ts-expect-error Orval didn't include pagination in generated types
     limit: FETCH_LIMIT,
     start: offset,
+    dateFrom: dates.dateFrom,
+    dateTo: dates.dateTo,
   });
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
