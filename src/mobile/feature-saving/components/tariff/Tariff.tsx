@@ -10,7 +10,7 @@ import {
 } from "@/shared/lib/dataAccess/entry/generated/model";
 import { TariffCard } from "@/mobile/feature-saving";
 import { CircularProgress, Typography, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 
 type TariffProps = {
@@ -38,12 +38,11 @@ export const Tariff = ({
   isDrawerOpen,
 }: TariffProps) => {
   const { t, LANG_KEY } = useTranslation();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const theme = useTheme();
 
   const priceInfoFiltered = priceInfo.filter((price) => price.price !== 0);
 
-  const queryResults = useQueries({
+  const { data, isLoading, refetch } = useQueries({
     queries: priceInfoFiltered.map((tariff) => ({
       ...getGetTariffsQueryOptions({
         eventId: getUuid(eventId)!,
@@ -52,31 +51,30 @@ export const Tariff = ({
       }),
       cacheTime: 0,
       staleTime: 0,
-      onSettled: () => setIsLoading(false),
     })),
+    combine: (results) => {
+      return {
+        data: results.map((result) => result.data),
+        isLoading: results.some((result) => result.isLoading),
+        refetch: results.map((result) => result.refetch),
+      };
+    },
   });
 
   useEffect(() => {
-    if (priceInfoFiltered.length === 0) setIsLoading(false);
-  }, [priceInfoFiltered.length]);
-
-  useEffect(() => {
     if (isDrawerOpen) {
-      queryResults.forEach((queryResult) => {
-        if (queryResult.refetch) {
-          queryResult.refetch();
-        }
+      refetch.forEach((refetchItem) => {
+        refetchItem();
       });
     }
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, refetch]);
 
-  const data = queryResults.map((result) => result.data?.data);
   const socialTariffs = [] as SortedType[];
   const coupons = [] as SortedType[];
   const invalidTariffs = [] as SortedType[];
 
   priceInfoFiltered.forEach((priceInfo, index) => {
-    const tariffResponse = data[index];
+    const tariffResponse = data[index]?.data;
 
     if (
       tariffResponse?.available?.findIndex((t) => t.type === "SOCIALTARIFF") ===
