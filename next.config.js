@@ -7,6 +7,7 @@ const paths = getPathsFromFolderStructure("./src/app");
 
 process.env.NEXT_PUBLIC_RUNTIME_CONFIG = JSON.stringify({
   Routes: paths.map((path) => `/${path}`),
+  basePath,
 });
 
 /** @type {import('next').NextConfig} */

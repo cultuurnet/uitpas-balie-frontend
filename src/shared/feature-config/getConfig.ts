@@ -13,7 +13,7 @@ export async function getConfig(): Promise<{
     publicRuntimeConfig: {
       Routes: publicRuntimeConfig.Routes,
       legacyAppUrl: process.env.NEXT_PUBLIC_LEGACY_APP_URL ?? "",
-      basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+      basePath: publicRuntimeConfig.basePath,
       legacyApiPath: process.env.NEXT_PUBLIC_LEGACY_API_PATH ?? "",
       apiPaths: {
         NEXT_PUBLIC_API_PATH: process.env.NEXT_PUBLIC_API_PATH ?? "",
