@@ -36,7 +36,12 @@ export const useUrlChanged = () => {
       if (publicRuntimeConfig?.Routes.includes(url.pathname)) {
         router.push(`${url.pathname}?${url.searchParams}`);
       } else {
-        history.pushState(null, "", url.pathname + url.search);
+        // ⚠ This triggers a rerender in NextJS and the iframe, causing Angular to lose its state
+        // history.pushState(
+        //   null,
+        //   "",
+        //   publicRuntimeConfig?.basePath + url.pathname + url.search
+        // );
       }
     },
     [WindowMessageTypesReceived.HTTP_ERROR_CODE]: ({ payload }) => {
