@@ -68,6 +68,8 @@ export const ActivitiesPage = () => {
     start: offset,
     dateFrom: dates.dateFrom,
     dateTo: dates.dateTo,
+    availableFrom: "*",
+    availableTo: "*"
   });
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
