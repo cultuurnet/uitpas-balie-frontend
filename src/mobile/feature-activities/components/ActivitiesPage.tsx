@@ -21,7 +21,7 @@ import { dateToISODateTimeString } from "@/shared/lib/utils";
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
 
-const FETCH_LIMIT = 10;
+const FETCH_LIMIT = 50;
 
 export const ActivitiesPage = () => {
   const { t } = useTranslation();
