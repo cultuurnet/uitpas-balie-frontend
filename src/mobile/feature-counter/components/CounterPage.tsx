@@ -6,6 +6,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
 import { UitpasLoading } from "@/mobile/lib/ui";
 import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+// @ts-expect-error no types package available
+import toSorted from "array.prototype.tosorted";
+
+// Pollyfill of the toSorted method
+toSorted.shim();
 
 export const CounterPage = () => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
