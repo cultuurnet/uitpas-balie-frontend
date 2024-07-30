@@ -17,21 +17,27 @@ import adapter from "webrtc-adapter";
 export const BarcodeScanner: React.FC = () => {
   const { t } = useTranslation();
   const {
+    browserHasSupport,
     permission,
-    setPermission,
-    currentVideoDevice,
-    frontBackCameraAvailable,
-    toggleFrontBackCamera,
+    selectedCamera,
+    hasFrontAndBackCamera,
+    toggleCamera,
+    isLoading,
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
   const router = useRouter();
   const scannerRef = useRef<HTMLDivElement>(null);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
-  const [torchSupported, setTorchSupported] = useState<boolean>(false);
-  const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
   const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
+  const [scannerInitializationCount, setScannerInitializationCount] =
+    useState(1);
+
+  const SCANNER_MAX_INITIALIZATION_COUNT = 5;
+  const scannerSupported =
+    browserHasSupport &&
+    scannerInitializationCount <= SCANNER_MAX_INITIALIZATION_COUNT;
 
   const handleFlashToggle = () => {
     setIsFlashOn((flashWasOn) => {
@@ -50,7 +56,7 @@ export const BarcodeScanner: React.FC = () => {
   };
 
   const handleFlipCamera = () => {
-    toggleFrontBackCamera();
+    toggleCamera();
   };
 
   const handleResultErrorCheck = useCallback(
@@ -84,16 +90,24 @@ export const BarcodeScanner: React.FC = () => {
   );
 
   useEffect(() => {
-    if (permission === "granted" && currentVideoDevice && scannerRef.current) {
-      const initWithDelay = (attempt = 1) => {
+    if (
+      permission === "granted" &&
+      selectedCamera &&
+      scannerRef.current &&
+      !isLoading &&
+      scannerSupported
+    ) {
+      const initWithDelay = () => {
+        setScannerReady(false);
         setTimeout(() => {
+          if (!scannerRef.current) return;
           Quagga.init(
             {
               inputStream: {
                 constraints: {
                   width: { ideal: 1280 },
                   height: { ideal: 720 },
-                  deviceId: currentVideoDevice.deviceId,
+                  deviceId: selectedCamera.id,
                 },
                 area: {
                   top: "38%",
@@ -101,8 +115,7 @@ export const BarcodeScanner: React.FC = () => {
                   left: "5%",
                   bottom: "38%",
                 },
-                // I'm already checking if scannerRef.current is defined in the if statement above
-                target: scannerRef.current!,
+                target: scannerRef.current,
               },
               locator: {
                 patchSize: "medium",
@@ -116,61 +129,41 @@ export const BarcodeScanner: React.FC = () => {
               locate: false,
               frequency: 15,
             },
-            (err: any) => {
+            (err) => {
               if (err) {
                 console.error(
-                  `(#${attempt}) Could not initialize barcode scanner:`,
+                  `(#${scannerInitializationCount}) Could not initialize barcode scanner:`,
                   err
                 );
-                if (attempt <= 5) {
-                  initWithDelay(attempt + 1);
-                  return;
-                }
-                setPermission("not_supported");
+                setScannerInitializationCount(scannerInitializationCount + 1);
+                Quagga.stop();
+                initWithDelay();
                 return;
               }
               Quagga.start();
               setScannerReady(true);
-              checkTorchAvailability();
             }
           );
-
           Quagga.onDetected(handleResultErrorCheck);
         }, 1000);
       };
-
       initWithDelay();
-
       return () => {
         Quagga.offDetected();
         Quagga.stop();
       };
     }
   }, [
-    permission,
-    currentVideoDevice,
-    scannerRef,
     handleResultErrorCheck,
-    setPermission,
+    isLoading,
+    permission,
+    scannerInitializationCount,
+    scannerSupported,
+    selectedCamera,
   ]);
 
-  const checkTorchAvailability = () => {
-    try {
-      const track = Quagga.CameraAccess.getActiveTrack();
-      if (track && typeof track.getCapabilities === "function") {
-        const capabilities = track.getCapabilities();
-        setTorchSupported("torch" in capabilities);
-        setTorchAvailable(capabilities.torch ?? false);
-      } else {
-        setTorchSupported(false);
-        setTorchAvailable(false);
-      }
-    } catch (err) {
-      console.error("Error checking torch availability:", err);
-      setTorchSupported(false);
-      setTorchAvailable(false);
-    }
-  };
+  if (!scannerSupported && !isLoading)
+    return <PermissionBox permission="not_supported" />;
 
   if (permission !== "granted") {
     return <PermissionBox permission={permission} />;
@@ -202,10 +195,9 @@ export const BarcodeScanner: React.FC = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
-        {!torchSupported ? null : (
+        {!selectedCamera?.canTorch ? null : (
           <IconButton
             disableRipple
-            disabled={!torchAvailable}
             size="large"
             sx={(theme) => ({
               position: "absolute",
@@ -222,14 +214,14 @@ export const BarcodeScanner: React.FC = () => {
             )}
           </IconButton>
         )}
-        {frontBackCameraAvailable() && (
+        {hasFrontAndBackCamera && (
           <IconButton
             disableRipple
             size="large"
             sx={(theme) => ({
               position: "absolute",
               color: theme.palette.neutral[0],
-              right: !torchSupported ? "0%" : "15%",
+              right: !selectedCamera?.canTorch ? "0%" : "15%",
               zIndex: 20,
             })}
             onClick={handleFlipCamera}

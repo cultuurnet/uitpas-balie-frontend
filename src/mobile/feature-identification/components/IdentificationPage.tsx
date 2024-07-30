@@ -11,14 +11,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification/components/ManualCardInput";
 import { useTranslation } from "@/shared/lib/utils/hooks";
-import { readData } from "@/shared/lib/utils";
+import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
 
 export const IdentificationPage = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { selectedActivity } = useActivity();
   const [isNavigating, setIsNavigating] = useState<boolean>(false);
-  const cameraSupport = readData<boolean>("cameraSupport") ?? true;
+  const { browserHasSupport, isLoading: isLoadingCamera } = useCamera({
+    initializeCamera: false,
+  });
 
   useEffect(() => {
     if (selectedActivity === null) {
@@ -52,8 +54,8 @@ export const IdentificationPage = () => {
         </Typography>
         <LoadingButton
           onClick={handleScanBarcodeClick}
-          loading={isNavigating}
-          disabled={!cameraSupport}
+          loading={isNavigating || isLoadingCamera}
+          disabled={!browserHasSupport}
         >
           {t("identification.mobile.scanBarcodeBtn")}
         </LoadingButton>
