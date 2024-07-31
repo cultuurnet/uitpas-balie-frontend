@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import { Typography, UitpasLoading } from "@/mobile/lib/ui";
 import { useTranslation } from "@/shared/lib/i18n/client";
@@ -12,23 +12,32 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PermissionBox } from "@/mobile/feature-identification/scan/components/PermissionBox";
 import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
 import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
+import adapter from "webrtc-adapter";
 
-export const BarcodeScanner = () => {
+export const BarcodeScanner: React.FC = () => {
   const { t } = useTranslation();
   const {
+    browserHasSupport,
     permission,
-    currentVideoDevice,
-    frontBackCameraAvailable,
-    toggleFrontBackCamera,
+    selectedCamera,
+    hasFrontAndBackCamera,
+    toggleCamera,
+    isLoading,
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
   const router = useRouter();
-  const scannerRef = useRef<HTMLDivElement>();
+  const scannerRef = useRef<HTMLDivElement>(null);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
-  const [torchSupported, setTorchSupported] = useState<boolean>(false);
-  const [torchAvailable, setTorchAvailable] = useState<boolean>(false);
+  const [codeFound, setCodeFound] = useState<boolean>(false);
   const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
+  const [scannerInitializationCount, setScannerInitializationCount] =
+    useState(1);
+
+  const SCANNER_MAX_INITIALIZATION_COUNT = 5;
+  const scannerSupported =
+    browserHasSupport &&
+    scannerInitializationCount <= SCANNER_MAX_INITIALIZATION_COUNT;
 
   const handleFlashToggle = () => {
     setIsFlashOn((flashWasOn) => {
@@ -42,20 +51,12 @@ export const BarcodeScanner = () => {
   };
 
   const handleClose = () => {
-    router.push("/mobile/identification");
     setScannerReady(false);
-  };
-
-  const handleValidScan = (code: string) => {
-    router.push(
-      `/mobile/saving?uitpas=${code}${
-        firstCardEntry ? "&firstCardEntry=true" : ""
-      }`
-    );
+    router.push("/mobile/identification");
   };
 
   const handleFlipCamera = () => {
-    toggleFrontBackCamera();
+    toggleCamera();
   };
 
   const handleResultErrorCheck = useCallback(
@@ -77,65 +78,92 @@ export const BarcodeScanner = () => {
         result.codeResult.code &&
         result.codeResult.code.length === 13
       ) {
-        handleValidScan(result.codeResult.code);
+        setCodeFound(true);
+        router.push(
+          `/mobile/saving?uitpas=${result.codeResult.code}${
+            firstCardEntry ? "&firstCardEntry=true" : ""
+          }`
+        );
       }
     },
-    [handleValidScan]
+    [firstCardEntry, router]
   );
 
   useEffect(() => {
-    if (permission === "granted" && currentVideoDevice && scannerRef.current) {
-      Quagga.init(
-        {
-          inputStream: {
-            type: "LiveStream",
-            constraints: {
-              width: { ideal: 1080 },
-              height: { ideal: 1920 },
-              aspectRatio: { ideal: 9 / 16 },
-              deviceId: currentVideoDevice.deviceId,
+    if (
+      permission === "granted" &&
+      selectedCamera &&
+      scannerRef.current &&
+      !isLoading &&
+      scannerSupported
+    ) {
+      const initWithDelay = () => {
+        setScannerReady(false);
+        setTimeout(() => {
+          if (!scannerRef.current) return;
+          Quagga.init(
+            {
+              inputStream: {
+                constraints: {
+                  width: { ideal: 1280 },
+                  height: { ideal: 720 },
+                  deviceId: selectedCamera.id,
+                },
+                area: {
+                  top: "38%",
+                  right: "5%",
+                  left: "5%",
+                  bottom: "38%",
+                },
+                target: scannerRef.current,
+              },
+              locator: {
+                patchSize: "medium",
+                halfSample: true,
+              },
+              numOfWorkers: 4,
+              decoder: {
+                readers: ["code_128_reader"],
+                multiple: false,
+              },
+              locate: false,
+              frequency: 15,
             },
-            target: scannerRef.current,
-          },
-          locator: {
-            patchSize: "medium",
-            halfSample: true,
-          },
-          frequency: 30,
-          decoder: {
-            readers: ["code_128_reader"],
-          },
-          locate: true,
-        },
-        (err) => {
-          if (err) {
-            console.error("Could not initialize barcode scanner:", err);
-            return;
-          }
-          Quagga.start();
-          setScannerReady(true);
-          setTorchAvailable(() => {
-            try {
-              setTorchSupported(true);
-              return (
-                Quagga.CameraAccess.getActiveTrack()?.getCapabilities().torch ??
-                false
-              );
-            } catch (err) {
-              setTorchSupported(false);
-              return false;
+            (err) => {
+              if (err) {
+                console.error(
+                  `(#${scannerInitializationCount}) Could not initialize barcode scanner:`,
+                  err
+                );
+                setScannerInitializationCount(scannerInitializationCount + 1);
+                Quagga.stop();
+                initWithDelay();
+                return;
+              }
+              Quagga.start();
+              setScannerReady(true);
             }
-          });
-        }
-      );
-
-      Quagga.onDetected(handleResultErrorCheck);
-
+          );
+          Quagga.onDetected(handleResultErrorCheck);
+        }, 1000);
+      };
+      initWithDelay();
       return () => {
+        Quagga.offDetected();
         Quagga.stop();
       };
     }
-  }, [permission, currentVideoDevice, scannerRef]);
+  }, [
+    handleResultErrorCheck,
+    isLoading,
+    permission,
+    scannerInitializationCount,
+    scannerSupported,
+    selectedCamera,
+  ]);
+
+  if (!scannerSupported && !isLoading)
+    return <PermissionBox permission="not_supported" />;
 
   if (permission !== "granted") {
     return <PermissionBox permission={permission} />;
@@ -167,10 +195,9 @@ export const BarcodeScanner = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
-        {!torchSupported ? null : (
+        {!selectedCamera?.canTorch ? null : (
           <IconButton
             disableRipple
-            disabled={!torchAvailable}
             size="large"
             sx={(theme) => ({
               position: "absolute",
@@ -187,14 +214,14 @@ export const BarcodeScanner = () => {
             )}
           </IconButton>
         )}
-        {frontBackCameraAvailable() && (
+        {hasFrontAndBackCamera && (
           <IconButton
             disableRipple
             size="large"
             sx={(theme) => ({
               position: "absolute",
               color: theme.palette.neutral[0],
-              right: !torchSupported ? "0%" : "15%",
+              right: !selectedCamera?.canTorch ? "0%" : "15%",
               zIndex: 20,
             })}
             onClick={handleFlipCamera}
@@ -205,6 +232,7 @@ export const BarcodeScanner = () => {
         <Box
           ref={scannerRef}
           sx={{
+            position: "relative",
             width: "100%",
             height: "100%",
             video: {
@@ -232,7 +260,7 @@ export const BarcodeScanner = () => {
               content: '""',
               position: "absolute",
               backgroundColor: "transparent",
-              border: "3px solid white",
+              border: `3px solid ${codeFound ? "#00ff00" : "white"}`,
             },
             "&::before": {
               top: -2,
@@ -264,7 +292,7 @@ export const BarcodeScanner = () => {
                 content: '""',
                 position: "absolute",
                 backgroundColor: "transparent",
-                border: "3px solid white",
+                border: `3px solid ${codeFound ? "#00ff00" : "white"}`,
               },
               "&::before": {
                 top: -2,

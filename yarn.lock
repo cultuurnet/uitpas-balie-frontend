@@ -2122,6 +2122,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ua-parser-js@npm:^0.7.39":
+  version: 0.7.39
+  resolution: "@types/ua-parser-js@npm:0.7.39"
+  checksum: 10c0/fea522f42dfc2854d9c93144a13c3db3bbe1c791458451db06d46bec7e1dbbe945d1542e02bb38378e39a04bdb7810b43e2ead26f9e6c250832e187312522708
+  languageName: node
+  linkType: hard
+
 "@types/urijs@npm:^1.19.19":
   version: 1.19.19
   resolution: "@types/urijs@npm:1.19.19"
@@ -5955,6 +5962,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"media-devices@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "media-devices@npm:0.5.0"
+  checksum: 10c0/d8dd1798c2f26481a72a82f8d81893c4b7695489dbb33e581af3347de9cf5fa029983cccdd58afa159ed77112880808f372d32fafa66f47bd4e8d355896c967b
+  languageName: node
+  linkType: hard
+
 "merge-stream@npm:^2.0.0":
   version: 2.0.0
   resolution: "merge-stream@npm:2.0.0"
@@ -7410,6 +7424,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sdp@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "sdp@npm:3.2.0"
+  checksum: 10c0/fa0146132b4c9185f276b80e09f52259b103e609565ac40c560250dbe7fc47723d30530c0db9cac6217c83153944a71af81fa70dc0367f195aabcf110f8185fd
+  languageName: node
+  linkType: hard
+
 "semver-try-require@npm:6.1.0":
   version: 6.1.0
   resolution: "semver-try-require@npm:6.1.0"
@@ -8268,6 +8289,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ua-parser-js@npm:^1.0.38":
+  version: 1.0.38
+  resolution: "ua-parser-js@npm:1.0.38"
+  checksum: 10c0/b1dd11b87e1784c79f7129e9aec679753fccf8a9b22f5202b79b19492635b5b46b779607a3cfae0270999a0d48da223bf94015642d2abee69d83c9069ab37bd0
+  languageName: node
+  linkType: hard
+
 "uglify-js@npm:^3.1.4":
   version: 3.17.4
   resolution: "uglify-js@npm:3.17.4"
@@ -8308,6 +8336,7 @@ __metadata:
     "@types/react-dom": "npm:18.0.11"
     "@types/react-transition-group": "npm:^4.4.10"
     array.prototype.tosorted: "npm:^1.1.4"
+    "@types/ua-parser-js": "npm:^0.7.39"
     axios: "npm:^1.3.4"
     cookies-next: "npm:^4.0.0"
     dayjs: "npm:^1.11.10"
@@ -8319,6 +8348,7 @@ __metadata:
     i18next: "npm:^23.10.1"
     i18next-resources-to-backend: "npm:^1.2.0"
     jszip: "npm:^3.10.1"
+    media-devices: "npm:^0.5.0"
     mousetrap: "npm:^1.6.5"
     next: "npm:^14.1.3"
     orval: "npm:^6.30.2"
@@ -8329,6 +8359,8 @@ __metadata:
     react-i18next: "npm:^14.1.0"
     react-transition-group: "npm:^4.4.5"
     typescript: "npm:^5.4.5"
+    ua-parser-js: "npm:^1.0.38"
+    webrtc-adapter: "npm:^9.0.1"
   languageName: unknown
   linkType: soft
 
@@ -8464,6 +8496,15 @@ __metadata:
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
   checksum: 10c0/5612d5f3e54760a797052eb4927f0ddc01383550f542ccd33d5238cfd65aeed392a45ad38364970d0a0f4fea32e1f4d231b3d8dac4a3bdd385e5cf802ae097db
+  languageName: node
+  linkType: hard
+
+"webrtc-adapter@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "webrtc-adapter@npm:9.0.1"
+  dependencies:
+    sdp: "npm:^3.2.0"
+  checksum: 10c0/09286adf351b3aff6eadf7942de7f153072a946fd815450e23505e39181c332d0552f4d27a99c5d7258efa3bd70a12949fe043fd8dc6acc03507b4448d7a597e
   languageName: node
   linkType: hard
 

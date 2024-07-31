@@ -1,135 +1,286 @@
-import { useCallback, useEffect, useState } from "react";
+import MediaDevices from "media-devices";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
+import uaParser from "ua-parser-js";
+import { readData, storeData } from "../localStorageUtils";
+import adapter from "webrtc-adapter";
 
-type PermissionStateExtended = PermissionState | "unknown" | "not_supported";
+type Permission = "denied" | "granted" | "unknown" | "prompt";
 
-export const useCamera = () => {
-  const [permission, setPermission] =
-    useState<PermissionStateExtended>("unknown");
-  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
-  const [currentVideoDevice, setCurrentVideoDevice] = useState<
-    MediaDeviceInfo | undefined
+type DetectedDevice = {
+  id: string;
+  label: string;
+  canTorch: boolean;
+};
+
+type DeviceMap = {
+  front?: DetectedDevice;
+  back?: DetectedDevice;
+};
+
+type CameraType = "front" | "back";
+
+type DetectedCamera = {
+  type: CameraType;
+  payload: DetectedDevice;
+};
+
+type useCameraReturn = {
+  permission: Permission;
+  setPermission: Dispatch<SetStateAction<Permission>>;
+  browserHasSupport: boolean;
+  isLoading: boolean;
+  hasFrontAndBackCamera: boolean;
+  selectedCamera?: DetectedDevice;
+  cameraError?: string;
+  toggleCamera: () => void;
+};
+
+const MAX_RETRY_ATTEMPTS = 3; // Max number of times to retry getting camera information
+const RETRY_DELAY = 1000; // Delay between attempts in ms
+
+export const useCamera = ({
+  initializeCamera = true,
+}: {
+  initializeCamera?: boolean;
+} = {}): useCameraReturn => {
+  const [permission, setPermission] = useState<Permission>("unknown");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [selectedCamera, setSelectedCamera] = useState<
+    DetectedDevice | undefined
   >(undefined);
+  const [browser, setBrowser] = useState<string | undefined>(undefined);
+  const [browserHasSupport, setBrowserHasSupport] = useState(false);
+  const [detectedCameras, setDetectedCameras] = useReducer(
+    (
+      state: DeviceMap,
+      action: {
+        type: CameraType;
+        payload: DetectedDevice;
+      }
+    ) => ({
+      ...state,
+      [action.type]: action.payload,
+    }),
+    {} as DeviceMap
+  );
 
-  const setCameraPosition = (position: "front" | "back") => {
-    if (navigator.userAgent.includes("Firefox")) {
-      const index = position === "front" ? 0 : videoDevices.length - 1;
-      setCurrentVideoDevice(videoDevices[index]);
-    } else {
-      const device =
-        videoDevices.find((device) =>
-          device.label.toLowerCase().includes(position)
-        ) || videoDevices[videoDevices.length - 1];
-      setCurrentVideoDevice(device);
+  useEffect(() => {
+    setBrowser(uaParser(navigator.userAgent).browser.name);
+    setBrowserHasSupport(
+      navigator.mediaDevices &&
+        typeof navigator.mediaDevices.getUserMedia === "function" &&
+        browser !== "Opera"
+    );
+    if (!initializeCamera) setIsLoading(false);
+  }, [browser, initializeCamera]);
+
+  const toggleCamera = () => {
+    if (selectedCamera === detectedCameras.back) {
+      setSelectedCamera(detectedCameras.front);
+    } else if (selectedCamera === detectedCameras.front) {
+      setSelectedCamera(detectedCameras.back);
     }
   };
 
-  const toggleFrontBackCamera = () => {
-    if (navigator.userAgent.includes("Firefox")) {
-      const currentIndex = videoDevices.findIndex(
-        (device) => device.deviceId === currentVideoDevice?.deviceId
-      );
-      const nextPosition =
-        currentIndex === videoDevices.length - 1 ? "front" : "back";
-      setCameraPosition(nextPosition);
-    } else {
-      const nextPosition = currentVideoDevice?.label
-        .toLowerCase()
-        .includes("back")
-        ? "front"
-        : "back";
-      setCameraPosition(nextPosition);
-    }
-  };
-
-  const askForPermission = useCallback(() => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: false,
-      })
+  const askForPermission = () => {
+    MediaDevices.getUserMedia({ video: true, audio: false })
       .then((stream) => {
+        stream.getVideoTracks().forEach((track) => {
+          track.stop();
+        });
         setPermission("granted");
-        stream.getVideoTracks().forEach((track) => track.stop());
       })
       .catch((err) => {
-        console.error("Could not determine camera permissions:", err);
-        setPermission("not_supported");
-      });
-  }, []);
-
-  const checkPermission = useCallback(() => {
-    if (navigator.permissions && !navigator.userAgent.includes("Firefox")) {
-      navigator.permissions
-        .query({
-          name: "camera" as PermissionName,
-        })
-        .then((status) => {
-          if (permission === "unknown") {
-            setPermission(status.state);
+        // Firefox does not support navigator.permissions, so we need to handle the error here.
+        // For other browsers, we can rely on checkPermissions() to update the permission state.
+        if (browser === "Firefox" && err instanceof Error) {
+          if (err.name === "NotAllowedError") {
+            setPermission("denied");
+            return;
           }
+        }
+      });
+  };
+
+  const checkPermissions = () => {
+    if (!navigator.permissions) {
+      console.warn("Browser does not support querying permissions");
+      return;
+    }
+
+    // Firefox does not expose camera permissions through navigator.permissions
+    if (browser !== "Firefox") {
+      navigator.permissions
+        .query({ name: "camera" as PermissionName })
+        .then((status) => {
+          setPermission(status.state);
           status.addEventListener("change", () => {
             setPermission(status.state);
           });
         })
         .catch((err) => {
-          console.error("Error accessing the camera:", err);
-          setPermission("not_supported");
+          console.error("Could not read camera permissions:", err);
         });
-    } else {
-      askForPermission();
     }
-  }, [permission, askForPermission]);
+  };
 
-  useEffect(() => {
-    if (permission === "unknown" || permission === "prompt") {
-      askForPermission();
-      checkPermission();
+  const getCameraIdMap = async (retryCount = 0): Promise<void> => {
+    // First, check if we have cached camera information
+    const cachedFront = readData<DetectedDevice>("frontCamera");
+    const cachedBack = readData<DetectedDevice>("backCamera");
+
+    if (cachedFront && cachedBack) {
+      setDetectedCameras({ type: "front", payload: cachedFront });
+      setDetectedCameras({ type: "back", payload: cachedBack });
+      setIsLoading(false);
+      return;
     }
 
-    if (permission === "granted") {
+    try {
+      const devices = await MediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      );
+
       if (videoDevices.length === 0) {
-        navigator.mediaDevices.enumerateDevices().then((devices) => {
-          const videoDevicesLocal = devices.filter(
-            (device) => device.kind === "videoinput"
-          );
+        throw new Error("No video devices found on this device");
+      }
 
-          if (videoDevicesLocal.length === 0) {
-            setPermission("not_supported");
-            return;
+      const detectedCamerasLocal: DetectedCamera[] = [];
+
+      for (const device of videoDevices) {
+        if (!device.deviceId) {
+          console.warn("Device without deviceId found, skipping");
+          continue;
+        }
+
+        try {
+          const stream = await MediaDevices.getUserMedia({
+            video: { deviceId: { exact: device.deviceId } },
+          });
+
+          const track = stream.getVideoTracks()[0];
+          const settings = track.getSettings();
+          const capabilities =
+            typeof track.getCapabilities === "function"
+              ? track.getCapabilities()
+              : undefined;
+
+          track.stop();
+
+          const cameraType: CameraType =
+            settings.facingMode === "user" ? "front" : "back";
+
+          let canTorch = false;
+          if (capabilities) {
+            try {
+              canTorch = "torch" in capabilities;
+            } catch (e) {
+              console.warn(`Error checking torch capability:`, e);
+              canTorch = false;
+            }
           }
 
-          setVideoDevices(videoDevicesLocal);
-        });
+          if (cameraType === "back" && capabilities && !canTorch) {
+            continue;
+          }
+
+          if (!detectedCamerasLocal.find((c) => c.type === cameraType)) {
+            const cameraInfo = {
+              type: cameraType,
+              payload: {
+                id: device.deviceId,
+                label:
+                  device.label || `Camera ${detectedCamerasLocal.length + 1}`,
+                canTorch,
+              },
+            };
+            detectedCamerasLocal.push(cameraInfo);
+
+            setDetectedCameras(cameraInfo);
+            storeData<DetectedDevice>(
+              `${cameraType}Camera`,
+              cameraInfo.payload
+            );
+          }
+        } catch (err) {
+          console.error(`Failed to access device: ${device.deviceId}`, err);
+        }
       }
 
-      if (!currentVideoDevice && videoDevices.length > 0) {
-        setCameraPosition("back");
+      if (detectedCamerasLocal.length === 0) {
+        throw new Error("Unable to access any camera");
       }
+
+      const hasFront = detectedCamerasLocal.some(
+        (camera) => camera.type === "front"
+      );
+      const hasBack = detectedCamerasLocal.some(
+        (camera) => camera.type === "back"
+      );
+
+      if (!hasFront || !hasBack) {
+        if (retryCount < MAX_RETRY_ATTEMPTS) {
+          setTimeout(() => getCameraIdMap(retryCount + 1), RETRY_DELAY);
+        } else {
+          setBrowserHasSupport(false);
+        }
+      }
+    } catch (err) {
+      console.error("Could not detect camera devices:", err);
+      if (retryCount < MAX_RETRY_ATTEMPTS) {
+        setTimeout(() => getCameraIdMap(retryCount + 1), RETRY_DELAY);
+      } else {
+        setBrowserHasSupport(false);
+      }
+    } finally {
+      setIsLoading(false);
     }
-  }, [permission, videoDevices]);
-
-  const frontBackCameraAvailable = () => {
-    if (videoDevices.length <= 1) return false;
-
-    // Firefox does not provide labels for the camera devices
-    // Assume that front/back camera is available since we do have multiple devices
-    if (videoDevices.some((device) => !device.label)) {
-      return true;
-    }
-
-    return (
-      videoDevices.some((device) =>
-        device.label.toLowerCase().includes("front")
-      ) &&
-      videoDevices.some((device) => device.label.toLowerCase().includes("back"))
-    );
   };
+
+  const hasFrontAndBackCamera = useMemo(
+    () => Boolean(detectedCameras.front && detectedCameras.back),
+    [detectedCameras]
+  );
+
+  useEffect(() => {
+    // skip checking permissions & determining cameras if browser does not support it or if we don't want to initialize the camera
+    // in case we only wish to access the browserHasSupport state
+    if (!browserHasSupport || !initializeCamera) return;
+
+    askForPermission();
+    checkPermissions();
+    if (permission === "granted") {
+      getCameraIdMap();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- this is intentional, otherwise we would have infinite re-renders
+  }, [browserHasSupport, initializeCamera, permission]);
+
+  useEffect(() => {
+    if (!selectedCamera && !isLoading) {
+      if (!detectedCameras.back && !detectedCameras.front) return;
+
+      if (detectedCameras.back) {
+        setSelectedCamera(detectedCameras.back);
+      }
+    }
+  }, [detectedCameras, isLoading, selectedCamera]);
 
   return {
     permission,
-    videoDevices,
-    currentVideoDevice,
-    frontBackCameraAvailable,
-    toggleFrontBackCamera,
+    setPermission,
+    browserHasSupport,
+    isLoading,
+    hasFrontAndBackCamera,
+    selectedCamera,
+    toggleCamera,
   };
 };
