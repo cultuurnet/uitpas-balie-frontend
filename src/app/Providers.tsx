@@ -6,6 +6,7 @@ import { MobileProviders } from "@/app/MobileProviders";
 import { WebProviders } from "@/app/WebProviders";
 import { openSansFont } from "@/web/lib/ui";
 import { poppinsFont } from "@/mobile/lib/ui";
+import "@/shared/lib/utils/polyfills";
 
 export function Providers({ children }: PropsWithChildren) {
   const device = useDetectMobile();
