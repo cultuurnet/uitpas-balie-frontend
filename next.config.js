@@ -27,6 +27,7 @@ const nextConfig = {
       ],
     },
   },
+  transpilePackages: ["@tanstack/query-core", "@tanstack/react-query"],
 };
 
 module.exports = nextConfig;
