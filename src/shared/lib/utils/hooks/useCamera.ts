@@ -75,8 +75,9 @@ export const useCamera = ({
   useEffect(() => {
     setBrowser(uaParser(navigator.userAgent).browser.name);
     setBrowserHasSupport(
-      navigator.mediaDevices &&
-        typeof navigator.mediaDevices.getUserMedia === "function" &&
+      ((navigator.mediaDevices &&
+        typeof navigator.mediaDevices.getUserMedia === "function") ??
+        false) &&
         browser !== "Opera"
     );
     if (!initializeCamera) setIsLoading(false);
@@ -189,7 +190,14 @@ export const useCamera = ({
             }
           }
 
-          if (cameraType === "back" && capabilities && !canTorch) {
+          // When looking for a back camera, it's preferable to find a device that supports torch,
+          // but if by the last attempt we still don't find such a device, we will fall back to the first back camera that is found.
+          if (
+            cameraType === "back" &&
+            capabilities &&
+            !canTorch &&
+            retryCount < MAX_RETRY_ATTEMPTS
+          ) {
             continue;
           }
 
