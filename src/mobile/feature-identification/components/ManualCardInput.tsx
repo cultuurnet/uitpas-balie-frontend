@@ -22,7 +22,7 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
   };
 
   const handleRouteChange = (
-    cardType: "inz" | "uitpas",
+    cardType: "insz" | "uitpas",
     cardNumber: string
   ) => {
     return router.push(
@@ -43,7 +43,7 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
       if (controlNumber !== checksum) {
         errorKey = "invalidInszNo";
       } else {
-        handleRouteChange("inz", sanitizedCardNumber);
+        handleRouteChange("insz", sanitizedCardNumber);
       }
     } else if (sanitizedCardNumber.length === 13) {
       handleRouteChange("uitpas", sanitizedCardNumber);
