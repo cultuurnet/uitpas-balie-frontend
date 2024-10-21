@@ -142,6 +142,10 @@
       "noActivitiesSearch": "Geen activiteiten gevonden met de zoekterm '{{searchTerm}}'."
     }
   },
+  "camera": {
+    "front": "camera vooraan",
+    "back": "camera achteraan"
+  },
   "identification": {
     "mobile": {
       "chosenActivity": "Gekozen activiteit",
