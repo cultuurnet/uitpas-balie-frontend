@@ -109,7 +109,7 @@ export const useCamera = ({
     }
   };
 
-  const getRawCamerasMap = async (retryCount = 0): Promise<void> => {
+  const getRawCamerasMap = async (): Promise<void> => {
     const cachedMap = readData<DetectedDevice[]>("camerasRaw");
 
     if (cachedMap) {
