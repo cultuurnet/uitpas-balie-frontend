@@ -2,10 +2,6 @@
 
 import { createTheme } from "@mui/material/styles";
 import { poppinsFont } from "./fonts";
-import {
-  PaletteColor,
-  PaletteColorOptions,
-} from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles" {
   interface Palette {

@@ -6,11 +6,15 @@
  * OpenAPI spec version: 4.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query'
 import type {
+  MutationFunction,
   QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -21,6 +25,7 @@ import type {
   AxiosResponse
 } from 'axios'
 import type {
+  Error,
   ForbiddenResponse,
   OrganizerPermissions,
   UnauthorizedResponse
@@ -29,7 +34,9 @@ import type {
 
 
 /**
- * Lists the organizers that the current user or client (depending on the token) has access to. The possible permissions on each organizer can also differ (will be added later).
+ * Lists the organizers that the current user or client (depending on the token) has access to incuding a list of its permissions.
+
+Use this endpoint if you obtained a user or client access token and need to know its organizer permissions. Use [GET /permissions/clientID](/reference/uitpas.json/paths/~1permissions~1clientId/get) to manage permissions for any client.
  * @summary Get permissions
  */
 export const getPermissions = (
@@ -87,3 +94,126 @@ export const useGetPermissions = <TData = Awaited<ReturnType<typeof getPermissio
 
 
 
+/**
+ * Lists the organizer permissions of the given client ID.
+
+Use this endpoint to manage permissions for any client. Use [GET /permissions](/reference/uitpas.json/paths/~1permissions/get) to retrieve permissions for your token (current client or user).
+
+The caller of this request must have `PERMISSIONS_READ` permission.
+
+ * @summary Get permissions for a client
+ */
+export const getPermissionsClientId = (
+    clientId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<OrganizerPermissions[]>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/permissions/${clientId}`,options
+    );
+  }
+
+
+export const getGetPermissionsClientIdQueryKey = (clientId: string,) => {
+    return [`NEXT_PUBLIC_API_PATH/permissions/${clientId}`] as const;
+    }
+
+    
+export const getGetPermissionsClientIdQueryOptions = <TData = Awaited<ReturnType<typeof getPermissionsClientId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPermissionsClientId>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPermissionsClientIdQueryKey(clientId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPermissionsClientId>>> = ({ signal }) => getPermissionsClientId(clientId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(clientId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPermissionsClientId>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPermissionsClientIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPermissionsClientId>>>
+export type GetPermissionsClientIdQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+
+/**
+ * @summary Get permissions for a client
+ */
+export const useGetPermissionsClientId = <TData = Awaited<ReturnType<typeof getPermissionsClientId>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPermissionsClientId>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetPermissionsClientIdQueryOptions(clientId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Update the organizer permissions of the given client ID.
+
+The caller of this request must have `PERMISSIONS_WRITE` permission.
+ * @summary Update permissions for a client
+ */
+export const putPermissionsClientId = (
+    clientId: string,
+    organizerPermissions: OrganizerPermissions[], options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_API_PATH/permissions/${clientId}`,
+      organizerPermissions,options
+    );
+  }
+
+
+
+export const getPutPermissionsClientIdMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putPermissionsClientId>>, TError,{clientId: string;data: OrganizerPermissions[]}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof putPermissionsClientId>>, TError,{clientId: string;data: OrganizerPermissions[]}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putPermissionsClientId>>, {clientId: string;data: OrganizerPermissions[]}> = (props) => {
+          const {clientId,data} = props ?? {};
+
+          return  putPermissionsClientId(clientId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutPermissionsClientIdMutationResult = NonNullable<Awaited<ReturnType<typeof putPermissionsClientId>>>
+    export type PutPermissionsClientIdMutationBody = OrganizerPermissions[]
+    export type PutPermissionsClientIdMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
+ * @summary Update permissions for a client
+ */
+export const usePutPermissionsClientId = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putPermissionsClientId>>, TError,{clientId: string;data: OrganizerPermissions[]}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof putPermissionsClientId>>,
+        TError,
+        {clientId: string;data: OrganizerPermissions[]},
+        TContext
+      > => {
+
+      const mutationOptions = getPutPermissionsClientIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

@@ -6,10 +6,16 @@
  * OpenAPI spec version: 4.0
  */
 import type { Organizer } from './organizer';
+import type { PermissionDetail } from './permissionDetail';
 import type { Permission } from './permission';
 
 export interface OrganizerPermissions {
   organizer: Organizer;
   /** Permissions of the calling client for this organizer. */
+  permissionDetails?: PermissionDetail[];
+  /**
+   * Permissions of the calling client for this organizer. This field is deprecated. Please use `permissionsDetail`, which includes a user-readable label, instead.
+   * @deprecated
+   */
   permissions?: Permission[];
 }

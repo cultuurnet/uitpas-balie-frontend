@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box, IconButton } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { Typography, UitpasLoading } from "@/mobile/lib/ui";
 import { useTranslation } from "@/shared/lib/i18n/client";
-import {
-  FlashlightOn,
-  FlashlightOff,
-  Cameraswitch,
-  Close,
-} from "@mui/icons-material";
+import { FlashlightOn, FlashlightOff, Close } from "@mui/icons-material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PermissionBox } from "@/mobile/feature-identification/scan/components/PermissionBox";
 import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
@@ -20,9 +21,9 @@ export const BarcodeScanner: React.FC = () => {
     browserHasSupport,
     permission,
     selectedCamera,
-    hasFrontAndBackCamera,
-    toggleCamera,
+    setSelectedCamera,
     isLoading,
+    detectedCameras,
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
@@ -55,10 +56,6 @@ export const BarcodeScanner: React.FC = () => {
     router.push("/mobile/identification");
   };
 
-  const handleFlipCamera = () => {
-    toggleCamera();
-  };
-
   const handleResultErrorCheck = useCallback(
     (result: QuaggaJSResultObject) => {
       const errors = result.codeResult.decodedCodes
@@ -88,6 +85,12 @@ export const BarcodeScanner: React.FC = () => {
     },
     [firstCardEntry, router]
   );
+
+  const handleCameraChange = (e: SelectChangeEvent<string>) => {
+    setSelectedCamera(
+      detectedCameras?.find((cam) => cam.id === e.target.value)
+    );
+  };
 
   useEffect(() => {
     if (
@@ -195,6 +198,43 @@ export const BarcodeScanner: React.FC = () => {
         >
           <Close sx={{ fontSize: 30 }} />
         </IconButton>
+        {selectedCamera &&
+          selectedCamera?.id &&
+          detectedCameras &&
+          detectedCameras.length > 1 && (
+            <Select
+              size="small"
+              disableUnderline={true}
+              value={
+                detectedCameras.find((cam) => cam.id === selectedCamera?.id)?.id
+              }
+              onChange={handleCameraChange}
+              sx={(theme) => ({
+                position: "absolute",
+                width: "max-content",
+                left: "50%",
+                top: "1%",
+                transform: "translateX(-50%)",
+                zIndex: 20,
+                border: `1px solid ${theme.palette.neutral[0]}`,
+                borderRadius: 0,
+                backgroundColor: "transparent",
+                color: theme.palette.neutral[0],
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "& .MuiSelect-icon": {
+                  color: theme.palette.neutral[0],
+                },
+              })}
+            >
+              {detectedCameras.map((camera) => (
+                <MenuItem value={camera.id} key={camera.label}>
+                  {camera.label}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         {!selectedCamera?.canTorch ? null : (
           <IconButton
             disableRipple
@@ -212,21 +252,6 @@ export const BarcodeScanner: React.FC = () => {
             ) : (
               <FlashlightOff sx={{ fontSize: 30 }} />
             )}
-          </IconButton>
-        )}
-        {hasFrontAndBackCamera && (
-          <IconButton
-            disableRipple
-            size="large"
-            sx={(theme) => ({
-              position: "absolute",
-              color: theme.palette.neutral[0],
-              right: !selectedCamera?.canTorch ? "0%" : "15%",
-              zIndex: 20,
-            })}
-            onClick={handleFlipCamera}
-          >
-            <Cameraswitch sx={{ fontSize: 30 }} />
           </IconButton>
         )}
         <Box
