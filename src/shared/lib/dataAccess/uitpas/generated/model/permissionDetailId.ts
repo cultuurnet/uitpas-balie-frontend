@@ -6,11 +6,14 @@
  * OpenAPI spec version: 4.0
  */
 
-export type Permission = typeof Permission[keyof typeof Permission];
+/**
+ * ID of the permission
+ */
+export type PermissionDetailId = typeof PermissionDetailId[keyof typeof PermissionDetailId];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const Permission = {
+export const PermissionDetailId = {
   TARIFFS_READ: 'TARIFFS_READ',
   TICKETSALES_SEARCH: 'TICKETSALES_SEARCH',
   TICKETSALES_REGISTER: 'TICKETSALES_REGISTER',
