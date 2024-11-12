@@ -69,7 +69,8 @@ export const ActivitiesPage = () => {
     dateFrom: dates.dateFrom,
     dateTo: dates.dateTo,
     availableFrom: "*",
-    availableTo: "*"
+    availableTo: "*",
+    sort: { availableTo: "asc" },
   });
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);
