@@ -9,6 +9,7 @@ import {
 } from "react";
 import uaParser from "ua-parser-js";
 import { readData, storeData } from "../localStorageUtils";
+import { useTranslation } from "@/shared/lib/i18n/client";
 import adapter from "webrtc-adapter";
 
 type Permission = "denied" | "granted" | "unknown" | "prompt";
@@ -19,16 +20,11 @@ type DetectedDevice = {
   canTorch: boolean;
 };
 
+type CameraType = "front" | "back";
+
 type DeviceMap = {
   front?: DetectedDevice;
   back?: DetectedDevice;
-};
-
-type CameraType = "front" | "back";
-
-type DetectedCamera = {
-  type: CameraType;
-  payload: DetectedDevice;
 };
 
 type useCameraReturn = {
@@ -36,20 +32,18 @@ type useCameraReturn = {
   setPermission: Dispatch<SetStateAction<Permission>>;
   browserHasSupport: boolean;
   isLoading: boolean;
-  hasFrontAndBackCamera: boolean;
   selectedCamera?: DetectedDevice;
+  setSelectedCamera: Dispatch<SetStateAction<DetectedDevice | undefined>>;
   cameraError?: string;
-  toggleCamera: () => void;
+  detectedCameras?: DetectedDevice[];
 };
-
-const MAX_RETRY_ATTEMPTS = 3; // Max number of times to retry getting camera information
-const RETRY_DELAY = 1000; // Delay between attempts in ms
 
 export const useCamera = ({
   initializeCamera = true,
 }: {
   initializeCamera?: boolean;
 } = {}): useCameraReturn => {
+  const { t } = useTranslation();
   const [permission, setPermission] = useState<Permission>("unknown");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,19 +52,9 @@ export const useCamera = ({
   >(undefined);
   const [browser, setBrowser] = useState<string | undefined>(undefined);
   const [browserHasSupport, setBrowserHasSupport] = useState(false);
-  const [detectedCameras, setDetectedCameras] = useReducer(
-    (
-      state: DeviceMap,
-      action: {
-        type: CameraType;
-        payload: DetectedDevice;
-      }
-    ) => ({
-      ...state,
-      [action.type]: action.payload,
-    }),
-    {} as DeviceMap
-  );
+  const [detectedCameras, setDetectedCameras] = useState<
+    DetectedDevice[] | undefined
+  >(undefined);
 
   useEffect(() => {
     setBrowser(uaParser(navigator.userAgent).browser.name);
@@ -82,14 +66,6 @@ export const useCamera = ({
     );
     if (!initializeCamera) setIsLoading(false);
   }, [browser, initializeCamera]);
-
-  const toggleCamera = () => {
-    if (selectedCamera === detectedCameras.back) {
-      setSelectedCamera(detectedCameras.front);
-    } else if (selectedCamera === detectedCameras.front) {
-      setSelectedCamera(detectedCameras.back);
-    }
-  };
 
   const askForPermission = () => {
     MediaDevices.getUserMedia({ video: true, audio: false })
@@ -133,20 +109,17 @@ export const useCamera = ({
     }
   };
 
-  const getCameraIdMap = async (retryCount = 0): Promise<void> => {
-    // First, check if we have cached camera information
-    const cachedFront = readData<DetectedDevice>("frontCamera");
-    const cachedBack = readData<DetectedDevice>("backCamera");
+  const getRawCamerasMap = async (): Promise<void> => {
+    const cachedMap = readData<DetectedDevice[]>("camerasRaw");
 
-    if (cachedFront && cachedBack) {
-      setDetectedCameras({ type: "front", payload: cachedFront });
-      setDetectedCameras({ type: "back", payload: cachedBack });
+    if (cachedMap) {
+      setDetectedCameras(cachedMap);
       setIsLoading(false);
       return;
     }
 
     try {
-      const devices = await MediaDevices.enumerateDevices();
+      const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter(
         (device) => device.kind === "videoinput"
       );
@@ -155,7 +128,7 @@ export const useCamera = ({
         throw new Error("No video devices found on this device");
       }
 
-      const detectedCamerasLocal: DetectedCamera[] = [];
+      const detectedCamerasLocal: DetectedDevice[] = [];
 
       for (const device of videoDevices) {
         if (!device.deviceId) {
@@ -190,74 +163,41 @@ export const useCamera = ({
             }
           }
 
-          // When looking for a back camera, it's preferable to find a device that supports torch,
-          // but if by the last attempt we still don't find such a device, we will fall back to the first back camera that is found.
+          let cameraLabel = t(`camera.${cameraType}`);
           if (
-            cameraType === "back" &&
-            capabilities &&
-            !canTorch &&
-            retryCount < MAX_RETRY_ATTEMPTS
+            detectedCamerasLocal.findIndex((c) =>
+              c.label.includes(t(`camera.${cameraType}`))
+            ) !== -1
           ) {
-            continue;
+            const amountOfCameras = detectedCamerasLocal.filter((c) =>
+              c.label.includes(t(`camera.${cameraType}`))
+            ).length;
+            cameraLabel = `${t(`camera.${cameraType}`)} ${amountOfCameras + 1}`;
           }
 
-          if (!detectedCamerasLocal.find((c) => c.type === cameraType)) {
-            const cameraInfo = {
-              type: cameraType,
-              payload: {
-                id: device.deviceId,
-                label:
-                  device.label || `Camera ${detectedCamerasLocal.length + 1}`,
-                canTorch,
-              },
-            };
-            detectedCamerasLocal.push(cameraInfo);
-
-            setDetectedCameras(cameraInfo);
-            storeData<DetectedDevice>(
-              `${cameraType}Camera`,
-              cameraInfo.payload
-            );
+          if (
+            detectedCamerasLocal.findIndex((c) => c.id === device.deviceId) ===
+            -1
+          ) {
+            detectedCamerasLocal.push({
+              id: device.deviceId,
+              label: cameraLabel,
+              canTorch,
+            });
           }
+
+          storeData<DetectedDevice[]>("camerasRaw", detectedCamerasLocal);
+          setDetectedCameras(detectedCamerasLocal);
         } catch (err) {
           console.error(`Failed to access device: ${device.deviceId}`, err);
         }
       }
-
-      if (detectedCamerasLocal.length === 0) {
-        throw new Error("Unable to access any camera");
-      }
-
-      const hasFront = detectedCamerasLocal.some(
-        (camera) => camera.type === "front"
-      );
-      const hasBack = detectedCamerasLocal.some(
-        (camera) => camera.type === "back"
-      );
-
-      if (!hasFront || !hasBack) {
-        if (retryCount < MAX_RETRY_ATTEMPTS) {
-          setTimeout(() => getCameraIdMap(retryCount + 1), RETRY_DELAY);
-        } else {
-          setBrowserHasSupport(false);
-        }
-      }
     } catch (err) {
-      console.error("Could not detect camera devices:", err);
-      if (retryCount < MAX_RETRY_ATTEMPTS) {
-        setTimeout(() => getCameraIdMap(retryCount + 1), RETRY_DELAY);
-      } else {
-        setBrowserHasSupport(false);
-      }
+      console.error("Could not enumerate devices:", err);
     } finally {
       setIsLoading(false);
     }
   };
-
-  const hasFrontAndBackCamera = useMemo(
-    () => Boolean(detectedCameras.front && detectedCameras.back),
-    [detectedCameras]
-  );
 
   useEffect(() => {
     // skip checking permissions & determining cameras if browser does not support it or if we don't want to initialize the camera
@@ -267,28 +207,32 @@ export const useCamera = ({
     askForPermission();
     checkPermissions();
     if (permission === "granted") {
-      getCameraIdMap();
+      getRawCamerasMap();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- this is intentional, otherwise we would have infinite re-renders
   }, [browserHasSupport, initializeCamera, permission]);
 
   useEffect(() => {
     if (!selectedCamera && !isLoading) {
-      if (!detectedCameras.back && !detectedCameras.front) return;
+      if (!detectedCameras) return;
 
-      if (detectedCameras.back) {
-        setSelectedCamera(detectedCameras.back);
+      if (detectedCameras.length > 0) {
+        setSelectedCamera(
+          detectedCameras.find((c) => c.canTorch) ||
+            detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
+            detectedCameras[detectedCameras.length - 1]
+        );
       }
     }
-  }, [detectedCameras, isLoading, selectedCamera]);
+  }, [detectedCameras, isLoading, selectedCamera, t]);
 
   return {
     permission,
     setPermission,
     browserHasSupport,
     isLoading,
-    hasFrontAndBackCamera,
     selectedCamera,
-    toggleCamera,
+    detectedCameras,
+    setSelectedCamera,
   };
 };
