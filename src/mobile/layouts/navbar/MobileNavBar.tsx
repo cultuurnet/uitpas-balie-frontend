@@ -5,12 +5,18 @@ import { PropsWithChildren } from "react";
 import { Box } from "@mui/material";
 import uitpasLogo from "public/images/svg/logo-uitpas.svg";
 import Image from "next/image";
-import { Settings } from "@mui/icons-material";
-import { Typography } from "@/mobile/lib/ui";
+import { ExitToApp, Settings } from "@mui/icons-material";
 import Link from "next/link";
+import { useLogout } from "@/shared/lib/auth";
+import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
+import { NavBarIcon } from "./components/NavBarIcon";
+import { NavBarTypography } from "./components/NavBarTypography";
+import { NavBarItemContainer } from "./components/NavBarItemContainer";
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
+  const { t } = useTranslation();
   const { setLastCounterUsed, setActiveCounter, activeCounter } = useCounter();
+  const logout = useLogout();
 
   const handleCurrentCounterClick = () => {
     setLastCounterUsed(activeCounter);
@@ -41,33 +47,23 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           style={{ marginLeft: "12px" }}
           priority={true}
         />
-        {activeCounter && (
-          <Box
+        {activeCounter ? (
+          <NavBarItemContainer
             component={Link}
             href="/mobile/counters"
             onClick={handleCurrentCounterClick}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "8px",
-              textDecoration: "none",
-              overflow: "hidden",
-            }}
           >
-            <Typography
-              variant="h1"
-              sx={(theme) => ({
-                color: theme.palette.neutral[0],
-                padding: "0 0 0 16px",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-              })}
-            >
-              {activeCounter.name}
-            </Typography>
-            <Settings sx={{ fontSize: 24, color: "white" }} />
-          </Box>
+            <NavBarTypography>{activeCounter.name}</NavBarTypography>
+            <NavBarIcon icon={Settings} />
+          </NavBarItemContainer>
+        ) : (
+          <NavBarItemContainer
+            onClick={logout}
+            sx={{ columnGap: "4px", mr: "10px" }}
+          >
+            <NavBarTypography>{t("counter.mobile.logoutBtn")}</NavBarTypography>
+            <NavBarIcon icon={ExitToApp} />
+          </NavBarItemContainer>
         )}
       </Box>
       {children}

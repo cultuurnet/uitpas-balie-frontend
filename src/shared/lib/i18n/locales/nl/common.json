@@ -96,7 +96,8 @@
       "searchCounter": "Zoek balie",
       "lastUsed": "Laatst gebruikt",
       "otherCounters": "Andere balies",
-      "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'."
+      "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
+      "logoutBtn": "Afmelden"
     }
   },
   "expenseReport": {
