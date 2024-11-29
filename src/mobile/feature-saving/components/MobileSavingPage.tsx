@@ -348,7 +348,7 @@ export const MobileSavingPage = () => {
                   ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
                   : undefined
               }
-              passHolderPoints={passHoldersData.data.member[0].points}
+              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
               rewardRedemptionMutation={handleRewardRedemption}
             />
           )}
