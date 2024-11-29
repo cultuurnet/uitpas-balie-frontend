@@ -337,8 +337,7 @@ export const MobileSavingPage = () => {
           )}
 
         {activityRef.current &&
-          passHoldersData?.data?.member &&
-          passHoldersData.data.member[0].points && (
+          passHoldersData?.data?.member && (
             <RewardsDrawer
               isOpen={showRewardsDrawer}
               setIsOpen={setShowRewardsDrawer}
