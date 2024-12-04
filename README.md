@@ -11,6 +11,7 @@
       - [Main Concept](#main-concept)
       - [Internationalization (I18n)](#internationalization-i18n)
       - [Environment Variables](#environment-variables)
+      - [Test Local Development on Mobile Device](#Test-Local-Development-on-Mobile-Device)
 
 # UiTPAS Balie
 
@@ -67,6 +68,8 @@ After logging in, you will be redirected to the deployed frontend (e.g., [https:
 4. Edit the "PHPSESSID" cookie: Check "Secure," and set "SameSite" to "None"
 5. Return to [http://localhost:3000/app](http://localhost:3000/app), and you should now be logged in.
 
+This workaround is temporary and required only as long as the legacy token endpoint is still being used, which is necessary for the AngularJS application.
+
 ## Guidebook
 
 ### Main Framework & Libraries
@@ -88,6 +91,9 @@ Communication between the Next.js and AngularJS apps is facilitated through Even
 The logic for this is encapsulated in `src/feature-legacy`. 
 Once the migration is complete, the `feature-legacy` can be safely removed along with any associated references.
 
+The mobile app is also served by the same Next.js application, allowing code to be shared between web and mobile environments. 
+Detection and switching between the web and mobile app versions are based on browser size, using the `useDetectMobile.ts` React hook.
+
 ### Internationalization (I18n)
 
 For text translation, `next-i18next` is used. You can find the translations in the `src/shared/lib/i18n/locales/nl/common.json` file.
@@ -98,3 +104,12 @@ For text translation, `next-i18next` is used. You can find the translations in t
 
 All variables specified in the `.env(.local)` file should also be passed to `publicRuntimeConfig` in `src/shared/feature-config/getConfig.ts`, but only if they need to be available client-side.
 Use the `useConfig` hook to get the environment variables.
+
+### Test Local Development on Mobile Device
+
+1. **Install LocalXpose**: Sign up for an account and log in using the CLI. For setup instructions, refer to the [LocalXpose documentation](https://localxpose.io/docs).
+2. **Expose Local Server**: Run `yarn expose` to make your local dev server accessible externally. This will generate a public URL (e.g., `usaun45jvk.eu.loclx.io`).
+3. **Access on Mobile**: Open the generated URL in your mobile browser to test your local development on a mobile device.
+
+Because you can't change the cookie settings on a mobile device, you need to start your dev server with a bearer token:
+After logging in on the test environment (on desktop), copy the bearer token from one of the API calls and add it to the `NEXT_PUBLIC_DEV_AUTH_TOKEN` environment variable. Then, restart the dev server.

@@ -11,6 +11,7 @@ import {
   removeHeader,
   setHeaders,
 } from "@/shared/lib/dataAccess/initAxios";
+import { useConfig } from "@/shared/feature-config/context/useConfig";
 
 // const LS_KEY = "@uitpas-balie/token";
 
@@ -19,6 +20,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
   loginPath,
 }) => {
   const { push } = useRouter();
+  const { publicRuntimeConfig } = useConfig();
   const asPath = usePathname();
   const [authTokenLoaded, setAuthTokenLoaded] = useState(false);
   const { fetchToken, removeToken, isFetching } = useFetchToken();
@@ -75,14 +77,18 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
     const redirectToLogin = () => push(`${loginPath}?redirectTo=${asPath}`);
 
     if (isCurrentPathPrivate) {
-      fetchToken()
-        .then(({ data }) => {
-          if (data?.data.token) login(data?.data.token);
-          else redirectToLogin();
-        })
-        .catch(() => {
-          redirectToLogin();
-        });
+      if (publicRuntimeConfig?.devAuthToken) {
+        login(publicRuntimeConfig.devAuthToken);
+      } else {
+        fetchToken()
+          .then(({ data }) => {
+            if (data?.data.token) login(data?.data.token);
+            else redirectToLogin();
+          })
+          .catch(() => {
+            redirectToLogin();
+          });
+      }
     }
   }, [authTokenLoaded, isCurrentPathPrivate, fetchToken, login, asPath, push]);
 

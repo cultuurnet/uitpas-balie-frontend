@@ -30,6 +30,7 @@ export async function getConfig(): Promise<{
       legacyLogoutEndpoint:
         process.env.NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT ?? "",
       blacklist: process.env.NEXT_PUBLIC_BLACKLIST ?? "",
+      devAuthToken: process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN ?? "",
     },
   };
 }
