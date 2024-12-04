@@ -98,6 +98,9 @@ export const useCamera = ({
       navigator.permissions
         .query({ name: "camera" as PermissionName })
         .then((status) => {
+          if (status.state !== "granted") {
+            askForPermission();
+          }
           setPermission(status.state);
           status.addEventListener("change", () => {
             setPermission(status.state);
@@ -106,6 +109,8 @@ export const useCamera = ({
         .catch((err) => {
           console.error("Could not read camera permissions:", err);
         });
+    } else {
+      askForPermission();
     }
   };
 
@@ -204,7 +209,6 @@ export const useCamera = ({
     // in case we only wish to access the browserHasSupport state
     if (!browserHasSupport || !initializeCamera) return;
 
-    askForPermission();
     checkPermissions();
     if (permission === "granted") {
       getRawCamerasMap();
