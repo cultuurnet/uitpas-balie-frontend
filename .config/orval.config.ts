@@ -4,7 +4,7 @@ export default defineConfig({
   uitpas: {
     input: {
       target:
-        "https://stoplight.io/api/v1/projects/publiq/uitpas/nodes/reference/uitpas.json?deref=optimizedBundle",
+        "https://stoplight.io/api/v1/projects/publiq/uitpas/nodes/reference/uitpas.json?deref=optimizedBundle&branch=unreleased",
     },
     output: {
       mode: "tags-split",

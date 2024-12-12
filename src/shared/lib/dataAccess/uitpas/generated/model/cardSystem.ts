@@ -6,6 +6,7 @@
  * OpenAPI spec version: 4.0
  */
 import type { CardSystemBranding } from './cardSystemBranding';
+import type { CardSystemCardlessRegistrationType } from './cardSystemCardlessRegistrationType';
 import type { City } from './city';
 import type { CardSystemLinks } from './cardSystemLinks';
 
@@ -13,10 +14,12 @@ import type { CardSystemLinks } from './cardSystemLinks';
  * A region, usually one or multiple municipalities in Belgium, that uses UiTPAS and provides discounts and/or rewards. For example "Paspartoe" (Brussels), UiTPAS Leuven, UiTPAS Hasselt, UiTPAS Gent, and so on.
  */
 export interface CardSystem {
-  /** Indicates whether this cardsystem allows online cardless registrations. */
+  /** Indicates if cardless registration is enabled */
   allowsCardlessRegistration?: boolean;
   /** Branding information of the card system */
   branding?: CardSystemBranding;
+  /** Indicates the types of online cardless registrations this cardsystem supports. */
+  cardlessRegistrationType?: CardSystemCardlessRegistrationType;
   /** List of cities that are part of this card system */
   cities?: City[];
   /** ID of the card system */
@@ -27,4 +30,6 @@ export interface CardSystem {
   name?: string;
   /** Indicates whether this is a permanent card system */
   permanent?: boolean;
+  /** Optional information about social tariff entitlement in this card system. */
+  socialTariffInfo?: string;
 }

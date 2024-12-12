@@ -6,12 +6,17 @@
  * OpenAPI spec version: 4.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import type {
   MutationFunction,
+  QueryFunction,
+  QueryKey,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import axios from 'axios'
 import type {
@@ -21,8 +26,10 @@ import type {
 } from 'axios'
 import type {
   Checkin,
+  CheckinStatus,
   Error,
   ForbiddenResponse,
+  GetCheckinStatusParams,
   UnauthorizedResponse
 } from '.././model'
 
@@ -64,7 +71,7 @@ You will need:
 
 > Checking in a passholder is only possible during the opening hours of the event and a certain period before and after. A client will receive an error of type `https://api.publiq.be/probs/uitpas/checkin-not-allowed` when a check-in is not allowed. The `endUserMessage` field of that error response will also contain a user-readable error message.
 
-If you need to check-in a passholder based on a check-in code (e.g. a QR code), use [POST /passholders/passholderId/checkins](/reference/uitpas.json/paths/~1passholders~1passholderId~1  checkins/post) instead.
+If you need to check-in a passholder based on a check-in code (e.g. a QR code), use [POST /passholders/passholderId/checkins](/reference/uitpas.json/paths/~1passholders~1passholderId~1checkins/post) instead.
 
 The caller of this request must have `CHECKINS_WRITE` permission for the organizer of the given event.
 
@@ -121,4 +128,66 @@ export const usePostCheckins = <TError = AxiosError<Error | UnauthorizedResponse
 
       return useMutation(mutationOptions);
     }
+    /**
+ * Retrieves the current checkin status for a passholder and a given event.
+
+The caller of this request must have `CHECKINS_WRITE` permission for the organizer of the given event.
+ * @summary Get checkin status
+ */
+export const getCheckinStatus = (
+    params: GetCheckinStatusParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<CheckinStatus>> => {
     
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/checkin-status`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+
+
+export const getGetCheckinStatusQueryKey = (params: GetCheckinStatusParams,) => {
+    return [`NEXT_PUBLIC_API_PATH/checkin-status`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetCheckinStatusQueryOptions = <TData = Awaited<ReturnType<typeof getCheckinStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(params: GetCheckinStatusParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCheckinStatus>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCheckinStatusQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCheckinStatus>>> = ({ signal }) => getCheckinStatus(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCheckinStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetCheckinStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getCheckinStatus>>>
+export type GetCheckinStatusQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+
+/**
+ * @summary Get checkin status
+ */
+export const useGetCheckinStatus = <TData = Awaited<ReturnType<typeof getCheckinStatus>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ params: GetCheckinStatusParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCheckinStatus>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetCheckinStatusQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

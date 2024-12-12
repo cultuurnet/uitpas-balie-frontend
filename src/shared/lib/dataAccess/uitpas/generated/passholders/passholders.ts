@@ -27,13 +27,16 @@ import type {
 import type {
   Error,
   ForbiddenResponse,
+  GetPassholdersMembershipPricesCardSystemIdParams,
   GetPassholdersParams,
-  GetPassholdersPassholderIdMembershipPricesParams,
+  GetPassholdersPassholderIdMembershipPricesCardSystemIdParams,
   GetPassholdersPassholderIdTransactionsParams,
   MembershipPrice,
   Pass,
   Passholder,
+  PassholderPicture,
   PassholdersPaginatedResponse,
+  PassholdersStatusInszNumbersInsznumber200,
   PostPassholdersPassholderIdCheckin201,
   PostPassholdersPassholderIdCheckinBody,
   TransactionsPaginatedCollection,
@@ -74,7 +77,15 @@ type NonReadonly<T> = [T] extends [UnionToIntersection<T>] ? {
 
 Note: by default passholders in the response are alphabetically sorted by name.
 
-The caller of this request must have `PASSHOLDERS_SEARCH` or `PASSHOLDERS_SEARCH_ALL` permission.
+The caller of this request must have `PASSHOLDERS_SEARCH` or `PASSHOLDERS_SEARCH_BY_ID` or `PASSHOLDERS_SEARCH_ALL` permission. 
+
+In case of `PASSHOLDERS_SEARCH` permission, passholder results are filtered based on the allowed card systems of the caller, unless searched by one of the ID fields:
+* `uitpasNumber`
+* `chipNumber`
+* `inszNumber`
+* `uitidId`
+
+In case of `PASSHOLDERS_SEARCH_BY_ID` permission, the caller can only make use of those ID fields.
  * @summary Search passholders
  */
 export const getPassholders = (
@@ -135,13 +146,13 @@ export const useGetPassholders = <TData = Awaited<ReturnType<typeof getPassholde
 
 
 /**
- * <!-- theme: warning -->
+ * Register a passholder
 
-> WARNING
+<!-- theme: warning -->
+
+> IMPORTANT
 >
-> Experimental API. Breaking changes might be introduced in future updates.
-
-Register a passholder
+> Make sure to set `registrationCardType` to either `DIGITAL` or `NFC_CARD`. In case of `NFC_CARD` the field `registrationUitpasNumber` is required and has to be a card in status `LOCAL_STOCK`.
 
 The caller of this request must have `PASSHOLDERS_WRITE` permission for the `registrationOrganizer`.
  * @summary Register a new passholder
@@ -254,64 +265,58 @@ export const useDeletePassholdersPassholderId = <TError = AxiosError<Unauthorize
       return useMutation(mutationOptions);
     }
     /**
- * <!-- theme: warning -->
+ * Retrieve picture of the given passholder.
 
-> WARNING
->
-> Experimental API. Breaking changes might be introduced in future updates.
+This endpoint allows you to obtain a short-lived link to the picture of the passholder. After generation, this link remains active for a limited time, enabling you to include it in HTML pages displayed to your users.
 
-Retrieve the membership prices for a new passholder. All parameters are optional. If `postalCode` is specified, the most relevant price comes first.
-
-The caller of this request must have `MEMBERSHIP_PRICES_READ` permission.
- * @summary Retrieve new membership prices
+The caller of this method must have `PASSHOLDERS_PICTURE_READ` permission for the given passholder.
+ * @summary Get picture of passholder
  */
-export const getPassholdersPassholderIdMembershipPrices = (
-    params?: GetPassholdersPassholderIdMembershipPricesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<MembershipPrice[]>> => {
+export const getPassholdersPassholderIdPicture = (
+    passholderId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PassholderPicture>> => {
     
     return axios.get(
-      `NEXT_PUBLIC_API_PATH/passholders/membership-prices`,{
-    ...options,
-        params: {...params, ...options?.params},}
+      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/picture`,options
     );
   }
 
 
-export const getGetPassholdersPassholderIdMembershipPricesQueryKey = (params?: GetPassholdersPassholderIdMembershipPricesParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/passholders/membership-prices`, ...(params ? [params]: [])] as const;
+export const getGetPassholdersPassholderIdPictureQueryKey = (passholderId: string,) => {
+    return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/picture`] as const;
     }
 
     
-export const getGetPassholdersPassholderIdMembershipPricesQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetPassholdersPassholderIdMembershipPricesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetPassholdersPassholderIdPictureQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdMembershipPricesQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdPictureQueryKey(passholderId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>> = ({ signal }) => getPassholdersPassholderIdMembershipPrices(params, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>> = ({ signal }) => getPassholdersPassholderIdPicture(passholderId, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetPassholdersPassholderIdMembershipPricesQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>>
-export type GetPassholdersPassholderIdMembershipPricesQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetPassholdersPassholderIdPictureQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>>
+export type GetPassholdersPassholderIdPictureQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
 
 /**
- * @summary Retrieve new membership prices
+ * @summary Get picture of passholder
  */
-export const useGetPassholdersPassholderIdMembershipPrices = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetPassholdersPassholderIdMembershipPricesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetPassholdersPassholderIdPicture = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
+ passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdPicture>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  const queryOptions = getGetPassholdersPassholderIdMembershipPricesQueryOptions(params,options)
+  const queryOptions = getGetPassholdersPassholderIdPictureQueryOptions(passholderId,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -323,62 +328,139 @@ export const useGetPassholdersPassholderIdMembershipPrices = <TData = Awaited<Re
 
 
 /**
- * <!-- theme: warning -->
+ * Retrieve the exact membership price for a new passholder. `cardType`, `postalCode` and `dateOfBirth` are mandatory to determine the correct price. `socialTariff` and `voucher` are optional.
 
-> WARNING
->
-> Experimental API. Breaking changes might be introduced in future updates.
+To retrieve a list of prices for a card system if not all details are known yet, you can use [GET /card-systems/{cardSystemId}/membership-prices](/reference/uitpas.json/paths/~1card-systems~1{cardSystemId}~1membership-prices/get).
 
-Retrieve the membership prices for an existing passholder. The result will contain only prices for cardsystems where the passholder is not already a member. The result will be sorted on most relevant price first.
-
-The caller of this request must have `PASSHOLDERS_SEARCH` and `MEMBERSHIP_PRICES_READ` permission.
- * @summary Retrieve upgrade membership prices
+The caller of this request must have `MEMBERSHIP_PRICES_READ` permission.
+ * @summary Retrieve new membership price
  */
-export const getPassholdersMembershipPrices = (
-    passholderId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<MembershipPrice[]>> => {
+export const getPassholdersMembershipPricesCardSystemId = (
+    cardSystemId: number,
+    params: GetPassholdersMembershipPricesCardSystemIdParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<MembershipPrice>> => {
     
     return axios.get(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices`,options
+      `NEXT_PUBLIC_API_PATH/passholders/membership-prices/${cardSystemId}`,{
+    ...options,
+        params: {...params, ...options?.params},}
     );
   }
 
 
-export const getGetPassholdersMembershipPricesQueryKey = (passholderId: string,) => {
-    return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices`] as const;
+export const getGetPassholdersMembershipPricesCardSystemIdQueryKey = (cardSystemId: number,
+    params: GetPassholdersMembershipPricesCardSystemIdParams,) => {
+    return [`NEXT_PUBLIC_API_PATH/passholders/membership-prices/${cardSystemId}`, ...(params ? [params]: [])] as const;
     }
 
     
-export const getGetPassholdersMembershipPricesQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetPassholdersMembershipPricesCardSystemIdQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(cardSystemId: number,
+    params: GetPassholdersMembershipPricesCardSystemIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersMembershipPricesQueryKey(passholderId);
+  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersMembershipPricesCardSystemIdQueryKey(cardSystemId,params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>> = ({ signal }) => getPassholdersMembershipPrices(passholderId, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>> = ({ signal }) => getPassholdersMembershipPricesCardSystemId(cardSystemId,params, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetPassholdersMembershipPricesQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>>
-export type GetPassholdersMembershipPricesQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
+export type GetPassholdersMembershipPricesCardSystemIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>>
+export type GetPassholdersMembershipPricesCardSystemIdQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
 
 /**
- * @summary Retrieve upgrade membership prices
+ * @summary Retrieve new membership price
  */
-export const useGetPassholdersMembershipPrices = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(
- passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetPassholdersMembershipPricesCardSystemId = <TData = Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
+ cardSystemId: number,
+    params: GetPassholdersMembershipPricesCardSystemIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersMembershipPricesCardSystemId>>, TError, TData>>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  const queryOptions = getGetPassholdersMembershipPricesQueryOptions(passholderId,options)
+  const queryOptions = getGetPassholdersMembershipPricesCardSystemIdQueryOptions(cardSystemId,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Retrieve the exact membership price for an existing passholder in a new card system. `cardType` is mandatory to determine the correct price. `socialTariff` and `voucher` are optional.
+
+To retrieve the price for a *new* passholder, use [GET /passholders/membership-prices/{cardSystemId}](/reference/uitpas.json/paths/~1passholders~1membership-prices~1{cardSystemId}/get).
+
+To retrieve a list of prices for a card system if not all details are known yet, you can use [GET /card-systems/{cardSystemId}/membership-prices](/reference/uitpas.json/paths/~1card-systems~1{cardSystemId}~1membership-prices/get).
+
+The caller of this request must have `PASSHOLDERS_SEARCH` and `MEMBERSHIP_PRICES_READ` permission.
+ * @summary Retrieve upgrade membership price
+ */
+export const getPassholdersPassholderIdMembershipPricesCardSystemId = (
+    passholderId: string,
+    cardSystemId: number,
+    params: GetPassholdersPassholderIdMembershipPricesCardSystemIdParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<MembershipPrice>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices/${cardSystemId}`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+
+
+export const getGetPassholdersPassholderIdMembershipPricesCardSystemIdQueryKey = (passholderId: string,
+    cardSystemId: number,
+    params: GetPassholdersPassholderIdMembershipPricesCardSystemIdParams,) => {
+    return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices/${cardSystemId}`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetPassholdersPassholderIdMembershipPricesCardSystemIdQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(passholderId: string,
+    cardSystemId: number,
+    params: GetPassholdersPassholderIdMembershipPricesCardSystemIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdMembershipPricesCardSystemIdQueryKey(passholderId,cardSystemId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>> = ({ signal }) => getPassholdersPassholderIdMembershipPricesCardSystemId(passholderId,cardSystemId,params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(passholderId && cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPassholdersPassholderIdMembershipPricesCardSystemIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>>
+export type GetPassholdersPassholderIdMembershipPricesCardSystemIdQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+/**
+ * @summary Retrieve upgrade membership price
+ */
+export const useGetPassholdersPassholderIdMembershipPricesCardSystemId = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
+ passholderId: string,
+    cardSystemId: number,
+    params: GetPassholdersPassholderIdMembershipPricesCardSystemIdParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdMembershipPricesCardSystemId>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getGetPassholdersPassholderIdMembershipPricesCardSystemIdQueryOptions(passholderId,cardSystemId,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -707,6 +789,68 @@ export const useGetChipNumbersChipNumber = <TData = Awaited<ReturnType<typeof ge
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getGetChipNumbersChipNumberQueryOptions(chipNumber,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Retrieve the status of a passholder based on INSZ number.
+
+This endpoint is rate limited.
+
+ * @summary Retrieve the status of a passholder based on INSZ number
+ */
+export const passholdersStatusInszNumbersInsznumber = (
+    inszNumber: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PassholdersStatusInszNumbersInsznumber200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_API_PATH/passholders/status/insz-numbers/${inszNumber}`,options
+    );
+  }
+
+
+export const getPassholdersStatusInszNumbersInsznumberQueryKey = (inszNumber: string,) => {
+    return [`NEXT_PUBLIC_API_PATH/passholders/status/insz-numbers/${inszNumber}`] as const;
+    }
+
+    
+export const getPassholdersStatusInszNumbersInsznumberQueryOptions = <TData = Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | void>>(inszNumber: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getPassholdersStatusInszNumbersInsznumberQueryKey(inszNumber);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>> = ({ signal }) => passholdersStatusInszNumbersInsznumber(inszNumber, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(inszNumber), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type PassholdersStatusInszNumbersInsznumberQueryResult = NonNullable<Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>>
+export type PassholdersStatusInszNumbersInsznumberQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | void>
+
+/**
+ * @summary Retrieve the status of a passholder based on INSZ number
+ */
+export const usePassholdersStatusInszNumbersInsznumber = <TData = Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | void>>(
+ inszNumber: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof passholdersStatusInszNumbersInsznumber>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getPassholdersStatusInszNumbersInsznumberQueryOptions(inszNumber,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
