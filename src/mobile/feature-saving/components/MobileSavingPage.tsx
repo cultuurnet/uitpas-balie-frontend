@@ -233,7 +233,7 @@ export const MobileSavingPage = () => {
     ) {
       setIsGroupPass(true);
     }
-  }, [passHoldersData?.data.member]);
+  }, [passHoldersData]);
 
   if (
     isPassholdersLoading ||

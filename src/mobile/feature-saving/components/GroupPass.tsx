@@ -21,7 +21,7 @@ export const GroupPass = ({ groupPass }: GroupPassProps) => {
     >
       <Typography variant="h1">{t("saving.mobile.grouppass")}</Typography>
 
-      <Stack sx={{ rowGap: "4px", alignItems: "start" }}>
+      <Stack sx={{ rowGap: "4px" }}>
         <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
           {groupPass.name}
         </Typography>

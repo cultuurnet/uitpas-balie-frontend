@@ -1,6 +1,5 @@
 import { PropsWithChildren, useState } from "react";
 import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 type OpportunityStateCardProps = PropsWithChildren &
@@ -14,7 +13,6 @@ export const OpportunityStateCard = ({
   status,
   ...props
 }: OpportunityStateCardProps) => {
-  const { t } = useTranslation();
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
 
