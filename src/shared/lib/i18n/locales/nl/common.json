@@ -178,6 +178,7 @@
       "chosenActivity": "Gekozen activiteit",
       "noActivity": "Geen activiteit gekozen",
       "passholder": "Pashouder",
+      "grouppass": "Groepspas",
       "namePointsTxt": "{{firstName}} {{lastName}} ({{points}} punten)",
       "pointSaved": "Punt gespaard",
       "failure": {
@@ -189,23 +190,35 @@
       "scanNextBtn": "Volgende UiTPAS scannen",
       "or": "Of",
       "opportunityState": {
-        "active": {
-          "title": "Kansenstatuut Geldig",
-          "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}.",
-          "gracePeriod": "De pashouder is momenteel in grace period. Dit wil zeggen dat het kansenstatuut is vervallen, maar de pashouder wel nog 30 dagen na vervaldatum recht heeft op het kansenstatuut."
+        "passholder": {
+          "active": {
+            "title": "Kansenstatuut Geldig",
+            "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}.",
+            "gracePeriod": "De pashouder is momenteel in grace period. Dit wil zeggen dat het kansenstatuut is vervallen, maar de pashouder wel nog 30 dagen na vervaldatum recht heeft op het kansenstatuut."
+          },
+          "expired": {
+            "title": "Kansenstatuut Vervallen",
+            "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}."
+          },
+          "suspended": {
+            "title": "Kansenstatuut Geschorst",
+            "content": "Pashouder in {{cardSystemName}} geschorst tot {{suspendedUntilDate}}. {{firstName}} {{lastName}} kan hierdoor tot {{suspendedUntilDate}} geen korting aan kansentarief meer ontvangen. De pashouder kan wel punten sparen en voordelen omruilen."
+          },
+          "blocked": {
+            "title": "Geblokkeerd",
+            "content": "De pashouder is geblokkeerd in {{cardSystemName}}.",
+            "content2": "Neem contact op met de UiTPAS-trekker in je regio indien de pashouder toch nog gebruik wil maken van UiTPAS."
+          }
         },
-        "expired": {
-          "title": "Kansenstatuut Vervallen",
-          "content": "Kansenstatuut in {{cardSystemName}} tot {{socialTariffEndDate}}."
-        },
-        "suspended": {
-          "title": "Kansenstatuut Geschorst",
-          "content": "Pashouder in {{cardSystemName}} geschorst tot {{suspendedUntilDate}}. {{firstName}} {{lastName}} kan hierdoor tot {{suspendedUntilDate}} geen korting aan kansentarief meer ontvangen. De pashouder kan wel punten sparen en voordelen omruilen."
-        },
-        "blocked": {
-          "title": "Geblokkeerd",
-          "content": "De pashouder is geblokkeerd in {{cardSystemName}}.",
-          "content2": "Neem contact op met de UiTPAS-trekker in je regio indien de pashouder toch nog gebruik wil maken van UiTPAS."
+        "grouppass": {
+          "active": {
+            "title": "Kansenstatuut Geldig",
+            "content": "Deze groepspas is geldig tot {{endDate}}. Er zijn {{availableTickets}} beschikbaar."
+          },
+          "expired": {
+            "title": "Kansenstatuut Vervallen",
+            "content": "Deze groepspas is niet meer geldig sinds {{endDate}}."
+          }
         }
       },
       "tariff": {

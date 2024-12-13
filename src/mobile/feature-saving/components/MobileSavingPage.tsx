@@ -6,11 +6,11 @@ import {
   useGetPassholders,
   usePostTicketSales,
   usePostRewardsRedeemed,
+  useGetGrouppasses,
 } from "@/shared/lib/dataAccess";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
   ActivitySwitcher,
-  Alert,
   Button,
   MobileContentStack,
   OutlinedButton,
@@ -18,7 +18,6 @@ import {
 } from "@/mobile/lib/ui";
 import {
   ScanFailed,
-  OpportunityState,
   TariffDrawer,
   RewardsDrawer,
 } from "@/mobile/feature-saving";
@@ -26,17 +25,18 @@ import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
-import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
+import { PassHolder } from "./PassHolder";
+import { GroupPass } from "./GroupPass";
 
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
   const params = useSearchParams();
   const theme = useTheme();
-  const uitpasNumber = params.get("uitpas");
-  const inszNumber = params.get("insz");
+  const uitpasNumber = params.get("uitpas") ?? undefined;
+  const inszNumber = params.get("insz") ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
@@ -52,6 +52,7 @@ export const MobileSavingPage = () => {
       }
     | undefined
   >(undefined);
+  const [isGroupPass, setIsGroupPass] = useState<boolean>(false);
 
   const {
     data: passHoldersData,
@@ -63,6 +64,19 @@ export const MobileSavingPage = () => {
     ...(uitpasNumber && { uitpasNumber }),
     ...(inszNumber && { inszNumber }),
   });
+
+  const {
+    data: groupPassHolder,
+    isLoading: isGroupPassLoading,
+    isError: isGroupPassError,
+  } = useGetGrouppasses(
+    { uitpasNumber: uitpasNumber },
+    {
+      query: {
+        enabled: isGroupPass && !!uitpasNumber,
+      },
+    }
+  );
 
   const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
@@ -182,7 +196,10 @@ export const MobileSavingPage = () => {
   };
 
   useEffect(() => {
-    if (passHoldersData?.data?.member) {
+    if (
+      passHoldersData?.data?.member &&
+      passHoldersData.data.member.length > 0
+    ) {
       const uitpasNumber =
         passHoldersData.data.member[0].uitpasNumber ??
         passHoldersData.data.member[0].cardSystemMemberships?.at(0)
@@ -209,11 +226,21 @@ export const MobileSavingPage = () => {
     selectedActivity,
   ]);
 
+  useEffect(() => {
+    if (
+      passHoldersData?.data.member &&
+      passHoldersData.data.member.length === 0
+    ) {
+      setIsGroupPass(true);
+    }
+  }, [passHoldersData?.data.member]);
+
   if (
     isPassholdersLoading ||
     isCheckinLoading ||
     isTicketSaleLoading ||
-    isRewardsRedeemedLoading
+    isRewardsRedeemedLoading ||
+    isGroupPassLoading
   )
     return (
       <MobileNavBar>
@@ -238,52 +265,16 @@ export const MobileSavingPage = () => {
         </Typography>
         <ActivitySwitcher ref={activityRef} />
 
-        {passHoldersData?.data.member?.[0] && (
-          <Stack sx={{ rowGap: "10px" }}>
-            <Stack
-              sx={{
-                flexDirection: "row",
-                columnGap: "5px",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h1">
-                {t("saving.mobile.passholder")}
-              </Typography>
-              <Typography
-                sx={{
-                  color: theme.palette.brand[800],
-                  fontSize: "13px",
-                }}
-              >
-                {formatUitpasNumber(
-                  passHoldersData.data.member
-                    .at(0)
-                    ?.cardSystemMemberships?.at(0)?.uitpasNumber
-                )}
-              </Typography>
-            </Stack>
-
-            <Stack sx={{ rowGap: "4px" }}>
-              <Typography
-                variant="h1"
-                sx={{ color: theme.palette.neutral[900] }}
-              >
-                {t("saving.mobile.namePointsTxt", {
-                  firstName: passHoldersData.data.member[0].firstName,
-                  lastName: passHoldersData.data.member[0].name,
-                  points: passHoldersData.data.member[0].points,
-                })}
-              </Typography>
-              <OpportunityState passholder={passHoldersData.data.member[0]} />
-            </Stack>
-
-            {alertData && (
-              <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
-                {alertData.message}
-              </Alert>
-            )}
-          </Stack>
+        {passHoldersData?.data.member?.[0] ? (
+          <PassHolder
+            passholder={passHoldersData?.data.member?.[0]}
+            firstCardEntry={firstCardEntry}
+            alertData={alertData}
+          />
+        ) : (
+          groupPassHolder?.data.member?.[0] && (
+            <GroupPass groupPass={groupPassHolder?.data.member?.[0]} />
+          )
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
@@ -292,9 +283,11 @@ export const MobileSavingPage = () => {
               {t("saving.mobile.chooseTariffBtn")}
             </OutlinedButton>
           )}
-          <OutlinedButton onClick={handleChooseBenefitClick}>
-            {t("saving.mobile.tradeBenefitBtn")}
-          </OutlinedButton>
+          {!isGroupPass && (
+            <OutlinedButton onClick={handleChooseBenefitClick}>
+              {t("saving.mobile.tradeBenefitBtn")}
+            </OutlinedButton>
+          )}
         </Stack>
 
         {/*-16 comes from the padding that's already in the stack*/}
@@ -312,8 +305,10 @@ export const MobileSavingPage = () => {
           {t("saving.mobile.or")}
         </Typography>
 
+        {/* TODO: remove !isGroupPass */}
         <ManualCardInput firstCardEntry={false} />
-        {selectedActivity &&
+        {!isGroupPass &&
+          selectedActivity &&
           selectedActivity["@id"] &&
           passHoldersData?.data?.member &&
           activityRef.current && (

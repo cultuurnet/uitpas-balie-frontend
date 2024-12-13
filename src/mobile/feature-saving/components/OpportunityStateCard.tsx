@@ -5,10 +5,12 @@ import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 type OpportunityStateCardProps = PropsWithChildren &
   BoxProps & {
+    title: string;
     status: "ACTIVE" | "SUSPENDED" | "EXPIRED" | "BLOCKED";
   };
 
 export const OpportunityStateCard = ({
+  title,
   status,
   ...props
 }: OpportunityStateCardProps) => {
@@ -54,9 +56,7 @@ export const OpportunityStateCard = ({
           width: "100%",
         }}
       >
-        <p style={{ fontWeight: 700, fontSize: "18px", margin: 0 }}>
-          {t(`saving.mobile.opportunityState.${status.toLowerCase()}.title`)}
-        </p>
+        <p style={{ fontWeight: 700, fontSize: "18px", margin: 0 }}>{title}</p>
         <IconButton
           disableRipple
           sx={{
