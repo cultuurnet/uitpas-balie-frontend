@@ -6,9 +6,9 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { AuthProvider } from "@/shared/lib/auth";
 import { UserProvider } from "@/shared/lib/user";
-import { CounterProvider } from "@/shared/feature-counter/context/CounterProvider";
+import { CounterProvider } from "@/mobile/feature-counter";
 import { theme } from "@/mobile/lib/ui";
-import { ActivityProvider } from "@/mobile/feature-activities/context/ActivityProvider";
+import { clientRoutes } from "@/mobile/feature-routing";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,13 +29,10 @@ export function MobileProviders({ children }: PropsWithChildren) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <AuthProvider loginPath={"/mobile/login"}>
+          <AuthProvider loginPath={clientRoutes.login()}>
             <UserProvider>
-              <CounterProvider
-                counterPath={"/mobile/counters"}
-                whiteListedPages={"/mobile/counters/contact"}
-              >
-                <ActivityProvider>{children}</ActivityProvider>
+              <CounterProvider counterPath={clientRoutes.counters()}>
+                {children}
               </CounterProvider>
             </UserProvider>
           </AuthProvider>

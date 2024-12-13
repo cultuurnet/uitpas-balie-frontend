@@ -10,14 +10,14 @@ import {
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { debounce } from "@mui/material";
 import { useGetEvents, Search } from "@/shared/lib/dataAccess";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { ChangeEvent, useState, useEffect, useMemo } from "react";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
 import { ActivitiesPicker } from "@/mobile/feature-activities";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
-import { useRouter } from "next/navigation";
+import { noActivity } from "@/mobile/feature-activities/useActivity";
 import dayjs from "dayjs";
 import { dateToISODateTimeString } from "@/shared/lib/utils";
+import { clientRoutes } from "@/mobile/feature-routing";
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
 
@@ -26,10 +26,9 @@ const FETCH_LIMIT = 50;
 export const ActivitiesPage = () => {
   const { t } = useTranslation();
   const { activeCounter } = useCounter();
-  const router = useRouter();
+
   const { searchQuery, setSearchQuery } = useSearchQuery();
   const [scrollPosition, setScrollPosition] = useState<number>(0);
-  const { selectedActivity, setSelectedActivity } = useActivity();
 
   const INITIAL_DATA = {
     facet: undefined,
@@ -120,15 +119,6 @@ export const ActivitiesPage = () => {
     }
   }, [fetchedData?.data]);
 
-  // This effect ensures that the user is redirected to the next "step"
-  // if they previously had not completed the whole process and had already
-  // selected an activity.
-  useEffect(() => {
-    if (selectedActivity !== null && selectedActivity !== undefined) {
-      router.push("/mobile/identification");
-    }
-  }, [selectedActivity]);
-
   return (
     <MobileNavBar>
       <MobileContentStack>
@@ -154,12 +144,10 @@ export const ActivitiesPage = () => {
           setScrollPosition={setScrollPosition}
           isFetching={isFetching}
         />
-
-        {!isInitialLoading && (
+        {!isInitialLoading && activeCounter && (
           <Link
             color="primary"
-            href="/mobile/identification"
-            onClick={() => setSelectedActivity(undefined)}
+            href={clientRoutes.identification(activeCounter.id, noActivity)}
           >
             {t("activities.mobile.continueNoActivity")}
           </Link>

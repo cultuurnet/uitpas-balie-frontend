@@ -3,9 +3,9 @@
 import { Organizer, useGetPermissions } from "@/shared/lib/dataAccess";
 import { CounterNoData, CounterPicker } from "@/mobile/feature-counter";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { UitpasLoading } from "@/mobile/lib/ui";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 
 export const CounterPage = () => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();

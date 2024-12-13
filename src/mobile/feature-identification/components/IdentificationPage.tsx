@@ -6,7 +6,7 @@ import {
   UitpasLoading,
 } from "@/mobile/lib/ui";
 import { Typography } from "@mui/material";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification/components/ManualCardInput";
@@ -15,21 +15,14 @@ import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
 
 export const IdentificationPage = () => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const { selectedActivity } = useActivity();
+  const { selectedActivity, navigateToScanner } = useActivity();
   const [isNavigating, setIsNavigating] = useState<boolean>(false);
   const { browserHasSupport, isLoading: isLoadingCamera } = useCamera({
     initializeCamera: false,
   });
 
-  useEffect(() => {
-    if (selectedActivity === null) {
-      router.push("/mobile/activities");
-    }
-  }, [selectedActivity]);
-
   const handleScanBarcodeClick = () => {
-    router.push("/mobile/identification/scan?firstCardEntry=true");
+    navigateToScanner();
     setIsNavigating(true);
   };
 

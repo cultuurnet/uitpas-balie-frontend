@@ -13,7 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PermissionBox } from "@/mobile/feature-identification/scan/components/PermissionBox";
 import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
 import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
-import adapter from "webrtc-adapter";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 
 export const BarcodeScanner: React.FC = () => {
   const { t } = useTranslation();
@@ -31,6 +31,7 @@ export const BarcodeScanner: React.FC = () => {
   const scannerRef = useRef<HTMLDivElement>(null);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
+  const { navigateToIdentification, navigateToSaving } = useActivity();
   const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
   const [scannerInitializationCount, setScannerInitializationCount] =
     useState(1);
@@ -53,7 +54,7 @@ export const BarcodeScanner: React.FC = () => {
 
   const handleClose = () => {
     setScannerReady(false);
-    router.push("/mobile/identification");
+    navigateToIdentification();
   };
 
   const handleResultErrorCheck = useCallback(
@@ -76,11 +77,7 @@ export const BarcodeScanner: React.FC = () => {
         result.codeResult.code.length === 13
       ) {
         setCodeFound(true);
-        router.push(
-          `/mobile/saving?uitpas=${result.codeResult.code}${
-            firstCardEntry ? "&firstCardEntry=true" : ""
-          }`
-        );
+        navigateToSaving(result.codeResult.code, firstCardEntry);
       }
     },
     [firstCardEntry, router]

@@ -23,7 +23,7 @@ import {
   RewardsDrawer,
 } from "@/mobile/feature-saving";
 import { Stack, Typography, Divider, useTheme } from "@mui/material";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
@@ -38,7 +38,7 @@ export const MobileSavingPage = () => {
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas");
   const inszNumber = params.get("insz");
-  const { selectedActivity } = useActivity();
+  const { selectedActivity, navigateToScanner } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<"div">>(null);
@@ -132,7 +132,7 @@ export const MobileSavingPage = () => {
   const isRewardsRedeemedLoading = rewardsStatus === "pending";
 
   const handleNextScanClick = () => {
-    router.push("/mobile/identification/scan");
+    navigateToScanner("replace", false);
   };
 
   const handleChooseTariffClick = () => {
@@ -336,22 +336,21 @@ export const MobileSavingPage = () => {
             />
           )}
 
-        {activityRef.current &&
-          passHoldersData?.data?.member && (
-            <RewardsDrawer
-              isOpen={showRewardsDrawer}
-              setIsOpen={setShowRewardsDrawer}
-              startPosition={activityRef.current.getBoundingClientRect().bottom}
-              passHolderId={passHoldersData.data.member[0].id}
-              passHolderName={
-                passHoldersData.data.member
-                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                  : undefined
-              }
-              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
-              rewardRedemptionMutation={handleRewardRedemption}
-            />
-          )}
+        {activityRef.current && passHoldersData?.data?.member && (
+          <RewardsDrawer
+            isOpen={showRewardsDrawer}
+            setIsOpen={setShowRewardsDrawer}
+            startPosition={activityRef.current.getBoundingClientRect().bottom}
+            passHolderId={passHoldersData.data.member[0].id}
+            passHolderName={
+              passHoldersData.data.member
+                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                : undefined
+            }
+            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+            rewardRedemptionMutation={handleRewardRedemption}
+          />
+        )}
       </MobileContentStack>
     </MobileNavBar>
   );

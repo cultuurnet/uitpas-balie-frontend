@@ -3,6 +3,7 @@ import { useTranslation } from "@/shared/lib/i18n/client";
 import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 
 type ManualCardInputProps = {
   firstCardEntry: boolean;
@@ -10,7 +11,7 @@ type ManualCardInputProps = {
 
 export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const { navigateToSaving } = useActivity();
   const [cardNumber, setCardNumber] = useState<string>("");
   const [validationError, setValidationError] = useState<string | undefined>(
     undefined
@@ -25,11 +26,13 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
     cardType: "insz" | "uitpas",
     cardNumber: string
   ) => {
-    return router.push(
-      `/mobile/saving?${cardType}=${cardNumber}${
-        firstCardEntry ? "&firstCardEntry=true" : ""
-      }`
-    );
+    navigateToSaving(cardNumber, firstCardEntry, cardType, "push");
+
+    // return router.push(
+    //   `/mobile/saving?${cardType}=${cardNumber}${
+    //     firstCardEntry ? "&firstCardEntry=true" : ""
+    //   }`
+    // );
   };
 
   const handleConfirmClick = () => {

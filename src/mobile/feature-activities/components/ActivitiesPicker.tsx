@@ -11,7 +11,7 @@ import {
 } from "react";
 import { ScrollableContainer, Typography } from "@/mobile/lib/ui";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
 
 type ActivitiesPickerProps = {
