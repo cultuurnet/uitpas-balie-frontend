@@ -18,8 +18,13 @@ type TariffProps = {
   eventId: string;
   uitpasNumber: string;
   priceInfo: EventPriceInfo;
-  ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
+  ticketSaleMutation: (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => void;
   isDrawerOpen: boolean;
+  isGroupPass?: boolean;
 };
 
 type SortedType = {
@@ -36,6 +41,7 @@ export const Tariff = ({
   priceInfo,
   ticketSaleMutation,
   isDrawerOpen,
+  isGroupPass,
 }: TariffProps) => {
   const { t, LANG_KEY } = useTranslation();
   const theme = useTheme();
@@ -126,6 +132,8 @@ export const Tariff = ({
             tariffMessage={tariff.tariffMessage}
             tariffPrice={tariff.tariff?.price}
             ticketSaleMutation={ticketSaleMutation}
+            isGroupPass={isGroupPass}
+            remainingDiscounts={tariff.tariff?.remaining}
           />
         ))
       ) : (

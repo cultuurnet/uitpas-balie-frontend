@@ -235,7 +235,9 @@
           "coupon": "Coupon",
           "couponDiscountPercentage": "{{discount}}% korting eens per dag",
           "applyTariff": "Tarief toekennen (€ {{price}})",
-          "noDiscount": "Geen korting beschikbaar"
+          "discountsAvailable": "{{count}} kortingen beschikbaar",
+          "noDiscount": "Geen korting beschikbaar",
+          "count": "Aantal:"
         }
       },
       "reward": {

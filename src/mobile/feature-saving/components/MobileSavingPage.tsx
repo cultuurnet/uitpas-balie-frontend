@@ -65,18 +65,15 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const {
-    data: groupPassHolder,
-    isLoading: isGroupPassLoading,
-    isError: isGroupPassError,
-  } = useGetGrouppasses(
-    { uitpasNumber: uitpasNumber },
-    {
-      query: {
-        enabled: isGroupPass && !!uitpasNumber,
-      },
-    }
-  );
+  const { data: groupPassHolder, isLoading: isGroupPassLoading } =
+    useGetGrouppasses(
+      { uitpasNumber: uitpasNumber },
+      {
+        query: {
+          enabled: isGroupPass && !!uitpasNumber,
+        },
+      }
+    );
 
   const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
@@ -156,12 +153,19 @@ export const MobileSavingPage = () => {
     setShowRewardsDrawer(true);
   };
 
-  const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
-    if (!passHoldersData?.data?.member || !selectedActivity) return;
+  const handleTicketSaleMutation = (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => {
+    if ((!isGroupPass && !passHoldersData?.data?.member) || !selectedActivity)
+      return;
 
-    const uitpasNumber =
-      passHoldersData.data.member[0].uitpasNumber ??
-      passHoldersData.data.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
+    const uitpasNumber = isGroupPass
+      ? groupPassHolder?.data.member?.[0]?.uitpasNumber
+      : passHoldersData?.data.member?.[0]?.uitpasNumber ??
+        passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
+          ?.uitpasNumber;
 
     if (!uitpasNumber) return;
 
@@ -305,17 +309,18 @@ export const MobileSavingPage = () => {
           {t("saving.mobile.or")}
         </Typography>
 
-        {/* TODO: remove !isGroupPass */}
         <ManualCardInput firstCardEntry={false} />
-        {!isGroupPass &&
-          selectedActivity &&
+
+        {selectedActivity &&
           selectedActivity["@id"] &&
           passHoldersData?.data?.member &&
           activityRef.current && (
             <TariffDrawer
               eventId={selectedActivity["@id"]}
               passHolderName={
-                passHoldersData.data.member
+                isGroupPass
+                  ? groupPassHolder?.data.member?.[0]?.name ?? undefined
+                  : passHoldersData.data.member
                   ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
                   : undefined
               }
@@ -323,28 +328,35 @@ export const MobileSavingPage = () => {
               setIsOpen={setShowTariffDrawer}
               startPosition={activityRef.current.getBoundingClientRect().bottom}
               uitpasNumber={
-                passHoldersData.data.member?.at(0)?.cardSystemMemberships?.at(0)
-                  ?.uitpasNumber!
+                isGroupPass
+                  ? groupPassHolder?.data.member?.at(0)?.uitpasNumber!
+                  : passHoldersData.data.member
+                      ?.at(0)
+                      ?.cardSystemMemberships?.at(0)?.uitpasNumber!
               }
               ticketSaleMutation={handleTicketSaleMutation}
+              isGroupPass={isGroupPass}
             />
           )}
 
-        {activityRef.current && passHoldersData?.data?.member && (
-          <RewardsDrawer
-            isOpen={showRewardsDrawer}
-            setIsOpen={setShowRewardsDrawer}
-            startPosition={activityRef.current.getBoundingClientRect().bottom}
-            passHolderId={passHoldersData.data.member[0].id}
-            passHolderName={
-              passHoldersData.data.member
-                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                : undefined
-            }
-            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
-            rewardRedemptionMutation={handleRewardRedemption}
-          />
-        )}
+        {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
+        {!isGroupPass &&
+          activityRef.current &&
+          passHoldersData?.data?.member && (
+            <RewardsDrawer
+              isOpen={showRewardsDrawer}
+              setIsOpen={setShowRewardsDrawer}
+              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              passHolderId={passHoldersData.data.member[0].id}
+              passHolderName={
+                passHoldersData.data.member
+                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                  : undefined
+              }
+              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+              rewardRedemptionMutation={handleRewardRedemption}
+            />
+          )}
       </MobileContentStack>
     </MobileNavBar>
   );

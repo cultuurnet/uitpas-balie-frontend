@@ -12,3 +12,4 @@ export * from "./uitpas/Textfield";
 export * from "./uitpas/Alert";
 export * from "./uitpas/ActivitySwitcher";
 export * from "./uitpas/ScrollableContainer";
+export * from "./uitpas/StepperField/StepperField";
