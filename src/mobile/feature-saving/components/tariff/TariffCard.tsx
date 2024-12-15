@@ -108,7 +108,10 @@ export const TariffCard = ({
             alignItems: "center",
           }}
         >
-          <Typography variant="h6">
+          <Typography
+            variant="h6"
+            sx={{ ...(remainingDiscounts && { mt: "-16px" }) }}
+          >
             {t("saving.mobile.tariff.card.count")}
           </Typography>
           <StepperField

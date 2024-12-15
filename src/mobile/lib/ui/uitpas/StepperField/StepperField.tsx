@@ -20,6 +20,7 @@ export const StepperField = ({
   subtitle,
 }: StepperFieldProps) => {
   const theme = useTheme();
+
   const handleIncrement = () => {
     onChange(value + incrementValue);
   };
@@ -44,7 +45,6 @@ export const StepperField = ({
     }
   };
 
-  // TODO: replace colors with colors from theme
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
@@ -52,19 +52,19 @@ export const StepperField = ({
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          paddingTop: `${subtitle ? "20px" : "4px"}`,
+          paddingTop: `${subtitle ? "12px" : "4px"}`,
         }}
       >
         <IconButton
           onClick={handleDecrement}
           disableRipple
           sx={{
-            background: "#f9faf9",
+            background: theme.palette.neutral[100],
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
             borderTopLeftRadius: "6px",
             borderBottomLeftRadius: "6px",
-            border: "1px solid #d8dad9",
+            border: `1px solid ${theme.palette.neutral[300]}`,
             width: "44px",
             height: "37px",
           }}
@@ -81,8 +81,8 @@ export const StepperField = ({
             width: "80px",
             px: "12px",
             height: "37px",
-            borderTop: "1px solid #d8dad9",
-            borderBottom: "1px solid #d8dad9",
+            borderTop: `1px solid ${theme.palette.neutral[300]}`,
+            borderBottom: `1px solid ${theme.palette.neutral[300]}`,
             borderLeft: "none",
             borderRight: "none",
             fontSize: "16px",
@@ -96,12 +96,12 @@ export const StepperField = ({
           disableRipple
           disabled={!!(maxValue && value >= maxValue)}
           sx={{
-            background: "#ffffff",
+            background: theme.palette.neutral[0],
             borderTopRightRadius: "6px",
             borderBottomRightRadius: "6px",
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
-            border: "1px solid #d8dad9",
+            border: `1px solid ${theme.palette.neutral[300]}`,
             width: "44px",
             height: "37px",
           }}

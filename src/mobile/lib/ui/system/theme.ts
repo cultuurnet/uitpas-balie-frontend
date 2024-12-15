@@ -97,7 +97,9 @@ export const palette = {
   // however, I don't see a way to copy all of the colors (it does not let me)
   neutral: {
     0: "#FFFFFF",
+    100: "#F9FAF9",
     200: "#CFD3D3",
+    300: "#D8DAD9",
     500: "#787474",
     900: "#2E3333",
   },
@@ -140,7 +142,9 @@ export const theme = createTheme({
     },
     neutral: {
       0: palette.neutral[0],
+      100: palette.neutral[100],
       200: palette.neutral[200],
+      300: palette.neutral[300],
       500: palette.neutral[500],
       900: palette.neutral[900],
     },
