@@ -104,7 +104,7 @@ export const MobileSavingPage = () => {
           setAlertData({
             alertType: "success",
             message: t("saving.mobile.tariff.discountRegistered", {
-              price: data.data.at(0)?.tariff.price,
+              price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
             }),
           });
         },
@@ -167,11 +167,13 @@ export const MobileSavingPage = () => {
         passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
           ?.uitpasNumber;
 
-    if (!uitpasNumber) return;
+    if (!uitpasNumber || !selectedActivity["@id"]) return;
+
+    if (!count) count = 1;
 
     postTicketSale({
-      data: Array.of({
-        eventId: getUuid(selectedActivity?.["@id"] ?? ""),
+      data: Array(count).fill({
+        eventId: getUuid(selectedActivity["@id"]),
         tariff: {
           id: tariffId,
         },
@@ -277,7 +279,11 @@ export const MobileSavingPage = () => {
           />
         ) : (
           groupPassHolder?.data.member?.[0] && (
-            <GroupPass groupPass={groupPassHolder?.data.member?.[0]} />
+            <GroupPass
+              groupPass={groupPassHolder?.data.member?.[0]}
+              firstCardEntry={firstCardEntry}
+              alertData={alertData}
+            />
           )
         )}
 

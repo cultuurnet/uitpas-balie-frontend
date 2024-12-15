@@ -4,12 +4,22 @@ import { Grouppass } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 import { Stack, Typography, useTheme } from "@mui/material";
 import { OpportunityStateGrouppass } from "./OpportunityStateGrouppass";
+import { Alert } from "@/mobile/lib/ui";
 
 type GroupPassProps = {
   groupPass: Grouppass;
+  alertData?: {
+    alertType: "error" | "success";
+    message?: string;
+  };
+  firstCardEntry: boolean;
 };
 
-export const GroupPass = ({ groupPass }: GroupPassProps) => {
+export const GroupPass = ({
+  groupPass,
+  alertData,
+  firstCardEntry,
+}: GroupPassProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -28,11 +38,11 @@ export const GroupPass = ({ groupPass }: GroupPassProps) => {
         <OpportunityStateGrouppass groupPass={groupPass} />
       </Stack>
 
-      {/* {alertData && (
+      {alertData && (
         <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
           {alertData.message}
         </Alert>
-      )} */}
+      )}
     </Stack>
   );
 };

@@ -114,10 +114,12 @@ export const TariffCard = ({
           <StepperField
             value={stepperCount}
             onChange={setStepperCount}
-            subtitle={t("saving.mobile.tariff.card.discountsAvailable", {
-              count: calculatedRemainingDiscounts,
+            {...(remainingDiscounts && {
+              subtitle: t("saving.mobile.tariff.card.discountsAvailable", {
+                count: calculatedRemainingDiscounts,
+              }),
+              maxValue: remainingDiscounts,
             })}
-            maxValue={remainingDiscounts}
           />
         </Box>
       )}
