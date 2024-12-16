@@ -22,18 +22,8 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
     setCardNumber(event.target.value);
   };
 
-  const handleRouteChange = (
-    cardType: "insz" | "uitpas",
-    cardNumber: string
-  ) => {
+  const handleRouteChange = (cardType: "insz" | "uitpas", cardNumber: string) =>
     navigateToSaving(cardNumber, firstCardEntry, cardType, "push");
-
-    // return router.push(
-    //   `/mobile/saving?${cardType}=${cardNumber}${
-    //     firstCardEntry ? "&firstCardEntry=true" : ""
-    //   }`
-    // );
-  };
 
   const handleConfirmClick = () => {
     const sanitizedCardNumber = cardNumber.replace(/\D/g, "");
