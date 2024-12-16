@@ -21,7 +21,12 @@ type TariffModalProps = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   startPosition?: number;
   uitpasNumber: string;
-  ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
+  ticketSaleMutation: (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => void;
+  isGroupPass?: boolean;
 };
 
 export const TariffDrawer = ({
@@ -32,6 +37,7 @@ export const TariffDrawer = ({
   startPosition,
   uitpasNumber,
   ticketSaleMutation,
+  isGroupPass,
 }: TariffModalProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -47,8 +53,12 @@ export const TariffDrawer = ({
     setIsOpen(false);
   };
 
-  const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
-    ticketSaleMutation(tariffId, regularPrice);
+  const handleTicketSaleMutation = (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => {
+    ticketSaleMutation(tariffId, regularPrice, count);
     refetch();
     handleClose();
   };
@@ -125,6 +135,7 @@ export const TariffDrawer = ({
             passHolderName={passHolderName}
             ticketSaleMutation={handleTicketSaleMutation}
             isDrawerOpen={isOpen}
+            isGroupPass={isGroupPass}
           />
         ) : null}
       </Stack>

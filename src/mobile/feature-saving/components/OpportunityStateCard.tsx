@@ -1,18 +1,18 @@
 import { PropsWithChildren, useState } from "react";
 import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
-import { useTranslation } from "@/shared/lib/i18n/client";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 type OpportunityStateCardProps = PropsWithChildren &
   BoxProps & {
+    title: string;
     status: "ACTIVE" | "SUSPENDED" | "EXPIRED" | "BLOCKED";
   };
 
 export const OpportunityStateCard = ({
+  title,
   status,
   ...props
 }: OpportunityStateCardProps) => {
-  const { t } = useTranslation();
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -54,9 +54,7 @@ export const OpportunityStateCard = ({
           width: "100%",
         }}
       >
-        <p style={{ fontWeight: 700, fontSize: "18px", margin: 0 }}>
-          {t(`saving.mobile.opportunityState.${status.toLowerCase()}.title`)}
-        </p>
+        <p style={{ fontWeight: 700, fontSize: "18px", margin: 0 }}>{title}</p>
         <IconButton
           disableRipple
           sx={{

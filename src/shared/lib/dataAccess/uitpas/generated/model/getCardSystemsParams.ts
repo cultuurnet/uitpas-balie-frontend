@@ -28,4 +28,12 @@ city?: string[];
  * Search card systems by postal code. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
  */
 postalCode?: string[];
+/**
+ * Sorts the cardsystems in a specific order. Possible values are: `name`, `postalCode`. By default the sort uses ascending order. Descending order can be specified by including a `-` sign before the field that needs to be ordered descending. e.g. use `-name` to sort on name descending. `postalCode` sort will geographically sort based on the query param `postalCodeSort`.
+ */
+sort?: string;
+/**
+ * The postalCode that will be used by `sort=postalCode` as its geographic center. If `sort` is not `postalCode` this parameter is ignored. If `sort` is `postalCode`, this parameter is mandatory.
+ */
+postalCodeSort?: string;
 };

@@ -10,6 +10,7 @@ export * from "./uitpas/generated/rewards/rewards";
 export * from "./uitpas/generated/schools/schools";
 export * from "./uitpas/generated/ticket-sales/ticket-sales";
 export * from "./uitpas/generated/ui-ti-d/ui-ti-d";
+export * from "./uitpas/generated/grouppasses/grouppasses";
 export * from "./search/generated/events-places/events-places";
 export * as Search from "./search/generated/model";
 export * from "./uitid/useGetUserInfo";

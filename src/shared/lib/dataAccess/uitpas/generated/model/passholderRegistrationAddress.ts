@@ -7,9 +7,9 @@
  */
 
 /**
- * Address that the passholder lives at. Always present in responses. Passholders living outside of Belgium (usually near the border) will only have a `postalCode` and `city` in their address.
+ * Address that the passholder to register lives at. Always present in responses. Passholders living outside of Belgium (usually near the border) will only have a `postalCode` and `city` in their address.
  */
-export type PassholderAddress = {
+export type PassholderRegistrationAddress = {
   /**
    * Postal box number. This field is deprecated and will be empty. The box number is part of the `street` property.
    * @deprecated
