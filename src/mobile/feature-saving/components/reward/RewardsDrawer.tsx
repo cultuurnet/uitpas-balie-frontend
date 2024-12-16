@@ -1,5 +1,5 @@
 import { OutlinedButton, SearchInput } from "@/mobile/lib/ui";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { Reward, useGetRewardsInfinite } from "@/shared/lib/dataAccess";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { Close } from "@mui/icons-material";

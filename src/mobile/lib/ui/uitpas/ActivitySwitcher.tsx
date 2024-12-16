@@ -1,6 +1,6 @@
 "use client";
 
-import { useActivity } from "@/mobile/feature-activities/context/useActivity";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,13 +16,11 @@ import { forwardRef } from "react";
 
 export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
   const { t, LANG_KEY } = useTranslation();
-  const { selectedActivity, setSelectedActivity } = useActivity();
-  const router = useRouter();
+  const { selectedActivity, clearActivity } = useActivity();
   const theme = useTheme();
 
   const handleChangeActivityClick = () => {
-    setSelectedActivity(null);
-    router.push("/mobile/activities");
+    clearActivity();
   };
 
   return (

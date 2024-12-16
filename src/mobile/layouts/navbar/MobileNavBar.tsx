@@ -1,6 +1,6 @@
 "use client";
 
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { PropsWithChildren } from "react";
 import { Box } from "@mui/material";
 import uitpasLogo from "public/images/svg/logo-uitpas.svg";
@@ -15,13 +15,8 @@ import { NavBarItemContainer } from "./components/NavBarItemContainer";
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
   const { t } = useTranslation();
-  const { setLastCounterUsed, setActiveCounter, activeCounter } = useCounter();
+  const { clearCounter, activeCounter } = useCounter();
   const logout = useLogout();
-
-  const handleCurrentCounterClick = () => {
-    setLastCounterUsed(activeCounter);
-    setActiveCounter(null);
-  };
 
   return (
     <>
@@ -51,7 +46,7 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           <NavBarItemContainer
             component={Link}
             href="/mobile/counters"
-            onClick={handleCurrentCounterClick}
+            onClick={clearCounter}
           >
             <NavBarTypography>{activeCounter.name}</NavBarTypography>
             <NavBarIcon icon={Settings} />
