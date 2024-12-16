@@ -10,7 +10,7 @@ import {
 } from "@/mobile/lib/ui";
 import { Stack } from "@mui/material";
 import { useTranslation } from "@/shared/lib/i18n/client";
-import { useRouter } from "next/navigation";
+import { useActivity } from "@/mobile/feature-activities/useActivity";
 
 type ScanFailedProps = {
   errorMessage?: string;
@@ -18,14 +18,14 @@ type ScanFailedProps = {
 
 export const ScanFailed = ({ errorMessage }: ScanFailedProps) => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const { navigateToScanner, navigateToIdentification } = useActivity();
 
   const handleTryAgainClick = () => {
-    router.push("/mobile/identification/scan");
+    navigateToScanner();
   };
 
   const handleInputCardNoClick = () => {
-    router.push("/mobile/identification");
+    navigateToIdentification();
   };
 
   return (

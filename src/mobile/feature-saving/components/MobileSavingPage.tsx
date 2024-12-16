@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   type TicketSale,
   useGetPassholders,
@@ -33,7 +33,6 @@ import { useTranslation } from "@/shared/lib/utils/hooks";
 
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
-  const router = useRouter();
   const params = useSearchParams();
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas");

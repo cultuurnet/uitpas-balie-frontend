@@ -7,8 +7,7 @@ import {
 } from "@/mobile/lib/ui";
 import { Typography } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/useActivity";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification/components/ManualCardInput";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
