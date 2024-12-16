@@ -18,6 +18,7 @@ export const useActivity = () => {
   const { data, isSuccess } = useGetEvents({
     id: params.activity,
     embed: true,
+    audienceType: "*",
   });
 
   const idIsActivityId = params.activity && !isNoActivity(params.activity);
