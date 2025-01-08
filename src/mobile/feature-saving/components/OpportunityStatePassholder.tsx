@@ -133,46 +133,40 @@ export const OpportunityStatePassholder = ({
         (card) => card.status === "ACTIVE"
       );
 
-    if (cardSystem) {
-      if (cardSystem.socialTariff) {
-        return (
-          <OpportunityStateCard
-            status={cardSystem.socialTariff.status}
-            title={t(
-              "saving.mobile.opportunityState.passholder.grouppass.title"
-            )}
-          >
-            {passholder.cardSystemMemberships.map(
-              (csm, i) =>
-                csm.socialTariff && (
-                  <Fragment key={csm.cardSystem.id}>
+    if (cardSystem && cardSystem.socialTariff) {
+      return (
+        <OpportunityStateCard
+          status={cardSystem.socialTariff.status}
+          title={t("saving.mobile.opportunityState.passholder.grouppass.title")}
+        >
+          {passholder.cardSystemMemberships.map(
+            (csm, i) =>
+              csm.socialTariff && (
+                <Fragment key={csm.cardSystem.id}>
+                  <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
+                    {t(
+                      `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.content`,
+                      {
+                        cardSystemName: csm.cardSystem.name,
+                        socialTariffEndDate: dayjs(
+                          csm.socialTariff?.endDate
+                        ).format("DD/MM/YYYY"),
+                        interpolation: { escapeValue: false },
+                      }
+                    )}
+                  </p>
+                  {csm.socialTariff?.inGracePeriod && (
                     <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
                       {t(
-                        `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.content`,
-                        {
-                          cardSystemName: csm.cardSystem.name,
-                          socialTariffEndDate: dayjs(
-                            csm.socialTariff?.endDate
-                          ).format("DD/MM/YYYY"),
-                          interpolation: { escapeValue: false },
-                        }
+                        `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.gracePeriod`
                       )}
                     </p>
-                    {csm.socialTariff?.inGracePeriod && (
-                      <p
-                        style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}
-                      >
-                        {t(
-                          `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.gracePeriod`
-                        )}
-                      </p>
-                    )}
-                  </Fragment>
-                )
-            )}
-          </OpportunityStateCard>
-        );
-      }
+                  )}
+                </Fragment>
+              )
+          )}
+        </OpportunityStateCard>
+      );
     }
   }
 
