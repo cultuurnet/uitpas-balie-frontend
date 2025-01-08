@@ -52,7 +52,6 @@ export const MobileSavingPage = () => {
       }
     | undefined
   >(undefined);
-  const [isGroupPass, setIsGroupPass] = useState<boolean>(false);
 
   const {
     data: passHoldersData,
@@ -64,6 +63,9 @@ export const MobileSavingPage = () => {
     ...(uitpasNumber && { uitpasNumber }),
     ...(inszNumber && { inszNumber }),
   });
+
+  const isGroupPass =
+    passHoldersData?.data.member && passHoldersData.data.member.length === 0;
 
   const { data: groupPassHolder, isLoading: isGroupPassLoading } =
     useGetGrouppasses(
@@ -231,15 +233,6 @@ export const MobileSavingPage = () => {
     refetchPassholders,
     selectedActivity,
   ]);
-
-  useEffect(() => {
-    if (
-      passHoldersData?.data.member &&
-      passHoldersData.data.member.length === 0
-    ) {
-      setIsGroupPass(true);
-    }
-  }, [passHoldersData]);
 
   if (
     isPassholdersLoading ||
