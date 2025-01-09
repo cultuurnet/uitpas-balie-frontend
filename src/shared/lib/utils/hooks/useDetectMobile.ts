@@ -5,11 +5,11 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import { useEffect } from "react";
 import { useConfig } from "@/shared/feature-config/context/useConfig";
 
-export enum DEVICE {
-  mobile = "mobile",
-  web = "web",
-  pending = "pending",
-}
+export const DEVICE = {
+  mobile: "mobile",
+  web: "web",
+  pending: "pending",
+} as const;
 
 export const useDetectMobile = () => {
   const { publicRuntimeConfig } = useConfig();
@@ -20,22 +20,30 @@ export const useDetectMobile = () => {
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMobilePath = path.startsWith("/mobile");
 
-  const shouldRedirectToMobile = isMobilePath && !isMobileScreen;
-  const shouldRedirectToWeb = !isMobilePath && isMobileScreen;
+  const shouldRedirectToMobile = !isMobilePath && isMobileScreen;
 
   useEffect(() => {
     if (shouldRedirectToMobile && !disableMobile) {
-      replace(path.replace("/mobile", ""));
-    } else if (shouldRedirectToWeb) {
       replace(`/mobile${path}`);
     }
-  }, [path, isMobilePath, isMobileScreen]);
+  }, [
+    path,
+    isMobilePath,
+    isMobileScreen,
+    shouldRedirectToMobile,
+    disableMobile,
+    replace,
+  ]);
 
-  return shouldRedirectToMobile || shouldRedirectToWeb
-    ? DEVICE.pending
-    : isMobilePath
-    ? disableMobile
-      ? DEVICE.web
-      : DEVICE.mobile
-    : DEVICE.web;
+  if (shouldRedirectToMobile) {
+    return DEVICE.pending;
+  }
+
+  if (isMobilePath) {
+    if (disableMobile) {
+      return DEVICE.web;
+    }
+    return DEVICE.mobile;
+  }
+  return DEVICE.web;
 };
