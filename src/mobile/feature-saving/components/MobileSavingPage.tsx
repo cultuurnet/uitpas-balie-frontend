@@ -6,11 +6,11 @@ import {
   useGetPassholders,
   usePostTicketSales,
   usePostRewardsRedeemed,
+  useGetGrouppasses,
 } from "@/shared/lib/dataAccess";
 import { MobileNavBar } from "@/mobile/layouts";
 import {
   ActivitySwitcher,
-  Alert,
   Button,
   MobileContentStack,
   OutlinedButton,
@@ -18,7 +18,6 @@ import {
 } from "@/mobile/lib/ui";
 import {
   ScanFailed,
-  OpportunityState,
   TariffDrawer,
   RewardsDrawer,
 } from "@/mobile/feature-saving";
@@ -26,17 +25,18 @@ import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
-import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
 import { getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
+import { PassHolder } from "./PassHolder";
+import { GroupPass } from "./GroupPass";
 
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
   const params = useSearchParams();
   const theme = useTheme();
-  const uitpasNumber = params.get("uitpas");
-  const inszNumber = params.get("insz");
+  const uitpasNumber = params.get("uitpas") ?? undefined;
+  const inszNumber = params.get("insz") ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
@@ -63,6 +63,19 @@ export const MobileSavingPage = () => {
     ...(uitpasNumber && { uitpasNumber }),
     ...(inszNumber && { inszNumber }),
   });
+
+  const isGroupPass =
+    passHoldersData?.data.member && passHoldersData.data.member.length === 0;
+
+  const { data: groupPassHolder, isLoading: isGroupPassLoading } =
+    useGetGrouppasses(
+      { uitpasNumber: uitpasNumber },
+      {
+        query: {
+          enabled: isGroupPass && !!uitpasNumber,
+        },
+      }
+    );
 
   const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
@@ -93,7 +106,7 @@ export const MobileSavingPage = () => {
           setAlertData({
             alertType: "success",
             message: t("saving.mobile.tariff.discountRegistered", {
-              price: data.data.at(0)?.tariff.price,
+              price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
             }),
           });
         },
@@ -142,18 +155,27 @@ export const MobileSavingPage = () => {
     setShowRewardsDrawer(true);
   };
 
-  const handleTicketSaleMutation = (tariffId: string, regularPrice: number) => {
-    if (!passHoldersData?.data?.member || !selectedActivity) return;
+  const handleTicketSaleMutation = (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => {
+    if ((!isGroupPass && !passHoldersData?.data?.member) || !selectedActivity)
+      return;
 
-    const uitpasNumber =
-      passHoldersData.data.member[0].uitpasNumber ??
-      passHoldersData.data.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
+    const uitpasNumber = isGroupPass
+      ? groupPassHolder?.data.member?.[0]?.uitpasNumber
+      : passHoldersData?.data.member?.[0]?.uitpasNumber ??
+        passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
+          ?.uitpasNumber;
 
-    if (!uitpasNumber) return;
+    if (!uitpasNumber || !selectedActivity["@id"]) return;
+
+    if (!count) count = 1;
 
     postTicketSale({
-      data: Array.of({
-        eventId: getUuid(selectedActivity?.["@id"] ?? ""),
+      data: Array(count).fill({
+        eventId: getUuid(selectedActivity["@id"]),
         tariff: {
           id: tariffId,
         },
@@ -182,7 +204,10 @@ export const MobileSavingPage = () => {
   };
 
   useEffect(() => {
-    if (passHoldersData?.data?.member) {
+    if (
+      passHoldersData?.data?.member &&
+      passHoldersData.data.member.length > 0
+    ) {
       const uitpasNumber =
         passHoldersData.data.member[0].uitpasNumber ??
         passHoldersData.data.member[0].cardSystemMemberships?.at(0)
@@ -213,7 +238,8 @@ export const MobileSavingPage = () => {
     isPassholdersLoading ||
     isCheckinLoading ||
     isTicketSaleLoading ||
-    isRewardsRedeemedLoading
+    isRewardsRedeemedLoading ||
+    isGroupPassLoading
   )
     return (
       <MobileNavBar>
@@ -238,52 +264,20 @@ export const MobileSavingPage = () => {
         </Typography>
         <ActivitySwitcher ref={activityRef} />
 
-        {passHoldersData?.data.member?.[0] && (
-          <Stack sx={{ rowGap: "10px" }}>
-            <Stack
-              sx={{
-                flexDirection: "row",
-                columnGap: "5px",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h1">
-                {t("saving.mobile.passholder")}
-              </Typography>
-              <Typography
-                sx={{
-                  color: theme.palette.brand[800],
-                  fontSize: "13px",
-                }}
-              >
-                {formatUitpasNumber(
-                  passHoldersData.data.member
-                    .at(0)
-                    ?.cardSystemMemberships?.at(0)?.uitpasNumber
-                )}
-              </Typography>
-            </Stack>
-
-            <Stack sx={{ rowGap: "4px" }}>
-              <Typography
-                variant="h1"
-                sx={{ color: theme.palette.neutral[900] }}
-              >
-                {t("saving.mobile.namePointsTxt", {
-                  firstName: passHoldersData.data.member[0].firstName,
-                  lastName: passHoldersData.data.member[0].name,
-                  points: passHoldersData.data.member[0].points,
-                })}
-              </Typography>
-              <OpportunityState passholder={passHoldersData.data.member[0]} />
-            </Stack>
-
-            {alertData && (
-              <Alert type={alertData.alertType} newAlert={!firstCardEntry}>
-                {alertData.message}
-              </Alert>
-            )}
-          </Stack>
+        {passHoldersData?.data.member?.[0] ? (
+          <PassHolder
+            passholder={passHoldersData?.data.member?.[0]}
+            firstCardEntry={firstCardEntry}
+            alertData={alertData}
+          />
+        ) : (
+          groupPassHolder?.data.member?.[0] && (
+            <GroupPass
+              groupPass={groupPassHolder?.data.member?.[0]}
+              firstCardEntry={firstCardEntry}
+              alertData={alertData}
+            />
+          )
         )}
 
         <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
@@ -292,9 +286,11 @@ export const MobileSavingPage = () => {
               {t("saving.mobile.chooseTariffBtn")}
             </OutlinedButton>
           )}
-          <OutlinedButton onClick={handleChooseBenefitClick}>
-            {t("saving.mobile.tradeBenefitBtn")}
-          </OutlinedButton>
+          {!isGroupPass && (
+            <OutlinedButton onClick={handleChooseBenefitClick}>
+              {t("saving.mobile.tradeBenefitBtn")}
+            </OutlinedButton>
+          )}
         </Stack>
 
         {/*-16 comes from the padding that's already in the stack*/}
@@ -313,6 +309,7 @@ export const MobileSavingPage = () => {
         </Typography>
 
         <ManualCardInput firstCardEntry={false} />
+
         {selectedActivity &&
           selectedActivity["@id"] &&
           passHoldersData?.data?.member &&
@@ -320,7 +317,9 @@ export const MobileSavingPage = () => {
             <TariffDrawer
               eventId={selectedActivity["@id"]}
               passHolderName={
-                passHoldersData.data.member
+                isGroupPass
+                  ? groupPassHolder?.data.member?.[0]?.name ?? undefined
+                  : passHoldersData.data.member
                   ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
                   : undefined
               }
@@ -328,28 +327,35 @@ export const MobileSavingPage = () => {
               setIsOpen={setShowTariffDrawer}
               startPosition={activityRef.current.getBoundingClientRect().bottom}
               uitpasNumber={
-                passHoldersData.data.member?.at(0)?.cardSystemMemberships?.at(0)
-                  ?.uitpasNumber!
+                isGroupPass
+                  ? groupPassHolder?.data.member?.at(0)?.uitpasNumber!
+                  : passHoldersData.data.member
+                      ?.at(0)
+                      ?.cardSystemMemberships?.at(0)?.uitpasNumber!
               }
               ticketSaleMutation={handleTicketSaleMutation}
+              isGroupPass={isGroupPass}
             />
           )}
 
-        {activityRef.current && passHoldersData?.data?.member && (
-          <RewardsDrawer
-            isOpen={showRewardsDrawer}
-            setIsOpen={setShowRewardsDrawer}
-            startPosition={activityRef.current.getBoundingClientRect().bottom}
-            passHolderId={passHoldersData.data.member[0].id}
-            passHolderName={
-              passHoldersData.data.member
-                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                : undefined
-            }
-            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
-            rewardRedemptionMutation={handleRewardRedemption}
-          />
-        )}
+        {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
+        {!isGroupPass &&
+          activityRef.current &&
+          passHoldersData?.data?.member && (
+            <RewardsDrawer
+              isOpen={showRewardsDrawer}
+              setIsOpen={setShowRewardsDrawer}
+              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              passHolderId={passHoldersData.data.member[0].id}
+              passHolderName={
+                passHoldersData.data.member
+                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                  : undefined
+              }
+              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+              rewardRedemptionMutation={handleRewardRedemption}
+            />
+          )}
       </MobileContentStack>
     </MobileNavBar>
   );

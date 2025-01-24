@@ -1,4 +1,4 @@
-import { Passholder } from "@/shared/lib/dataAccess";
+import { Grouppass, Passholder } from "@/shared/lib/dataAccess";
 import dayjs from "dayjs";
 import React, { Fragment } from "react";
 import { useTranslation } from "@/shared/lib/i18n/client";
@@ -8,7 +8,9 @@ type OpportunityStateDateProps = {
   passholder: Passholder;
 };
 
-export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
+export const OpportunityStatePassholder = ({
+  passholder,
+}: OpportunityStateDateProps) => {
   const { t } = useTranslation();
 
   if (!passholder.cardSystemMemberships) return null;
@@ -22,20 +24,23 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
     );
 
     return (
-      <OpportunityStateCard status="BLOCKED">
+      <OpportunityStateCard
+        status="BLOCKED"
+        title={t("saving.mobile.opportunityState.passholder.blocked.title")}
+      >
         {blockedCardSystems.map((card) => (
           <p
             style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}
             key={card.cardSystem.id}
           >
-            {t("saving.mobile.opportunityState.blocked.content", {
+            {t("saving.mobile.opportunityState.passholder.blocked.content", {
               cardSystemName: card.cardSystem.name,
             })}
           </p>
         ))}
 
         <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-          {t("saving.mobile.opportunityState.blocked.content2")}
+          {t("saving.mobile.opportunityState.passholder.blocked.content2")}
         </p>
       </OpportunityStateCard>
     );
@@ -48,9 +53,12 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
 
     if (csm.socialTariff.status === "ACTIVE") {
       return (
-        <OpportunityStateCard status="ACTIVE">
+        <OpportunityStateCard
+          status="ACTIVE"
+          title={t("saving.mobile.opportunityState.passholder.active.title")}
+        >
           <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.active.content", {
+            {t("saving.mobile.opportunityState.passholder.active.content", {
               cardSystemName:
                 passholder.cardSystemMemberships[0].cardSystem.name,
               socialTariffEndDate: dayjs(csm.socialTariff.endDate).format(
@@ -62,7 +70,9 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
 
           {csm.socialTariff.inGracePeriod && (
             <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-              {t("saving.mobile.opportunityState.active.gracePeriod")}
+              {t(
+                "saving.mobile.opportunityState.passholder.active.gracePeriod"
+              )}
             </p>
           )}
         </OpportunityStateCard>
@@ -71,9 +81,12 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
 
     if (csm.socialTariff.status === "EXPIRED") {
       return (
-        <OpportunityStateCard status="EXPIRED">
+        <OpportunityStateCard
+          status="EXPIRED"
+          title={t("saving.mobile.opportunityState.passholder.expired.title")}
+        >
           <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.expired.content", {
+            {t("saving.mobile.opportunityState.passholder.expired.content", {
               cardSystemName:
                 passholder.cardSystemMemberships[0].cardSystem.name,
               socialTariffEndDate: dayjs(csm.socialTariff.endDate).format(
@@ -88,9 +101,12 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
 
     if (csm.socialTariff.status === "SUSPENDED") {
       return (
-        <OpportunityStateCard status="SUSPENDED">
+        <OpportunityStateCard
+          status="SUSPENDED"
+          title={t("saving.mobile.opportunityState.passholder.suspended.title")}
+        >
           <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.suspended.content", {
+            {t("saving.mobile.opportunityState.passholder.suspended.content", {
               cardSystemName:
                 passholder.cardSystemMemberships[0].cardSystem.name,
               suspendedUntilDate: dayjs(
@@ -117,41 +133,40 @@ export const OpportunityState = ({ passholder }: OpportunityStateDateProps) => {
         (card) => card.status === "ACTIVE"
       );
 
-    if (cardSystem) {
-      if (cardSystem.socialTariff) {
-        return (
-          <OpportunityStateCard status={cardSystem.socialTariff.status}>
-            {passholder.cardSystemMemberships.map(
-              (csm, i) =>
-                csm.socialTariff && (
-                  <Fragment key={csm.cardSystem.id}>
+    if (cardSystem && cardSystem.socialTariff) {
+      return (
+        <OpportunityStateCard
+          status={cardSystem.socialTariff.status}
+          title={t("saving.mobile.opportunityState.passholder.grouppass.title")}
+        >
+          {passholder.cardSystemMemberships.map(
+            (csm, i) =>
+              csm.socialTariff && (
+                <Fragment key={csm.cardSystem.id}>
+                  <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
+                    {t(
+                      `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.content`,
+                      {
+                        cardSystemName: csm.cardSystem.name,
+                        socialTariffEndDate: dayjs(
+                          csm.socialTariff?.endDate
+                        ).format("DD/MM/YYYY"),
+                        interpolation: { escapeValue: false },
+                      }
+                    )}
+                  </p>
+                  {csm.socialTariff?.inGracePeriod && (
                     <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
                       {t(
-                        `saving.mobile.opportunityState.${csm.socialTariff.status?.toLowerCase()}.content`,
-                        {
-                          cardSystemName: csm.cardSystem.name,
-                          socialTariffEndDate: dayjs(
-                            csm.socialTariff?.endDate
-                          ).format("DD/MM/YYYY"),
-                          interpolation: { escapeValue: false },
-                        }
+                        `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.gracePeriod`
                       )}
                     </p>
-                    {csm.socialTariff?.inGracePeriod && (
-                      <p
-                        style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}
-                      >
-                        {t(
-                          `saving.mobile.opportunityState.${csm.socialTariff.status?.toLowerCase()}.gracePeriod`
-                        )}
-                      </p>
-                    )}
-                  </Fragment>
-                )
-            )}
-          </OpportunityStateCard>
-        );
-      }
+                  )}
+                </Fragment>
+              )
+          )}
+        </OpportunityStateCard>
+      );
     }
   }
 

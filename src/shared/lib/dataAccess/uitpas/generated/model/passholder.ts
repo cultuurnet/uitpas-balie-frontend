@@ -9,6 +9,7 @@ import type { PassholderAddress } from './passholderAddress';
 import type { CardSystemMembership } from './cardSystemMembership';
 import type { PassholderGender } from './passholderGender';
 import type { PassholderOptInPreferences } from './passholderOptInPreferences';
+import type { PassholderRegistrationCardType } from './passholderRegistrationCardType';
 import type { Organizer } from './organizer';
 import type { PassholderUitidStatus } from './passholderUitidStatus';
 
@@ -64,7 +65,13 @@ export interface Passholder {
   readonly postalCode?: string;
   /** Only used in passholder registration. Set to the id of the card system of which the passholder has to become a member. */
   registrationCardSystemId?: number;
+  /** Only used and mandatory in passholder registration. */
+  registrationCardType?: PassholderRegistrationCardType;
   registrationOrganizer: Organizer;
+  /** Only used in passholder registration using a physical card. */
+  registrationUitpasNumber?: string;
+  /** Only used in passholder registration when the ser has a price reduction voucher. */
+  registrationVoucher?: string;
   /** Whether or not the passholder has a an UiTiD registered. This field is always available in responses. */
   readonly uitidStatus?: PassholderUitidStatus;
   /** The UiTPAS number of this passholder. This field contains the UiTPAS number of the oldest, still active cardsystem membership, that has an active card. */

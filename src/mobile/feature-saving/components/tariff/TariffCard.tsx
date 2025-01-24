@@ -1,6 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { Button } from "@/mobile/lib/ui";
+import { Button, StepperField } from "@/mobile/lib/ui";
 import { useTranslation } from "@/shared/lib/i18n/client";
+import { useState } from "react";
 
 type TariffCardProps = {
   tariffName?: string;
@@ -9,7 +10,13 @@ type TariffCardProps = {
   tariffType?: string;
   tariffPrice?: number;
   tariffMessage?: string;
-  ticketSaleMutation: (tariffId: string, regularPrice: number) => void;
+  ticketSaleMutation: (
+    tariffId: string,
+    regularPrice: number,
+    count?: number
+  ) => void;
+  isGroupPass?: boolean;
+  remainingDiscounts?: number;
 };
 
 export const TariffCard = ({
@@ -20,19 +27,28 @@ export const TariffCard = ({
   tariffPrice,
   tariffMessage,
   ticketSaleMutation,
+  isGroupPass,
+  remainingDiscounts,
 }: TariffCardProps) => {
+  const [stepperCount, setStepperCount] = useState<number>(1);
   const { t } = useTranslation();
   const theme = useTheme();
-
-  if (!tariffName) {
-    return null;
-  }
 
   const handleApplyTariffClick = () => {
     if (!tariffId) return;
 
-    ticketSaleMutation(tariffId, regularPrice);
+    ticketSaleMutation(tariffId, regularPrice, stepperCount);
   };
+
+  const calculatedRemainingDiscounts = isNaN(stepperCount)
+    ? remainingDiscounts
+    : remainingDiscounts
+    ? remainingDiscounts - stepperCount
+    : 0;
+
+  if (!tariffName) {
+    return null;
+  }
 
   return (
     <Box
@@ -81,6 +97,33 @@ export const TariffCard = ({
             {t("saving.mobile.tariff.card.noDiscount")}
           </Typography>
           <Typography variant="body2">{tariffMessage}</Typography>
+        </Box>
+      )}
+      {isGroupPass && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            columnGap: "10px",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ ...(remainingDiscounts && { mt: "-16px" }) }}
+          >
+            {t("saving.mobile.tariff.card.count")}
+          </Typography>
+          <StepperField
+            value={stepperCount}
+            onChange={setStepperCount}
+            {...(remainingDiscounts && {
+              subtitle: t("saving.mobile.tariff.card.discountsAvailable", {
+                count: calculatedRemainingDiscounts,
+              }),
+              maxValue: remainingDiscounts,
+            })}
+          />
         </Box>
       )}
       {tariffPrice !== undefined ? (
