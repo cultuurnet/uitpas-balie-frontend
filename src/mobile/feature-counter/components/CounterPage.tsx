@@ -6,31 +6,16 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { UitpasLoading } from "@/mobile/lib/ui";
 import { useActivity } from "@/mobile/feature-activities/useActivity";
+import { useGetCounters } from "@/shared/feature-counter/hooks/useGetCounters";
 
 export const CounterPage = () => {
-  const { data: allData, isSuccess, isLoading } = useGetPermissions();
   const [searchString, setSearchString] = useState<string>("");
   const { setActiveCounter, lastCounterUsed } = useCounter();
   const { setSelectedActivity } = useActivity();
-
-  const dataWithoutLastCounter =
-    allData?.data?.filter(
-      (permission) => permission.organizer.id !== lastCounterUsed?.id
-    ) ?? [];
-
-  const filteredData = searchString
-    ? dataWithoutLastCounter?.filter((organizer) =>
-        organizer.organizer.name
-          ?.toLowerCase()
-          .includes(searchString.toLowerCase())
-      )
-    : dataWithoutLastCounter;
-
-  const sortedData = filteredData
-    ? filteredData.toSorted((a, b) =>
-        a.organizer.name!.localeCompare(b.organizer.name!)
-      )
-    : [];
+  const { allData, data, isSuccess, isLoading } = useGetCounters(
+    lastCounterUsed,
+    searchString
+  );
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
@@ -51,11 +36,11 @@ export const CounterPage = () => {
 
   if (isLoading) return <UitpasLoading />;
 
-  if (isSuccess && allData.data.length > 0)
+  if (isSuccess && allData && allData.data.length > 0)
     return (
       <CounterPicker
         totalCounters={allData.data.length}
-        counters={sortedData}
+        counters={data}
         prevCounter={lastCounterUsed}
         onSearch={handleSearchInputChange}
         onCounterClick={handleCounterClick}
