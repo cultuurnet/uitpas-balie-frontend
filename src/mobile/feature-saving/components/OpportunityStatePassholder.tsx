@@ -1,176 +1,110 @@
-import { Passholder } from "@/shared/lib/dataAccess";
+import {
+  CardSystemMembership,
+  CardSystemMembershipSocialTariff,
+  Passholder,
+} from "@/shared/lib/dataAccess";
 import dayjs from "dayjs";
 import React, { Fragment } from "react";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { OpportunityStateCard } from "@/mobile/feature-saving";
+import { Require } from "@/shared/lib/utils/typescriptUtil";
 
 type OpportunityStateDateProps = {
   passholder: Passholder;
 };
+
+const paragraphStyle = { fontWeight: 700, fontSize: "11px", margin: 0 };
 
 export const OpportunityStatePassholder = ({
   passholder,
 }: OpportunityStateDateProps) => {
   const { t } = useTranslation();
 
-  if (!passholder.cardSystemMemberships) return null;
+  if (!passholder.cardSystemMemberships?.length) return null;
 
-  if (
-    passholder.cardSystemMemberships.filter((csm) => csm.status === "BLOCKED")
-      .length > 0
-  ) {
-    const blockedCardSystems = passholder.cardSystemMemberships.filter(
-      (csm) => csm.status === "BLOCKED"
-    );
-
+  // 1. Render blocked memberships if any
+  const blockedMemberships = passholder.cardSystemMemberships.filter(
+    (csm) => csm.status === "BLOCKED"
+  );
+  if (blockedMemberships.length) {
     return (
       <OpportunityStateCard
         status="BLOCKED"
         title={t("saving.mobile.opportunityState.passholder.blocked.title")}
       >
-        {blockedCardSystems.map((card) => (
-          <p
-            style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}
-            key={card.cardSystem.id}
-          >
+        {blockedMemberships.map((csm) => (
+          <p key={csm.cardSystem.id} style={paragraphStyle}>
             {t("saving.mobile.opportunityState.passholder.blocked.content", {
-              cardSystemName: card.cardSystem.name,
+              cardSystemName: csm.cardSystem.name,
             })}
           </p>
         ))}
-
-        <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
+        <p style={paragraphStyle}>
           {t("saving.mobile.opportunityState.passholder.blocked.content2")}
         </p>
       </OpportunityStateCard>
     );
   }
 
-  // Indien de pashouder maar één cardsystem heeft:
-  if (passholder.cardSystemMemberships?.length === 1) {
-    const csm = passholder.cardSystemMemberships[0];
-    if (!csm.socialTariff) return null;
+  // 2. Filter memberships that have a social tariff.
+  const memberships = passholder.cardSystemMemberships.filter(
+    (csm) => csm.socialTariff
+  ) as Require<CardSystemMembership, "socialTariff">[];
+  if (!memberships.length) return null;
 
-    if (csm.socialTariff.status === "ACTIVE") {
-      return (
-        <OpportunityStateCard
-          status="ACTIVE"
-          title={t("saving.mobile.opportunityState.passholder.active.title")}
-        >
-          <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.passholder.active.content", {
-              cardSystemName:
-                passholder.cardSystemMemberships[0].cardSystem.name,
-              socialTariffEndDate: dayjs(csm.socialTariff.endDate).format(
-                "DD/MM/YYYY"
-              ),
-              interpolation: { escapeValue: false },
-            })}
-          </p>
+  // 3. Determine the main membership to use for the card header.
+  const mainMembership =
+    memberships.find(
+      (csm) => csm.status === "ACTIVE" && csm.socialTariff?.status === "ACTIVE"
+    ) ||
+    memberships.find((csm) => csm.status === "ACTIVE") ||
+    memberships[0];
 
-          {csm.socialTariff.inGracePeriod && (
-            <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
+  const headerStatus = mainMembership.socialTariff.status;
+  const headerKey = headerStatus.toLowerCase();
+  const cardTitle = t(
+    `saving.mobile.opportunityState.passholder.${headerKey}.title`
+  );
+
+  // 4. Render the card with content for each membership.
+  return (
+    <OpportunityStateCard status={headerStatus} title={cardTitle}>
+      {memberships.map((csm) => {
+        const { socialTariff, cardSystem } = csm;
+        const statusKey = socialTariff.status.toLowerCase();
+
+        const translationData = {
+          cardSystemName: cardSystem.name,
+          socialTariffEndDate: socialTariff.endDate
+            ? dayjs(socialTariff.endDate).format("DD/MM/YYYY")
+            : undefined,
+          suspendedUntilDate: socialTariff.suspendedUntilDate
+            ? dayjs(socialTariff.suspendedUntilDate).format("DD/MM/YYYY")
+            : undefined,
+          firstName: passholder.firstName,
+          lastName: passholder.name,
+          interpolation: { escapeValue: false },
+        };
+
+        return (
+          <Fragment key={cardSystem.id}>
+            <p style={paragraphStyle}>
               {t(
-                "saving.mobile.opportunityState.passholder.active.gracePeriod"
+                `saving.mobile.opportunityState.passholder.${statusKey}.content`,
+                translationData
               )}
             </p>
-          )}
-        </OpportunityStateCard>
-      );
-    }
-
-    if (csm.socialTariff.status === "EXPIRED") {
-      return (
-        <OpportunityStateCard
-          status="EXPIRED"
-          title={t("saving.mobile.opportunityState.passholder.expired.title")}
-        >
-          <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.passholder.expired.content", {
-              cardSystemName:
-                passholder.cardSystemMemberships[0].cardSystem.name,
-              socialTariffEndDate: dayjs(csm.socialTariff.endDate).format(
-                "DD/MM/YYYY"
-              ),
-              interpolation: { escapeValue: false },
-            })}
-          </p>
-        </OpportunityStateCard>
-      );
-    }
-
-    if (csm.socialTariff.status === "SUSPENDED") {
-      return (
-        <OpportunityStateCard
-          status="SUSPENDED"
-          title={t("saving.mobile.opportunityState.passholder.suspended.title")}
-        >
-          <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-            {t("saving.mobile.opportunityState.passholder.suspended.content", {
-              cardSystemName:
-                passholder.cardSystemMemberships[0].cardSystem.name,
-              suspendedUntilDate: dayjs(
-                csm.socialTariff.suspendedUntilDate
-              ).format("DD/MM/YYYY"),
-              firstName: passholder.firstName,
-              lastName: passholder.name,
-              interpolation: { escapeValue: false },
-            })}
-          </p>
-        </OpportunityStateCard>
-      );
-    }
-  }
-
-  // Indien de pashouder meerdere cardsystems heeft:
-  if (passholder.cardSystemMemberships?.length > 1) {
-    const cardSystem =
-      passholder.cardSystemMemberships?.find(
-        (card) =>
-          card.status === "ACTIVE" && card.socialTariff?.status === "ACTIVE"
-      ) ||
-      passholder.cardSystemMemberships?.find(
-        (card) => card.status === "ACTIVE"
-      );
-
-    if (cardSystem && cardSystem.socialTariff) {
-      return (
-        <OpportunityStateCard
-          status={cardSystem.socialTariff.status}
-          title={t(
-            `saving.mobile.opportunityState.passholder.${cardSystem.socialTariff.status.toLowerCase()}.title`
-          )}
-        >
-          {passholder.cardSystemMemberships.map(
-            (csm, i) =>
-              csm.socialTariff && (
-                <Fragment key={csm.cardSystem.id}>
-                  <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-                    {t(
-                      `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.content`,
-                      {
-                        cardSystemName: csm.cardSystem.name,
-                        socialTariffEndDate: dayjs(
-                          csm.socialTariff?.endDate
-                        ).format("DD/MM/YYYY"),
-                        interpolation: { escapeValue: false },
-                      }
-                    )}
-                  </p>
-                  {csm.socialTariff?.inGracePeriod && (
-                    <p style={{ fontWeight: 700, fontSize: "11px", margin: 0 }}>
-                      {t(
-                        `saving.mobile.opportunityState.passholder.${csm.socialTariff.status?.toLowerCase()}.gracePeriod`
-                      )}
-                    </p>
-                  )}
-                </Fragment>
-              )
-          )}
-        </OpportunityStateCard>
-      );
-    }
-  }
-
-  return null;
+            {socialTariff.inGracePeriod && (
+              <p style={paragraphStyle}>
+                {t(
+                  `saving.mobile.opportunityState.passholder.${statusKey}.gracePeriod`,
+                  translationData
+                )}
+              </p>
+            )}
+          </Fragment>
+        );
+      })}
+    </OpportunityStateCard>
+  );
 };
