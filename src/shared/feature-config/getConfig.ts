@@ -9,6 +9,12 @@ export async function getConfig(): Promise<{
     process.env.NEXT_PUBLIC_RUNTIME_CONFIG || ""
   );
 
+  if (process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN) {
+    console.warn(
+      `\n\t‼️ Warning: Using local auth token from env variables!\n`
+    );
+  }
+
   return {
     publicRuntimeConfig: {
       Routes: publicRuntimeConfig.Routes,

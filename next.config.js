@@ -10,6 +10,15 @@ process.env.NEXT_PUBLIC_RUNTIME_CONFIG = JSON.stringify({
   basePath,
 });
 
+if (process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN) {
+  const token = parseJwt(process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN);
+  console.warn(
+    `\n\t‼️ Warning: Using local auth token from env variables! Expires ${new Date(
+      token.exp * 1000
+    )}\n`
+  );
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -31,3 +40,7 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+function parseJwt(token) {
+  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+}
