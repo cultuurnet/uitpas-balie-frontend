@@ -41,6 +41,7 @@ export const OpportunityStateCard = ({
         padding: "8px 12px",
         backgroundColor,
         color: theme.palette.neutral[0],
+        overflow: "hidden",
         ...props.sx,
       }}
       onClick={handleClick}

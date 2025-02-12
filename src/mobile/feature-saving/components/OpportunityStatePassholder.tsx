@@ -1,4 +1,4 @@
-import { Grouppass, Passholder } from "@/shared/lib/dataAccess";
+import { Passholder } from "@/shared/lib/dataAccess";
 import dayjs from "dayjs";
 import React, { Fragment } from "react";
 import { useTranslation } from "@/shared/lib/i18n/client";
@@ -137,7 +137,9 @@ export const OpportunityStatePassholder = ({
       return (
         <OpportunityStateCard
           status={cardSystem.socialTariff.status}
-          title={t("saving.mobile.opportunityState.passholder.grouppass.title")}
+          title={t(
+            `saving.mobile.opportunityState.passholder.${cardSystem.socialTariff.status.toLowerCase()}.title`
+          )}
         >
           {passholder.cardSystemMemberships.map(
             (csm, i) =>
