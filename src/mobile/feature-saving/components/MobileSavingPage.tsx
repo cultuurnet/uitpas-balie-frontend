@@ -31,11 +31,13 @@ import { useTranslation } from "@/shared/lib/utils/hooks";
 import { PassHolder } from "./PassHolder";
 import { GroupPass } from "./GroupPass";
 
+type UiTPASNumber = string;
+
 export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
   const params = useSearchParams();
   const theme = useTheme();
-  const uitpasNumber = params.get("uitpas") ?? undefined;
+  const uitpasNumber = params.get("uitpas") ?? "";
   const inszNumber = params.get("insz") ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
@@ -46,10 +48,13 @@ export const MobileSavingPage = () => {
     Boolean(params.get("firstCardEntry")) ?? false
   );
   const [alertData, setAlertData] = useState<
-    | {
-        alertType: "error" | "success";
-        message?: string;
-      }
+    | Record<
+        UiTPASNumber,
+        {
+          alertType: "error" | "success";
+          message?: string;
+        }
+      >
     | undefined
   >(undefined);
 
@@ -77,21 +82,30 @@ export const MobileSavingPage = () => {
       }
     );
 
-  const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
+  const {
+    mutateAsync: postCheckin,
+    status: checkinStatus,
+    data: checkinData,
+    error: checkinError,
+  } = usePostCheckins({
     mutation: {
       onSuccess: () => {
         setAlertData({
-          alertType: "success",
-          message: t("saving.mobile.pointSaved"),
+          [uitpasNumber]: {
+            alertType: "success",
+            message: t("saving.mobile.pointSaved"),
+          },
         });
         refetchPassholders().catch(() => null);
       },
       onError: (error) =>
         setAlertData({
-          alertType: "error",
-          message:
-            error.response?.data.endUserMessage &&
-            error.response.data.endUserMessage[LANG_KEY],
+          [uitpasNumber]: {
+            alertType: "error",
+            message:
+              error.response?.data.endUserMessage &&
+              error.response.data.endUserMessage[LANG_KEY],
+          },
         }),
     },
   });
@@ -104,18 +118,22 @@ export const MobileSavingPage = () => {
           setFirstCardEntry(false);
           refetchPassholders().catch(() => null);
           setAlertData({
-            alertType: "success",
-            message: t("saving.mobile.tariff.discountRegistered", {
-              price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
-            }),
+            [uitpasNumber]: {
+              alertType: "success",
+              message: t("saving.mobile.tariff.discountRegistered", {
+                price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
+              }),
+            },
           });
         },
         onError: (error) =>
           setAlertData({
-            alertType: "error",
-            message:
-              error.response?.data.endUserMessage &&
-              error.response.data.endUserMessage[LANG_KEY],
+            [uitpasNumber]: {
+              alertType: "error",
+              message:
+                error.response?.data.endUserMessage &&
+                error.response.data.endUserMessage[LANG_KEY],
+            },
           }),
       },
     });
@@ -127,17 +145,21 @@ export const MobileSavingPage = () => {
         onSuccess: () => {
           setFirstCardEntry(false);
           setAlertData({
-            alertType: "success",
-            message: t("saving.mobile.reward.redeemed"),
+            [uitpasNumber]: {
+              alertType: "success",
+              message: t("saving.mobile.reward.redeemed"),
+            },
           });
           refetchPassholders().catch(() => null);
         },
         onError: (error) =>
           setAlertData({
-            alertType: "error",
-            message:
-              error.response?.data.endUserMessage &&
-              error.response.data.endUserMessage[LANG_KEY],
+            [uitpasNumber]: {
+              alertType: "error",
+              message:
+                error.response?.data.endUserMessage &&
+                error.response.data.endUserMessage[LANG_KEY],
+            },
           }),
       },
     });
@@ -268,14 +290,14 @@ export const MobileSavingPage = () => {
           <PassHolder
             passholder={passHoldersData?.data.member?.[0]}
             firstCardEntry={firstCardEntry}
-            alertData={alertData}
+            alertData={alertData?.[uitpasNumber]}
           />
         ) : (
           groupPassHolder?.data.member?.[0] && (
             <GroupPass
               groupPass={groupPassHolder?.data.member?.[0]}
               firstCardEntry={firstCardEntry}
-              alertData={alertData}
+              alertData={alertData?.[uitpasNumber]}
             />
           )
         )}
