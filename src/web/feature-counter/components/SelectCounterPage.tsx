@@ -9,11 +9,10 @@ import { Input } from "@mui/joy";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useGetPermissions } from "@/shared/lib/dataAccess";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
 import { useTranslation } from "@/shared/lib/i18n/client";
 import { useGetCounters } from "@/shared/feature-counter/hooks/useGetCounters";
-// const t = (text: string, options: any) => text;
+
 export const SelectCounterPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
@@ -62,7 +61,7 @@ export const SelectCounterPage = () => {
             {t("counter.welcome", { name: userInfo?.given_name ?? "" })}
           </Typography>
 
-          {data.length > 0 && (
+          {(allData?.data ?? []).length > 0 && (
             <Box
               sx={{
                 display: "flex",
