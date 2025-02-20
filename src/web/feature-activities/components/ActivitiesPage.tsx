@@ -41,6 +41,7 @@ import { ActionButton } from "@/web/lib/ui/uitpas/ActionButton";
 import { useRangeQuery } from "@/shared/lib/utils/hooks/useRangeQuery";
 import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
 import { useTranslation } from "@/shared/lib/utils/hooks";
+import { getEventParams } from "@/shared/feature-events/getEventParams";
 
 export const ActivitiesPage = () => {
   const { t, LANG_KEY } = useTranslation();
@@ -55,17 +56,13 @@ export const ActivitiesPage = () => {
   >(undefined);
 
   const { data, isSuccess, isLoading } = useGetEvents({
+    ...getEventParams(),
     organizerId: counter?.id,
-    embed: true,
-    audienceType: "*",
-    uitpas: true,
     ...(rangeQuery && { dateFrom: dateRange.from, dateTo: dateRange.to }),
     ...(searchQuery && { q: searchQuery }),
     // @ts-expect-error Orval didn't include pagination in generated types
     limit: fetchLimit,
     start: offset,
-    availableFrom: "*",
-    availableTo: "*",
   });
 
   return (

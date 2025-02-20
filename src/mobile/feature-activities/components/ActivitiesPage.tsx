@@ -18,6 +18,7 @@ import { noActivity } from "@/mobile/feature-activities/useActivity";
 import dayjs from "dayjs";
 import { dateToISODateTimeString } from "@/shared/lib/utils";
 import { clientRoutes } from "@/mobile/feature-routing";
+import { getEventParams } from "@/shared/feature-events/getEventParams";
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
 
@@ -46,30 +47,17 @@ export const ActivitiesPage = () => {
     }
   >(INITIAL_DATA);
 
-  const dates = useMemo(() => {
-    const dateFrom = dateToISODateTimeString();
-    const dateTo = dateToISODateTimeString(dayjs().add(90, "days").toDate());
-    return { dateFrom, dateTo };
-  }, []);
-
   const {
     data: fetchedData,
     isSuccess,
     isFetching,
   } = useGetEvents({
+    ...getEventParams(),
     organizerId: activeCounter?.id,
-    embed: true,
-    audienceType: "*",
-    uitpas: true,
     ...(searchQuery && { q: searchQuery }),
     // @ts-expect-error Orval didn't include pagination in generated types
     limit: FETCH_LIMIT,
     start: offset,
-    dateFrom: dates.dateFrom,
-    dateTo: dates.dateTo,
-    availableFrom: "*",
-    availableTo: "*",
-    sort: { availableTo: "asc" },
   });
   const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [showSearchInput, setShowSearchInput] = useState<boolean | null>(null);

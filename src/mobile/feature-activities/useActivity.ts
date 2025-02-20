@@ -3,6 +3,7 @@ import { Search, useGetEvents } from "@/shared/lib/dataAccess";
 import { clientRoutes } from "@/mobile/feature-routing";
 import { getIdFromUrl } from "@/shared/lib/utils";
 import { useEffect } from "react";
+import { getEventParams } from "@/shared/feature-events/getEventParams";
 
 export const noActivity = "-";
 export type NoActivity = typeof noActivity;
@@ -16,9 +17,8 @@ export const useActivity = () => {
   const params = useParams<{ counter: string; activity: string }>();
 
   const { data, isSuccess } = useGetEvents({
+    ...getEventParams(),
     id: params.activity,
-    embed: true,
-    audienceType: "*",
   });
 
   const idIsActivityId = params.activity && !isNoActivity(params.activity);
