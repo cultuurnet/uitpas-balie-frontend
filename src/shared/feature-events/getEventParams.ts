@@ -4,7 +4,7 @@ import { GetEventsParams } from "@/shared/lib/dataAccess/search/generated/model"
 
 export const getEventParams = (): GetEventsParams => {
   const dateFrom = dateToISODateTimeString();
-  const dateTo = dateToISODateTimeString(dayjs().add(90, "days").toDate());
+  const dateTo = dateToISODateTimeString(dayjs().add(30, "days").toDate());
 
   return {
     embed: true,
