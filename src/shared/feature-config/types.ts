@@ -12,4 +12,5 @@ export type PublicRuntimeConfig = {
   legacyLogoutEndpoint: string;
   blacklist: string;
   devAuthToken: string;
+  gaTag: string;
 };

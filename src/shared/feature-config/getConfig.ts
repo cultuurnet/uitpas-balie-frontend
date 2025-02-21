@@ -37,6 +37,7 @@ export async function getConfig(): Promise<{
         process.env.NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT ?? "",
       blacklist: process.env.NEXT_PUBLIC_BLACKLIST ?? "",
       devAuthToken: process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN ?? "",
+      gaTag: process.env.NEXT_PUBLIC_GA_TAG ?? "",
     },
   };
 }
