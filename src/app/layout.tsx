@@ -9,6 +9,7 @@ const APP_NAME = "UiTPAS Beheer";
 const APP_DEFAULT_TITLE = "UiTPAS Beheer";
 const APP_TITLE_TEMPLATE = "%s | UiTPAS Beheer";
 const APP_DESCRIPTION = "UiTPAS Beheer";
+const APPLE_TITLE = "Balie UiTPAS";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  appleWebApp: {
+    title: APPLE_TITLE,
+  },
+  manifest: "app/manifest.json",
 };
 
 export const viewport: Viewport = {
