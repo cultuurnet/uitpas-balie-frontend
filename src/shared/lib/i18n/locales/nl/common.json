@@ -166,10 +166,41 @@
       "confirmBtn": "Bevestig",
       "scan": {
         "askForCameraPermission": "Toegang tot de camera van je smartphone is nodig om een barcode te scannen",
-        "permissionDenied": "Toegang tot de camera werd geweigerd",
+        "permissionDenied": {
+          "title": "Toegang tot de camera werd geweigerd",
+          "description": "De mobiele UiTPAS-balie heeft geen toegang tot je camera om barcodes te scannen **omdat je deze hebt geweigerd**.",
+          "steps": {
+            "firefox": {
+              "step1": "Tik op het **slotje** in de adresbalk.",
+              "step2": "Controleer of de camera is ingesteld op '**Toestaan**'.",
+              "step2.1": "Als het is geblokkeerd, tik op '**Geblokkeerd**' om het terug te zetten op '**Toestaan**'.",
+              "step3": "Ga terug en herlaad de mobiele balie."
+            },
+            "chrome": {
+              "step1": "Tik op de **drie puntjes** (rechtsboven).",
+              "step2": "Kies **Instellingen** > **Site-instellingen**.",
+              "step3": "Tik op **Camera**.",
+              "step4": "Controleer of het correct is ingesteld: ",
+              "step4.1": "Als het is **geblokkeerd**, tik op de website en kies **Toestaan**.",
+              "step5": "Ga terug en herlaad de mobiele balie."
+            },
+            "ios": {
+              "step1": "**Open Instellingen** van de iPhone/iPad.",
+              "step2": "Scroll helemaal naar beneden en tik op **Safari**.",
+              "step3": "Scroll verder naar **Website-instellingen** en tik op **Camera**.",
+              "step4": "Controleer of de optie is ingesteld op **Vragen** of **Toestaan**.",
+              "step4.1": "Indien ingesteld op **Weigeren**, verander dit naar **Vragen**",
+              "step5": "**Ga terug naar Safari** en laad de website opnieuw.",
+              "step6": "Als de website om camera-toegang vraagt, kies **Toestaan**."
+            }
+          }
+        },
         "notSupported": "Barcode scannen wordt niet ondersteund op dit toestel",
         "back": "Terug",
-        "scanOverlay": "Scan de barcode van de UiTPAS op de kaart of in de UiTPAS-app"
+        "scanOverlay": "Scan de barcode van de UiTPAS op de kaart of in de UiTPAS-app",
+        "initializationError": "Er is een probleem opgetreden bij het initialiseren van de camera",
+        "retry": "Opnieuw proberen",
+        "goBack": "Terug"
       }
     }
   },
