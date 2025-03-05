@@ -1,12 +1,5 @@
 import MediaDevices from "media-devices";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import uaParser from "ua-parser-js";
 import { readData, storeData } from "../localStorageUtils";
 import { useTranslation } from "@/shared/lib/i18n/client";
@@ -22,18 +15,13 @@ type DetectedDevice = {
 
 type CameraType = "front" | "back";
 
-type DeviceMap = {
-  front?: DetectedDevice;
-  back?: DetectedDevice;
-};
-
 type useCameraReturn = {
   permission: Permission;
   setPermission: Dispatch<SetStateAction<Permission>>;
   browserHasSupport: boolean;
   isLoading: boolean;
   selectedCamera?: DetectedDevice;
-  setSelectedCamera: Dispatch<SetStateAction<DetectedDevice | undefined>>;
+  setSelectedCamera: (device: DetectedDevice) => void;
   cameraError?: string;
   detectedCameras?: DetectedDevice[];
 };
@@ -46,10 +34,11 @@ export const useCamera = ({
   const { t } = useTranslation();
   const [permission, setPermission] = useState<Permission>("unknown");
   const [isLoading, setIsLoading] = useState(true);
-
+  const lastUsedCamera =
+    readData<DetectedDevice>("lastUsedCamera") ?? undefined;
   const [selectedCamera, setSelectedCamera] = useState<
     DetectedDevice | undefined
-  >(undefined);
+  >(lastUsedCamera);
   const [browser, setBrowser] = useState<string | undefined>(undefined);
   const [browserHasSupport, setBrowserHasSupport] = useState(false);
   const [detectedCameras, setDetectedCameras] = useState<
@@ -66,6 +55,11 @@ export const useCamera = ({
     );
     if (!initializeCamera) setIsLoading(false);
   }, [browser, initializeCamera]);
+
+  const handleCameraChange = (device: DetectedDevice) => {
+    storeData<DetectedDevice>("lastUsedCamera", device);
+    setSelectedCamera(device);
+  };
 
   const askForPermission = () => {
     MediaDevices.getUserMedia({ video: true, audio: false })
@@ -237,6 +231,6 @@ export const useCamera = ({
     isLoading,
     selectedCamera,
     detectedCameras,
-    setSelectedCamera,
+    setSelectedCamera: handleCameraChange,
   };
 };
