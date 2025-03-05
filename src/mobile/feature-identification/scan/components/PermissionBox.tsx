@@ -1,9 +1,10 @@
 import { useTranslation } from "@/shared/lib/i18n/client";
-import { Box } from "@mui/material";
+import { Box, List, ListItem, ListItemText } from "@mui/material";
 import { Link, Typography } from "@/mobile/lib/ui";
-import { useMemo } from "react";
+import { useMemo, ReactNode } from "react";
 import uitpasHeart from "public/images/png/uitpas_heart.png";
 import Image from "next/image";
+import { PermissionDeniedInstructions } from "./PermissionDeniedInstructions";
 
 type PermissionBoxProps = {
   permission: PermissionState | "unknown" | "not_supported";
@@ -17,7 +18,7 @@ export const PermissionBox = ({ permission }: PermissionBoxProps) => {
       return "identification.mobile.scan.askForCameraPermission";
     }
     if (permission === "denied") {
-      return "identification.mobile.scan.permissionDenied";
+      return "identification.mobile.scan.permissionDenied.title";
     }
     return "identification.mobile.scan.notSupported";
   }, [permission]);
@@ -34,15 +35,18 @@ export const PermissionBox = ({ permission }: PermissionBoxProps) => {
         backgroundColor: theme.palette.neutral[0],
         padding: "40px 16px",
         alignItems: "center",
-        rowGap: "64px",
+        rowGap: "24px",
+        overflowY: "auto",
       })}
     >
       <Typography variant="h1">{t(messageKey)}</Typography>
+
+      {permission === "denied" && <PermissionDeniedInstructions />}
       <Image
         src={uitpasHeart}
         alt="uitpas heart"
         style={{
-          maxHeight: "50vh",
+          maxHeight: "40vh",
           width: "auto",
         }}
         priority={true}
