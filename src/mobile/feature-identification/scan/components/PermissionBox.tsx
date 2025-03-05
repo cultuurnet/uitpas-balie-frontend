@@ -1,7 +1,7 @@
 import { useTranslation } from "@/shared/lib/i18n/client";
-import { Box, List, ListItem, ListItemText } from "@mui/material";
+import { Box } from "@mui/material";
 import { Link, Typography } from "@/mobile/lib/ui";
-import { useMemo, ReactNode } from "react";
+import { useMemo } from "react";
 import uitpasHeart from "public/images/png/uitpas_heart.png";
 import Image from "next/image";
 import { PermissionDeniedInstructions } from "./PermissionDeniedInstructions";
