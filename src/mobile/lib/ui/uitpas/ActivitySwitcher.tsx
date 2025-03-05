@@ -11,7 +11,6 @@ import {
   useTheme,
   type BoxProps,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
 
 export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {

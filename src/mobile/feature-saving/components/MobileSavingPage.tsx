@@ -26,7 +26,6 @@ import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
-import { getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 import { PassHolder } from "./PassHolder";
 import { GroupPass } from "./GroupPass";
@@ -39,7 +38,8 @@ export const MobileSavingPage = () => {
   const theme = useTheme();
   const uitpasNumber = params.get("uitpas") ?? "";
   const inszNumber = params.get("insz") ?? undefined;
-  const { selectedActivity, navigateToScanner } = useActivity();
+  const { selectedActivityId, selectedActivity, navigateToScanner } =
+    useActivity();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<"div">>(null);
@@ -82,12 +82,7 @@ export const MobileSavingPage = () => {
       }
     );
 
-  const {
-    mutateAsync: postCheckin,
-    status: checkinStatus,
-    data: checkinData,
-    error: checkinError,
-  } = usePostCheckins({
+  const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
       onSuccess: () => {
         setAlertData({
@@ -169,13 +164,9 @@ export const MobileSavingPage = () => {
     navigateToScanner("replace", false);
   };
 
-  const handleChooseTariffClick = () => {
-    setShowTariffDrawer(true);
-  };
+  const handleChooseTariffClick = () => setShowTariffDrawer(true);
 
-  const handleChooseBenefitClick = () => {
-    setShowRewardsDrawer(true);
-  };
+  const handleChooseBenefitClick = () => setShowRewardsDrawer(true);
 
   const handleTicketSaleMutation = (
     tariffId: string,
@@ -191,13 +182,13 @@ export const MobileSavingPage = () => {
         passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
           ?.uitpasNumber;
 
-    if (!uitpasNumber || !selectedActivity["@id"]) return;
+    if (!uitpasNumber || !selectedActivityId) return;
 
     if (!count) count = 1;
 
     postTicketSale({
       data: Array(count).fill({
-        eventId: getUuid(selectedActivity["@id"]),
+        eventId: selectedActivityId,
         tariff: {
           id: tariffId,
         },
@@ -234,21 +225,25 @@ export const MobileSavingPage = () => {
         passHoldersData.data.member[0].uitpasNumber ??
         passHoldersData.data.member[0].cardSystemMemberships?.at(0)
           ?.uitpasNumber;
-      const eventId = getUuid(selectedActivity?.["@id"] ?? "");
 
-      if (!uitpasNumber || !eventId || uitpasNumber === prevUitpasNumber)
+      if (
+        !uitpasNumber ||
+        !selectedActivityId ||
+        uitpasNumber === prevUitpasNumber
+      )
         return;
 
       postCheckin({
         data: {
           uitpasNumber,
-          eventId,
+          eventId: selectedActivityId,
         },
       })
         .catch(() => null)
         .finally(() => setPrevUitpasNumber(uitpasNumber));
     }
   }, [
+    selectedActivityId,
     passHoldersData,
     postCheckin,
     prevUitpasNumber,
@@ -333,11 +328,11 @@ export const MobileSavingPage = () => {
         <ManualCardInput firstCardEntry={false} />
 
         {selectedActivity &&
-          selectedActivity["@id"] &&
+          selectedActivityId &&
           passHoldersData?.data?.member &&
           activityRef.current && (
             <TariffDrawer
-              eventId={selectedActivity["@id"]}
+              eventId={selectedActivityId}
               passHolderName={
                 isGroupPass
                   ? groupPassHolder?.data.member?.[0]?.name ?? undefined

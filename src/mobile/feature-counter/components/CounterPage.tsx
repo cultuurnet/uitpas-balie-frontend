@@ -1,17 +1,15 @@
 "use client";
 
-import { Organizer, useGetPermissions } from "@/shared/lib/dataAccess";
+import { Organizer } from "@/shared/lib/dataAccess";
 import { CounterNoData, CounterPicker } from "@/mobile/feature-counter";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { UitpasLoading } from "@/mobile/lib/ui";
-import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { useGetCounters } from "@/shared/feature-counter/hooks/useGetCounters";
 
 export const CounterPage = () => {
   const [searchString, setSearchString] = useState<string>("");
   const { setActiveCounter, lastCounterUsed } = useCounter();
-  const { setSelectedActivity } = useActivity();
   const { allData, data, isSuccess, isLoading } = useGetCounters(
     lastCounterUsed,
     searchString
@@ -24,8 +22,6 @@ export const CounterPage = () => {
   const handleCounterClick = (organizer: Organizer) => () => {
     setActiveCounter(organizer);
   };
-
-  useEffect(() => setSelectedActivity(null), [setSelectedActivity]);
 
   useEffect(() => {
     const data = allData?.data || [];

@@ -2,7 +2,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Search, useGetEvents } from "@/shared/lib/dataAccess";
 import { clientRoutes } from "@/mobile/feature-routing";
 import { getIdFromUrl } from "@/shared/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getEventParams } from "@/shared/feature-events/getEventParams";
 
 export const noActivity = "-";
@@ -15,21 +15,43 @@ function isNoActivity(activity: unknown | NoActivity): activity is NoActivity {
 export const useActivity = () => {
   const router = useRouter();
   const params = useParams<{ counter: string; activity: string }>();
-
-  const { data, isSuccess } = useGetEvents({
-    ...getEventParams(),
-    id: params.activity,
-  });
-
   const idIsActivityId = params.activity && !isNoActivity(params.activity);
 
-  const selectedActivity = idIsActivityId
+  const [cachedActivity, setCachedActivity] = useState<
+    Search.EventAllOf | null | undefined
+  >(undefined);
+
+  const { data, isSuccess } = useGetEvents(
+    {
+      ...getEventParams(),
+      id: params.activity,
+    },
+    {
+      query: {
+        enabled: Boolean(idIsActivityId),
+        staleTime: 60 * 60 * 1000,
+        gcTime: 60 * 60 * 1000,
+        refetchOnWindowFocus: false,
+      },
+    }
+  );
+
+  const foundActivity = idIsActivityId
     ? data
       ? data.data.member.find(
           (activity) => getIdFromUrl(activity["@id"] ?? "") === params.activity
         )
       : null
     : undefined;
+
+  useEffect(() => {
+    if (foundActivity) {
+      setCachedActivity(foundActivity);
+    }
+  }, [foundActivity]);
+
+  const selectedActivity =
+    foundActivity || (foundActivity === null ? cachedActivity : undefined);
 
   const selectedActivityId = selectedActivity?.["@id"];
 
@@ -40,6 +62,7 @@ export const useActivity = () => {
   }, [selectedActivityId, params.counter, router, isSuccess, idIsActivityId]);
 
   return {
+    selectedActivityId: params.activity,
     selectedActivity,
     setSelectedActivity: (activity?: Search.EventAllOf | null | NoActivity) => {
       if (!isNoActivity(activity) && !activity?.["@id"]) return;
