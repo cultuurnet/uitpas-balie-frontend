@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: APPLE_TITLE,
   },
-  manifest: "app/manifest.json",
+  manifest: "/app/manifest.webmanifest",
 };
 
 export const viewport: Viewport = {
