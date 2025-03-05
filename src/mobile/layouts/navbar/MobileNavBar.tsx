@@ -39,8 +39,12 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           alt="uitpas logo"
           width={102}
           height={25}
-          style={{ marginLeft: "12px" }}
+          style={{
+            marginLeft: "12px",
+            cursor: "pointer",
+          }}
           priority={true}
+          onClick={clearCounter}
         />
         {activeCounter ? (
           <NavBarItemContainer
@@ -54,7 +58,7 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
         ) : (
           <NavBarItemContainer
             onClick={logout}
-            sx={{ columnGap: "4px", mr: "10px" }}
+            sx={{ columnGap: "4px", mr: "10px", cursor: "pointer" }}
           >
             <NavBarTypography>{t("counter.mobile.logoutBtn")}</NavBarTypography>
             <NavBarIcon icon={ExitToApp} />

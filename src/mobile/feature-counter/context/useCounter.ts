@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
 import { CounterContext } from "./CounterContext";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Organizer, useGetPermissions } from "@/shared/lib/dataAccess";
 import { clientRoutes } from "@/mobile/feature-routing";
 
 export const useCounter = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const params = useParams<{ counter: string }>();
   const { data, isSuccess } = useGetPermissions({
     query: {
@@ -38,6 +39,7 @@ export const useCounter = () => {
       router.push(clientRoutes.activities(counter.id));
     },
     clearCounter: () => {
+      if (pathname === clientRoutes.counters()) return;
       if (counter) setLastCounterUsed(counter);
       router.push(clientRoutes.counters());
     },
