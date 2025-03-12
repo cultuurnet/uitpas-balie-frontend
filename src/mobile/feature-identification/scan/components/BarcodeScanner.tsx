@@ -87,9 +87,8 @@ export const BarcodeScanner: React.FC = () => {
     const device = detectedCameras?.find((cam) => cam.id === e.target.value);
     if (device) {
       setSelectedCamera(device);
-    } else {
+    } else if(detectedCameras){
       // Fallback to the first camera with torch support or back camera if no torch support, or the last camera if none of the aforementioned cameras are available
-      detectedCameras &&
         setSelectedCamera(
           detectedCameras.find((c) => c.canTorch) ||
             detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
