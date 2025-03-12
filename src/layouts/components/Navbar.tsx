@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Typography, Button } from "@/web/lib/ui";
-import { useLogout } from "../../shared/lib/auth";
+import { useLogout } from "@/shared/lib/auth";
 import { useCounter } from "@/shared/feature-counter/context/useCounter";
 import {
   HamburgerButton,

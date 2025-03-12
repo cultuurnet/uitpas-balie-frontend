@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
+  // manifest: `${process.env.BASE_PATH}/manifest.json`,
 };
 
 export const viewport: Viewport = {
