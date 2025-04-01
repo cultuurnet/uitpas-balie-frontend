@@ -71,7 +71,7 @@ export default function ThemeRegistry(props: any) {
               border: 0,
             },
             a: {
-              color: theme.palette.info[500],
+              color: theme.palette.neutral[500],
             },
           }}
         />

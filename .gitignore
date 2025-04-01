@@ -50,3 +50,5 @@ next-env.d.ts
 
 # IDE specific
 .idea
+
+certificates

@@ -11,7 +11,7 @@ import {
   dateToISODateString,
   useMenu,
 } from "@/shared/lib/utils";
-import { useState, isValidElement, Fragment } from "react";
+import { useState, isValidElement, Fragment, type JSX } from "react";
 import { StyledMenuItem } from "@/layouts/components/Navbar.styles";
 import { DateInput, Stack, Typography } from "@/web/lib/ui";
 import { usePaginationQuery } from "@/shared/lib/utils/hooks/usePaginationQuery";

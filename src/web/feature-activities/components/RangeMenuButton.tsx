@@ -10,7 +10,7 @@ type RangeMenuButtonProps = {
   currentItem: rangeMenuItem;
   isOpen: boolean;
   onButtonClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  buttonRef: RefObject<HTMLButtonElement>;
+  buttonRef: RefObject<HTMLButtonElement | null>;
   disabled: boolean;
 };
 
