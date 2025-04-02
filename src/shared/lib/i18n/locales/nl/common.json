@@ -320,5 +320,11 @@
     "submitIssue": "Meld een probleem",
     "follow": "Volg ons op",
     "appVersion": "App versie"
+  },
+  "install": {
+    "title": "App installeren",
+    "subTitle": "Voeg toe aan beginscherm",
+    "instructioniOS1": "Om deze app op je iOS-apparaat te installeren: tik op de share knop",
+    "instructioniOS2": "en kies vervolgens \"Zet op beginscherm\"."
   }
 }
