@@ -22,11 +22,17 @@ export const OpportunityStatePassholder = ({
 
   if (!passholder.cardSystemMemberships?.length) return null;
 
-  // 1. Render blocked memberships if any
+  // 1. Prepare filtered sets of memberships
   const blockedMemberships = passholder.cardSystemMemberships.filter(
     (csm) => csm.status === "BLOCKED"
   );
-  if (blockedMemberships.length) {
+
+  const hasActiveMemberships = passholder.cardSystemMemberships.some(
+    (csm) => csm.status === "ACTIVE"
+  );
+
+  // 2. Show blocked memberships *only* when there are no active memberships
+  if (blockedMemberships.length && !hasActiveMemberships) {
     return (
       <OpportunityStateCard
         status="BLOCKED"
@@ -46,13 +52,13 @@ export const OpportunityStatePassholder = ({
     );
   }
 
-  // 2. Filter memberships that have a social tariff.
+  // 3. Filter memberships that have a social tariff.
   const memberships = passholder.cardSystemMemberships.filter(
     (csm) => csm.socialTariff
   ) as Require<CardSystemMembership, "socialTariff">[];
   if (!memberships.length) return null;
 
-  // 3. Determine the main membership to use for the card header.
+  // 4. Determine the main membership to use for the card header.
   const mainMembership =
     memberships.find(
       (csm) => csm.status === "ACTIVE" && csm.socialTariff?.status === "ACTIVE"
@@ -66,7 +72,7 @@ export const OpportunityStatePassholder = ({
     `saving.mobile.opportunityState.passholder.${headerKey}.title`
   );
 
-  // 4. Render the card with content for each membership.
+  // 5. Render the card with content for each membership.
   return (
     <OpportunityStateCard status={headerStatus} title={cardTitle}>
       {memberships.map((csm) => {
