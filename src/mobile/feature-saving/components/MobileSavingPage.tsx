@@ -26,10 +26,11 @@ import { useActivity } from "@/mobile/feature-activities/useActivity";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
-import { getUuid } from "@/shared/lib/utils";
+import { getIdFromUrl, getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 import { PassHolder } from "./PassHolder";
 import { GroupPass } from "./GroupPass";
+import { useGetAssociations } from "@/shared/lib/dataAccess/uitpas/generated/associations/associations";
 
 type UiTPASNumber = string;
 
@@ -67,6 +68,11 @@ export const MobileSavingPage = () => {
   } = useGetPassholders({
     ...(uitpasNumber && { uitpasNumber }),
     ...(inszNumber && { inszNumber }),
+  });
+
+  const { data: associationsData } = useGetAssociations({
+    permission: "READ",
+    organizerId: getIdFromUrl(selectedActivity?.organizer?.["@id"] || "")
   });
 
   const isGroupPass =
@@ -290,6 +296,7 @@ export const MobileSavingPage = () => {
           <PassHolder
             passholder={passHoldersData?.data.member?.[0]}
             firstCardEntry={firstCardEntry}
+            associations={associationsData?.data.member}
             alertData={alertData?.[uitpasNumber]}
           />
         ) : (

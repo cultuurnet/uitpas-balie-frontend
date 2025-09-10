@@ -209,6 +209,7 @@
       "chosenActivity": "Gekozen activiteit",
       "noActivity": "Geen activiteit gekozen",
       "passholder": "Pashouder",
+      "associations": "Lidmaatschappen",
       "grouppass": "Groepspas",
       "namePointsTxt": "{{firstName}} {{lastName}} ({{points}} punten)",
       "pointSaved": "Punt gespaard",
