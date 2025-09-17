@@ -167,6 +167,11 @@ export const theme = createTheme({
       fontWeight: 700,
       color: palette.brand[800],
     },
+    h2: {
+      fontSize: "16px",
+      fontWeight: 700,
+      color: palette.primary,
+    },
   },
   components: {
     MuiDivider: {
