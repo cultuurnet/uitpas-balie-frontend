@@ -1,4 +1,8 @@
 pipeline {
+    options {
+        disableRestartFromStage()
+    }
+
     agent none
 
     environment {
@@ -20,24 +24,13 @@ pipeline {
                 GIT_SHORT_COMMIT = build.shortCommitRef()
                 ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
             }
-            stages {
-                stage('Setup') {
-                    steps {
-                        sh label: 'Install rubygems', script: 'bundle install --deployment'
-                    }
-                }
-                stage('Build') {
-                    steps {
-                        sh label: 'Build binaries', script: 'bundle exec rake build'
-                    }
-                }
-                stage('Build artifact') {
-                    steps {
-                        sh label: 'Build artifact', script: "bundle exec rake build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
-                        archiveArtifacts artifacts: "pkg/*${env.ARTIFACT_VERSION}*.deb", onlyIfSuccessful: true
-                    }
-                }
+                        steps {
+                sh label: 'Install rubygems', script: 'bundle install --deployment'
+                sh label: 'Build binaries', script: 'bundle exec rake build'
+                sh label: 'Build artifact', script: "bundle exec rake build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
+                archiveArtifacts artifacts: "pkg/*${env.ARTIFACT_VERSION}*.deb", onlyIfSuccessful: true
             }
+
             post {
                 cleanup {
                     cleanWs()
@@ -83,7 +76,7 @@ pipeline {
             }
             post {
                 always {
-                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${env.JOB_NAME} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
+                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${util.getJobDisplayName()} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
                 }
             }
         }
@@ -101,7 +94,7 @@ pipeline {
             }
             post {
                 always {
-                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${env.JOB_NAME} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
+                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${util.getJobDisplayName()} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
                 }
             }
         }
@@ -119,7 +112,7 @@ pipeline {
             }
             post {
                 always {
-                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${env.JOB_NAME} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
+                    sendBuildNotification to: '#ups-ops', message: "Pipeline <${env.RUN_DISPLAY_URL}|${util.getJobDisplayName()} [${currentBuild.displayName}]>: deployed to *${env.APPLICATION_ENVIRONMENT}*"
                 }
                 cleanup {
                     cleanupAptlySnapshots repository: env.REPOSITORY_NAME
@@ -128,6 +121,8 @@ pipeline {
         }
 
         stage('Tag release') {
+            options { skipDefaultCheckout() }
+
             agent { label 'ubuntu' }
             steps {
                 copyArtifacts filter: 'pkg/*.deb', projectName: env.JOB_NAME, flatten: true, selector: specific(env.BUILD_NUMBER)
