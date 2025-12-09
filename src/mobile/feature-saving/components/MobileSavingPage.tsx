@@ -23,6 +23,7 @@ import {
 } from "@/mobile/feature-saving";
 import { Stack, Typography, Divider, useTheme } from "@mui/material";
 import { useActivity } from "@/mobile/feature-activities/useActivity";
+import { useCounter } from "@/mobile/feature-counter/context/useCounter";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ManualCardInput } from "@/mobile/feature-identification";
 import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
@@ -41,6 +42,7 @@ export const MobileSavingPage = () => {
   const uitpasNumber = params.get("uitpas") ?? "";
   const inszNumber = params.get("insz") ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
+  const { activeCounter } = useCounter();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
   const activityRef = useRef<ElementRef<"div">>(null);
@@ -72,7 +74,9 @@ export const MobileSavingPage = () => {
 
   const { data: associationsData } = useGetAssociations({
     permission: "READ",
-    organizerId: getIdFromUrl(selectedActivity?.organizer?.["@id"] || "")
+    organizerId: selectedActivity?.organizer?.["@id"] 
+      ? getIdFromUrl(selectedActivity.organizer["@id"]) 
+      : activeCounter?.id || ""
   });
 
   const isGroupPass =
