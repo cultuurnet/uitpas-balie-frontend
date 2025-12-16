@@ -31,7 +31,8 @@ import { getIdFromUrl, getUuid } from "@/shared/lib/utils";
 import { useTranslation } from "@/shared/lib/utils/hooks";
 import { PassHolder } from "./PassHolder";
 import { GroupPass } from "./GroupPass";
-import { useGetAssociations } from "@/shared/lib/dataAccess/uitpas/generated/associations/associations";
+import { useGetPassholdersPassholderIdAssociationMemberships } from "@/shared/lib/dataAccess/uitpas/generated/passholders/passholders";
+import type { AssociationMembership } from "@/shared/lib/dataAccess/uitpas/generated/model";
 
 type UiTPASNumber = string;
 
@@ -72,12 +73,26 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const { data: associationsData } = useGetAssociations({
-    permission: "READ",
-    organizerId: selectedActivity?.organizer?.["@id"] 
-      ? getIdFromUrl(selectedActivity.organizer["@id"]) 
-      : activeCounter?.id || ""
-  });
+  const passholderId = passHoldersData?.data.member?.[0]?.id;
+
+  const { data: associationMembershipsData } = useGetPassholdersPassholderIdAssociationMemberships(
+    passholderId ?? "",
+    {
+      organiserId: selectedActivity?.organizer?.["@id"]
+        ? getIdFromUrl(selectedActivity.organizer["@id"])
+        : activeCounter?.id || "",
+    },
+    {
+      query: {
+        enabled: !!passholderId,
+      },
+    }
+  );
+
+  // Filter for ACTIVE memberships and extract the association
+  const activeAssociations = associationMembershipsData?.data
+    ?.filter((membership: AssociationMembership) => membership.status === "ACTIVE")
+    ?.map((membership: AssociationMembership) => membership.association);
 
   const isGroupPass =
     passHoldersData?.data.member && passHoldersData.data.member.length === 0;
@@ -300,7 +315,7 @@ export const MobileSavingPage = () => {
           <PassHolder
             passholder={passHoldersData?.data.member?.[0]}
             firstCardEntry={firstCardEntry}
-            associations={associationsData?.data.member}
+            associations={activeAssociations}
             alertData={alertData?.[uitpasNumber]}
           />
         ) : (
