@@ -54,7 +54,7 @@ pipeline {
         }
 
         stage('Deploy to development') {
-            agent any
+            agent { label 'ubuntu && 20.04' }
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'development'
