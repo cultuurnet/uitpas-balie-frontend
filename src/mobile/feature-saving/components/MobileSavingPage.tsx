@@ -300,7 +300,7 @@ export const MobileSavingPage = () => {
           <PassHolder
             passholder={passHoldersData?.data.member?.[0]}
             firstCardEntry={firstCardEntry}
-            associations={associationsData?.data.member?.filter(a => a.status === 'ACTIVE')}
+            associations={associationsData?.data.member}
             alertData={alertData?.[uitpasNumber]}
           />
         ) : (
