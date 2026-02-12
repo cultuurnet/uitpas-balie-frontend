@@ -16,7 +16,6 @@ export const getEventParams = (): GetEventsParams => {
     dateTo: dateTo,
     availableFrom: "*",
     availableTo: "*",
-    // @ts-expect-error Orval didn't include sort in generated types
-    sort: { availableTo: "asc" },
+    "sort[availableTo]": "asc",
   };
 };
