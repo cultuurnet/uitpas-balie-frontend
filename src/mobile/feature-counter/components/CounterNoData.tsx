@@ -5,7 +5,7 @@ import { Link, Typography } from '@/mobile/lib/ui';
 import { WarningAmber } from '@mui/icons-material';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { LoginButton } from '@/mobile/feature-login';
-import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
+import uitpasLogoGreen from '/images/svg/logo-uitpas-green.svg';
 import Image from 'next/image';
 
 export const CounterNoData = () => {
