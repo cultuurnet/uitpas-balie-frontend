@@ -2,7 +2,7 @@
 
 import { ForwardedRef, forwardRef } from 'react';
 import { styled, IconButton, Stack, Theme } from '@mui/joy';
-import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
+import ReactDatePicker, { DatePickerProps } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
@@ -78,7 +78,7 @@ const DateInputWithRef = forwardRef(function DateInputComponent(
 export const DateInput = ({
   fullWidth = false,
   ...props
-}: ReactDatePickerProps & {
+}: DatePickerProps & {
   fullWidth?: boolean;
 }) => {
   return (
