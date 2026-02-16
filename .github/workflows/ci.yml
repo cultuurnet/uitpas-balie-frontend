@@ -27,6 +27,6 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
       - name: Run Typescript
         run: yarn types:check
