@@ -2,7 +2,7 @@ import { useTranslation } from '@/shared/lib/i18n/client';
 import { Box } from '@mui/material';
 import { Link, Typography } from '@/mobile/lib/ui';
 import { useMemo } from 'react';
-import uitpasHeart from '/images/png/uitpas_heart.png';
+import uitpasHeart from 'public/images/png/uitpas_heart.png';
 import Image from 'next/image';
 import { PermissionDeniedInstructions } from './PermissionDeniedInstructions';
 

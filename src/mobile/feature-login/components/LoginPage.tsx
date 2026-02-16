@@ -3,9 +3,9 @@
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { Stack } from '@mui/material';
 import Image from 'next/image';
-import uitpasLogoGreen from '/images/svg/logo-uitpas-green.svg';
+import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
 import { Typography } from '@/mobile/lib/ui';
-import uitpasHeart from '/images/png/uitpas_heart.png';
+import uitpasHeart from 'public/images/png/uitpas_heart.png';
 import { LoginButton } from '@/mobile/feature-login';
 
 export const MobileLoginPage = () => {

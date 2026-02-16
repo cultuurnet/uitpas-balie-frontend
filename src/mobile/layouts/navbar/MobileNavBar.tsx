@@ -3,7 +3,7 @@
 import { useCounter } from '@/mobile/feature-counter/context/useCounter';
 import { PropsWithChildren } from 'react';
 import { Box } from '@mui/material';
-import uitpasLogo from '/images/svg/logo-uitpas.svg';
+import uitpasLogo from 'public/images/svg/logo-uitpas.svg';
 import Image from 'next/image';
 import { ExitToApp, Settings } from '@mui/icons-material';
 import Link from 'next/link';
