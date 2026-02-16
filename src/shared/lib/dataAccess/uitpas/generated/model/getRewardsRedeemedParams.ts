@@ -10,20 +10,20 @@ import type { StartParameter } from './startParameter';
 import type { LimitParameter } from './limitParameter';
 
 export type GetRewardsRedeemedParams = {
-/**
- * UiTPAS number identifying the passholder.
- */
-uitpasNumber: string;
-/**
- * Type of the redeemed reward.
- */
-rewardType?: GetRewardsRedeemedRewardType;
-/**
- * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
- */
-start?: StartParameter;
-/**
- * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
- */
-limit?: LimitParameter;
+  /**
+   * UiTPAS number identifying the passholder.
+   */
+  uitpasNumber: string;
+  /**
+   * Type of the redeemed reward.
+   */
+  rewardType?: GetRewardsRedeemedRewardType;
+  /**
+   * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
+   */
+  start?: StartParameter;
+  /**
+   * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
+   */
+  limit?: LimitParameter;
 };

@@ -12,35 +12,35 @@ import type { PlaceCalendarSummaryGetLangCode } from './placeCalendarSummaryGetL
 import type { PlaceCalendarSummaryGetFormat } from './placeCalendarSummaryGetFormat';
 
 export type PlaceCalendarSummaryGetParams = {
-/**
- * Deprecated alternative to the `accept` header. Supported for backward compatibility.
- * @deprecated
- */
-style?: PlaceCalendarSummaryGetStyle;
-/**
- * Defines the size of the summary. Larger summaries contain more detail for events with multiple dates/hours but will also take up more space when shown in a UI. We recommend to use the format `md` for the search results (and `lg` for events with calendarType single), and to always use `lg` for the detailpage. In some cases (e.g. mobile apps) calendar summary `xs` can be useful
- */
-size?: PlaceCalendarSummaryGetSize;
-/**
- * Defines the language that the summary will be written in. Also influences the date/time format used.
- */
-language?: PlaceCalendarSummaryGetLanguage;
-/**
- * Will hide past dates in summaries of events with multiple dates. By default, past dates are not excluded from the calendar summary.
- */
-hidePast?: boolean;
-/**
- * The timezone to format date/times in.
- */
-timezone?: string;
-/**
- * Deprecated alternative to the `language` query parameter. Supported for backward compatibility.
- * @deprecated
- */
-langCode?: PlaceCalendarSummaryGetLangCode;
-/**
- * Deprecated alternative to the `size` query parameter. Supported for backward compatibility.
- * @deprecated
- */
-format?: PlaceCalendarSummaryGetFormat;
+  /**
+   * Deprecated alternative to the `accept` header. Supported for backward compatibility.
+   * @deprecated
+   */
+  style?: PlaceCalendarSummaryGetStyle;
+  /**
+   * Defines the size of the summary. Larger summaries contain more detail for events with multiple dates/hours but will also take up more space when shown in a UI. We recommend to use the format `md` for the search results (and `lg` for events with calendarType single), and to always use `lg` for the detailpage. In some cases (e.g. mobile apps) calendar summary `xs` can be useful
+   */
+  size?: PlaceCalendarSummaryGetSize;
+  /**
+   * Defines the language that the summary will be written in. Also influences the date/time format used.
+   */
+  language?: PlaceCalendarSummaryGetLanguage;
+  /**
+   * Will hide past dates in summaries of events with multiple dates. By default, past dates are not excluded from the calendar summary.
+   */
+  hidePast?: boolean;
+  /**
+   * The timezone to format date/times in.
+   */
+  timezone?: string;
+  /**
+   * Deprecated alternative to the `language` query parameter. Supported for backward compatibility.
+   * @deprecated
+   */
+  langCode?: PlaceCalendarSummaryGetLangCode;
+  /**
+   * Deprecated alternative to the `size` query parameter. Supported for backward compatibility.
+   * @deprecated
+   */
+  format?: PlaceCalendarSummaryGetFormat;
 };

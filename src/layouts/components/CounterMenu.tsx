@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Icon from "@mdi/react";
-import { mdiMenuDown } from "@mdi/js";
+import Icon from '@mdi/react';
+import { mdiMenuDown } from '@mdi/js';
 
-import MenuUnstyled from "@mui/base/MenuUnstyled";
-import { useMenu } from "@/shared/lib/utils";
+import MenuUnstyled from '@mui/base/MenuUnstyled';
+import { useMenu } from '@/shared/lib/utils';
 import {
   NavLinkMobile,
   Popper,
@@ -12,34 +12,34 @@ import {
   StyledListbox,
   StyledMenuItem,
   TriggerButton,
-} from "@/layouts/components/Navbar.styles";
-import { Dispatch, SetStateAction } from "react";
-import { useTranslation } from "@/shared/lib/i18n/client";
+} from '@/layouts/components/Navbar.styles';
+import { Dispatch, SetStateAction } from 'react';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 const menuItems = [
   {
-    label: "home",
-    link: "/",
+    label: 'home',
+    link: '/',
   },
   {
-    label: "activities",
-    link: "/activities",
+    label: 'activities',
+    link: '/activities',
   },
   {
-    label: "counterMemberships",
-    link: "/counter-memberships",
+    label: 'counterMemberships',
+    link: '/counter-memberships',
   },
   {
-    label: "checkindevices",
-    link: "/checkindevices",
+    label: 'checkindevices',
+    link: '/checkindevices',
   },
   {
-    label: "expenseReport",
-    link: "/expense-report",
+    label: 'expenseReport',
+    link: '/expense-report',
   },
   {
-    label: "counterStatistics",
-    link: "/counter-statistics",
+    label: 'counterStatistics',
+    link: '/counter-statistics',
   },
 ];
 
@@ -90,8 +90,8 @@ export const CounterMenu = ({ name, isMobile, setOpen }: Props) => {
             listbox: StyledListbox,
           }}
           slotProps={{
-            root: { placement: "bottom-start" },
-            listbox: { id: "simple-menu" },
+            root: { placement: 'bottom-start' },
+            listbox: { id: 'simple-menu' },
           }}
         >
           {menuItems.map((menuItem) => (

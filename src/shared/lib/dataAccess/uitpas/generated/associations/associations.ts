@@ -5,30 +5,22 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   AssociationsPaginatedResponse,
   Error,
   ForbiddenResponse,
   GetAssociationsParams,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Retrieve associations based on organizer and its permission on the specific association.
@@ -39,59 +31,86 @@ The caller of this request must have `ASSOCIATIONS` permission for the given org
  * @summary Get associations
  */
 export const getAssociations = (
-    params: GetAssociationsParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<AssociationsPaginatedResponse>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/associations`,{
+  params: GetAssociationsParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<AssociationsPaginatedResponse>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/associations`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    params: { ...params, ...options?.params },
+  });
+};
+
+export const getGetAssociationsQueryKey = (params: GetAssociationsParams) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/associations`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetAssociationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAssociations>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  params: GetAssociationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAssociations>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getGetAssociationsQueryKey = (params: GetAssociationsParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/associations`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetAssociationsQueryOptions = <TData = Awaited<ReturnType<typeof getAssociations>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params: GetAssociationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAssociations>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAssociationsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAssociationsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAssociations>>> = ({
+    signal,
+  }) => getAssociations(params, { signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAssociations>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAssociations>>> = ({ signal }) => getAssociations(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAssociations>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetAssociationsQueryResult = NonNullable<Awaited<ReturnType<typeof getAssociations>>>
-export type GetAssociationsQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetAssociationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAssociations>>
+>;
+export type GetAssociationsQueryError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
 /**
  * @summary Get associations
  */
-export const useGetAssociations = <TData = Awaited<ReturnType<typeof getAssociations>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params: GetAssociationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAssociations>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetAssociations = <
+  TData = Awaited<ReturnType<typeof getAssociations>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  params: GetAssociationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAssociations>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetAssociationsQueryOptions(params, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetAssociationsQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

@@ -1,5 +1,5 @@
 export const formatUitpasNumber = (uitpasNumber: string | undefined) => {
-  if (!uitpasNumber) return "";
+  if (!uitpasNumber) return '';
 
   return `${uitpasNumber.slice(0, 4)} 
   ${uitpasNumber.slice(4, 7)} 

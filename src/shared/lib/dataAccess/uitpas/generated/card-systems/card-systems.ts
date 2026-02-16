@@ -5,21 +5,15 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   CardSystem,
   CardSystemSocialTariffSettings,
@@ -30,10 +24,8 @@ import type {
   GetCardSystemsParams,
   GetCardsystemsCardsystemidSocialTariffSettingsParams,
   MembershipPrice,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Search card systems.
@@ -42,61 +34,81 @@ This caller of this method, identified by client identification, client access t
  * @summary Search card systems
  */
 export const getCardSystems = (
-    params?: GetCardSystemsParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CardSystemsPaginatedCollection>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/card-systems`,{
+  params?: GetCardSystemsParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<CardSystemsPaginatedCollection>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/card-systems`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    params: { ...params, ...options?.params },
+  });
+};
+
+export const getGetCardSystemsQueryKey = (params?: GetCardSystemsParams) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/card-systems`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetCardSystemsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCardSystems>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  params?: GetCardSystemsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getGetCardSystemsQueryKey = (params?: GetCardSystemsParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/card-systems`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetCardSystemsQueryOptions = <TData = Awaited<ReturnType<typeof getCardSystems>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetCardSystemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetCardSystemsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCardSystemsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardSystems>>> = ({
+    signal,
+  }) => getCardSystems(params, { signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCardSystems>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardSystems>>> = ({ signal }) => getCardSystems(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetCardSystemsQueryResult = NonNullable<Awaited<ReturnType<typeof getCardSystems>>>
-export type GetCardSystemsQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetCardSystemsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCardSystems>>
+>;
+export type GetCardSystemsQueryError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
 /**
  * @summary Search card systems
  */
-export const useGetCardSystems = <TData = Awaited<ReturnType<typeof getCardSystems>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetCardSystemsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetCardSystems = <
+  TData = Awaited<ReturnType<typeof getCardSystems>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  params?: GetCardSystemsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCardSystems>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetCardSystemsQueryOptions(params, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetCardSystemsQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Retrieve card system by ID.
@@ -105,59 +117,97 @@ This caller of this method, identified by client identification, client access t
  * @summary Retrieve card system
  */
 export const getCardsystemsCardsystemid = (
-    cardSystemId: number, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CardSystem>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`,options
-    );
+  cardSystemId: number,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<CardSystem>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`,
+    options
+  );
+};
+
+export const getGetCardsystemsCardsystemidQueryKey = (cardSystemId: number) => {
+  return [`NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`] as const;
+};
+
+export const getGetCardsystemsCardsystemidQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCardsystemsCardsystemid>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  cardSystemId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCardsystemsCardsystemid>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getGetCardsystemsCardsystemidQueryKey = (cardSystemId: number,) => {
-    return [`NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`] as const;
-    }
-
-    
-export const getGetCardsystemsCardsystemidQueryOptions = <TData = Awaited<ReturnType<typeof getCardsystemsCardsystemid>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(cardSystemId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemid>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetCardsystemsCardsystemidQueryKey(cardSystemId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCardsystemsCardsystemidQueryKey(cardSystemId);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCardsystemsCardsystemid>>
+  > = ({ signal }) =>
+    getCardsystemsCardsystemid(cardSystemId, { signal, ...axiosOptions });
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!cardSystemId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCardsystemsCardsystemid>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardsystemsCardsystemid>>> = ({ signal }) => getCardsystemsCardsystemid(cardSystemId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemid>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetCardsystemsCardsystemidQueryResult = NonNullable<Awaited<ReturnType<typeof getCardsystemsCardsystemid>>>
-export type GetCardsystemsCardsystemidQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetCardsystemsCardsystemidQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCardsystemsCardsystemid>>
+>;
+export type GetCardsystemsCardsystemidQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve card system
  */
-export const useGetCardsystemsCardsystemid = <TData = Awaited<ReturnType<typeof getCardsystemsCardsystemid>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- cardSystemId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemid>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetCardsystemsCardsystemid = <
+  TData = Awaited<ReturnType<typeof getCardsystemsCardsystemid>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  cardSystemId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCardsystemsCardsystemid>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetCardsystemsCardsystemidQueryOptions(
+    cardSystemId,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetCardsystemsCardsystemidQueryOptions(cardSystemId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Retrieve social tariff settings specific for this card system and the given postal code.
@@ -166,65 +216,125 @@ This caller of this method, identified by client identification, client access t
  * @summary Retrieve social tariff settings for card system
  */
 export const getCardsystemsCardsystemidSocialTariffSettings = (
-    cardSystemId: number,
-    params: GetCardsystemsCardsystemidSocialTariffSettingsParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CardSystemSocialTariffSettings>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
-
-export const getGetCardsystemsCardsystemidSocialTariffSettingsQueryKey = (cardSystemId: number,
-    params: GetCardsystemsCardsystemidSocialTariffSettingsParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`, ...(params ? [params]: [])] as const;
+  cardSystemId: number,
+  params: GetCardsystemsCardsystemidSocialTariffSettingsParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<CardSystemSocialTariffSettings>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
     }
+  );
+};
 
-    
-export const getGetCardsystemsCardsystemidSocialTariffSettingsQueryOptions = <TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(cardSystemId: number,
-    params: GetCardsystemsCardsystemidSocialTariffSettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetCardsystemsCardsystemidSocialTariffSettingsQueryKey = (
+  cardSystemId: number,
+  params: GetCardsystemsCardsystemidSocialTariffSettingsParams
 ) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`,
+    ...(params ? [params] : []),
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getGetCardsystemsCardsystemidSocialTariffSettingsQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>
+  >,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  cardSystemId: number,
+  params: GetCardsystemsCardsystemidSocialTariffSettingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>
+        >,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCardsystemsCardsystemidSocialTariffSettingsQueryKey(cardSystemId,params);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetCardsystemsCardsystemidSocialTariffSettingsQueryKey(
+      cardSystemId,
+      params
+    );
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>
+  > = ({ signal }) =>
+    getCardsystemsCardsystemidSocialTariffSettings(cardSystemId, params, {
+      signal,
+      ...axiosOptions,
+    });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>> = ({ signal }) => getCardsystemsCardsystemidSocialTariffSettings(cardSystemId,params, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!cardSystemId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetCardsystemsCardsystemidSocialTariffSettingsQueryResult = NonNullable<Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>>
-export type GetCardsystemsCardsystemidSocialTariffSettingsQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetCardsystemsCardsystemidSocialTariffSettingsQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>
+  >;
+export type GetCardsystemsCardsystemidSocialTariffSettingsQueryError =
+  AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>;
 
 /**
  * @summary Retrieve social tariff settings for card system
  */
-export const useGetCardsystemsCardsystemidSocialTariffSettings = <TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- cardSystemId: number,
-    params: GetCardsystemsCardsystemidSocialTariffSettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetCardsystemsCardsystemidSocialTariffSettings = <
+  TData = Awaited<
+    ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>
+  >,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  cardSystemId: number,
+  params: GetCardsystemsCardsystemidSocialTariffSettingsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getCardsystemsCardsystemidSocialTariffSettings>
+        >,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    getGetCardsystemsCardsystemidSocialTariffSettingsQueryOptions(
+      cardSystemId,
+      params,
+      options
+    );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetCardsystemsCardsystemidSocialTariffSettingsQueryOptions(cardSystemId,params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Retrieve all membership prices by card type for a card system. The result will contain all prices for the cardsystem, which is primarily useful to display to a an anonymous user. To retrieve the price for an individual passholder, you can use [GET /passholders/membership-prices/{cardSystemId}](/reference/uitpas.json/paths/~1passholders~1membership-prices~1{cardSystemId}/get) (more details like social tariff, date of birth and residence are required) or [GET /passholders/{passholderId}/membership-prices/{cardSystemId}](/reference/uitpas.json/paths/~1passholders~1{passholderId}~1membership-prices~1{cardSystemId}/get) (if the passholder already exists).
@@ -233,63 +343,115 @@ This caller of this method, identified by client identification, client access t
  * @summary Retrieve membership prices for a card system
  */
 export const getCardSystemsCardsystemidMembershipPrices = (
-    cardSystemId: number,
-    params: GetCardSystemsCardsystemidMembershipPricesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<MembershipPrice[]>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
-
-export const getGetCardSystemsCardsystemidMembershipPricesQueryKey = (cardSystemId: number,
-    params: GetCardSystemsCardsystemidMembershipPricesParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`, ...(params ? [params]: [])] as const;
+  cardSystemId: number,
+  params: GetCardSystemsCardsystemidMembershipPricesParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<MembershipPrice[]>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
     }
+  );
+};
 
-    
-export const getGetCardSystemsCardsystemidMembershipPricesQueryOptions = <TData = Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(cardSystemId: number,
-    params: GetCardSystemsCardsystemidMembershipPricesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetCardSystemsCardsystemidMembershipPricesQueryKey = (
+  cardSystemId: number,
+  params: GetCardSystemsCardsystemidMembershipPricesParams
 ) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`,
+    ...(params ? [params] : []),
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getGetCardSystemsCardsystemidMembershipPricesQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>
+  >,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  cardSystemId: number,
+  params: GetCardSystemsCardsystemidMembershipPricesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetCardSystemsCardsystemidMembershipPricesQueryKey(cardSystemId,params);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetCardSystemsCardsystemidMembershipPricesQueryKey(cardSystemId, params);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>
+  > = ({ signal }) =>
+    getCardSystemsCardsystemidMembershipPrices(cardSystemId, params, {
+      signal,
+      ...axiosOptions,
+    });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>> = ({ signal }) => getCardSystemsCardsystemidMembershipPrices(cardSystemId,params, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!cardSystemId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetCardSystemsCardsystemidMembershipPricesQueryResult = NonNullable<Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>>
-export type GetCardSystemsCardsystemidMembershipPricesQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetCardSystemsCardsystemidMembershipPricesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>
+>;
+export type GetCardSystemsCardsystemidMembershipPricesQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve membership prices for a card system
  */
-export const useGetCardSystemsCardsystemidMembershipPrices = <TData = Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- cardSystemId: number,
-    params: GetCardSystemsCardsystemidMembershipPricesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetCardSystemsCardsystemidMembershipPrices = <
+  TData = Awaited<
+    ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>
+  >,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  cardSystemId: number,
+  params: GetCardSystemsCardsystemidMembershipPricesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCardSystemsCardsystemidMembershipPrices>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    getGetCardSystemsCardsystemidMembershipPricesQueryOptions(
+      cardSystemId,
+      params,
+      options
+    );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetCardSystemsCardsystemidMembershipPricesQueryOptions(cardSystemId,params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { HTMLAttributes, PropsWithChildren, useEffect, useState } from "react";
-import { Box, useTheme } from "@mui/material";
-import { CheckCircle } from "@mui/icons-material";
-import { keyframes } from "@emotion/react";
+import { HTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
+import { Box, useTheme } from '@mui/material';
+import { CheckCircle } from '@mui/icons-material';
+import { keyframes } from '@emotion/react';
 
 type AlertProps = PropsWithChildren &
   HTMLAttributes<HTMLDivElement> & {
-    type: "success" | "error";
+    type: 'success' | 'error';
     newAlert: boolean;
   };
 
@@ -22,10 +22,10 @@ export const Alert = ({ type, style, newAlert, ...props }: AlertProps) => {
   }, [type, props.children]);
 
   const backgroundColor =
-    type === "success" ? theme.palette.brand[200] : theme.palette.error.light;
+    type === 'success' ? theme.palette.brand[200] : theme.palette.error.light;
   const borderColor = theme.palette.brand[300];
   const color =
-    type === "success" ? theme.palette.brand[900] : theme.palette.neutral[0];
+    type === 'success' ? theme.palette.brand[900] : theme.palette.neutral[0];
   const scaleFrames = keyframes`
     0% {
       transform: scale(1);
@@ -42,17 +42,17 @@ export const Alert = ({ type, style, newAlert, ...props }: AlertProps) => {
     100% {
       transform: scale(1);
     }`;
-  const animation = animate ? `${scaleFrames} 0.5s linear` : "none";
+  const animation = animate ? `${scaleFrames} 0.5s linear` : 'none';
 
   return (
     <Box
       sx={{
-        display: "flex",
-        borderRadius: "8px",
+        display: 'flex',
+        borderRadius: '8px',
         border: `1px solid ${borderColor}`,
-        alignItems: "center",
-        columnGap: "13px",
-        padding: "8px 12px",
+        alignItems: 'center',
+        columnGap: '13px',
+        padding: '8px 12px',
         backgroundColor,
         color,
         ...(newAlert && {
@@ -62,12 +62,12 @@ export const Alert = ({ type, style, newAlert, ...props }: AlertProps) => {
       }}
       {...props}
     >
-      {type === "success" && (
+      {type === 'success' && (
         <CheckCircle
-          sx={{ fontSize: "36px", color: theme.palette.primary.main }}
+          sx={{ fontSize: '36px', color: theme.palette.primary.main }}
         />
       )}
-      <p style={{ fontWeight: 700, fontSize: "16px", margin: 0 }}>
+      <p style={{ fontWeight: 700, fontSize: '16px', margin: 0 }}>
         {props.children}
       </p>
     </Box>

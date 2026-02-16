@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "cookies-next";
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 export const readCookie = <T>(
   cookie: string,

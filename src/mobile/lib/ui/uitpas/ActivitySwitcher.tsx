@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useActivity } from "@/mobile/feature-activities/useActivity";
-import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Box,
   Typography,
   IconButton,
   useTheme,
   type BoxProps,
-} from "@mui/material";
-import { useRouter } from "next/navigation";
-import { forwardRef } from "react";
+} from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { forwardRef } from 'react';
 
 export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
   const { t, LANG_KEY } = useTranslation();
@@ -27,11 +27,11 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
     <Box
       onClick={handleChangeActivityClick}
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        cursor: "pointer",
-        mt: "-20px",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        cursor: 'pointer',
+        mt: '-20px',
         ...props.sx,
       }}
       ref={ref}
@@ -40,7 +40,7 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
       <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
         {selectedActivity
           ? selectedActivity.name[LANG_KEY]
-          : t("identification.mobile.noActivity")}
+          : t('identification.mobile.noActivity')}
       </Typography>
       <IconButton
         disableRipple={true}
@@ -55,4 +55,4 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
   );
 });
 
-ActivitySwitcher.displayName = "ActivitySwitcher";
+ActivitySwitcher.displayName = 'ActivitySwitcher';

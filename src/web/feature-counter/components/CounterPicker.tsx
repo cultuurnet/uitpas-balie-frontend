@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Organizer, OrganizerPermissions } from "@/shared/lib/dataAccess";
-import { Card, CardContent } from "@/web/lib/ui";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { CounterPickerData } from "./CounterPickerData";
-import { LastCounterData } from "./LastCounterData";
-import { CircularProgress } from "@mui/joy";
-import { LoginButton } from "@/web/feature-login/components/LoginButton";
-import { useTranslation } from "@/shared/lib/i18n/client";
+import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
+import { Card, CardContent } from '@/web/lib/ui';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { CounterPickerData } from './CounterPickerData';
+import { LastCounterData } from './LastCounterData';
+import { CircularProgress } from '@mui/joy';
+import { LoginButton } from '@/web/feature-login/components/LoginButton';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type CounterPickerProps = {
   data: OrganizerPermissions[];
@@ -32,18 +32,18 @@ export const CounterPicker = ({
       <Card
         sx={{
           //needs fixed height, for scroll and no overflow
-          maxHeight: "calc(100vh - 420px)",
-          overflowY: "auto",
+          maxHeight: 'calc(100vh - 420px)',
+          overflowY: 'auto',
         }}
       >
         <CardContent>
           <ul
             style={{
-              listStyle: "none",
+              listStyle: 'none',
               padding: 0,
               margin: 0,
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             {isLoading ? (
@@ -52,7 +52,7 @@ export const CounterPicker = ({
                 determinate={false}
                 size="sm"
                 variant="plain"
-                sx={{ alignSelf: "center" }}
+                sx={{ alignSelf: 'center' }}
               />
             ) : (
               <>
@@ -73,7 +73,7 @@ export const CounterPicker = ({
         </CardContent>
       </Card>
       {!isLoading && data.length === 0 && !filterString ? (
-        <LoginButton>{t("login.loginOtherAccountBtn")}</LoginButton>
+        <LoginButton>{t('login.loginOtherAccountBtn')}</LoginButton>
       ) : null}
     </>
   );

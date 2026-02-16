@@ -1,5 +1,5 @@
-import { Reward } from "@/shared/lib/dataAccess";
-import { CircularProgress } from "@mui/material";
+import { Reward } from '@/shared/lib/dataAccess';
+import { CircularProgress } from '@mui/material';
 import {
   Dispatch,
   SetStateAction,
@@ -7,9 +7,9 @@ import {
   UIEvent,
   useEffect,
   useState,
-} from "react";
-import { RewardCard } from "@/mobile/feature-saving";
-import { ScrollableContainer } from "@/mobile/lib/ui";
+} from 'react';
+import { RewardCard } from '@/mobile/feature-saving';
+import { ScrollableContainer } from '@/mobile/lib/ui';
 
 type RewardPickerProps = {
   isInitialLoading: boolean;
@@ -42,7 +42,7 @@ export const RewardPicker = ({
       // Scroll one (new) item down
       scrollRef.current.scrollTo({
         top: scrollPosition + (data.length > 1 ? 165 : 0),
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [data, fetchLimit, scrollPosition]);
@@ -52,7 +52,7 @@ export const RewardPicker = ({
     if (isFetchingNextPage) {
       scrollRef.current?.scrollTo({
         top: scrollPosition + 100, // 100 -> doesn't have to be exact, it will bottom out anyway
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [isFetchingNextPage, scrollPosition]);
@@ -68,12 +68,12 @@ export const RewardPicker = ({
     setScrollPosition(e.currentTarget.scrollTop);
     scrollRef.current?.scrollTo({
       top: e.currentTarget.scrollTop,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
   if (isInitialLoading) {
-    return <CircularProgress sx={{ m: "auto auto" }} />;
+    return <CircularProgress sx={{ m: 'auto auto' }} />;
   }
 
   if (totalItems && totalItems > 0) {
@@ -98,16 +98,16 @@ export const RewardPicker = ({
                 rewardExchangeMutation={rewardRedemptionMutation}
                 sx={{
                   opacity: 0,
-                  transform: "translateY(20px)",
-                  animation: "fade-in 0.6s ease-out forwards",
-                  "@keyframes fade-in": {
-                    "0%": {
+                  transform: 'translateY(20px)',
+                  animation: 'fade-in 0.6s ease-out forwards',
+                  '@keyframes fade-in': {
+                    '0%': {
                       opacity: 0,
-                      transform: "translateY(20px)",
+                      transform: 'translateY(20px)',
                     },
-                    "100%": {
+                    '100%': {
                       opacity: 1,
-                      transform: "translateY(0)",
+                      transform: 'translateY(0)',
                     },
                   },
                 }}
@@ -116,7 +116,7 @@ export const RewardPicker = ({
         )}
 
         {isFetchingNextPage && (
-          <CircularProgress sx={{ m: "auto auto" }} size={32} />
+          <CircularProgress sx={{ m: 'auto auto' }} size={32} />
         )}
       </ScrollableContainer>
     );

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import {
   SxProps,
   TextField as MuiTextField,
   TextFieldProps,
   Theme,
-} from "@mui/material";
+} from '@mui/material';
 
 export const TextField = ({ ...props }: TextFieldProps) => {
   return (
@@ -15,15 +15,15 @@ export const TextField = ({ ...props }: TextFieldProps) => {
       inputProps={{
         sx: ((theme: Theme): SxProps<Theme> => ({
           backgroundColor: theme.palette.neutral[0],
-          "&::placeholder": {
+          '&::placeholder': {
             color: theme.palette.neutral[900],
             opacity: 1,
           },
           color: theme.palette.neutral[900],
-          fontSize: "18px",
-          borderRadius: "8px",
-          height: "44px",
-          boxSizing: "border-box",
+          fontSize: '18px',
+          borderRadius: '8px',
+          height: '44px',
+          boxSizing: 'border-box',
           ...props.sx,
         })) as SxProps<Theme>,
       }}

@@ -1,6 +1,6 @@
-import { useEventGet } from "@/shared/lib/dataAccess/entry/generated/events/events";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { getUuid } from "@/shared/lib/utils";
+import { useEventGet } from '@/shared/lib/dataAccess/entry/generated/events/events';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { getUuid } from '@/shared/lib/utils';
 import {
   CircularProgress,
   IconButton,
@@ -8,11 +8,11 @@ import {
   SwipeableDrawer,
   Typography,
   useTheme,
-} from "@mui/material";
-import { Close } from "@mui/icons-material";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { OutlinedButton } from "@/mobile/lib/ui";
-import { Tariff } from "@/mobile/feature-saving";
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { OutlinedButton } from '@/mobile/lib/ui';
+import { Tariff } from '@/mobile/feature-saving';
 
 type TariffModalProps = {
   passHolderName?: string;
@@ -41,7 +41,7 @@ export const TariffDrawer = ({
 }: TariffModalProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { data, refetch, isLoading } = useEventGet(getUuid(eventId) ?? "");
+  const { data, refetch, isLoading } = useEventGet(getUuid(eventId) ?? '');
 
   useEffect(() => {
     if (isOpen) {
@@ -70,34 +70,34 @@ export const TariffDrawer = ({
       onClose={handleClose}
       anchor="bottom"
       sx={{
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           ...(startPosition && {
             height: `calc(100% - ${startPosition + 10}px)`,
           }),
-          borderTopLeftRadius: "16px",
-          borderTopRightRadius: "16px",
-          padding: "16px",
+          borderTopLeftRadius: '16px',
+          borderTopRightRadius: '16px',
+          padding: '16px',
         },
       }}
     >
       {/*Title & close button*/}
       <Stack
         sx={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: "20px",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: '20px',
         }}
       >
         <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
           {passHolderName
-            ? t("saving.mobile.tariff.drawer.title", { name: passHolderName })
-            : t("saving.mobile.tariff.drawer.titleNoName")}
+            ? t('saving.mobile.tariff.drawer.title', { name: passHolderName })
+            : t('saving.mobile.tariff.drawer.titleNoName')}
         </Typography>
         <IconButton
           disableRipple
           onClick={handleClose}
-          sx={{ p: 0, transform: "scale(1.2)" }}
+          sx={{ p: 0, transform: 'scale(1.2)' }}
         >
           <Close />
         </IconButton>
@@ -105,28 +105,28 @@ export const TariffDrawer = ({
       {/*  Scrollable stack */}
       <Stack
         sx={(theme) => ({
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          rowGap: "20px",
-          overflowY: "auto",
-          pr: "6px",
-          "::-webkit-scrollbar": {
-            width: "6px",
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          rowGap: '20px',
+          overflowY: 'auto',
+          pr: '6px',
+          '::-webkit-scrollbar': {
+            width: '6px',
             color: theme.palette.primary.main,
           },
-          "::-webkit-scrollbar-track-piece": {
-            background: "transparent",
+          '::-webkit-scrollbar-track-piece': {
+            background: 'transparent',
           },
-          "::-webkit-scrollbar-thumb": {
+          '::-webkit-scrollbar-thumb': {
             background: theme.palette.primary.main,
-            borderRadius: "10px",
+            borderRadius: '10px',
           },
-          msOverflowStyle: "none",
+          msOverflowStyle: 'none',
         })}
       >
         {isLoading ? (
-          <CircularProgress sx={{ m: "auto auto" }} />
+          <CircularProgress sx={{ m: 'auto auto' }} />
         ) : data?.data.priceInfo ? (
           <Tariff
             eventId={eventId}
@@ -142,14 +142,14 @@ export const TariffDrawer = ({
 
       <OutlinedButton
         sx={{
-          mt: "20px",
+          mt: '20px',
           border: `1px solid ${theme.palette.brand.darkCyan}`,
           color: theme.palette.brand.darkCyan,
-          borderRadius: "6px",
+          borderRadius: '6px',
         }}
         onClick={handleClose}
       >
-        {t("saving.mobile.tariff.drawer.close")}
+        {t('saving.mobile.tariff.drawer.close')}
       </OutlinedButton>
     </SwipeableDrawer>
   );

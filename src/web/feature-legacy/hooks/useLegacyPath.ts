@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useConfig } from "@/shared/feature-config/context/useConfig";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
-import { prefixWhenNotEmpty } from "@/shared/lib/utils";
+import { useConfig } from '@/shared/feature-config/context/useConfig';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
+import { prefixWhenNotEmpty } from '@/shared/lib/utils';
 
 export const useLegacyPath = () => {
   const { publicRuntimeConfig } = useConfig();
@@ -16,7 +16,7 @@ export const useLegacyPath = () => {
 
     const queryString = prefixWhenNotEmpty(
       new URLSearchParams(queryWithoutParams),
-      "?"
+      '?'
     );
 
     return `${publicRuntimeConfig?.legacyAppUrl}${path}${queryString}`;

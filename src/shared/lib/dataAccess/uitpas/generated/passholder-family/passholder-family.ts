@@ -5,10 +5,7 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,50 +13,48 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   Error,
   FamilyMember,
   ForbiddenResponse,
   GetPassholdersPassholderIdFamilies200Item,
-  UnauthorizedResponse
-} from '.././model'
+  UnauthorizedResponse,
+} from '.././model';
 
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
-T,
+  T
 >() => T extends Y ? 1 : 2
-? A
-: B;
+  ? A
+  : B;
 
 type WritableKeys<T> = {
-[P in keyof T]-?: IfEquals<
-  { [Q in P]: T[P] },
-  { -readonly [Q in P]: T[P] },
-  P
->;
+  [P in keyof T]-?: IfEquals<
+    { [Q in P]: T[P] },
+    { -readonly [Q in P]: T[P] },
+    P
+  >;
 }[keyof T];
 
-type UnionToIntersection<U> =
-  (U extends any ? (k: U)=>void : never) extends ((k: infer I)=>void) ? I : never;
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;
 type DistributeReadOnlyOverUnions<T> = T extends any ? NonReadonly<T> : never;
 
 type Writable<T> = Pick<T, WritableKeys<T>>;
-type NonReadonly<T> = [T] extends [UnionToIntersection<T>] ? {
-  [P in keyof Writable<T>]: T[P] extends object
-    ? NonReadonly<NonNullable<T[P]>>
-    : T[P];
-} : DistributeReadOnlyOverUnions<T>;
-
-
-
+type NonReadonly<T> = [T] extends [UnionToIntersection<T>]
+  ? {
+      [P in keyof Writable<T>]: T[P] extends object
+        ? NonReadonly<NonNullable<T[P]>>
+        : T[P];
+    }
+  : DistributeReadOnlyOverUnions<T>;
 
 /**
  * Retrieve family members of a given passholder.
@@ -73,59 +68,104 @@ The caller of this method must have `PASSHOLDERS_FAMILY_MEMBERS` permission for 
  * @summary Retrieve family members of the current passholder
  */
 export const getPassholdersPassholderIdFamilyMembers = (
-    passholderId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<FamilyMember[]>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`,options
-    );
-  }
+  passholderId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<FamilyMember[]>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`,
+    options
+  );
+};
 
-
-export const getGetPassholdersPassholderIdFamilyMembersQueryKey = (passholderId: string,) => {
-    return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`] as const;
-    }
-
-    
-export const getGetPassholdersPassholderIdFamilyMembersQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetPassholdersPassholderIdFamilyMembersQueryKey = (
+  passholderId: string
 ) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`,
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getGetPassholdersPassholderIdFamilyMembersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  passholderId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdFamilyMembersQueryKey(passholderId);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetPassholdersPassholderIdFamilyMembersQueryKey(passholderId);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>
+  > = ({ signal }) =>
+    getPassholdersPassholderIdFamilyMembers(passholderId, {
+      signal,
+      ...axiosOptions,
+    });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>> = ({ signal }) => getPassholdersPassholderIdFamilyMembers(passholderId, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!passholderId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersPassholderIdFamilyMembersQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>>
-export type GetPassholdersPassholderIdFamilyMembersQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetPassholdersPassholderIdFamilyMembersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>
+>;
+export type GetPassholdersPassholderIdFamilyMembersQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve family members of the current passholder
  */
-export const useGetPassholdersPassholderIdFamilyMembers = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetPassholdersPassholderIdFamilyMembers = <
+  TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  passholderId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPassholdersPassholderIdFamilyMembers>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetPassholdersPassholderIdFamilyMembersQueryOptions(
+    passholderId,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetPassholdersPassholderIdFamilyMembersQueryOptions(passholderId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Add another passholder as a family member of the given passholder.
@@ -140,58 +180,88 @@ If an admin user token or client access token with the appropriate permissions i
  * @summary Add family members to the current passholder's family
  */
 export const postPassholdersPassholderIdFamilyMembers = (
-    passholderId: string,
-    familyMember: NonReadonly<FamilyMember>, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`,
-      familyMember,options
+  passholderId: string,
+  familyMember: NonReadonly<FamilyMember>,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`,
+    familyMember,
+    options
+  );
+};
+
+export const getPostPassholdersPassholderIdFamilyMembersMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
+    TError,
+    { passholderId: string; data: NonReadonly<FamilyMember> },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
+  TError,
+  { passholderId: string; data: NonReadonly<FamilyMember> },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
+    { passholderId: string; data: NonReadonly<FamilyMember> }
+  > = (props) => {
+    const { passholderId, data } = props ?? {};
+
+    return postPassholdersPassholderIdFamilyMembers(
+      passholderId,
+      data,
+      axiosOptions
     );
-  }
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PostPassholdersPassholderIdFamilyMembersMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>
+  >;
+export type PostPassholdersPassholderIdFamilyMembersMutationBody =
+  NonReadonly<FamilyMember>;
+export type PostPassholdersPassholderIdFamilyMembersMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-export const getPostPassholdersPassholderIdFamilyMembersMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>, TError,{passholderId: string;data: NonReadonly<FamilyMember>}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>, TError,{passholderId: string;data: NonReadonly<FamilyMember>}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>, {passholderId: string;data: NonReadonly<FamilyMember>}> = (props) => {
-          const {passholderId,data} = props ?? {};
-
-          return  postPassholdersPassholderIdFamilyMembers(passholderId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostPassholdersPassholderIdFamilyMembersMutationResult = NonNullable<Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>>
-    export type PostPassholdersPassholderIdFamilyMembersMutationBody = NonReadonly<FamilyMember>
-    export type PostPassholdersPassholderIdFamilyMembersMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Add family members to the current passholder's family
  */
-export const usePostPassholdersPassholderIdFamilyMembers = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>, TError,{passholderId: string;data: NonReadonly<FamilyMember>}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
-        TError,
-        {passholderId: string;data: NonReadonly<FamilyMember>},
-        TContext
-      > => {
+export const usePostPassholdersPassholderIdFamilyMembers = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
+    TError,
+    { passholderId: string; data: NonReadonly<FamilyMember> },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postPassholdersPassholderIdFamilyMembers>>,
+  TError,
+  { passholderId: string; data: NonReadonly<FamilyMember> },
+  TContext
+> => {
+  const mutationOptions =
+    getPostPassholdersPassholderIdFamilyMembersMutationOptions(options);
 
-      const mutationOptions = getPostPassholdersPassholderIdFamilyMembersMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Update information of a family member of the given passholder.
 
 The caller of this method must have `PASSHOLDERS_FAMILY_MEMBERS` permission for the given passholder
@@ -199,59 +269,124 @@ The caller of this method must have `PASSHOLDERS_FAMILY_MEMBERS` permission for 
  * @summary Update a family member
  */
 export const putPassholdersPassholderIdFamilyMembersFamilyMemberId = (
-    passholderId: string,
-    familyMemberId: string,
-    familyMember: NonReadonly<FamilyMember>, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`,
-      familyMember,options
-    );
-  }
+  passholderId: string,
+  familyMemberId: string,
+  familyMember: NonReadonly<FamilyMember>,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`,
+    familyMember,
+    options
+  );
+};
 
+export const getPutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions =
+  <
+    TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+      >,
+      TError,
+      {
+        passholderId: string;
+        familyMemberId: string;
+        data: NonReadonly<FamilyMember>;
+      },
+      TContext
+    >;
+    axios?: AxiosRequestConfig;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+    >,
+    TError,
+    {
+      passholderId: string;
+      familyMemberId: string;
+      data: NonReadonly<FamilyMember>;
+    },
+    TContext
+  > => {
+    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+      >,
+      {
+        passholderId: string;
+        familyMemberId: string;
+        data: NonReadonly<FamilyMember>;
+      }
+    > = (props) => {
+      const { passholderId, familyMemberId, data } = props ?? {};
 
-export const getPutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string;data: NonReadonly<FamilyMember>}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string;data: NonReadonly<FamilyMember>}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+      return putPassholdersPassholderIdFamilyMembersFamilyMemberId(
+        passholderId,
+        familyMemberId,
+        data,
+        axiosOptions
+      );
+    };
 
-      
+    return { mutationFn, ...mutationOptions };
+  };
 
+export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+    >
+  >;
+export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationBody =
+  NonReadonly<FamilyMember>;
+export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationError =
+  AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>, {passholderId: string;familyMemberId: string;data: NonReadonly<FamilyMember>}> = (props) => {
-          const {passholderId,familyMemberId,data} = props ?? {};
-
-          return  putPassholdersPassholderIdFamilyMembersFamilyMemberId(passholderId,familyMemberId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationResult = NonNullable<Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>>
-    export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationBody = NonReadonly<FamilyMember>
-    export type PutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Update a family member
  */
-export const usePutPassholdersPassholderIdFamilyMembersFamilyMemberId = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string;data: NonReadonly<FamilyMember>}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>>,
-        TError,
-        {passholderId: string;familyMemberId: string;data: NonReadonly<FamilyMember>},
-        TContext
-      > => {
+export const usePutPassholdersPassholderIdFamilyMembersFamilyMemberId = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+    >,
+    TError,
+    {
+      passholderId: string;
+      familyMemberId: string;
+      data: NonReadonly<FamilyMember>;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<
+    ReturnType<typeof putPassholdersPassholderIdFamilyMembersFamilyMemberId>
+  >,
+  TError,
+  {
+    passholderId: string;
+    familyMemberId: string;
+    data: NonReadonly<FamilyMember>;
+  },
+  TContext
+> => {
+  const mutationOptions =
+    getPutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions(
+      options
+    );
 
-      const mutationOptions = getPutPassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Delete a family member of a given passholder.
 
 The main family member is always a member of their family (boolean `mainFamilyMember` is `true`) and cannot be deleted.
@@ -267,114 +402,209 @@ The caller of this method must have `PASSHOLDERS_FAMILY_MEMBERS` permission for 
  * @summary Delete a family member
  */
 export const deletePassholdersPassholderIdFamilyMembersFamilyMemberId = (
-    passholderId: string,
-    familyMemberId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`,options
-    );
-  }
+  passholderId: string,
+  familyMemberId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`,
+    options
+  );
+};
 
+export const getDeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions =
+  <
+    TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>,
+    TContext = unknown
+  >(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId
+        >
+      >,
+      TError,
+      { passholderId: string; familyMemberId: string },
+      TContext
+    >;
+    axios?: AxiosRequestConfig;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId
+      >
+    >,
+    TError,
+    { passholderId: string; familyMemberId: string },
+    TContext
+  > => {
+    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId
+        >
+      >,
+      { passholderId: string; familyMemberId: string }
+    > = (props) => {
+      const { passholderId, familyMemberId } = props ?? {};
 
-export const getDeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+      return deletePassholdersPassholderIdFamilyMembersFamilyMemberId(
+        passholderId,
+        familyMemberId,
+        axiosOptions
+      );
+    };
 
-      
+    return { mutationFn, ...mutationOptions };
+  };
 
+export type DeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId
+      >
+    >
+  >;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>, {passholderId: string;familyMemberId: string}> = (props) => {
-          const {passholderId,familyMemberId} = props ?? {};
+export type DeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationError =
+  AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>;
 
-          return  deletePassholdersPassholderIdFamilyMembersFamilyMemberId(passholderId,familyMemberId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationResult = NonNullable<Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>>
-    
-    export type DeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
-
-    /**
+/**
  * @summary Delete a family member
  */
-export const useDeletePassholdersPassholderIdFamilyMembersFamilyMemberId = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>, TError,{passholderId: string;familyMemberId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>>,
-        TError,
-        {passholderId: string;familyMemberId: string},
-        TContext
-      > => {
+export const useDeletePassholdersPassholderIdFamilyMembersFamilyMemberId = <
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId
+      >
+    >,
+    TError,
+    { passholderId: string; familyMemberId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<
+    ReturnType<typeof deletePassholdersPassholderIdFamilyMembersFamilyMemberId>
+  >,
+  TError,
+  { passholderId: string; familyMemberId: string },
+  TContext
+> => {
+  const mutationOptions =
+    getDeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions(
+      options
+    );
 
-      const mutationOptions = getDeletePassholdersPassholderIdFamilyMembersFamilyMemberIdMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Retrieve the other families to which the given passholder was added. This explicitly excludes the passholder's own family.
 
 The caller of this method must have `PASSHOLDERS_FAMILY_MEMBERS` permission for the given passholder.
  * @summary Retrieve families of the current passholder
  */
 export const getPassholdersPassholderIdFamilies = (
-    passholderId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetPassholdersPassholderIdFamilies200Item[]>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`,options
-    );
-  }
+  passholderId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GetPassholdersPassholderIdFamilies200Item[]>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`,
+    options
+  );
+};
 
-
-export const getGetPassholdersPassholderIdFamiliesQueryKey = (passholderId: string,) => {
-    return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`] as const;
-    }
-
-    
-export const getGetPassholdersPassholderIdFamiliesQueryOptions = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetPassholdersPassholderIdFamiliesQueryKey = (
+  passholderId: string
 ) => {
+  return [`NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getGetPassholdersPassholderIdFamiliesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  passholderId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetPassholdersPassholderIdFamiliesQueryKey(passholderId);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetPassholdersPassholderIdFamiliesQueryKey(passholderId);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>
+  > = ({ signal }) =>
+    getPassholdersPassholderIdFamilies(passholderId, {
+      signal,
+      ...axiosOptions,
+    });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>> = ({ signal }) => getPassholdersPassholderIdFamilies(passholderId, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!passholderId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(passholderId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetPassholdersPassholderIdFamiliesQueryResult = NonNullable<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>>
-export type GetPassholdersPassholderIdFamiliesQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetPassholdersPassholderIdFamiliesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>
+>;
+export type GetPassholdersPassholderIdFamiliesQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve families of the current passholder
  */
-export const useGetPassholdersPassholderIdFamilies = <TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
- passholderId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetPassholdersPassholderIdFamilies = <
+  TData = Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(
+  passholderId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPassholdersPassholderIdFamilies>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetPassholdersPassholderIdFamiliesQueryOptions(
+    passholderId,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetPassholdersPassholderIdFamiliesQueryOptions(passholderId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

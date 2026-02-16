@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import {
   LegacyMode,
   LegacyModeContext,
   legacyModeOrder,
-} from "@/web/feature-legacy/context/LegacyModeContext";
-import Mousetrap from "mousetrap";
-import { LegacyModeWindow } from "@/web/feature-legacy/components/LegacyModeWindow";
-import { LegacyModeDisplayModeOverlay } from "@/web/feature-legacy/components/LegacyModeDisplayModeOverlay";
-import { useIsBlacklisted, usePreviousRender } from "@/shared/lib/utils";
+} from '@/web/feature-legacy/context/LegacyModeContext';
+import Mousetrap from 'mousetrap';
+import { LegacyModeWindow } from '@/web/feature-legacy/components/LegacyModeWindow';
+import { LegacyModeDisplayModeOverlay } from '@/web/feature-legacy/components/LegacyModeDisplayModeOverlay';
+import { useIsBlacklisted, usePreviousRender } from '@/shared/lib/utils';
 
 const getFirstLegacyMode = (isBlacklisted: boolean): LegacyMode =>
   isBlacklisted ? LegacyMode.PREFER_LEGACY : LegacyMode.PREFER_NEXT;
@@ -27,13 +27,13 @@ export const LegacyModeProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [isBlacklisted]);
 
   useEffect(() => {
-    Mousetrap.bind("ctrl+shift+up", () => {
+    Mousetrap.bind('ctrl+shift+up', () => {
       setLegacyMode((legacyMode) => {
         const index = legacyModeOrder.indexOf(legacyMode);
         return legacyModeOrder[(index + 1) % legacyModeOrder.length];
       });
     });
-    Mousetrap.bind("ctrl+shift+down", () => {
+    Mousetrap.bind('ctrl+shift+down', () => {
       setLegacyMode((legacyMode) => {
         const index = legacyModeOrder.indexOf(legacyMode);
         return legacyModeOrder[
@@ -43,8 +43,8 @@ export const LegacyModeProvider: FC<PropsWithChildren> = ({ children }) => {
     });
 
     return () => {
-      Mousetrap.unbind("ctrl+shift+up");
-      Mousetrap.unbind("ctrl+shift+down");
+      Mousetrap.unbind('ctrl+shift+up');
+      Mousetrap.unbind('ctrl+shift+down');
     };
   }, []);
 

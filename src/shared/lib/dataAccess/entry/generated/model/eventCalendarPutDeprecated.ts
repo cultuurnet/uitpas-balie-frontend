@@ -17,13 +17,15 @@ import type { EventCalendarPutDeprecatedTimeSpansItem } from './eventCalendarPut
  * Request body to update the calendar information of an event (deprecated format).
  * @deprecated
  */
-export type EventCalendarPutDeprecated = unknown & unknown & unknown & {
-  bookingAvailability?: EventBookingAvailability;
-  calendarType: EventCalendarType;
-  endDate?: EventEndDate;
-  openingHours?: EventOpeningHours;
-  startDate?: EventStartDate;
-  status?: EventStatus;
-  /** List of date ranges that the event is scheduled to take place on. */
-  timeSpans?: EventCalendarPutDeprecatedTimeSpansItem[];
-};
+export type EventCalendarPutDeprecated = unknown &
+  unknown &
+  unknown & {
+    bookingAvailability?: EventBookingAvailability;
+    calendarType: EventCalendarType;
+    endDate?: EventEndDate;
+    openingHours?: EventOpeningHours;
+    startDate?: EventStartDate;
+    status?: EventStatus;
+    /** List of date ranges that the event is scheduled to take place on. */
+    timeSpans?: EventCalendarPutDeprecatedTimeSpansItem[];
+  };

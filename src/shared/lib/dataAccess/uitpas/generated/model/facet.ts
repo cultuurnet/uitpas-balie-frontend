@@ -10,9 +10,11 @@ import type { FacetName } from './facetName';
 /**
  * Each property is a possible filter value, mapping to an object with a human-readable name and amount of results if the filter value is applied in combination with the other active filters.
  */
-export interface Facet {[key: string]: {
-  /** Amount of results if the filter is applied in combination with the other active filters. */
-  count: number;
-  /** Internationalized human-readable name for the filter value. */
-  name: FacetName;
-}}
+export interface Facet {
+  [key: string]: {
+    /** Amount of results if the filter is applied in combination with the other active filters. */
+    count: number;
+    /** Internationalized human-readable name for the filter value. */
+    name: FacetName;
+  };
+}

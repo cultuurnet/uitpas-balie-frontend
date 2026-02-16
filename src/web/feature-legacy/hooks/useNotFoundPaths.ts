@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   useHandleWindowMessage,
   WindowMessageTypesReceived,
-} from "./useHandleWindowMessage";
+} from './useHandleWindowMessage';
 
 // Keep track of which paths were not found. Do not store as a single boolean
 // for the current path, because it's possible to navigate from a 404 path to

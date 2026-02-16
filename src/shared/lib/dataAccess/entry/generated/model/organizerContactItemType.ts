@@ -9,8 +9,8 @@
 /**
  * The type of the given contact information.
  */
-export type OrganizerContactItemType = typeof OrganizerContactItemType[keyof typeof OrganizerContactItemType];
-
+export type OrganizerContactItemType =
+  (typeof OrganizerContactItemType)[keyof typeof OrganizerContactItemType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerContactItemType = {

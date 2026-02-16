@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Grouppass } from "@/shared/lib/dataAccess";
-import { useTranslation } from "@/shared/lib/utils/hooks";
-import { Stack, Typography, useTheme } from "@mui/material";
-import { OpportunityStateGrouppass } from "./OpportunityStateGrouppass";
-import { Alert } from "@/mobile/lib/ui";
+import { Grouppass } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/utils/hooks';
+import { Stack, Typography, useTheme } from '@mui/material';
+import { OpportunityStateGrouppass } from './OpportunityStateGrouppass';
+import { Alert } from '@/mobile/lib/ui';
 
 type GroupPassProps = {
   groupPass: Grouppass;
   alertData?: {
-    alertType: "error" | "success";
+    alertType: 'error' | 'success';
     message?: string;
   };
   firstCardEntry: boolean;
@@ -26,12 +26,12 @@ export const GroupPass = ({
   return (
     <Stack
       sx={{
-        rowGap: "10px",
+        rowGap: '10px',
       }}
     >
-      <Typography variant="h1">{t("saving.mobile.grouppass")}</Typography>
+      <Typography variant="h1">{t('saving.mobile.grouppass')}</Typography>
 
-      <Stack sx={{ rowGap: "4px" }}>
+      <Stack sx={{ rowGap: '4px' }}>
         <Typography variant="h1" sx={{ color: theme.palette.neutral[900] }}>
           {groupPass.name}
         </Typography>

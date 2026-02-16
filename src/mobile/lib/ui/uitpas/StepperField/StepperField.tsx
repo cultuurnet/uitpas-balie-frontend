@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { Add, Remove } from "@mui/icons-material";
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { Add, Remove } from '@mui/icons-material';
 
 type StepperFieldProps = {
   value: number;
@@ -46,13 +46,13 @@ export const StepperField = ({
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          paddingTop: `${subtitle ? "12px" : "4px"}`,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingTop: `${subtitle ? '12px' : '4px'}`,
         }}
       >
         <IconButton
@@ -62,11 +62,11 @@ export const StepperField = ({
             background: theme.palette.neutral[100],
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
-            borderTopLeftRadius: "6px",
-            borderBottomLeftRadius: "6px",
+            borderTopLeftRadius: '6px',
+            borderBottomLeftRadius: '6px',
             border: `1px solid ${theme.palette.neutral[300]}`,
-            width: "44px",
-            height: "37px",
+            width: '44px',
+            height: '37px',
           }}
         >
           <Remove />
@@ -78,16 +78,16 @@ export const StepperField = ({
           onChange={handleTextfieldChange}
           onBlur={handleBlur}
           sx={{
-            width: "80px",
-            px: "12px",
-            height: "37px",
+            width: '80px',
+            px: '12px',
+            height: '37px',
             borderTop: `1px solid ${theme.palette.neutral[300]}`,
             borderBottom: `1px solid ${theme.palette.neutral[300]}`,
-            borderLeft: "none",
-            borderRight: "none",
-            fontSize: "16px",
-            ":focus": {
-              outline: "none",
+            borderLeft: 'none',
+            borderRight: 'none',
+            fontSize: '16px',
+            ':focus': {
+              outline: 'none',
             },
           }}
         />
@@ -97,13 +97,13 @@ export const StepperField = ({
           disabled={!!(maxValue && value >= maxValue)}
           sx={{
             background: theme.palette.neutral[0],
-            borderTopRightRadius: "6px",
-            borderBottomRightRadius: "6px",
+            borderTopRightRadius: '6px',
+            borderBottomRightRadius: '6px',
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
             border: `1px solid ${theme.palette.neutral[300]}`,
-            width: "44px",
-            height: "37px",
+            width: '44px',
+            height: '37px',
           }}
         >
           <Add />
@@ -115,8 +115,8 @@ export const StepperField = ({
           sx={{
             color: theme.palette.neutral[500],
             fontWeight: 500,
-            letterSpacing: "0.1px",
-            paddingTop: "6px",
+            letterSpacing: '0.1px',
+            paddingTop: '6px',
           }}
         >
           {subtitle}

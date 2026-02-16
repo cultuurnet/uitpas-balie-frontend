@@ -1,8 +1,8 @@
-import { OutlinedButton, SearchInput } from "@/mobile/lib/ui";
-import { useCounter } from "@/mobile/feature-counter/context/useCounter";
-import { Reward, useGetRewardsInfinite } from "@/shared/lib/dataAccess";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { Close } from "@mui/icons-material";
+import { OutlinedButton, SearchInput } from '@/mobile/lib/ui';
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { Reward, useGetRewardsInfinite } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { Close } from '@mui/icons-material';
 import {
   IconButton,
   Stack,
@@ -10,15 +10,15 @@ import {
   Typography,
   debounce,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
 import {
   ChangeEvent,
   Dispatch,
   SetStateAction,
   useEffect,
   useState,
-} from "react";
-import { RewardPicker } from "./RewardPicker";
+} from 'react';
+import { RewardPicker } from './RewardPicker';
 
 type RewardsDrawerProps = {
   isOpen: boolean;
@@ -44,7 +44,7 @@ export const RewardsDrawer = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { activeCounter } = useCounter();
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const {
     data: fetchedData,
@@ -58,7 +58,7 @@ export const RewardsDrawer = ({
       ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
       ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
       ...(searchQuery && { text: searchQuery }),
-      type: "ANY",
+      type: 'ANY',
       limit: FETCH_LIMIT,
     },
     {
@@ -66,7 +66,7 @@ export const RewardsDrawer = ({
         enabled: false,
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
-          return (lastPage.config.params["start"] || 0) + FETCH_LIMIT;
+          return (lastPage.config.params['start'] || 0) + FETCH_LIMIT;
         },
       },
       axios: {
@@ -75,7 +75,7 @@ export const RewardsDrawer = ({
     }
   );
 
-  const isInitialLoading = status === "pending";
+  const isInitialLoading = status === 'pending';
 
   const data: Reward[] =
     fetchedData?.pages.reduce((prev: Reward[], group) => {
@@ -86,7 +86,7 @@ export const RewardsDrawer = ({
 
   const noRewards = !searchQuery && !isFetching && totalItems === 0;
   const showSearchInput =
-    (typeof totalItems === "number" && totalItems >= 5) || Boolean(searchQuery);
+    (typeof totalItems === 'number' && totalItems >= 5) || Boolean(searchQuery);
 
   // Fetch rewards when the drawer opens
   useEffect(() => {
@@ -122,36 +122,36 @@ export const RewardsDrawer = ({
       onClose={handleClose}
       anchor="bottom"
       sx={{
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           ...(startPosition && {
             height: `calc(100% - ${startPosition + 10}px)`,
           }),
-          borderTopLeftRadius: "16px",
-          borderTopRightRadius: "16px",
-          padding: "16px",
+          borderTopLeftRadius: '16px',
+          borderTopRightRadius: '16px',
+          padding: '16px',
         },
       }}
     >
       <Stack
         sx={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: "20px",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: '20px',
         }}
       >
         <Typography
           variant="h1"
-          sx={{ color: theme.palette.neutral[900], fontSize: "16px" }}
+          sx={{ color: theme.palette.neutral[900], fontSize: '16px' }}
         >
           {passHolderName
-            ? t("saving.mobile.reward.drawer.title", { name: passHolderName })
-            : t("saving.mobile.reward.drawer.titleNoName")}
+            ? t('saving.mobile.reward.drawer.title', { name: passHolderName })
+            : t('saving.mobile.reward.drawer.titleNoName')}
         </Typography>
         <IconButton
           disableRipple
           onClick={handleClose}
-          sx={{ p: 0, transform: "scale(1.2)" }}
+          sx={{ p: 0, transform: 'scale(1.2)' }}
         >
           <Close />
         </IconButton>
@@ -159,14 +159,14 @@ export const RewardsDrawer = ({
 
       <Typography
         variant="body2"
-        sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: "-8px" }}
+        sx={{ color: theme.palette.neutral[500], fontWeight: 500, mt: '-8px' }}
       >
         {noRewards
-          ? t("saving.mobile.reward.drawer.subtitleNoRewards", {
+          ? t('saving.mobile.reward.drawer.subtitleNoRewards', {
               name: passHolderName,
               points: passHolderPoints,
             })
-          : t("saving.mobile.reward.drawer.subtitle", {
+          : t('saving.mobile.reward.drawer.subtitle', {
               name: passHolderName,
               points: passHolderPoints,
             })}
@@ -174,16 +174,16 @@ export const RewardsDrawer = ({
 
       {showSearchInput && (
         <SearchInput
-          sx={{ my: "8px" }}
+          sx={{ my: '8px' }}
           inputProps={{
             sx: {
-              "&::placeholder": {
+              '&::placeholder': {
                 color: theme.palette.neutral[500],
                 opacity: 1,
               },
             },
           }}
-          placeholder={t("saving.mobile.reward.drawer.searchPlaceholder")}
+          placeholder={t('saving.mobile.reward.drawer.searchPlaceholder')}
           onChange={debounce(handleSearchInputChange, 500)}
         />
       )}
@@ -201,14 +201,14 @@ export const RewardsDrawer = ({
 
       <OutlinedButton
         sx={{
-          mt: "auto",
+          mt: 'auto',
           border: `1px solid ${theme.palette.brand.darkCyan}`,
           color: theme.palette.brand.darkCyan,
-          borderRadius: "6px",
+          borderRadius: '6px',
         }}
         onClick={handleClose}
       >
-        {t("saving.mobile.reward.drawer.close")}
+        {t('saving.mobile.reward.drawer.close')}
       </OutlinedButton>
     </SwipeableDrawer>
   );

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useContext } from "react";
-import { PublicRuntimeConfig } from "../types";
-import { ConfigContext } from "./ConfigContext";
+import { useContext } from 'react';
+import { PublicRuntimeConfig } from '../types';
+import { ConfigContext } from './ConfigContext';
 
 export const useConfig = (): {
   publicRuntimeConfig: PublicRuntimeConfig | null;

@@ -1,9 +1,9 @@
-import { FC, PropsWithChildren, useEffect } from "react";
-import { useIsLoggedIn } from "../../lib/auth";
-import { Counter } from "./CounterContext";
-import { usePathname, useRouter } from "next/navigation";
+import { FC, PropsWithChildren, useEffect } from 'react';
+import { useIsLoggedIn } from '../../lib/auth';
+import { Counter } from './CounterContext';
+import { usePathname, useRouter } from 'next/navigation';
 
-const APP_PATH = "/";
+const APP_PATH = '/';
 
 export const RedirectWhenNoCounter: FC<
   PropsWithChildren<{

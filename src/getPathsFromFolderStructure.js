@@ -1,7 +1,7 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-function generatePaths(directoryPath, parentPath = "") {
+function generatePaths(directoryPath, parentPath = '') {
   const paths = [];
   const items = fs.readdirSync(directoryPath);
 
@@ -12,7 +12,7 @@ function generatePaths(directoryPath, parentPath = "") {
     if (stats.isDirectory()) {
       const currentPath = parentPath ? `${parentPath}/${item}` : item;
       paths.push(...generatePaths(itemPath, currentPath));
-    } else if (stats.isFile() && item === "page.tsx") {
+    } else if (stats.isFile() && item === 'page.tsx') {
       const currentPath = parentPath
         ? parentPath
         : path.basename(directoryPath);

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EventCompletedLanguagesItem = typeof EventCompletedLanguagesItem[keyof typeof EventCompletedLanguagesItem];
-
+export type EventCompletedLanguagesItem =
+  (typeof EventCompletedLanguagesItem)[keyof typeof EventCompletedLanguagesItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventCompletedLanguagesItem = {

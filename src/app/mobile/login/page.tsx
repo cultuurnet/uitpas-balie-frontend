@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { MobileLoginPage } from "@/mobile/feature-login";
+import { MobileLoginPage } from '@/mobile/feature-login';
 
 const MobileLogin = () => <MobileLoginPage />;
 

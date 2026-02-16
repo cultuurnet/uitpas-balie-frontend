@@ -9,8 +9,8 @@
 /**
  * The domain of the term. Can be one of `eventtype`, `theme`, or `facility`.
  */
-export type EventTermsItemDomain = typeof EventTermsItemDomain[keyof typeof EventTermsItemDomain];
-
+export type EventTermsItemDomain =
+  (typeof EventTermsItemDomain)[keyof typeof EventTermsItemDomain];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventTermsItemDomain = {

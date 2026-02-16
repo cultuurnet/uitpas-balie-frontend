@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Grid, Stack, Link, Box } from "@/web/lib/ui";
-import { Divider, styled } from "@mui/joy";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { PropsWithChildren, ReactNode } from "react";
-import { Footer } from "./Footer";
-import { useTranslation } from "@/shared/lib/i18n/client";
+import { Grid, Stack, Link, Box } from '@/web/lib/ui';
+import { Divider, styled } from '@mui/joy';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { PropsWithChildren, ReactNode } from 'react';
+import { Footer } from './Footer';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 const SideBarContainer = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -28,22 +28,22 @@ export const PageWithSideBarNew = ({
   return (
     <Box
       sx={{
-        height: { xs: "100vh", sm: "auto" },
-        overflowY: { xs: "auto", sm: "visible" },
+        height: { xs: '100vh', sm: 'auto' },
+        overflowY: { xs: 'auto', sm: 'visible' },
       }}
     >
-      <Grid container sx={{ marginTop: "56.38px" }}>
+      <Grid container sx={{ marginTop: '56.38px' }}>
         <SideBarContainer xs={12} sm={5} md={4} lg={3}>
           <Stack spacing={2}>
             {hasBackButton && (
               <>
-                <Link href={"/app"}>
+                <Link href={'/app'}>
                   <Stack direction="row" alignItems="center">
                     <FontAwesomeIcon
                       icon={faArrowLeft}
-                      style={{ marginRight: "0.25rem" }}
+                      style={{ marginRight: '0.25rem' }}
                     />
-                    {t("Terug")}
+                    {t('Terug')}
                   </Stack>
                 </Link>
                 <Divider />
@@ -58,8 +58,8 @@ export const PageWithSideBarNew = ({
           md={8}
           lg={9}
           sx={{
-            height: "100vh",
-            overflowY: { xs: "visible", sm: "auto" },
+            height: '100vh',
+            overflowY: { xs: 'visible', sm: 'auto' },
           }}
         >
           {children}

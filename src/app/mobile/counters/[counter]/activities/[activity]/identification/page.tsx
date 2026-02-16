@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { IdentificationPage } from "@/mobile/feature-identification";
+import { IdentificationPage } from '@/mobile/feature-identification';
 
 const Identification = () => <IdentificationPage />;
 

@@ -1,1 +1,1 @@
-export * from "./clientRoutes";
+export * from './clientRoutes';

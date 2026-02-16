@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import { useEffect, useState } from 'react';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import {
   createCounterMessage,
   useHandleWindowMessage,
   WindowMessageSources,
   WindowMessageTypesReceived,
-} from "./useHandleWindowMessage";
+} from './useHandleWindowMessage';
 
 export const useSetCounterInAngular = () => {
   const { activeCounter } = useCounter();
@@ -21,12 +21,12 @@ export const useSetCounterInAngular = () => {
   });
 
   useEffect(() => {
-    const iframe = document.querySelector("iframe");
+    const iframe = document.querySelector('iframe');
 
     if (iframe?.contentWindow && activeCounter && sendCounterWhenAvailable) {
       iframe.contentWindow.postMessage(
         createCounterMessage(activeCounter),
-        "*"
+        '*'
       );
       setSendCounterWhenAvailable(false);
     }

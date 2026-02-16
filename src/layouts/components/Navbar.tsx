@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Typography, Button } from "@/web/lib/ui";
-import { useLogout } from "@/shared/lib/auth";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
+import Image from 'next/image';
+import { Typography, Button } from '@/web/lib/ui';
+import { useLogout } from '@/shared/lib/auth';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import {
   HamburgerButton,
   Header,
@@ -13,14 +13,14 @@ import {
   NavBarStack,
   NavLink,
   UserStack,
-} from "./Navbar.styles";
-import { CounterMenu } from "./CounterMenu";
-import { getAssetUrl } from "@/shared/lib/utils";
-import { useCallback, useEffect, useState } from "react";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Organizer, UserInfo } from "@/shared/lib/dataAccess";
-import { useTranslation } from "@/shared/lib/i18n/client";
+} from './Navbar.styles';
+import { CounterMenu } from './CounterMenu';
+import { getAssetUrl } from '@/shared/lib/utils';
+import { useCallback, useEffect, useState } from 'react';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type NavbarProps = {
   userInfo: UserInfo;
@@ -33,17 +33,17 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
   const logout = useLogout();
   const [open, setOpen] = useState<boolean>(false);
   const [mobile, setMobile] = useState<boolean>(
-    window.matchMedia("(max-width: 768px)").matches
+    window.matchMedia('(max-width: 768px)').matches
   );
 
   const handleWindowResize = useCallback(() => {
-    setMobile(window.matchMedia("(max-width: 768px)").matches);
+    setMobile(window.matchMedia('(max-width: 768px)').matches);
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", handleWindowResize);
+    window.addEventListener('resize', handleWindowResize);
     return () => {
-      window.removeEventListener("resize", handleWindowResize);
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, [handleWindowResize]);
 
@@ -75,7 +75,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
               sx={(theme) => ({
                 backgroundColor: open
                   ? theme.palette.text.primary
-                  : "transparent",
+                  : 'transparent',
               })}
               onClick={handleToggle}
               variant="solid"
@@ -101,7 +101,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
                   setActiveCounter(null);
                 }}
               >
-                {t("counter.changeCounter")}
+                {t('counter.changeCounter')}
               </NavLink>
             </NavBarContentStack>
             <UserStack>
@@ -109,23 +109,23 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
                 level="body2"
                 sx={(theme) => ({
                   color: theme.vars.palette.neutral[200],
-                  width: "max-content",
+                  width: 'max-content',
                 })}
               >
-                {t("login.loggedInAs", { name: userInfo.given_name })}
+                {t('login.loggedInAs', { name: userInfo.given_name })}
               </Typography>
               <Button
                 variant="outlined"
                 color="neutral"
                 size="sm"
                 sx={{
-                  ml: "10px",
-                  fontSize: "13px",
-                  width: "100px",
+                  ml: '10px',
+                  fontSize: '13px',
+                  width: '100px',
                 }}
                 onClick={logout}
               >
-                {t("login.logoutBtn")}
+                {t('login.logoutBtn')}
               </Button>
             </UserStack>
           </>

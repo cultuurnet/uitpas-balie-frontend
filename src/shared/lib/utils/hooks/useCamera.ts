@@ -1,11 +1,11 @@
-import MediaDevices from "media-devices";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import uaParser from "ua-parser-js";
-import { readData, storeData } from "../localStorageUtils";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import adapter from "webrtc-adapter";
+import MediaDevices from 'media-devices';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import uaParser from 'ua-parser-js';
+import { readData, storeData } from '../localStorageUtils';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import adapter from 'webrtc-adapter';
 
-type Permission = "denied" | "granted" | "unknown" | "prompt";
+type Permission = 'denied' | 'granted' | 'unknown' | 'prompt';
 
 type DetectedDevice = {
   id: string;
@@ -13,7 +13,7 @@ type DetectedDevice = {
   canTorch: boolean;
 };
 
-type CameraType = "front" | "back";
+type CameraType = 'front' | 'back';
 
 type useCameraReturn = {
   permission: Permission;
@@ -32,10 +32,10 @@ export const useCamera = ({
   initializeCamera?: boolean;
 } = {}): useCameraReturn => {
   const { t } = useTranslation();
-  const [permission, setPermission] = useState<Permission>("unknown");
+  const [permission, setPermission] = useState<Permission>('unknown');
   const [isLoading, setIsLoading] = useState(true);
   const lastUsedCamera =
-    readData<DetectedDevice>("lastUsedCamera") ?? undefined;
+    readData<DetectedDevice>('lastUsedCamera') ?? undefined;
   const [selectedCamera, setSelectedCamera] = useState<
     DetectedDevice | undefined
   >(lastUsedCamera);
@@ -49,15 +49,15 @@ export const useCamera = ({
     setBrowser(uaParser(navigator.userAgent).browser.name);
     setBrowserHasSupport(
       ((navigator.mediaDevices &&
-        typeof navigator.mediaDevices.getUserMedia === "function") ??
+        typeof navigator.mediaDevices.getUserMedia === 'function') ??
         false) &&
-        browser !== "Opera"
+        browser !== 'Opera'
     );
     if (!initializeCamera) setIsLoading(false);
   }, [browser, initializeCamera]);
 
   const handleCameraChange = (device: DetectedDevice) => {
-    storeData<DetectedDevice>("lastUsedCamera", device);
+    storeData<DetectedDevice>('lastUsedCamera', device);
     setSelectedCamera(device);
   };
 
@@ -67,14 +67,14 @@ export const useCamera = ({
         stream.getVideoTracks().forEach((track) => {
           track.stop();
         });
-        setPermission("granted");
+        setPermission('granted');
       })
       .catch((err) => {
         // Firefox does not support navigator.permissions, so we need to handle the error here.
         // For other browsers, we can rely on checkPermissions() to update the permission state.
-        if (browser === "Firefox" && err instanceof Error) {
-          if (err.name === "NotAllowedError") {
-            setPermission("denied");
+        if (browser === 'Firefox' && err instanceof Error) {
+          if (err.name === 'NotAllowedError') {
+            setPermission('denied');
             return;
           }
         }
@@ -83,25 +83,25 @@ export const useCamera = ({
 
   const checkPermissions = () => {
     if (!navigator.permissions) {
-      console.warn("Browser does not support querying permissions");
+      console.warn('Browser does not support querying permissions');
       return;
     }
 
     // Firefox does not expose camera permissions through navigator.permissions
-    if (browser !== "Firefox") {
+    if (browser !== 'Firefox') {
       navigator.permissions
-        .query({ name: "camera" as PermissionName })
+        .query({ name: 'camera' as PermissionName })
         .then((status) => {
-          if (status.state !== "granted") {
+          if (status.state !== 'granted') {
             askForPermission();
           }
           setPermission(status.state);
-          status.addEventListener("change", () => {
+          status.addEventListener('change', () => {
             setPermission(status.state);
           });
         })
         .catch((err) => {
-          console.error("Could not read camera permissions:", err);
+          console.error('Could not read camera permissions:', err);
         });
     } else {
       askForPermission();
@@ -109,7 +109,7 @@ export const useCamera = ({
   };
 
   const getRawCamerasMap = async (): Promise<void> => {
-    const cachedMap = readData<DetectedDevice[]>("camerasRaw");
+    const cachedMap = readData<DetectedDevice[]>('camerasRaw');
 
     if (cachedMap) {
       setDetectedCameras(cachedMap);
@@ -120,18 +120,18 @@ export const useCamera = ({
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
+        (device) => device.kind === 'videoinput'
       );
 
       if (videoDevices.length === 0) {
-        throw new Error("No video devices found on this device");
+        throw new Error('No video devices found on this device');
       }
 
       const detectedCamerasLocal: DetectedDevice[] = [];
 
       for (const device of videoDevices) {
         if (!device.deviceId) {
-          console.warn("Device without deviceId found, skipping");
+          console.warn('Device without deviceId found, skipping');
           continue;
         }
 
@@ -143,19 +143,19 @@ export const useCamera = ({
           const track = stream.getVideoTracks()[0];
           const settings = track.getSettings();
           const capabilities =
-            typeof track.getCapabilities === "function"
+            typeof track.getCapabilities === 'function'
               ? track.getCapabilities()
               : undefined;
 
           track.stop();
 
           const cameraType: CameraType =
-            settings.facingMode === "user" ? "front" : "back";
+            settings.facingMode === 'user' ? 'front' : 'back';
 
           let canTorch = false;
           if (capabilities) {
             try {
-              canTorch = "torch" in capabilities;
+              canTorch = 'torch' in capabilities;
             } catch (e) {
               console.warn(`Error checking torch capability:`, e);
               canTorch = false;
@@ -185,14 +185,14 @@ export const useCamera = ({
             });
           }
 
-          storeData<DetectedDevice[]>("camerasRaw", detectedCamerasLocal);
+          storeData<DetectedDevice[]>('camerasRaw', detectedCamerasLocal);
           setDetectedCameras(detectedCamerasLocal);
         } catch (err) {
           console.error(`Failed to access device: ${device.deviceId}`, err);
         }
       }
     } catch (err) {
-      console.error("Could not enumerate devices:", err);
+      console.error('Could not enumerate devices:', err);
     } finally {
       setIsLoading(false);
     }
@@ -204,7 +204,7 @@ export const useCamera = ({
     if (!browserHasSupport || !initializeCamera) return;
 
     checkPermissions();
-    if (permission === "granted") {
+    if (permission === 'granted') {
       getRawCamerasMap();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- this is intentional, otherwise we would have infinite re-renders
