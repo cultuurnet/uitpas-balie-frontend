@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettify": "yarn prettier --write src",
-    "format:check": "yarn prettier src --check --ignore-path ./.gitignore",
+    "format:check": "yarn prettier src --check",
     "types:check": "tsc -v && tsc && echo '\n✅ Type check passed!'",
     "routes": "npx next-list",
     "orval": "dotenv -e .env.local -- orval --config .config/orval.config.ts",
