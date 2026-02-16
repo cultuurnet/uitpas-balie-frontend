@@ -6,16 +6,16 @@ export const clientRoutes = {
     `/mobile/counters/${counterId}/activities/${activityId}/identification`,
   scan: (counterId: string, activityId: string, firstCardEntry = true) =>
     `/mobile/counters/${counterId}/activities/${activityId}/identification/scan?${
-      firstCardEntry ? "&firstCardEntry=true" : ""
+      firstCardEntry ? '&firstCardEntry=true' : ''
     }`,
   saving: (
     counterId: string,
     activityId: string,
     code: string,
-    cardType: "insz" | "uitpas" = "uitpas",
+    cardType: 'insz' | 'uitpas' = 'uitpas',
     firstCardEntry = true
   ) =>
     `/mobile/counters/${counterId}/activities/${activityId}/saving?${cardType}=${code}${
-      firstCardEntry ? "&firstCardEntry=true" : ""
+      firstCardEntry ? '&firstCardEntry=true' : ''
     }`,
 };

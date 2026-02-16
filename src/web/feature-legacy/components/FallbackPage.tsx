@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { NoSsr } from "@mui/base";
-import { useLegacyPath } from "../hooks/useLegacyPath";
-import { useNotFoundPaths } from "../hooks/useNotFoundPaths";
-import { useAuthChanged } from "../hooks/useAuthChanged";
-import { IFrame } from "./IFrame";
+import { NoSsr } from '@mui/base';
+import { useLegacyPath } from '../hooks/useLegacyPath';
+import { useNotFoundPaths } from '../hooks/useNotFoundPaths';
+import { useAuthChanged } from '../hooks/useAuthChanged';
+import { IFrame } from './IFrame';
 
 export const FallbackPage = () => {
   const legacyPath = useLegacyPath();

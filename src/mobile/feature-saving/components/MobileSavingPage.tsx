@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from 'next/navigation';
 import {
   type TicketSale,
   useGetPassholders,
   usePostTicketSales,
   usePostRewardsRedeemed,
   useGetGrouppasses,
-} from "@/shared/lib/dataAccess";
-import { MobileNavBar } from "@/mobile/layouts";
+} from '@/shared/lib/dataAccess';
+import { MobileNavBar } from '@/mobile/layouts';
 import {
   ActivitySwitcher,
   Button,
   MobileContentStack,
   OutlinedButton,
   UitpasLoading,
-} from "@/mobile/lib/ui";
+} from '@/mobile/lib/ui';
 import {
   ScanFailed,
   TariffDrawer,
   RewardsDrawer,
-} from "@/mobile/feature-saving";
-import { Stack, Typography, Divider, useTheme } from "@mui/material";
-import { useActivity } from "@/mobile/feature-activities/useActivity";
-import { useCounter } from "@/mobile/feature-counter/context/useCounter";
-import { ElementRef, useEffect, useRef, useState } from "react";
-import { ManualCardInput } from "@/mobile/feature-identification";
-import { usePostCheckins } from "@/shared/lib/dataAccess/uitpas/generated/checkins/checkins";
-import { getIdFromUrl, getUuid } from "@/shared/lib/utils";
-import { useTranslation } from "@/shared/lib/utils/hooks";
-import { PassHolder } from "./PassHolder";
-import { GroupPass } from "./GroupPass";
-import { useGetPassholdersPassholderIdAssociationMemberships } from "@/shared/lib/dataAccess/uitpas/generated/passholders/passholders";
-import type { AssociationMembership } from "@/shared/lib/dataAccess/uitpas/generated/model";
+} from '@/mobile/feature-saving';
+import { Stack, Typography, Divider, useTheme } from '@mui/material';
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { ElementRef, useEffect, useRef, useState } from 'react';
+import { ManualCardInput } from '@/mobile/feature-identification';
+import { usePostCheckins } from '@/shared/lib/dataAccess/uitpas/generated/checkins/checkins';
+import { getIdFromUrl, getUuid } from '@/shared/lib/utils';
+import { useTranslation } from '@/shared/lib/utils/hooks';
+import { PassHolder } from './PassHolder';
+import { GroupPass } from './GroupPass';
+import { useGetPassholdersPassholderIdAssociationMemberships } from '@/shared/lib/dataAccess/uitpas/generated/passholders/passholders';
+import type { AssociationMembership } from '@/shared/lib/dataAccess/uitpas/generated/model';
 
 type UiTPASNumber = string;
 
@@ -40,22 +40,22 @@ export const MobileSavingPage = () => {
   const { t, LANG_KEY } = useTranslation();
   const params = useSearchParams();
   const theme = useTheme();
-  const uitpasNumber = params.get("uitpas") ?? "";
-  const inszNumber = params.get("insz") ?? undefined;
+  const uitpasNumber = params.get('uitpas') ?? '';
+  const inszNumber = params.get('insz') ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
   const { activeCounter } = useCounter();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
-  const activityRef = useRef<ElementRef<"div">>(null);
-  const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>("");
+  const activityRef = useRef<ElementRef<'div'>>(null);
+  const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>('');
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
-    Boolean(params.get("firstCardEntry")) ?? false
+    Boolean(params.get('firstCardEntry')) ?? false
   );
   const [alertData, setAlertData] = useState<
     | Record<
         UiTPASNumber,
         {
-          alertType: "error" | "success";
+          alertType: 'error' | 'success';
           message?: string;
         }
       >
@@ -75,23 +75,26 @@ export const MobileSavingPage = () => {
 
   const passholderId = passHoldersData?.data.member?.[0]?.id;
 
-  const { data: associationMembershipsData } = useGetPassholdersPassholderIdAssociationMemberships(
-    passholderId ?? "",
-    {
-      organiserId: selectedActivity?.organizer?.["@id"]
-        ? getIdFromUrl(selectedActivity.organizer["@id"])
-        : activeCounter?.id || "",
-    },
-    {
-      query: {
-        enabled: !!passholderId,
+  const { data: associationMembershipsData } =
+    useGetPassholdersPassholderIdAssociationMemberships(
+      passholderId ?? '',
+      {
+        organiserId: selectedActivity?.organizer?.['@id']
+          ? getIdFromUrl(selectedActivity.organizer['@id'])
+          : activeCounter?.id || '',
       },
-    }
-  );
+      {
+        query: {
+          enabled: !!passholderId,
+        },
+      }
+    );
 
   // Filter for ACTIVE memberships and extract the association
   const activeAssociations = associationMembershipsData?.data
-    ?.filter((membership: AssociationMembership) => membership.status === "ACTIVE")
+    ?.filter(
+      (membership: AssociationMembership) => membership.status === 'ACTIVE'
+    )
     ?.map((membership: AssociationMembership) => membership.association);
 
   const isGroupPass =
@@ -117,8 +120,8 @@ export const MobileSavingPage = () => {
       onSuccess: () => {
         setAlertData({
           [uitpasNumber]: {
-            alertType: "success",
-            message: t("saving.mobile.pointSaved"),
+            alertType: 'success',
+            message: t('saving.mobile.pointSaved'),
           },
         });
         refetchPassholders().catch(() => null);
@@ -126,7 +129,7 @@ export const MobileSavingPage = () => {
       onError: (error) =>
         setAlertData({
           [uitpasNumber]: {
-            alertType: "error",
+            alertType: 'error',
             message:
               error.response?.data.endUserMessage &&
               error.response.data.endUserMessage[LANG_KEY],
@@ -134,7 +137,7 @@ export const MobileSavingPage = () => {
         }),
     },
   });
-  const isCheckinLoading = checkinStatus === "pending";
+  const isCheckinLoading = checkinStatus === 'pending';
 
   const { mutate: postTicketSale, status: ticketSaleStatus } =
     usePostTicketSales({
@@ -144,8 +147,8 @@ export const MobileSavingPage = () => {
           refetchPassholders().catch(() => null);
           setAlertData({
             [uitpasNumber]: {
-              alertType: "success",
-              message: t("saving.mobile.tariff.discountRegistered", {
+              alertType: 'success',
+              message: t('saving.mobile.tariff.discountRegistered', {
                 price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
               }),
             },
@@ -154,7 +157,7 @@ export const MobileSavingPage = () => {
         onError: (error) =>
           setAlertData({
             [uitpasNumber]: {
-              alertType: "error",
+              alertType: 'error',
               message:
                 error.response?.data.endUserMessage &&
                 error.response.data.endUserMessage[LANG_KEY],
@@ -162,7 +165,7 @@ export const MobileSavingPage = () => {
           }),
       },
     });
-  const isTicketSaleLoading = ticketSaleStatus === "pending";
+  const isTicketSaleLoading = ticketSaleStatus === 'pending';
 
   const { mutate: postRewardsRedeemed, status: rewardsStatus } =
     usePostRewardsRedeemed({
@@ -171,8 +174,8 @@ export const MobileSavingPage = () => {
           setFirstCardEntry(false);
           setAlertData({
             [uitpasNumber]: {
-              alertType: "success",
-              message: t("saving.mobile.reward.redeemed"),
+              alertType: 'success',
+              message: t('saving.mobile.reward.redeemed'),
             },
           });
           refetchPassholders().catch(() => null);
@@ -180,7 +183,7 @@ export const MobileSavingPage = () => {
         onError: (error) =>
           setAlertData({
             [uitpasNumber]: {
-              alertType: "error",
+              alertType: 'error',
               message:
                 error.response?.data.endUserMessage &&
                 error.response.data.endUserMessage[LANG_KEY],
@@ -188,10 +191,10 @@ export const MobileSavingPage = () => {
           }),
       },
     });
-  const isRewardsRedeemedLoading = rewardsStatus === "pending";
+  const isRewardsRedeemedLoading = rewardsStatus === 'pending';
 
   const handleNextScanClick = () => {
-    navigateToScanner("replace", false);
+    navigateToScanner('replace', false);
   };
 
   const handleChooseTariffClick = () => {
@@ -216,13 +219,13 @@ export const MobileSavingPage = () => {
         passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
           ?.uitpasNumber;
 
-    if (!uitpasNumber || !selectedActivity["@id"]) return;
+    if (!uitpasNumber || !selectedActivity['@id']) return;
 
     if (!count) count = 1;
 
     postTicketSale({
       data: Array(count).fill({
-        eventId: getUuid(selectedActivity["@id"]),
+        eventId: getUuid(selectedActivity['@id']),
         tariff: {
           id: tariffId,
         },
@@ -259,7 +262,7 @@ export const MobileSavingPage = () => {
         passHoldersData.data.member[0].uitpasNumber ??
         passHoldersData.data.member[0].cardSystemMemberships?.at(0)
           ?.uitpasNumber;
-      const eventId = getUuid(selectedActivity?.["@id"] ?? "");
+      const eventId = getUuid(selectedActivity?.['@id'] ?? '');
 
       if (!uitpasNumber || !eventId || uitpasNumber === prevUitpasNumber)
         return;
@@ -305,9 +308,9 @@ export const MobileSavingPage = () => {
 
   return (
     <MobileNavBar>
-      <MobileContentStack sx={{ height: "auto", mb: "12px" }}>
+      <MobileContentStack sx={{ height: 'auto', mb: '12px' }}>
         <Typography variant="h1">
-          {t("saving.mobile.chosenActivity")}
+          {t('saving.mobile.chosenActivity')}
         </Typography>
         <ActivitySwitcher ref={activityRef} />
 
@@ -328,42 +331,42 @@ export const MobileSavingPage = () => {
           )
         )}
 
-        <Stack rowGap="10px" sx={{ marginTop: "-10px" }}>
+        <Stack rowGap="10px" sx={{ marginTop: '-10px' }}>
           {selectedActivity && (
             <OutlinedButton onClick={handleChooseTariffClick}>
-              {t("saving.mobile.chooseTariffBtn")}
+              {t('saving.mobile.chooseTariffBtn')}
             </OutlinedButton>
           )}
           {!isGroupPass && (
             <OutlinedButton onClick={handleChooseBenefitClick}>
-              {t("saving.mobile.tradeBenefitBtn")}
+              {t('saving.mobile.tradeBenefitBtn')}
             </OutlinedButton>
           )}
         </Stack>
 
         {/*-16 comes from the padding that's already in the stack*/}
-        <Divider sx={{ margin: "0 -16px" }} />
+        <Divider sx={{ margin: '0 -16px' }} />
         <Button onClick={handleNextScanClick}>
-          {t("saving.mobile.scanNextBtn")}
+          {t('saving.mobile.scanNextBtn')}
         </Button>
         <Typography
           variant="h1"
           sx={{
             color: theme.palette.neutral[900],
-            textAlign: "center",
+            textAlign: 'center',
           }}
         >
-          {t("saving.mobile.or")}
+          {t('saving.mobile.or')}
         </Typography>
 
         <ManualCardInput firstCardEntry={false} />
 
         {selectedActivity &&
-          selectedActivity["@id"] &&
+          selectedActivity['@id'] &&
           passHoldersData?.data?.member &&
           activityRef.current && (
             <TariffDrawer
-              eventId={selectedActivity["@id"]}
+              eventId={selectedActivity['@id']}
               passHolderName={
                 isGroupPass
                   ? groupPassHolder?.data.member?.[0]?.name ?? undefined

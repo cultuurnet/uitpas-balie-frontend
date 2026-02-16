@@ -10,16 +10,16 @@ import type { LimitParameter } from './limitParameter';
 import type { GetPassholdersPassholderIdTransactionsSortCreationDate } from './getPassholdersPassholderIdTransactionsSortCreationDate';
 
 export type GetPassholdersPassholderIdTransactionsParams = {
-/**
- * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
- */
-start?: StartParameter;
-/**
- * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
- */
-limit?: LimitParameter;
-/**
- * Sorts the transactions by creationDate in ascending or descending order.
- */
-'sort[creationDate]'?: GetPassholdersPassholderIdTransactionsSortCreationDate;
+  /**
+   * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
+   */
+  start?: StartParameter;
+  /**
+   * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
+   */
+  limit?: LimitParameter;
+  /**
+   * Sorts the transactions by creationDate in ascending or descending order.
+   */
+  'sort[creationDate]'?: GetPassholdersPassholderIdTransactionsSortCreationDate;
 };

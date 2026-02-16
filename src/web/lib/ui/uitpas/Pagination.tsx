@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { Stack } from "@/web/lib/ui";
-import { styled } from "@mui/joy";
+import { Stack } from '@/web/lib/ui';
+import { styled } from '@mui/joy';
 import {
   ButtonHTMLAttributes,
   ForwardedRef,
   forwardRef,
   HTMLProps,
-} from "react";
-import { mdiMenuLeft, mdiMenuRight } from "@mdi/js";
-import Icon from "@mdi/react";
-import { usePagination } from "@/shared/lib/utils/hooks/usePagination";
-import { useTranslation } from "@/shared/lib/i18n/client";
+} from 'react';
+import { mdiMenuLeft, mdiMenuRight } from '@mdi/js';
+import Icon from '@mdi/react';
+import { usePagination } from '@/shared/lib/utils/hooks/usePagination';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 const StyledPaginationButton = styled(
   forwardRef(function ButtonWrapper(
@@ -24,36 +24,36 @@ const StyledPaginationButton = styled(
     return (
       <button
         {...buttonProps}
-        type={buttonProps.type as ButtonHTMLAttributes<unknown>["type"]}
+        type={buttonProps.type as ButtonHTMLAttributes<unknown>['type']}
         ref={ref}
       />
     );
   })
 )(({ theme, active }) => ({
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-  padding: "8px 12px",
-  lineHeight: "1.3333333",
-  fontSize: "15px",
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
+  padding: '8px 12px',
+  lineHeight: '1.3333333',
+  fontSize: '15px',
   border: `1px solid ${theme.palette.neutral.plainBorder}`,
-  marginLeft: "-1px",
+  marginLeft: '-1px',
   color: theme.palette.primary.mainChannel,
   backgroundColor: theme.palette.primary.solidColor,
 
-  "&:not(:disabled):hover": {
+  '&:not(:disabled):hover': {
     color: theme.palette.primary.solidHoverBg,
     backgroundColor: theme.palette.neutral[200],
   },
 
-  "&:disabled": {
+  '&:disabled': {
     ...(!active
       ? {
-          cursor: "not-allowed",
+          cursor: 'not-allowed',
           color: theme.palette.neutral.plainBorder,
         }
       : {
-          cursor: "auto",
+          cursor: 'auto',
         }),
   },
 
@@ -75,20 +75,20 @@ export const Pagination = ({ totalItems }: paginationProps) => {
   if (totalPages <= 1) return null;
 
   return (
-    <Stack sx={{ flexDirection: "row", pt: 3 }}>
+    <Stack sx={{ flexDirection: 'row', pt: 3 }}>
       {items.map(({ type, page, onClick }) => {
-        if (type === "start-ellipsis" || type === "end-ellipsis") {
+        if (type === 'start-ellipsis' || type === 'end-ellipsis') {
           return (
             <StyledPaginationButton
               key={`pagination-${type}-${page}`}
               active={false}
               disabled
             >
-              {"…"}
+              {'…'}
             </StyledPaginationButton>
           );
         }
-        if (type === "page") {
+        if (type === 'page') {
           return (
             <StyledPaginationButton
               key={`pagination-${type}-${page}`}
@@ -104,7 +104,7 @@ export const Pagination = ({ totalItems }: paginationProps) => {
             </StyledPaginationButton>
           );
         }
-        if (type === "previous") {
+        if (type === 'previous') {
           return (
             <StyledPaginationButton
               key={`pagination-${type}-${page}`}
@@ -117,7 +117,7 @@ export const Pagination = ({ totalItems }: paginationProps) => {
               active={false}
             >
               <Icon path={mdiMenuLeft} size={0.7} />
-              {t("pagination.previousBtn")}
+              {t('pagination.previousBtn')}
             </StyledPaginationButton>
           );
         }
@@ -132,7 +132,7 @@ export const Pagination = ({ totalItems }: paginationProps) => {
             active={false}
             disabled={currentPage === totalPages}
           >
-            {t("pagination.nextBtn")}
+            {t('pagination.nextBtn')}
             <Icon path={mdiMenuRight} size={0.7} />
           </StyledPaginationButton>
         );

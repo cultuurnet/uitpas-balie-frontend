@@ -1,13 +1,13 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { useConfig } from "@/shared/feature-config/context/useConfig";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 export type UserInfo = {
   email: string;
   email_verified: boolean;
   given_name: string;
-  "https://public.be/first_name": string;
-  "https://public.be/uitidv1id": string;
+  'https://public.be/first_name': string;
+  'https://public.be/uitidv1id': string;
   name: string;
   nickname: string;
   picture: string;
@@ -20,7 +20,7 @@ type Props = {
   enabled?: boolean;
 };
 
-const queryKey = ["auth0", "userInfo"];
+const queryKey = ['auth0', 'userInfo'];
 export const useGetUserInfo = ({ token, enabled = true }: Props) => {
   const { publicRuntimeConfig } = useConfig();
   const queryClient = useQueryClient();
@@ -31,7 +31,7 @@ export const useGetUserInfo = ({ token, enabled = true }: Props) => {
       queryKey,
       queryFn: () => {
         return axios.get<UserInfo>(
-          publicRuntimeConfig?.oauthUserInfoPath ?? ""
+          publicRuntimeConfig?.oauthUserInfoPath ?? ''
         );
       },
       enabled,

@@ -10,24 +10,24 @@ import type { LimitParameter } from './limitParameter';
 import type { GetGrouppassesSortName } from './getGrouppassesSortName';
 
 export type GetGrouppassesParams = {
-/**
- * Unique UiTPAS number of the grouppass to look up. Required unless `chipNumber` is used.
- */
-uitpasNumber?: string;
-/**
- * Hexadecimal notation of the chip number of a grouppass UiTPAS card. Required unless`uitpasNumber` is used.
- */
-chipNumber?: string;
-/**
- * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
- */
-start?: StartParameter;
-/**
- * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
- */
-limit?: LimitParameter;
-/**
- * Sorts the grouppasses by ti name in ascending or descending order. By default passholders are sorted by name, ascending order.
- */
-'sort[name]'?: GetGrouppassesSortName;
+  /**
+   * Unique UiTPAS number of the grouppass to look up. Required unless `chipNumber` is used.
+   */
+  uitpasNumber?: string;
+  /**
+   * Hexadecimal notation of the chip number of a grouppass UiTPAS card. Required unless`uitpasNumber` is used.
+   */
+  chipNumber?: string;
+  /**
+   * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
+   */
+  start?: StartParameter;
+  /**
+   * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
+   */
+  limit?: LimitParameter;
+  /**
+   * Sorts the grouppasses by ti name in ascending or descending order. By default passholders are sorted by name, ascending order.
+   */
+  'sort[name]'?: GetGrouppassesSortName;
 };

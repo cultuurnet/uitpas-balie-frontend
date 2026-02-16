@@ -1,4 +1,4 @@
-import { Typography, TypographyProps, useTheme } from "@mui/material";
+import { Typography, TypographyProps, useTheme } from '@mui/material';
 
 export const NavBarTypography = ({ children, ...props }: TypographyProps) => {
   const theme = useTheme();
@@ -9,10 +9,10 @@ export const NavBarTypography = ({ children, ...props }: TypographyProps) => {
       {...props}
       sx={{
         color: theme.palette.neutral[0],
-        padding: "0 0 0 16px",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-        overflow: "hidden",
+        padding: '0 0 0 16px',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
         ...props.sx,
       }}
     >

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   PageWithSideBarNew,
   Stack,
@@ -6,22 +6,22 @@ import {
   DateInput,
   Button,
   ListItem,
-} from "@/web/lib/ui";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { useGetOrganizersFinancialReportsPeriods } from "@/shared/lib/dataAccess";
-import { SidebarContent } from "./SidebarContent";
-import { Alert, Box, FormControl, FormLabel } from "@mui/joy";
-import { AnchorButton } from "@/web/lib/ui/uitpas/AnchorButton";
-import { useState } from "react";
-import { useDownloadReport } from "../hooks/useDownloadReport";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faRefresh } from "@fortawesome/free-solid-svg-icons";
+} from '@/web/lib/ui';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useGetOrganizersFinancialReportsPeriods } from '@/shared/lib/dataAccess';
+import { SidebarContent } from './SidebarContent';
+import { Alert, Box, FormControl, FormLabel } from '@mui/joy';
+import { AnchorButton } from '@/web/lib/ui/uitpas/AnchorButton';
+import { useState } from 'react';
+import { useDownloadReport } from '../hooks/useDownloadReport';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import {
   PeriodType,
   isSamePeriod,
   dateToISODateString,
-} from "@/shared/lib/utils";
-import { useTranslation } from "@/shared/lib/i18n/client";
+} from '@/shared/lib/utils';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 export const ExpenseReportPage = () => {
   const [startDate, setStartDate] = useState<string>(dateToISODateString());
@@ -31,13 +31,13 @@ export const ExpenseReportPage = () => {
   const { t } = useTranslation();
   const { activeCounter } = useCounter();
   const { data: reportsPeriodFetchData } =
-    useGetOrganizersFinancialReportsPeriods(activeCounter?.id || "");
+    useGetOrganizersFinancialReportsPeriods(activeCounter?.id || '');
   const {
     startReportRequest,
     isDownloading,
     hasFailed,
     period: isDownloadingPeriod,
-  } = useDownloadReport(activeCounter?.id || "");
+  } = useDownloadReport(activeCounter?.id || '');
 
   const periods = reportsPeriodFetchData?.data;
 
@@ -66,20 +66,20 @@ export const ExpenseReportPage = () => {
   return (
     <PageWithSideBarNew sideBarContent={<SidebarContent />} hasBackButton>
       <Stack m={2} gap={3} alignContent="flex-start">
-        <Typography level="body1">{t("expenseReport.summary")}</Typography>
+        <Typography level="body1">{t('expenseReport.summary')}</Typography>
         {hasFailed && (
-          <Alert color="danger">{t("expenseReport.noReportsAvailable")}</Alert>
+          <Alert color="danger">{t('expenseReport.noReportsAvailable')}</Alert>
         )}
         <Stack
-          direction={"row"}
+          direction={'row'}
           gap={3}
-          justifyContent={"space-between"}
+          justifyContent={'space-between'}
           width="66%"
         >
           <FormControl sx={{ flexGrow: 1 }}>
             <FormLabel>
               <Typography level="body2">
-                <strong> {t("common.startDate")}</strong>
+                <strong> {t('common.startDate')}</strong>
               </Typography>
             </FormLabel>
             <DateInput
@@ -91,7 +91,7 @@ export const ExpenseReportPage = () => {
           <FormControl sx={{ flexGrow: 1 }}>
             <FormLabel>
               <Typography level="body2">
-                <strong> {t("common.endDate")}</strong>
+                <strong> {t('common.endDate')}</strong>
               </Typography>
             </FormLabel>
             <DateInput
@@ -112,9 +112,9 @@ export const ExpenseReportPage = () => {
                   icon={faRefresh}
                   spin
                   fontSize="xs"
-                  style={{ marginRight: "4px" }}
+                  style={{ marginRight: '4px' }}
                 />
-                {t("common.creating")}
+                {t('common.creating')}
               </Typography>
             ) : periodToDownload &&
               isSamePeriod(periodToDownload, isDownloadingPeriod) &&
@@ -123,24 +123,24 @@ export const ExpenseReportPage = () => {
                 <FontAwesomeIcon
                   icon={faDownload}
                   fontSize="xs"
-                  style={{ marginRight: "4px" }}
+                  style={{ marginRight: '4px' }}
                 />
-                {t("expenseReport.download")}
+                {t('expenseReport.download')}
               </Typography>
             ) : (
               <Typography textColor="common.white">
-                {t("common.create")}
+                {t('common.create')}
               </Typography>
             )}
           </Button>
         </Box>
         <Typography level="h2" mb={0}>
-          {t("expenseReport.readyReports")}
+          {t('expenseReport.readyReports')}
         </Typography>
         <Stack gap={0.2} ml={3}>
           {periods?.map((period, index) => (
             <ListItem key={`period-${index}`}>
-              <Stack display={"inline"} direction={"row"} gap={1}>
+              <Stack display={'inline'} direction={'row'} gap={1}>
                 <Typography level="body1" display="inline" mr={0.5}>
                   {period.startDate}
                 </Typography>

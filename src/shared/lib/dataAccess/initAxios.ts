@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { PublicRuntimeConfig } from "@/shared/feature-config/types";
+import axios from 'axios';
+import { PublicRuntimeConfig } from '@/shared/feature-config/types';
 
 export function initAxios({
   publicRuntimeConfig,
@@ -11,7 +11,7 @@ export function initAxios({
   // Replace generated endpoints with runtime api endpoints
   axios.interceptors.request.use((config) => {
     const url = Object.keys(publicRuntimeConfig.apiPaths).reduce(
-      (newUrl = "", apiPathKey) => {
+      (newUrl = '', apiPathKey) => {
         return newUrl.replace(
           apiPathKey,
           publicRuntimeConfig.apiPaths[apiPathKey]

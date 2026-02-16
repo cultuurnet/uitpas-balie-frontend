@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useTheme } from "@mui/material";
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { PropsWithChildren } from "react";
+import { useTheme } from '@mui/material';
+import NextLink, { LinkProps as NextLinkProps } from 'next/link';
+import { PropsWithChildren } from 'react';
 
 type LinkProps = NextLinkProps &
   PropsWithChildren & {
-    color?: "primary" | "secondary";
+    color?: 'primary' | 'secondary';
   };
 
 export const Link = ({ ...props }: LinkProps) => {
@@ -15,10 +15,10 @@ export const Link = ({ ...props }: LinkProps) => {
     <NextLink
       {...props}
       style={{
-        color: theme.palette[props.color || "primary"].main,
-        padding: "0 16px",
-        textAlign: "center",
-        fontSize: "16px",
+        color: theme.palette[props.color || 'primary'].main,
+        padding: '0 16px',
+        textAlign: 'center',
+        fontSize: '16px',
         fontWeight: 700,
       }}
     >

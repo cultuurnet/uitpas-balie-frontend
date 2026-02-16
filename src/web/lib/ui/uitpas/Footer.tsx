@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { Box, Divider, Stack, Typography } from "@mui/joy";
-import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
-import { faTwitter, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "@emotion/styled";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import Link from "next/link";
+import { Box, Divider, Stack, Typography } from '@mui/joy';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from '@emotion/styled';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import Link from 'next/link';
 const footerLinks = [
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/UiTnetwerk/?fref=ts",
+    label: 'Facebook',
+    href: 'https://www.facebook.com/UiTnetwerk/?fref=ts',
     icon: faFacebook,
   },
-  { label: "Twitter", href: "https://twitter.com/@uitpas/", icon: faTwitter },
-  { label: "Website", href: "http://www.uitpas.be/", icon: faExternalLink },
+  { label: 'Twitter', href: 'https://twitter.com/@uitpas/', icon: faTwitter },
+  { label: 'Website', href: 'http://www.uitpas.be/', icon: faExternalLink },
 ];
 
 const StyledAnchor = styled.a`
@@ -34,14 +34,14 @@ export const Footer = () => {
       <Stack direction="row" justifyContent="space-between" mb={2}>
         <Stack direction="row" alignItems="flex-end">
           <StyledLink replace href="/feedback">
-            {t("footer.submitIssue")}
+            {t('footer.submitIssue')}
           </StyledLink>
           <StyledLink replace href="/help">
-            {t("footer.help")}
+            {t('footer.help')}
           </StyledLink>
         </Stack>
         <Stack direction="row" alignItems="flex-end">
-          {t("footer.follow")}
+          {t('footer.follow')}
           {footerLinks.map(({ label, href, icon }) => (
             <StyledAnchor key={label} href={href} target="_blank">
               <Stack direction="row" alignItems="center" gap={0.8}>
@@ -54,8 +54,8 @@ export const Footer = () => {
       </Stack>
       <Divider />
       <Box>
-        <Typography level="body3" sx={{ margin: "8px" }}>
-          {t("footer.appVersion")} 001{" "}
+        <Typography level="body3" sx={{ margin: '8px' }}>
+          {t('footer.appVersion')} 001{' '}
         </Typography>
       </Box>
     </StyledFooter>

@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { AuthContext } from "./AuthContext";
-import { useFetchToken } from "./legacy/useFetchToken";
-import { useSilexLogout } from "@/shared/lib/auth/legacy/useSilexLogout";
-import { UitpasLoading } from "@/mobile/lib/ui";
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { AuthContext } from './AuthContext';
+import { useFetchToken } from './legacy/useFetchToken';
+import { useSilexLogout } from '@/shared/lib/auth/legacy/useSilexLogout';
+import { UitpasLoading } from '@/mobile/lib/ui';
 import {
   addInterceptor,
   removeHeader,
   setHeaders,
-} from "@/shared/lib/dataAccess/initAxios";
-import { useConfig } from "@/shared/feature-config/context/useConfig";
+} from '@/shared/lib/dataAccess/initAxios';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 // const LS_KEY = "@uitpas-balie/token";
 
@@ -40,7 +40,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
   const logout = useCallback(() => {
     logoutFromSilex().finally(() => {
       // Reset Axios
-      removeHeader("Authorization");
+      removeHeader('Authorization');
       // Remove from local storage
       // localStorage.removeItem(LS_KEY);
       // Auth token is not available

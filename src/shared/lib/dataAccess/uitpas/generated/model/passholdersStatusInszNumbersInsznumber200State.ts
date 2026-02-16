@@ -9,8 +9,8 @@
 /**
  * State of the given INSZ number
  */
-export type PassholdersStatusInszNumbersInsznumber200State = typeof PassholdersStatusInszNumbersInsznumber200State[keyof typeof PassholdersStatusInszNumbersInsznumber200State];
-
+export type PassholdersStatusInszNumbersInsznumber200State =
+  (typeof PassholdersStatusInszNumbersInsznumber200State)[keyof typeof PassholdersStatusInszNumbersInsznumber200State];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PassholdersStatusInszNumbersInsznumber200State = {

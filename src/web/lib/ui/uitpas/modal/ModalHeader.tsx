@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { Children, PropsWithChildren } from "react";
-import { ModalCloseButton, Stack } from "@/web/lib/ui";
+import React, { Children, PropsWithChildren } from 'react';
+import { ModalCloseButton, Stack } from '@/web/lib/ui';
 
 export const ModalHeader = ({ children }: PropsWithChildren) => {
   return (
     <Stack
       sx={(theme) => ({
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent:
-          Children.count(children) > 0 ? "space-between" : "flex-end",
+          Children.count(children) > 0 ? 'space-between' : 'flex-end',
         borderBottom: `1px solid ${theme.palette.neutral[400]}`,
-        padding: "8px 4px 8px 12px",
+        padding: '8px 4px 8px 12px',
       })}
     >
       {children}

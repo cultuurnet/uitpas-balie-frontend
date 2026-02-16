@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Association, Passholder } from "@/shared/lib/dataAccess";
-import { formatUitpasNumber } from "@/shared/lib/utils/stringUtils";
-import { Alert } from "@/mobile/lib/ui";
-import { OpportunityStatePassholder } from "./OpportunityStatePassholder";
-import { Box, Stack, Typography, useTheme } from "@mui/material";
-import { useTranslation } from "@/shared/lib/utils/hooks";
+import { Association, Passholder } from '@/shared/lib/dataAccess';
+import { formatUitpasNumber } from '@/shared/lib/utils/stringUtils';
+import { Alert } from '@/mobile/lib/ui';
+import { OpportunityStatePassholder } from './OpportunityStatePassholder';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { useTranslation } from '@/shared/lib/utils/hooks';
 
 type PassHolderProps = {
   passholder: Passholder;
   alertData?: {
-    alertType: "error" | "success";
+    alertType: 'error' | 'success';
     message?: string;
   };
   firstCardEntry: boolean;
@@ -29,7 +29,7 @@ export const PassHolder = ({
   return (
     <Stack gap={2}>
       <Stack direction="row" gap={1} alignItems="center">
-        <Typography variant="h1">{t("saving.mobile.passholder")}</Typography>
+        <Typography variant="h1">{t('saving.mobile.passholder')}</Typography>
         <Typography color={theme.palette.brand[800]} variant="body2">
           {formatUitpasNumber(
             passholder.cardSystemMemberships?.at(0)?.uitpasNumber
@@ -39,7 +39,7 @@ export const PassHolder = ({
 
       <Stack gap={1}>
         <Typography variant="h1" color={theme.palette.neutral[900]}>
-          {t("saving.mobile.namePointsTxt", {
+          {t('saving.mobile.namePointsTxt', {
             firstName: passholder.firstName,
             lastName: passholder.name,
             points: passholder.points,
@@ -51,7 +51,7 @@ export const PassHolder = ({
       {associations.length > 0 && (
         <>
           <Typography variant="h2">
-            {t("saving.mobile.associations")}
+            {t('saving.mobile.associations')}
           </Typography>
           <Stack gap={1}>
             {associations.map((association) => (

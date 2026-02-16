@@ -9,8 +9,8 @@
 /**
  * @pattern ^[a-z][a-z]$
  */
-export type LanguagesParameterItem = typeof LanguagesParameterItem[keyof typeof LanguagesParameterItem];
-
+export type LanguagesParameterItem =
+  (typeof LanguagesParameterItem)[keyof typeof LanguagesParameterItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const LanguagesParameterItem = {

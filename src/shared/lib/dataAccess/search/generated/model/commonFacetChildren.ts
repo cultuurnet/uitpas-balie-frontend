@@ -10,4 +10,4 @@ import type { CommonFacet } from './commonFacet';
 /**
  * Children facets, in the case of filters with a hierarchy.
  */
-export type CommonFacetChildren = {[key: string]: CommonFacet};
+export type CommonFacetChildren = { [key: string]: CommonFacet };

@@ -1,8 +1,8 @@
-import { useAuth } from "@/shared/lib/auth";
+import { useAuth } from '@/shared/lib/auth';
 import {
   useHandleWindowMessage,
   WindowMessageTypesReceived,
-} from "./useHandleWindowMessage";
+} from './useHandleWindowMessage';
 
 export const useAuthChanged = () => {
   const { logout } = useAuth();

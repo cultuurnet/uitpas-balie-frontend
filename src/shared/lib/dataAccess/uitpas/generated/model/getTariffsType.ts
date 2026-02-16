@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetTariffsType = typeof GetTariffsType[keyof typeof GetTariffsType];
-
+export type GetTariffsType =
+  (typeof GetTariffsType)[keyof typeof GetTariffsType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetTariffsType = {

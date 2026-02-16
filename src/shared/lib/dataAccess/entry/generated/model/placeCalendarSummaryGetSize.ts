@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type PlaceCalendarSummaryGetSize = typeof PlaceCalendarSummaryGetSize[keyof typeof PlaceCalendarSummaryGetSize];
-
+export type PlaceCalendarSummaryGetSize =
+  (typeof PlaceCalendarSummaryGetSize)[keyof typeof PlaceCalendarSummaryGetSize];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCalendarSummaryGetSize = {

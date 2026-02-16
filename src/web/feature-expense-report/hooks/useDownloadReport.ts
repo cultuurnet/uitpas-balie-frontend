@@ -3,11 +3,11 @@ import {
   useGetOrganizersFinancialReportsReportId,
   useGetOrganizersFinancialReportsReportIdZip,
   usePostOrganizersFinancialReports,
-} from "@/shared/lib/dataAccess";
-import { useEffect, useState } from "react";
-import { saveAs } from "file-saver";
-import JsZip from "jszip";
-import { PeriodType, isSamePeriod } from "@/shared/lib/utils";
+} from '@/shared/lib/dataAccess';
+import { useEffect, useState } from 'react';
+import { saveAs } from 'file-saver';
+import JsZip from 'jszip';
+import { PeriodType, isSamePeriod } from '@/shared/lib/utils';
 
 type ReturnType = {
   startReportRequest: (organizerId: string, period: PeriodType) => void;
@@ -20,7 +20,7 @@ type ReturnType = {
 export const useDownloadReport = (organizerId: string): ReturnType => {
   const [hasStarted, setHasStarted] = useState(false);
   const [reportId, setReportId] = useState(0);
-  const [reportStatus, setReportStatus] = useState<ReportStatus>("STARTED");
+  const [reportStatus, setReportStatus] = useState<ReportStatus>('STARTED');
   const [periodToDownload, setPeriodToDownload] = useState<PeriodType | null>(
     null
   );
@@ -30,7 +30,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
     data: createReportData,
     status: createStatus,
   } = usePostOrganizersFinancialReports();
-  const isCreateLoading = createStatus === "pending";
+  const isCreateLoading = createStatus === 'pending';
   const {
     data: reportStatusData,
     refetch: getReportStatus,
@@ -38,7 +38,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   } = useGetOrganizersFinancialReportsReportId(organizerId, reportId, {
     query: { enabled: false },
   });
-  const isStatusLoading = reportStatusStatus === "pending";
+  const isStatusLoading = reportStatusStatus === 'pending';
   const {
     data: reportZipData,
     refetch: getReportZip,
@@ -46,7 +46,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   } = useGetOrganizersFinancialReportsReportIdZip(organizerId, reportId, {
     query: { enabled: false },
   });
-  const isZipLoading = zipStatus === "pending";
+  const isZipLoading = zipStatus === 'pending';
 
   const startReportRequest = (organizerId: string, period: PeriodType) => {
     //if downloading same period as last time, skip creation
@@ -55,7 +55,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
       return;
     }
     setReportId(0);
-    setReportStatus("STARTED");
+    setReportStatus('STARTED');
     setHasStarted(true);
 
     setPeriodToDownload(period);
@@ -100,7 +100,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
       return;
 
     JsZip.loadAsync(reportZipData.data)
-      .then((zip) => zip.generateAsync({ type: "blob" }))
+      .then((zip) => zip.generateAsync({ type: 'blob' }))
       .then((blob) =>
         saveAs(
           blob,

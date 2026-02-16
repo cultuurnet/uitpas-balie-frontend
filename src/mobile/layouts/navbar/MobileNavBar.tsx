@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useCounter } from "@/mobile/feature-counter/context/useCounter";
-import { PropsWithChildren } from "react";
-import { Box } from "@mui/material";
-import uitpasLogo from "public/images/svg/logo-uitpas.svg";
-import Image from "next/image";
-import { ExitToApp, Settings } from "@mui/icons-material";
-import Link from "next/link";
-import { useLogout } from "@/shared/lib/auth";
-import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
-import { NavBarIcon } from "./components/NavBarIcon";
-import { NavBarTypography } from "./components/NavBarTypography";
-import { NavBarItemContainer } from "./components/NavBarItemContainer";
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { PropsWithChildren } from 'react';
+import { Box } from '@mui/material';
+import uitpasLogo from 'public/images/svg/logo-uitpas.svg';
+import Image from 'next/image';
+import { ExitToApp, Settings } from '@mui/icons-material';
+import Link from 'next/link';
+import { useLogout } from '@/shared/lib/auth';
+import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
+import { NavBarIcon } from './components/NavBarIcon';
+import { NavBarTypography } from './components/NavBarTypography';
+import { NavBarItemContainer } from './components/NavBarItemContainer';
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
   const { t } = useTranslation();
@@ -22,14 +22,14 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
     <>
       <Box
         sx={(theme) => ({
-          display: "flex",
-          justifyContent: "space-between",
-          height: "46px",
-          width: "100%",
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: '46px',
+          width: '100%',
           backgroundColor: theme.palette.navigation.primary,
-          alignItems: "center",
-          boxShadow: "0px 6px 9px rgba(0, 0, 0, 0.1)",
-          position: "sticky",
+          alignItems: 'center',
+          boxShadow: '0px 6px 9px rgba(0, 0, 0, 0.1)',
+          position: 'sticky',
           top: 0,
           zIndex: 100,
         })}
@@ -40,8 +40,8 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           width={102}
           height={25}
           style={{
-            marginLeft: "12px",
-            cursor: "pointer",
+            marginLeft: '12px',
+            cursor: 'pointer',
           }}
           priority={true}
           onClick={clearCounter}
@@ -58,9 +58,9 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
         ) : (
           <NavBarItemContainer
             onClick={logout}
-            sx={{ columnGap: "4px", mr: "10px", cursor: "pointer" }}
+            sx={{ columnGap: '4px', mr: '10px', cursor: 'pointer' }}
           >
-            <NavBarTypography>{t("counter.mobile.logoutBtn")}</NavBarTypography>
+            <NavBarTypography>{t('counter.mobile.logoutBtn')}</NavBarTypography>
             <NavBarIcon icon={ExitToApp} />
           </NavBarItemContainer>
         )}

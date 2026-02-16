@@ -9,8 +9,8 @@
 /**
  * The language of the news article
  */
-export type CommonLanguage = typeof CommonLanguage[keyof typeof CommonLanguage];
-
+export type CommonLanguage =
+  (typeof CommonLanguage)[keyof typeof CommonLanguage];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CommonLanguage = {

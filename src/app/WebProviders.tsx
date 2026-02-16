@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PropsWithChildren } from "react";
-import { AuthProvider } from "@/shared/lib/auth";
-import { UserProvider } from "@/shared/lib/user";
-import { CounterProvider } from "@/shared/feature-counter/context/CounterProvider";
-import { Layout } from "@/layouts";
-import { LegacyModeProvider } from "@/web/feature-legacy";
-import ThemeRegistry from "@/app/ThemeRegistry";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PropsWithChildren } from 'react';
+import { AuthProvider } from '@/shared/lib/auth';
+import { UserProvider } from '@/shared/lib/user';
+import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
+import { Layout } from '@/layouts';
+import { LegacyModeProvider } from '@/web/feature-legacy';
+import ThemeRegistry from '@/app/ThemeRegistry';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,11 +24,11 @@ const queryClient = new QueryClient({
 
 export function WebProviders({ children }: PropsWithChildren) {
   return (
-    <ThemeRegistry options={{ key: "joy" }}>
+    <ThemeRegistry options={{ key: 'joy' }}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider loginPath={"/login"}>
+        <AuthProvider loginPath={'/login'}>
           <UserProvider>
-            <CounterProvider counterPath={"/counters"}>
+            <CounterProvider counterPath={'/counters'}>
               <Layout>
                 <LegacyModeProvider>{children}</LegacyModeProvider>
               </Layout>

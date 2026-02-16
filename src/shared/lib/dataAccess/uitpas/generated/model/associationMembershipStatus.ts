@@ -9,8 +9,8 @@
 /**
  * Status of the membership
  */
-export type AssociationMembershipStatus = typeof AssociationMembershipStatus[keyof typeof AssociationMembershipStatus];
-
+export type AssociationMembershipStatus =
+  (typeof AssociationMembershipStatus)[keyof typeof AssociationMembershipStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AssociationMembershipStatus = {

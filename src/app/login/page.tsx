@@ -1,4 +1,4 @@
-import { LoginPage } from "@/web/feature-login";
+import { LoginPage } from '@/web/feature-login';
 
 const Login = () => {
   return <LoginPage />;

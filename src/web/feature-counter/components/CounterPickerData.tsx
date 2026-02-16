@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Organizer, OrganizerPermissions } from "@/shared/lib/dataAccess";
-import { Link, Typography } from "@/web/lib/ui";
-import { CounterNoData } from "./CounterNoData";
-import { useTranslation } from "@/shared/lib/i18n/client";
+import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
+import { Link, Typography } from '@/web/lib/ui';
+import { CounterNoData } from './CounterNoData';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type CounterPickerDataProps = {
   data: OrganizerPermissions[];
@@ -25,16 +25,16 @@ export const CounterPickerData = ({
           <Typography
             level="h3"
             sx={(theme) => ({
-              borderBottom: `1px solid ${theme.vars.palette.neutral["500"]}`,
-              pb: "0.5em",
-              mt: "24px",
-              mb: "1em",
-              textTransform: "uppercase",
-              fontSize: "1em",
+              borderBottom: `1px solid ${theme.vars.palette.neutral['500']}`,
+              pb: '0.5em',
+              mt: '24px',
+              mb: '1em',
+              textTransform: 'uppercase',
+              fontSize: '1em',
               fontWeight: 600,
             })}
           >
-            {t("counter.otherCounters")}
+            {t('counter.otherCounters')}
           </Typography>
           <ul>
             {data.map((permission) => (
@@ -53,11 +53,11 @@ export const CounterPickerData = ({
         <>
           <Typography
             sx={(theme) => ({
-              fontStyle: "italic",
+              fontStyle: 'italic',
               color: theme.vars.palette.neutral[500],
             })}
           >
-            {t("counter.noCounterSearch", { searchTerm: filterString })}
+            {t('counter.noCounterSearch', { searchTerm: filterString })}
           </Typography>
         </>
       ) : (

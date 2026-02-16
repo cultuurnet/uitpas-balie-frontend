@@ -9,8 +9,8 @@
 /**
  * The domain of the term. Can be one of `eventtype` or `facility`.
  */
-export type PlaceTermsItemDomain = typeof PlaceTermsItemDomain[keyof typeof PlaceTermsItemDomain];
-
+export type PlaceTermsItemDomain =
+  (typeof PlaceTermsItemDomain)[keyof typeof PlaceTermsItemDomain];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceTermsItemDomain = {

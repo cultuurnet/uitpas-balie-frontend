@@ -5,10 +5,7 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,14 +13,10 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   Error,
   ForbiddenResponse,
@@ -34,10 +27,8 @@ import type {
   KioskDeviceEventRequest,
   KioskDeviceSetup,
   KioskPass,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Configure new kiosk device by looking it up by name and storing the provided device id. After this endpoint has been invoked, the other kiosk APIs can be used with the newly configured device id as `x-custom-token`.
@@ -55,57 +46,80 @@ The **configuration code** of the device must be specicied in the `x-custom-toke
  * @summary Setup new kiosk device
  */
 export const putKiosksSetup = (
-    kioskDeviceSetup: KioskDeviceSetup, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskDevice>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/setup`,
-      kioskDeviceSetup,options
-    );
-  }
+  kioskDeviceSetup: KioskDeviceSetup,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskDevice>> => {
+  return axios.put(
+    `NEXT_PUBLIC_API_PATH/kiosk-devices/setup`,
+    kioskDeviceSetup,
+    options
+  );
+};
 
+export const getPutKiosksSetupMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putKiosksSetup>>,
+    TError,
+    { data: KioskDeviceSetup },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putKiosksSetup>>,
+  TError,
+  { data: KioskDeviceSetup },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putKiosksSetup>>,
+    { data: KioskDeviceSetup }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getPutKiosksSetupMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putKiosksSetup>>, TError,{data: KioskDeviceSetup}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof putKiosksSetup>>, TError,{data: KioskDeviceSetup}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return putKiosksSetup(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PutKiosksSetupMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putKiosksSetup>>
+>;
+export type PutKiosksSetupMutationBody = KioskDeviceSetup;
+export type PutKiosksSetupMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putKiosksSetup>>, {data: KioskDeviceSetup}> = (props) => {
-          const {data} = props ?? {};
-
-          return  putKiosksSetup(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutKiosksSetupMutationResult = NonNullable<Awaited<ReturnType<typeof putKiosksSetup>>>
-    export type PutKiosksSetupMutationBody = KioskDeviceSetup
-    export type PutKiosksSetupMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Setup new kiosk device
  */
-export const usePutKiosksSetup = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putKiosksSetup>>, TError,{data: KioskDeviceSetup}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof putKiosksSetup>>,
-        TError,
-        {data: KioskDeviceSetup},
-        TContext
-      > => {
+export const usePutKiosksSetup = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putKiosksSetup>>,
+    TError,
+    { data: KioskDeviceSetup },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof putKiosksSetup>>,
+  TError,
+  { data: KioskDeviceSetup },
+  TContext
+> => {
+  const mutationOptions = getPutKiosksSetupMutationOptions(options);
 
-      const mutationOptions = getPutKiosksSetupMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Retrieve current kiosk.
 
 The device id of the kiosk must be specicied in the `x-custom-token` header.
@@ -116,59 +130,68 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Retrieve kiosk
  */
 export const getKiosks = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskDevice>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices`,options
-    );
-  }
-
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskDevice>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/kiosk-devices`, options);
+};
 
 export const getGetKiosksQueryKey = () => {
-    return [`NEXT_PUBLIC_API_PATH/kiosk-devices`] as const;
-    }
+  return [`NEXT_PUBLIC_API_PATH/kiosk-devices`] as const;
+};
 
-    
-export const getGetKiosksQueryOptions = <TData = Awaited<ReturnType<typeof getKiosks>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosks>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
+export const getGetKiosksQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKiosks>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getKiosks>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetKiosksQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetKiosksQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosks>>> = ({
+    signal,
+  }) => getKiosks({ signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKiosks>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosks>>> = ({ signal }) => getKiosks({ signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKiosks>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetKiosksQueryResult = NonNullable<Awaited<ReturnType<typeof getKiosks>>>
-export type GetKiosksQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
+export type GetKiosksQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKiosks>>
+>;
+export type GetKiosksQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse
+>;
 
 /**
  * @summary Retrieve kiosk
  */
-export const useGetKiosks = <TData = Awaited<ReturnType<typeof getKiosks>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosks>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetKiosks = <
+  TData = Awaited<ReturnType<typeof getKiosks>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getKiosks>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetKiosksQueryOptions(options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetKiosksQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Retrieve the configured event of the kiosk.
@@ -183,59 +206,68 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Retrieve configured event
  */
 export const getKiosksEvent = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskDeviceEvent>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/events`,options
-    );
-  }
-
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskDeviceEvent>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/kiosk-devices/events`, options);
+};
 
 export const getGetKiosksEventQueryKey = () => {
-    return [`NEXT_PUBLIC_API_PATH/kiosk-devices/events`] as const;
-    }
+  return [`NEXT_PUBLIC_API_PATH/kiosk-devices/events`] as const;
+};
 
-    
-export const getGetKiosksEventQueryOptions = <TData = Awaited<ReturnType<typeof getKiosksEvent>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksEvent>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
+export const getGetKiosksEventQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKiosksEvent>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getKiosksEvent>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetKiosksEventQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetKiosksEventQueryKey();
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosksEvent>>> = ({
+    signal,
+  }) => getKiosksEvent({ signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKiosksEvent>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosksEvent>>> = ({ signal }) => getKiosksEvent({ signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKiosksEvent>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetKiosksEventQueryResult = NonNullable<Awaited<ReturnType<typeof getKiosksEvent>>>
-export type GetKiosksEventQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetKiosksEventQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKiosksEvent>>
+>;
+export type GetKiosksEventQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve configured event
  */
-export const useGetKiosksEvent = <TData = Awaited<ReturnType<typeof getKiosksEvent>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksEvent>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetKiosksEvent = <
+  TData = Awaited<ReturnType<typeof getKiosksEvent>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getKiosksEvent>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetKiosksEventQueryOptions(options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetKiosksEventQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Update the current event of the kiosk.
@@ -248,57 +280,80 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Configure event
  */
 export const putKiosksEvents = (
-    kioskDeviceEventRequest: KioskDeviceEventRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/events`,
-      kioskDeviceEventRequest,options
-    );
-  }
+  kioskDeviceEventRequest: KioskDeviceEventRequest,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_API_PATH/kiosk-devices/events`,
+    kioskDeviceEventRequest,
+    options
+  );
+};
 
+export const getPutKiosksEventsMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putKiosksEvents>>,
+    TError,
+    { data: KioskDeviceEventRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putKiosksEvents>>,
+  TError,
+  { data: KioskDeviceEventRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putKiosksEvents>>,
+    { data: KioskDeviceEventRequest }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getPutKiosksEventsMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putKiosksEvents>>, TError,{data: KioskDeviceEventRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof putKiosksEvents>>, TError,{data: KioskDeviceEventRequest}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return putKiosksEvents(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PutKiosksEventsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putKiosksEvents>>
+>;
+export type PutKiosksEventsMutationBody = KioskDeviceEventRequest;
+export type PutKiosksEventsMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putKiosksEvents>>, {data: KioskDeviceEventRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  putKiosksEvents(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutKiosksEventsMutationResult = NonNullable<Awaited<ReturnType<typeof putKiosksEvents>>>
-    export type PutKiosksEventsMutationBody = KioskDeviceEventRequest
-    export type PutKiosksEventsMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Configure event
  */
-export const usePutKiosksEvents = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putKiosksEvents>>, TError,{data: KioskDeviceEventRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof putKiosksEvents>>,
-        TError,
-        {data: KioskDeviceEventRequest},
-        TContext
-      > => {
+export const usePutKiosksEvents = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putKiosksEvents>>,
+    TError,
+    { data: KioskDeviceEventRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof putKiosksEvents>>,
+  TError,
+  { data: KioskDeviceEventRequest },
+  TContext
+> => {
+  const mutationOptions = getPutKiosksEventsMutationOptions(options);
 
-      const mutationOptions = getPutKiosksEventsMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Delete configured event
 
 The device id of the kiosk must be specicied in the `x-custom-token` header.
@@ -309,56 +364,73 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Delete configured event
  */
 export const deleteKiosksEvents = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/events`,options
-    );
-  }
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(`NEXT_PUBLIC_API_PATH/kiosk-devices/events`, options);
+};
 
+export const getDeleteKiosksEventsMutationOptions = <
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteKiosksEvents>>,
+    TError,
+    void,
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteKiosksEvents>>,
+  TError,
+  void,
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteKiosksEvents>>,
+    void
+  > = () => {
+    return deleteKiosksEvents(axiosOptions);
+  };
 
-export const getDeleteKiosksEventsMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteKiosksEvents>>, TError,void, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteKiosksEvents>>, TError,void, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+  return { mutationFn, ...mutationOptions };
+};
 
-      
+export type DeleteKiosksEventsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteKiosksEvents>>
+>;
 
+export type DeleteKiosksEventsMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteKiosksEvents>>, void> = () => {
-          
-
-          return  deleteKiosksEvents(axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteKiosksEventsMutationResult = NonNullable<Awaited<ReturnType<typeof deleteKiosksEvents>>>
-    
-    export type DeleteKiosksEventsMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Delete configured event
  */
-export const useDeleteKiosksEvents = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteKiosksEvents>>, TError,void, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof deleteKiosksEvents>>,
-        TError,
-        void,
-        TContext
-      > => {
+export const useDeleteKiosksEvents = <
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteKiosksEvents>>,
+    TError,
+    void,
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteKiosksEvents>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions = getDeleteKiosksEventsMutationOptions(options);
 
-      const mutationOptions = getDeleteKiosksEventsMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Checkin a passholder with the given NFC chipnumber at the kiosk.
 
 The device id of the kiosk must be specicied in the `x-custom-token` header.
@@ -369,57 +441,80 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Checkin passholder via kiosk
  */
 export const postKiosksCheckin = (
-    kioskDeviceCheckinRequest: KioskDeviceCheckinRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskDeviceCheckinResponse>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`,
-      kioskDeviceCheckinRequest,options
-    );
-  }
+  kioskDeviceCheckinRequest: KioskDeviceCheckinRequest,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskDeviceCheckinResponse>> => {
+  return axios.post(
+    `NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`,
+    kioskDeviceCheckinRequest,
+    options
+  );
+};
 
+export const getPostKiosksCheckinMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postKiosksCheckin>>,
+    TError,
+    { data: KioskDeviceCheckinRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postKiosksCheckin>>,
+  TError,
+  { data: KioskDeviceCheckinRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postKiosksCheckin>>,
+    { data: KioskDeviceCheckinRequest }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getPostKiosksCheckinMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postKiosksCheckin>>, TError,{data: KioskDeviceCheckinRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof postKiosksCheckin>>, TError,{data: KioskDeviceCheckinRequest}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return postKiosksCheckin(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PostKiosksCheckinMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postKiosksCheckin>>
+>;
+export type PostKiosksCheckinMutationBody = KioskDeviceCheckinRequest;
+export type PostKiosksCheckinMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postKiosksCheckin>>, {data: KioskDeviceCheckinRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postKiosksCheckin(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostKiosksCheckinMutationResult = NonNullable<Awaited<ReturnType<typeof postKiosksCheckin>>>
-    export type PostKiosksCheckinMutationBody = KioskDeviceCheckinRequest
-    export type PostKiosksCheckinMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary Checkin passholder via kiosk
  */
-export const usePostKiosksCheckin = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postKiosksCheckin>>, TError,{data: KioskDeviceCheckinRequest}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof postKiosksCheckin>>,
-        TError,
-        {data: KioskDeviceCheckinRequest},
-        TContext
-      > => {
+export const usePostKiosksCheckin = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postKiosksCheckin>>,
+    TError,
+    { data: KioskDeviceCheckinRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof postKiosksCheckin>>,
+  TError,
+  { data: KioskDeviceCheckinRequest },
+  TContext
+> => {
+  const mutationOptions = getPostKiosksCheckinMutationOptions(options);
 
-      const mutationOptions = getPostKiosksCheckinMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Retrieve the current event of the kiosk. When returned, checkin on this kiosk and event is allowed.
 
 The following logic is being used to determine the current checkin event:
@@ -434,59 +529,76 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Retrieve the current checkin event
  */
 export const getKiosksCheckins = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskDeviceEvent>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`,options
-    );
-  }
-
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskDeviceEvent>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`, options);
+};
 
 export const getGetKiosksCheckinsQueryKey = () => {
-    return [`NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`] as const;
-    }
+  return [`NEXT_PUBLIC_API_PATH/kiosk-devices/checkins`] as const;
+};
 
-    
-export const getGetKiosksCheckinsQueryOptions = <TData = Awaited<ReturnType<typeof getKiosksCheckins>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksCheckins>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
+export const getGetKiosksCheckinsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKiosksCheckins>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getKiosksCheckins>>,
+      TError,
+      TData
+    >
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetKiosksCheckinsQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetKiosksCheckinsQueryKey();
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getKiosksCheckins>>
+  > = ({ signal }) => getKiosksCheckins({ signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKiosksCheckins>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosksCheckins>>> = ({ signal }) => getKiosksCheckins({ signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKiosksCheckins>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetKiosksCheckinsQueryResult = NonNullable<Awaited<ReturnType<typeof getKiosksCheckins>>>
-export type GetKiosksCheckinsQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+export type GetKiosksCheckinsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKiosksCheckins>>
+>;
+export type GetKiosksCheckinsQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | Error
+>;
 
 /**
  * @summary Retrieve the current checkin event
  */
-export const useGetKiosksCheckins = <TData = Awaited<ReturnType<typeof getKiosksCheckins>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksCheckins>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetKiosksCheckins = <
+  TData = Awaited<ReturnType<typeof getKiosksCheckins>>,
+  TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | Error>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getKiosksCheckins>>,
+      TError,
+      TData
+    >
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetKiosksCheckinsQueryOptions(options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetKiosksCheckinsQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Retrieve total points of a passholder by chip number.
@@ -499,57 +611,98 @@ The device id of the kiosk must be specicied in the `x-custom-token` header.
  * @summary Retrieve total points of a passholder by chip number
  */
 export const getKiosksChipNumbersChipNumber = (
-    chipNumber: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<KioskPass>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/kiosk-devices/chip-numbers/${chipNumber}`,options
-    );
-  }
+  chipNumber: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<KioskPass>> => {
+  return axios.get(
+    `NEXT_PUBLIC_API_PATH/kiosk-devices/chip-numbers/${chipNumber}`,
+    options
+  );
+};
 
-
-export const getGetKiosksChipNumbersChipNumberQueryKey = (chipNumber: string,) => {
-    return [`NEXT_PUBLIC_API_PATH/kiosk-devices/chip-numbers/${chipNumber}`] as const;
-    }
-
-    
-export const getGetKiosksChipNumbersChipNumberQueryOptions = <TData = Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(chipNumber: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getGetKiosksChipNumbersChipNumberQueryKey = (
+  chipNumber: string
 ) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/kiosk-devices/chip-numbers/${chipNumber}`,
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getGetKiosksChipNumbersChipNumberQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  chipNumber: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetKiosksChipNumbersChipNumberQueryKey(chipNumber);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetKiosksChipNumbersChipNumberQueryKey(chipNumber);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>
+  > = ({ signal }) =>
+    getKiosksChipNumbersChipNumber(chipNumber, { signal, ...axiosOptions });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>> = ({ signal }) => getKiosksChipNumbersChipNumber(chipNumber, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!chipNumber,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(chipNumber), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetKiosksChipNumbersChipNumberQueryResult = NonNullable<Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>>
-export type GetKiosksChipNumbersChipNumberQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetKiosksChipNumbersChipNumberQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>
+>;
+export type GetKiosksChipNumbersChipNumberQueryError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
 /**
  * @summary Retrieve total points of a passholder by chip number
  */
-export const useGetKiosksChipNumbersChipNumber = <TData = Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- chipNumber: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetKiosksChipNumbersChipNumber = <
+  TData = Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+>(
+  chipNumber: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKiosksChipNumbersChipNumber>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetKiosksChipNumbersChipNumberQueryOptions(
+    chipNumber,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetKiosksChipNumbersChipNumberQueryOptions(chipNumber,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

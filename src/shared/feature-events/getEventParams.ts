@@ -1,22 +1,22 @@
-import { dateToISODateTimeString } from "@/shared/lib/utils";
-import dayjs from "dayjs";
-import { GetEventsParams } from "@/shared/lib/dataAccess/search/generated/model";
+import { dateToISODateTimeString } from '@/shared/lib/utils';
+import dayjs from 'dayjs';
+import { GetEventsParams } from '@/shared/lib/dataAccess/search/generated/model';
 
 export const getEventParams = (): GetEventsParams => {
-  const dateFrom = dateToISODateTimeString(dayjs().startOf("day").toDate());
+  const dateFrom = dateToISODateTimeString(dayjs().startOf('day').toDate());
   const dateTo = dateToISODateTimeString(
-    dayjs().add(30, "days").startOf("day").toDate()
+    dayjs().add(30, 'days').startOf('day').toDate()
   );
 
   return {
     embed: true,
-    audienceType: "*",
+    audienceType: '*',
     uitpas: true,
     dateFrom: dateFrom,
     dateTo: dateTo,
-    availableFrom: "*",
-    availableTo: "*",
+    availableFrom: '*',
+    availableTo: '*',
     // @ts-expect-error Orval didn't include sort in generated types
-    sort: { availableTo: "asc" },
+    sort: { availableTo: 'asc' },
   };
 };

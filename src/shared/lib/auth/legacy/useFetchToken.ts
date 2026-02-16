@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { useConfig } from "@/shared/feature-config/context/useConfig";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
-const queryKey = ["token"];
+const queryKey = ['token'];
 export const useFetchToken = () => {
   const { publicRuntimeConfig } = useConfig();
   const queryClient = useQueryClient();

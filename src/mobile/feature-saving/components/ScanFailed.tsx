@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { MobileNavBar } from "@/mobile/layouts";
-import { WarningAmber } from "@mui/icons-material";
+import { MobileNavBar } from '@/mobile/layouts';
+import { WarningAmber } from '@mui/icons-material';
 import {
   Button,
   OutlinedButton,
   MobileContentStack,
   Typography,
-} from "@/mobile/lib/ui";
-import { Stack } from "@mui/material";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { useActivity } from "@/mobile/feature-activities/useActivity";
+} from '@/mobile/lib/ui';
+import { Stack } from '@mui/material';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { useActivity } from '@/mobile/feature-activities/useActivity';
 
 type ScanFailedProps = {
   errorMessage?: string;
@@ -32,16 +32,16 @@ export const ScanFailed = ({ errorMessage }: ScanFailedProps) => {
     <MobileNavBar>
       <MobileContentStack
         sx={{
-          justifyContent: "space-between",
-          pb: "26px",
+          justifyContent: 'space-between',
+          pb: '26px',
         }}
       >
         <Stack
-          sx={{ alignItems: "center", rowGap: "20px", margin: "auto auto" }}
+          sx={{ alignItems: 'center', rowGap: '20px', margin: 'auto auto' }}
         >
           <WarningAmber
             sx={(theme) => ({
-              fontSize: "48px",
+              fontSize: '48px',
               color: theme.palette.error.main,
             })}
           />
@@ -56,11 +56,11 @@ export const ScanFailed = ({ errorMessage }: ScanFailedProps) => {
         </Stack>
 
         <Stack rowGap="18px">
-          <Button sx={{ height: "44px" }} onClick={handleTryAgainClick}>
-            {t("saving.mobile.failure.tryAgainBtn")}
+          <Button sx={{ height: '44px' }} onClick={handleTryAgainClick}>
+            {t('saving.mobile.failure.tryAgainBtn')}
           </Button>
           <OutlinedButton onClick={handleInputCardNoClick}>
-            {t("saving.mobile.failure.inputCardNoBtn")}
+            {t('saving.mobile.failure.inputCardNoBtn')}
           </OutlinedButton>
         </Stack>
       </MobileContentStack>

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { ScanPage } from "@/mobile/feature-identification/scan";
+import { ScanPage } from '@/mobile/feature-identification/scan';
 
 const Scan = () => <ScanPage />;
 
