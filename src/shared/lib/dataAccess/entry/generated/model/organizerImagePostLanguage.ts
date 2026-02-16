@@ -10,8 +10,8 @@
  * The language of the image or description.
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type OrganizerImagePostLanguage =
-  (typeof OrganizerImagePostLanguage)[keyof typeof OrganizerImagePostLanguage];
+export type OrganizerImagePostLanguage = typeof OrganizerImagePostLanguage[keyof typeof OrganizerImagePostLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerImagePostLanguage = {

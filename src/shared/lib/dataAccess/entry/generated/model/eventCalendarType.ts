@@ -19,8 +19,8 @@ Possible values: `single`, `multiple`, `periodic`, `permanent`.
 
 - **permanent**: Not recommended for events, consider creating a [place](./models/place.json) instead. Can optionally have [openingHours](./models/event-openingHours.json). [Here is a detailed guide](./entry-api/shared/calendar-info#calendartype) with more information.
  */
-export type EventCalendarType =
-  (typeof EventCalendarType)[keyof typeof EventCalendarType];
+export type EventCalendarType = typeof EventCalendarType[keyof typeof EventCalendarType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventCalendarType = {

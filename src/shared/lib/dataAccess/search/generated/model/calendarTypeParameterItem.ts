@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type CalendarTypeParameterItem =
-  (typeof CalendarTypeParameterItem)[keyof typeof CalendarTypeParameterItem];
+export type CalendarTypeParameterItem = typeof CalendarTypeParameterItem[keyof typeof CalendarTypeParameterItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CalendarTypeParameterItem = {

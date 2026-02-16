@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EventLanguagesItem =
-  (typeof EventLanguagesItem)[keyof typeof EventLanguagesItem];
+export type EventLanguagesItem = typeof EventLanguagesItem[keyof typeof EventLanguagesItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventLanguagesItem = {

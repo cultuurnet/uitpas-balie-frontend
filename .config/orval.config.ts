@@ -1,24 +1,24 @@
-import { defineConfig } from "orval";
+import { defineConfig } from 'orval';
 
 export default defineConfig({
   uitpas: {
     input: {
       target:
-        "https://stoplight.io/api/v1/projects/publiq/uitpas/nodes/reference/uitpas.json?deref=optimizedBundle&branch=unreleased",
+        'https://stoplight.io/api/v1/projects/publiq/uitpas/nodes/reference/uitpas.json?deref=optimizedBundle&branch=unreleased',
     },
     output: {
-      mode: "tags-split",
-      target: "../src/shared/lib/dataAccess/uitpas/generated/uitpas.ts",
-      schemas: "../src/shared/lib/dataAccess/uitpas/generated/model",
-      client: "react-query",
+      mode: 'tags-split',
+      target: '../src/shared/lib/dataAccess/uitpas/generated/uitpas.ts',
+      schemas: '../src/shared/lib/dataAccess/uitpas/generated/model',
+      client: 'react-query',
       mock: false,
-      baseUrl: "NEXT_PUBLIC_API_PATH",
+      baseUrl: 'NEXT_PUBLIC_API_PATH',
       override: {
         operations: {
-          "get-rewards": {
+          'get-rewards': {
             query: {
               useInfinite: true,
-              useInfiniteQueryParam: "start",
+              useInfiniteQueryParam: 'start',
             },
           },
         },
@@ -28,29 +28,29 @@ export default defineConfig({
   search: {
     input: {
       target:
-        "https://stoplight.io/api/v1/projects/publiq/uitdatabank/nodes/reference/search.json?deref=optimizedBundle",
+        'https://stoplight.io/api/v1/projects/publiq/uitdatabank/nodes/reference/search.json?deref=optimizedBundle',
     },
     output: {
-      mode: "tags-split",
-      target: "../src/shared/lib/dataAccess/search/generated/search.ts",
-      schemas: "../src/shared/lib/dataAccess/search/generated/model",
-      client: "react-query",
+      mode: 'tags-split',
+      target: '../src/shared/lib/dataAccess/search/generated/search.ts',
+      schemas: '../src/shared/lib/dataAccess/search/generated/model',
+      client: 'react-query',
       mock: false,
-      baseUrl: "NEXT_PUBLIC_SEARCH_API_PATH",
+      baseUrl: 'NEXT_PUBLIC_SEARCH_API_PATH',
     },
   },
   entry: {
     input: {
       target:
-        "https://stoplight.io/api/v1/projects/publiq/uitdatabank/nodes/reference/entry.json?deref=optimizedBundle",
+        'https://stoplight.io/api/v1/projects/publiq/uitdatabank/nodes/reference/entry.json?deref=optimizedBundle',
     },
     output: {
-      mode: "tags-split",
-      target: "../src/shared/lib/dataAccess/entry/generated/entry.ts",
-      schemas: "../src/shared/lib/dataAccess/entry/generated/model",
-      client: "react-query",
+      mode: 'tags-split',
+      target: '../src/shared/lib/dataAccess/entry/generated/entry.ts',
+      schemas: '../src/shared/lib/dataAccess/entry/generated/model',
+      client: 'react-query',
       mock: false,
-      baseUrl: "NEXT_PUBLIC_ENTRY_API_PATH",
+      baseUrl: 'NEXT_PUBLIC_ENTRY_API_PATH',
     },
   },
 });

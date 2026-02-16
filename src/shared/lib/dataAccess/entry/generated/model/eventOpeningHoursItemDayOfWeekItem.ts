@@ -9,8 +9,8 @@
 /**
  * A single weekday.
  */
-export type EventOpeningHoursItemDayOfWeekItem =
-  (typeof EventOpeningHoursItemDayOfWeekItem)[keyof typeof EventOpeningHoursItemDayOfWeekItem];
+export type EventOpeningHoursItemDayOfWeekItem = typeof EventOpeningHoursItemDayOfWeekItem[keyof typeof EventOpeningHoursItemDayOfWeekItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventOpeningHoursItemDayOfWeekItem = {

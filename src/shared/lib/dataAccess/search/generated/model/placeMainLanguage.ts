@@ -11,8 +11,8 @@
 
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type PlaceMainLanguage =
-  (typeof PlaceMainLanguage)[keyof typeof PlaceMainLanguage];
+export type PlaceMainLanguage = typeof PlaceMainLanguage[keyof typeof PlaceMainLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceMainLanguage = {

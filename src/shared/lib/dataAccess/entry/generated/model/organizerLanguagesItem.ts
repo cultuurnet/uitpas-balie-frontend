@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type OrganizerLanguagesItem =
-  (typeof OrganizerLanguagesItem)[keyof typeof OrganizerLanguagesItem];
+export type OrganizerLanguagesItem = typeof OrganizerLanguagesItem[keyof typeof OrganizerLanguagesItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerLanguagesItem = {

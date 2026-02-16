@@ -12,8 +12,8 @@
 - `Available`:Tickets or reservations available
 - `Unavailable`: No more tickets or reservations available.
  */
-export type EventBookingAvailabilityType =
-  (typeof EventBookingAvailabilityType)[keyof typeof EventBookingAvailabilityType];
+export type EventBookingAvailabilityType = typeof EventBookingAvailabilityType[keyof typeof EventBookingAvailabilityType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventBookingAvailabilityType = {

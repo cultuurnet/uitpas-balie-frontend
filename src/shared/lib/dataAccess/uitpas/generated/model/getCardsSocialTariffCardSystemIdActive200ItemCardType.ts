@@ -7,14 +7,12 @@
  */
 
 /**
- * Indicates the types of online cardless registrations this cardsystem supports.
+ * Type of the card
  */
-export type CardSystemCardlessRegistrationType = typeof CardSystemCardlessRegistrationType[keyof typeof CardSystemCardlessRegistrationType];
+export type GetCardsSocialTariffCardSystemIdActive200ItemCardType = typeof GetCardsSocialTariffCardSystemIdActive200ItemCardType[keyof typeof GetCardsSocialTariffCardSystemIdActive200ItemCardType];
 
 
-export const CardSystemCardlessRegistrationType = {
-  ALL: 'ALL',
+export const GetCardsSocialTariffCardSystemIdActive200ItemCardType = {
   REGULAR: 'REGULAR',
-  SOCIALTARIFF: 'SOCIALTARIFF',
-  NONE: 'NONE',
+  GROUP: 'GROUP',
 } as const;

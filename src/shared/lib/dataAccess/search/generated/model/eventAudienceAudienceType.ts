@@ -9,8 +9,8 @@
 /**
  * Indicates whether the event or place is accessible to `everyone`, `members` only, or `education` only.
  */
-export type EventAudienceAudienceType =
-  (typeof EventAudienceAudienceType)[keyof typeof EventAudienceAudienceType];
+export type EventAudienceAudienceType = typeof EventAudienceAudienceType[keyof typeof EventAudienceAudienceType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventAudienceAudienceType = {

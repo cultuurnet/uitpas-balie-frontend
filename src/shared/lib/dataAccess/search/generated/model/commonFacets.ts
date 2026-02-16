@@ -54,6 +54,4 @@ For example a list of facets for the `regions` filter can be:
 
 If the user then selects "Vlaams-Brabant (22)" to see the 22 results in Vlaams-Brabant, the `regions` filter should be applied with the value `prv-vlaams-brabant`.
  */
-export interface CommonFacets {
-  [key: string]: CommonFacet;
-}
+export interface CommonFacets {[key: string]: CommonFacet}

@@ -9,8 +9,8 @@
 /**
  * @pattern ^[a-z][a-z]$
  */
-export type MainLanguageParameter =
-  (typeof MainLanguageParameter)[keyof typeof MainLanguageParameter];
+export type MainLanguageParameter = typeof MainLanguageParameter[keyof typeof MainLanguageParameter];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MainLanguageParameter = {

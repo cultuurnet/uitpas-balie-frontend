@@ -5,85 +5,85 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import { useQuery } from '@tanstack/react-query';
+import {
+  useQuery
+} from '@tanstack/react-query'
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   NotFoundResponse,
   UnauthorizedResponse,
-  UserGet200,
-} from '.././model';
+  UserGet200
+} from '.././model'
+
+
 
 /**
  * Returns the details of the current user.
  * @summary current user - get
  */
 export const userGet = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<UserGet200>> => {
-  return axios.get(`NEXT_PUBLIC_ENTRY_API_PATH/user`, options);
-};
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<UserGet200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_ENTRY_API_PATH/user`,options
+    );
+  }
+
 
 export const getUserGetQueryKey = () => {
-  return [`NEXT_PUBLIC_ENTRY_API_PATH/user`] as const;
-};
+    return [`NEXT_PUBLIC_ENTRY_API_PATH/user`] as const;
+    }
 
-export const getUserGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof userGet>>,
-  TError = AxiosError<UnauthorizedResponse | NotFoundResponse>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof userGet>>, TError, TData>
-  >;
-  axios?: AxiosRequestConfig;
-}) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+    
+export const getUserGetQueryOptions = <TData = Awaited<ReturnType<typeof userGet>>, TError = AxiosError<UnauthorizedResponse | NotFoundResponse>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
 
-  const queryKey = queryOptions?.queryKey ?? getUserGetQueryKey();
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof userGet>>> = ({
-    signal,
-  }) => userGet({ signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getUserGetQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof userGet>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type UserGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof userGet>>
->;
-export type UserGetQueryError = AxiosError<
-  UnauthorizedResponse | NotFoundResponse
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof userGet>>> = ({ signal }) => userGet({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof userGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type UserGetQueryResult = NonNullable<Awaited<ReturnType<typeof userGet>>>
+export type UserGetQueryError = AxiosError<UnauthorizedResponse | NotFoundResponse>
 
 /**
  * @summary current user - get
  */
-export const useUserGet = <
-  TData = Awaited<ReturnType<typeof userGet>>,
-  TError = AxiosError<UnauthorizedResponse | NotFoundResponse>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof userGet>>, TError, TData>
-  >;
-  axios?: AxiosRequestConfig;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getUserGetQueryOptions(options);
+export const useUserGet = <TData = Awaited<ReturnType<typeof userGet>>, TError = AxiosError<UnauthorizedResponse | NotFoundResponse>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof userGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getUserGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+

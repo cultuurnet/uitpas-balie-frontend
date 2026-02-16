@@ -5,7 +5,10 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
@@ -13,10 +16,14 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   Error,
   ForbiddenResponse,
@@ -24,161 +31,127 @@ import type {
   ImagePost201,
   ImagePostBody,
   NotFoundResponse,
-  UnauthorizedResponse,
-} from '.././model';
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * Uploads an image, which you can later link to one or more events, places, and organizers. Only images up to 21 million bytes (~ 20 MB) are allowed. The expected image format is `.png`, `.jpeg` or `.gif`.
  * @summary image - upload
  */
 export const imagePost = (
-  imagePostBody: ImagePostBody,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<ImagePost201>> => {
-  const formData = new FormData();
-  formData.append('file', imagePostBody.file);
-  formData.append('description', imagePostBody.description);
-  formData.append('copyrightHolder', imagePostBody.copyrightHolder);
-  formData.append('language', imagePostBody.language);
+    imagePostBody: ImagePostBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<ImagePost201>> => {const formData = new FormData();
+formData.append('file', imagePostBody.file)
+formData.append('description', imagePostBody.description)
+formData.append('copyrightHolder', imagePostBody.copyrightHolder)
+formData.append('language', imagePostBody.language)
 
-  return axios.post(`NEXT_PUBLIC_ENTRY_API_PATH/images`, formData, options);
-};
+    
+    return axios.post(
+      `NEXT_PUBLIC_ENTRY_API_PATH/images`,
+      formData,options
+    );
+  }
 
-export const getImagePostMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof imagePost>>,
-    TError,
-    { data: ImagePostBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof imagePost>>,
-  TError,
-  { data: ImagePostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof imagePost>>,
-    { data: ImagePostBody }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return imagePost(data, axiosOptions);
-  };
+export const getImagePostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type ImagePostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof imagePost>>
->;
-export type ImagePostMutationBody = ImagePostBody;
-export type ImagePostMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof imagePost>>, {data: ImagePostBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  imagePost(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof imagePost>>>
+    export type ImagePostMutationBody = ImagePostBody
+    export type ImagePostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @summary image - upload
  */
-export const useImagePost = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof imagePost>>,
-    TError,
-    { data: ImagePostBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof imagePost>>,
-  TError,
-  { data: ImagePostBody },
-  TContext
-> => {
-  const mutationOptions = getImagePostMutationOptions(options);
+export const useImagePost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof imagePost>>,
+        TError,
+        {data: ImagePostBody},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getImagePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Returns the details of the image for the given `imageId`.
  * @summary image - get
  */
 export const imageGet = (
-  imageId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<Image>> => {
-  return axios.get(`NEXT_PUBLIC_ENTRY_API_PATH/images/${imageId}`, options);
-};
-
-export const getImageGetQueryKey = (imageId: string) => {
-  return [`NEXT_PUBLIC_ENTRY_API_PATH/images/${imageId}`] as const;
-};
-
-export const getImageGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof imageGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  imageId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
+    imageId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<Image>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_ENTRY_API_PATH/images/${imageId}`,options
+    );
   }
+
+
+export const getImageGetQueryKey = (imageId: string,) => {
+    return [`NEXT_PUBLIC_ENTRY_API_PATH/images/${imageId}`] as const;
+    }
+
+    
+export const getImageGetQueryOptions = <TData = Awaited<ReturnType<typeof imageGet>>, TError = AxiosError<NotFoundResponse>>(imageId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getImageGetQueryKey(imageId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof imageGet>>> = ({
-    signal,
-  }) => imageGet(imageId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getImageGetQueryKey(imageId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!imageId,
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData> & {
-    queryKey: QueryKey;
-  };
-};
+  
 
-export type ImageGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof imageGet>>
->;
-export type ImageGetQueryError = AxiosError<NotFoundResponse>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof imageGet>>> = ({ signal }) => imageGet(imageId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(imageId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ImageGetQueryResult = NonNullable<Awaited<ReturnType<typeof imageGet>>>
+export type ImageGetQueryError = AxiosError<NotFoundResponse>
 
 /**
  * @summary image - get
  */
-export const useImageGet = <
-  TData = Awaited<ReturnType<typeof imageGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  imageId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getImageGetQueryOptions(imageId, options);
+export const useImageGet = <TData = Awaited<ReturnType<typeof imageGet>>, TError = AxiosError<NotFoundResponse>>(
+ imageId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof imageGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getImageGetQueryOptions(imageId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+

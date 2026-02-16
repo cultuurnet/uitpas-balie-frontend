@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type SortAvailableToParameter =
-  (typeof SortAvailableToParameter)[keyof typeof SortAvailableToParameter];
+export type SortAvailableToParameter = typeof SortAvailableToParameter[keyof typeof SortAvailableToParameter];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SortAvailableToParameter = {

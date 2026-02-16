@@ -17,8 +17,8 @@ Can be one of four types:
 - `REJECTED`: Rejected, will be hidden from all publication channels. Only possible if you have moderation permissions.
 - `DELETED`: Removed and should not be visible on any publication channels.
  */
-export type EventWorkflowStatus =
-  (typeof EventWorkflowStatus)[keyof typeof EventWorkflowStatus];
+export type EventWorkflowStatus = typeof EventWorkflowStatus[keyof typeof EventWorkflowStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventWorkflowStatus = {

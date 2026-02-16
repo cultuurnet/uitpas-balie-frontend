@@ -9,8 +9,8 @@
 /**
  * The currency of the price. Currently only `EUR` is supported.
  */
-export type EventPriceInfoItemAllOfPriceCurrency =
-  (typeof EventPriceInfoItemAllOfPriceCurrency)[keyof typeof EventPriceInfoItemAllOfPriceCurrency];
+export type EventPriceInfoItemAllOfPriceCurrency = typeof EventPriceInfoItemAllOfPriceCurrency[keyof typeof EventPriceInfoItemAllOfPriceCurrency];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventPriceInfoItemAllOfPriceCurrency = {

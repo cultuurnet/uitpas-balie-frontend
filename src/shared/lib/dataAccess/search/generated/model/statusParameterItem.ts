@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type StatusParameterItem =
-  (typeof StatusParameterItem)[keyof typeof StatusParameterItem];
+export type StatusParameterItem = typeof StatusParameterItem[keyof typeof StatusParameterItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const StatusParameterItem = {

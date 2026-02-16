@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type GroupByParameter =
-  (typeof GroupByParameter)[keyof typeof GroupByParameter];
+export type GroupByParameter = typeof GroupByParameter[keyof typeof GroupByParameter];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GroupByParameter = {

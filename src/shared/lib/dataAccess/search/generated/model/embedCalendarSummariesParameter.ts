@@ -10,5 +10,4 @@ import type { EmbedCalendarSummariesParameterItem } from './embedCalendarSummari
 /**
  * Adds an extra `calendarSummary` property to the results that contains one or more formatted human-readable summaries of the date/time info of the result. May be repeated to include multiple summaries per result. See the operation's description above for more info on how to repeat parameters.
  */
-export type EmbedCalendarSummariesParameter =
-  EmbedCalendarSummariesParameterItem[];
+export type EmbedCalendarSummariesParameter = EmbedCalendarSummariesParameterItem[];

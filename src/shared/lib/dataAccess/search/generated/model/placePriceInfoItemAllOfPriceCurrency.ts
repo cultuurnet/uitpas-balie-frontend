@@ -9,8 +9,8 @@
 /**
  * The currency of the price. Currently only `EUR` is supported.
  */
-export type PlacePriceInfoItemAllOfPriceCurrency =
-  (typeof PlacePriceInfoItemAllOfPriceCurrency)[keyof typeof PlacePriceInfoItemAllOfPriceCurrency];
+export type PlacePriceInfoItemAllOfPriceCurrency = typeof PlacePriceInfoItemAllOfPriceCurrency[keyof typeof PlacePriceInfoItemAllOfPriceCurrency];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlacePriceInfoItemAllOfPriceCurrency = {

@@ -14,8 +14,8 @@ One of three possible status types.
 - `TemporarilyUnavailable`: The subEvent will be postponed
 - `Unavailable`: The subEvent is permanently cancelled
  */
-export type EventSubEventPatchItemStatusType =
-  (typeof EventSubEventPatchItemStatusType)[keyof typeof EventSubEventPatchItemStatusType];
+export type EventSubEventPatchItemStatusType = typeof EventSubEventPatchItemStatusType[keyof typeof EventSubEventPatchItemStatusType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventSubEventPatchItemStatusType = {

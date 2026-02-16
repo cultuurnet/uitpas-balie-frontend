@@ -5,15 +5,21 @@
  * With UiTdatabank's Search API you can search events, places and organizers.
  * OpenAPI spec version: 3.0
  */
-import { useQuery } from '@tanstack/react-query';
+import {
+  useQuery
+} from '@tanstack/react-query'
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   ForbiddenResponse,
   GetEvents200,
@@ -23,8 +29,10 @@ import type {
   GetPlaces200,
   GetPlacesParams,
   NotFoundResponse,
-  UnauthorizedResponse,
-} from '.././model';
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * Returns a paginated list of events that match the given filters.
@@ -45,85 +53,61 @@ Add `embedCalendarSummaries` to have an extra property `calendarSummary` in the 
  * @summary Search events
  */
 export const getEvents = (
-  params?: GetEventsParams,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetEvents200>> => {
-  return axios.get(`NEXT_PUBLIC_SEARCH_API_PATH/events`, {
+    params?: GetEventsParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetEvents200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_SEARCH_API_PATH/events`,{
     ...options,
-    params: { ...params, ...options?.params },
-  });
-};
-
-export const getGetEventsQueryKey = (params?: GetEventsParams) => {
-  return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/events`,
-    ...(params ? [params] : []),
-  ] as const;
-};
-
-export const getGetEventsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getEvents>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetEventsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getEvents>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
+        params: {...params, ...options?.params},}
+    );
   }
+
+
+export const getGetEventsQueryKey = (params?: GetEventsParams,) => {
+    return [`NEXT_PUBLIC_SEARCH_API_PATH/events`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetEventsQueryOptions = <TData = Awaited<ReturnType<typeof getEvents>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(params?: GetEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEvents>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetEventsQueryKey(params);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getEvents>>> = ({
-    signal,
-  }) => getEvents(params, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetEventsQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getEvents>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetEventsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getEvents>>
->;
-export type GetEventsQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEvents>>> = ({ signal }) => getEvents(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEvents>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetEventsQueryResult = NonNullable<Awaited<ReturnType<typeof getEvents>>>
+export type GetEventsQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
 
 /**
  * @summary Search events
  */
-export const useGetEvents = <
-  TData = Awaited<ReturnType<typeof getEvents>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetEventsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getEvents>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetEventsQueryOptions(params, options);
+export const useGetEvents = <TData = Awaited<ReturnType<typeof getEvents>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(
+ params?: GetEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEvents>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetEventsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
 
 /**
  * Returns a paginated list of both events and places that match the given filters.
@@ -142,85 +126,61 @@ Other `array[string]` parameters without the `[]` suffix support multiple comma-
  * @summary Search events & places (offers)
  */
 export const getOffers = (
-  params?: GetOffersParams,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetOffers200>> => {
-  return axios.get(`NEXT_PUBLIC_SEARCH_API_PATH/offers`, {
+    params?: GetOffersParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetOffers200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_SEARCH_API_PATH/offers`,{
     ...options,
-    params: { ...params, ...options?.params },
-  });
-};
-
-export const getGetOffersQueryKey = (params?: GetOffersParams) => {
-  return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/offers`,
-    ...(params ? [params] : []),
-  ] as const;
-};
-
-export const getGetOffersQueryOptions = <
-  TData = Awaited<ReturnType<typeof getOffers>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetOffersParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getOffers>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
+        params: {...params, ...options?.params},}
+    );
   }
+
+
+export const getGetOffersQueryKey = (params?: GetOffersParams,) => {
+    return [`NEXT_PUBLIC_SEARCH_API_PATH/offers`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetOffersQueryOptions = <TData = Awaited<ReturnType<typeof getOffers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(params?: GetOffersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOffers>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetOffersQueryKey(params);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getOffers>>> = ({
-    signal,
-  }) => getOffers(params, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetOffersQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getOffers>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetOffersQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getOffers>>
->;
-export type GetOffersQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOffers>>> = ({ signal }) => getOffers(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOffers>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetOffersQueryResult = NonNullable<Awaited<ReturnType<typeof getOffers>>>
+export type GetOffersQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
 
 /**
  * @summary Search events & places (offers)
  */
-export const useGetOffers = <
-  TData = Awaited<ReturnType<typeof getOffers>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetOffersParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getOffers>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetOffersQueryOptions(params, options);
+export const useGetOffers = <TData = Awaited<ReturnType<typeof getOffers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(
+ params?: GetOffersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOffers>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetOffersQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
 
 /**
  * Returns a paginated list of places that match the given filters.
@@ -242,82 +202,59 @@ Add `embedCalendarSummaries` to have an extra property `calendarSummary` in the 
  * @summary Search places
  */
 export const getPlaces = (
-  params?: GetPlacesParams,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetPlaces200>> => {
-  return axios.get(`NEXT_PUBLIC_SEARCH_API_PATH/places`, {
+    params?: GetPlacesParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<GetPlaces200>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_SEARCH_API_PATH/places`,{
     ...options,
-    params: { ...params, ...options?.params },
-  });
-};
-
-export const getGetPlacesQueryKey = (params?: GetPlacesParams) => {
-  return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/places`,
-    ...(params ? [params] : []),
-  ] as const;
-};
-
-export const getGetPlacesQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPlaces>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetPlacesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getPlaces>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
+        params: {...params, ...options?.params},}
+    );
   }
+
+
+export const getGetPlacesQueryKey = (params?: GetPlacesParams,) => {
+    return [`NEXT_PUBLIC_SEARCH_API_PATH/places`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetPlacesQueryOptions = <TData = Awaited<ReturnType<typeof getPlaces>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(params?: GetPlacesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlaces>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetPlacesQueryKey(params);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getPlaces>>> = ({
-    signal,
-  }) => getPlaces(params, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getGetPlacesQueryKey(params);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPlaces>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type GetPlacesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getPlaces>>
->;
-export type GetPlacesQueryError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPlaces>>> = ({ signal }) => getPlaces(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPlaces>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPlacesQueryResult = NonNullable<Awaited<ReturnType<typeof getPlaces>>>
+export type GetPlacesQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
 
 /**
  * @summary Search places
  */
-export const useGetPlaces = <
-  TData = Awaited<ReturnType<typeof getPlaces>>,
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
->(
-  params?: GetPlacesParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getPlaces>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getGetPlacesQueryOptions(params, options);
+export const useGetPlaces = <TData = Awaited<ReturnType<typeof getPlaces>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(
+ params?: GetPlacesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPlaces>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getGetPlacesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+

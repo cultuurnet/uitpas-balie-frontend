@@ -10,5 +10,4 @@ import type { WorkflowStatusOrganizerParameterItem } from './workflowStatusOrgan
 /**
  * Returns only results with exactly the same workflow status as the given enum value. Accepts multiple comma-separated values to return results that have one of the given workflow statuses. Defaults to only return results that have the workflow status `ACTIVE`. The default value can be reset by setting the parameter to `*`. See (the guide about default filters)[../docs/search-api/common-filters/default-filters.md] for more information.
  */
-export type WorkflowStatusOrganizerParameter =
-  WorkflowStatusOrganizerParameterItem[];
+export type WorkflowStatusOrganizerParameter = WorkflowStatusOrganizerParameterItem[];

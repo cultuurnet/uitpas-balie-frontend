@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type PlaceCompletedLanguagesItem =
-  (typeof PlaceCompletedLanguagesItem)[keyof typeof PlaceCompletedLanguagesItem];
+export type PlaceCompletedLanguagesItem = typeof PlaceCompletedLanguagesItem[keyof typeof PlaceCompletedLanguagesItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCompletedLanguagesItem = {

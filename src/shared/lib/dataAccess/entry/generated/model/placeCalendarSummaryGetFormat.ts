@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type PlaceCalendarSummaryGetFormat =
-  (typeof PlaceCalendarSummaryGetFormat)[keyof typeof PlaceCalendarSummaryGetFormat];
+export type PlaceCalendarSummaryGetFormat = typeof PlaceCalendarSummaryGetFormat[keyof typeof PlaceCalendarSummaryGetFormat];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCalendarSummaryGetFormat = {

@@ -11,8 +11,8 @@
 
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type EventMainLanguage =
-  (typeof EventMainLanguage)[keyof typeof EventMainLanguage];
+export type EventMainLanguage = typeof EventMainLanguage[keyof typeof EventMainLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventMainLanguage = {

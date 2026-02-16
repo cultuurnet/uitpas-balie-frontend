@@ -8,6 +8,4 @@
 import type { EventCalendarPut } from './eventCalendarPut';
 import type { EventCalendarPutDeprecated } from './eventCalendarPutDeprecated';
 
-export type EventCalendarPutBody =
-  | EventCalendarPut
-  | EventCalendarPutDeprecated;
+export type EventCalendarPutBody = EventCalendarPut | EventCalendarPutDeprecated;

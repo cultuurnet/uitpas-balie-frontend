@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type FacetsParameterItem =
-  (typeof FacetsParameterItem)[keyof typeof FacetsParameterItem];
+export type FacetsParameterItem = typeof FacetsParameterItem[keyof typeof FacetsParameterItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FacetsParameterItem = {

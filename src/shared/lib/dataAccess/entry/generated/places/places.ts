@@ -5,7 +5,10 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
@@ -13,10 +16,14 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from '@tanstack/react-query';
-import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+  UseQueryResult
+} from '@tanstack/react-query'
+import axios from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse
+} from 'axios'
 import type {
   CommonOfferContactPoint,
   Error,
@@ -50,8 +57,10 @@ import type {
   PlaceWithReadExample,
   PlaceWithWriteExample,
   PlaceWorkflowStatusPut,
-  UnauthorizedResponse,
-} from '.././model';
+  UnauthorizedResponse
+} from '.././model'
+
+
 
 /**
  * Creates a new place with the required properties and any additional optional properties.
@@ -62,154 +71,114 @@ To ensure data integrity and avoid duplication within the system, each place mus
  * @summary place - create
  */
 export const placePost = (
-  placePost: PlacePost,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlacePost201>> => {
-  return axios.post(`NEXT_PUBLIC_ENTRY_API_PATH/places`, placePost, options);
-};
+    placePost: PlacePost, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlacePost201>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places`,
+      placePost,options
+    );
+  }
 
-export const getPlacePostMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePost>>,
-    TError,
-    { data: PlacePost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placePost>>,
-  TError,
-  { data: PlacePost },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placePost>>,
-    { data: PlacePost }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return placePost(data, axiosOptions);
-  };
+export const getPlacePostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePost>>, TError,{data: PlacePost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placePost>>, TError,{data: PlacePost}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlacePostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placePost>>
->;
-export type PlacePostMutationBody = PlacePost;
-export type PlacePostMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placePost>>, {data: PlacePost}> = (props) => {
+          const {data} = props ?? {};
+
+          return  placePost(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlacePostMutationResult = NonNullable<Awaited<ReturnType<typeof placePost>>>
+    export type PlacePostMutationBody = PlacePost
+    export type PlacePostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409>
+
+    /**
  * @summary place - create
  */
-export const usePlacePost = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePost>>,
-    TError,
-    { data: PlacePost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placePost>>,
-  TError,
-  { data: PlacePost },
-  TContext
-> => {
-  const mutationOptions = getPlacePostMutationOptions(options);
+export const usePlacePost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | PlacePost409>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePost>>, TError,{data: PlacePost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placePost>>,
+        TError,
+        {data: PlacePost},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlacePostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Returns the details of the place for the given `placeId`.
  * @summary place - get
  */
 export const placeGet = (
-  placeId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlaceWithReadExample>> => {
-  return axios.get(`NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`, options);
-};
-
-export const getPlaceGetQueryKey = (placeId: string) => {
-  return [`NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`] as const;
-};
-
-export const getPlaceGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof placeGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  placeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
+    placeId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlaceWithReadExample>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`,options
+    );
   }
+
+
+export const getPlaceGetQueryKey = (placeId: string,) => {
+    return [`NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`] as const;
+    }
+
+    
+export const getPlaceGetQueryOptions = <TData = Awaited<ReturnType<typeof placeGet>>, TError = AxiosError<NotFoundResponse>>(placeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getPlaceGetQueryKey(placeId);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof placeGet>>> = ({
-    signal,
-  }) => placeGet(placeId, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getPlaceGetQueryKey(placeId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!placeId,
-    ...queryOptions,
-  } as UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData> & {
-    queryKey: QueryKey;
-  };
-};
+  
 
-export type PlaceGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof placeGet>>
->;
-export type PlaceGetQueryError = AxiosError<NotFoundResponse>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof placeGet>>> = ({ signal }) => placeGet(placeId, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(placeId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type PlaceGetQueryResult = NonNullable<Awaited<ReturnType<typeof placeGet>>>
+export type PlaceGetQueryError = AxiosError<NotFoundResponse>
 
 /**
  * @summary place - get
  */
-export const usePlaceGet = <
-  TData = Awaited<ReturnType<typeof placeGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  placeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData>
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getPlaceGetQueryOptions(placeId, options);
+export const usePlaceGet = <TData = Awaited<ReturnType<typeof placeGet>>, TError = AxiosError<NotFoundResponse>>(
+ placeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof placeGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getPlaceGetQueryOptions(placeId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
 
 /**
  * Updates the place with the given `placeId` by completely overwriting it with the properties in the given JSON. 
@@ -222,163 +191,112 @@ export const usePlaceGet = <
  * @summary place - update
  */
 export const placePut = (
-  placeId: string,
-  placeWithWriteExample: PlaceWithWriteExample,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlacePut200>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`,
-    placeWithWriteExample,
-    options
-  );
-};
+    placeId: string,
+    placeWithWriteExample: PlaceWithWriteExample, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlacePut200>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`,
+      placeWithWriteExample,options
+    );
+  }
 
-export const getPlacePutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePut>>,
-    TError,
-    { placeId: string; data: PlaceWithWriteExample },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placePut>>,
-  TError,
-  { placeId: string; data: PlaceWithWriteExample },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placePut>>,
-    { placeId: string; data: PlaceWithWriteExample }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placePut(placeId, data, axiosOptions);
-  };
+export const getPlacePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePut>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placePut>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlacePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placePut>>
->;
-export type PlacePutMutationBody = PlaceWithWriteExample;
-export type PlacePutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placePut>>, {placeId: string;data: PlaceWithWriteExample}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placePut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlacePutMutationResult = NonNullable<Awaited<ReturnType<typeof placePut>>>
+    export type PlacePutMutationBody = PlaceWithWriteExample
+    export type PlacePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary place - update
  */
-export const usePlacePut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePut>>,
-    TError,
-    { placeId: string; data: PlaceWithWriteExample },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placePut>>,
-  TError,
-  { placeId: string; data: PlaceWithWriteExample },
-  TContext
-> => {
-  const mutationOptions = getPlacePutMutationOptions(options);
+export const usePlacePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePut>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placePut>>,
+        TError,
+        {placeId: string;data: PlaceWithWriteExample},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlacePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Does a soft-delete of the place. The place will continue to exist but it's `workflowStatus` will be changed to `DELETED`. This will remove it from all publication channels.
  * @summary place - delete
  */
 export const placeDelete = (
-  placeId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(`NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`, options);
-};
+    placeId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}`,options
+    );
+  }
 
-export const getPlaceDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDelete>>,
-    TError,
-    { placeId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeDelete>>,
-  TError,
-  { placeId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeDelete>>,
-    { placeId: string }
-  > = (props) => {
-    const { placeId } = props ?? {};
 
-    return placeDelete(placeId, axiosOptions);
-  };
+export const getPlaceDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDelete>>, TError,{placeId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeDelete>>, TError,{placeId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeDelete>>
->;
 
-export type PlaceDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeDelete>>, {placeId: string}> = (props) => {
+          const {placeId} = props ?? {};
 
-/**
+          return  placeDelete(placeId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeDelete>>>
+    
+    export type PlaceDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary place - delete
  */
-export const usePlaceDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDelete>>,
-    TError,
-    { placeId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeDelete>>,
-  TError,
-  { placeId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceDeleteMutationOptions(options);
+export const usePlaceDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDelete>>, TError,{placeId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeDelete>>,
+        TError,
+        {placeId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Creates a new place via the historical `/imports/places` URL.
 
 <!-- theme: danger -->
@@ -394,81 +312,58 @@ export const usePlaceDelete = <
  * @summary place - import (create)
  */
 export const placeImportCreate = (
-  placeImportCreateBody: PlaceImportCreateBody,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlaceImportCreate201>> => {
-  return axios.post(
-    `NEXT_PUBLIC_ENTRY_API_PATH/imports/places`,
-    placeImportCreateBody,
-    options
-  );
-};
+    placeImportCreateBody: PlaceImportCreateBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlaceImportCreate201>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_ENTRY_API_PATH/imports/places`,
+      placeImportCreateBody,options
+    );
+  }
 
-export const getPlaceImportCreateMutationOptions = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImportCreate>>,
-    TError,
-    { data: PlaceImportCreateBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeImportCreate>>,
-  TError,
-  { data: PlaceImportCreateBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeImportCreate>>,
-    { data: PlaceImportCreateBody }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return placeImportCreate(data, axiosOptions);
-  };
+export const getPlaceImportCreateMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImportCreate>>, TError,{data: PlaceImportCreateBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeImportCreate>>, TError,{data: PlaceImportCreateBody}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceImportCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeImportCreate>>
->;
-export type PlaceImportCreateMutationBody = PlaceImportCreateBody;
-export type PlaceImportCreateMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeImportCreate>>, {data: PlaceImportCreateBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  placeImportCreate(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceImportCreateMutationResult = NonNullable<Awaited<ReturnType<typeof placeImportCreate>>>
+    export type PlaceImportCreateMutationBody = PlaceImportCreateBody
+    export type PlaceImportCreateMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+
+    /**
  * @deprecated
  * @summary place - import (create)
  */
-export const usePlaceImportCreate = <
-  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImportCreate>>,
-    TError,
-    { data: PlaceImportCreateBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeImportCreate>>,
-  TError,
-  { data: PlaceImportCreateBody },
-  TContext
-> => {
-  const mutationOptions = getPlaceImportCreateMutationOptions(options);
+export const usePlaceImportCreate = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImportCreate>>, TError,{data: PlaceImportCreateBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeImportCreate>>,
+        TError,
+        {data: PlaceImportCreateBody},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceImportCreateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the place via the historical `/imports/places/{placeId}` URL by completely overwriting it with the properties in the given JSON. 
 
 <!-- theme: danger -->
@@ -478,273 +373,172 @@ export const usePlaceImportCreate = <
  * @summary place - import (update)
  */
 export const placeImportUpdate = (
-  placeId: string,
-  placeWithWriteExample: PlaceWithWriteExample,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlaceImportUpdate200>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/imports/places/${placeId}`,
-    placeWithWriteExample,
-    options
-  );
-};
+    placeId: string,
+    placeWithWriteExample: PlaceWithWriteExample, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlaceImportUpdate200>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/imports/places/${placeId}`,
+      placeWithWriteExample,options
+    );
+  }
 
-export const getPlaceImportUpdateMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImportUpdate>>,
-    TError,
-    { placeId: string; data: PlaceWithWriteExample },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeImportUpdate>>,
-  TError,
-  { placeId: string; data: PlaceWithWriteExample },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeImportUpdate>>,
-    { placeId: string; data: PlaceWithWriteExample }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeImportUpdate(placeId, data, axiosOptions);
-  };
+export const getPlaceImportUpdateMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImportUpdate>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeImportUpdate>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceImportUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeImportUpdate>>
->;
-export type PlaceImportUpdateMutationBody = PlaceWithWriteExample;
-export type PlaceImportUpdateMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeImportUpdate>>, {placeId: string;data: PlaceWithWriteExample}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeImportUpdate(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceImportUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof placeImportUpdate>>>
+    export type PlaceImportUpdateMutationBody = PlaceWithWriteExample
+    export type PlaceImportUpdateMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @deprecated
  * @summary place - import (update)
  */
-export const usePlaceImportUpdate = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImportUpdate>>,
-    TError,
-    { placeId: string; data: PlaceWithWriteExample },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeImportUpdate>>,
-  TError,
-  { placeId: string; data: PlaceWithWriteExample },
-  TContext
-> => {
-  const mutationOptions = getPlaceImportUpdateMutationOptions(options);
+export const usePlaceImportUpdate = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImportUpdate>>, TError,{placeId: string;data: PlaceWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeImportUpdate>>,
+        TError,
+        {placeId: string;data: PlaceWithWriteExample},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceImportUpdateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the address of a place.
  * @summary address - update
  */
 export const placeAddressPut = (
-  placeId: string,
-  language: 'nl' | 'fr' | 'en' | 'de',
-  placeAddressPut: PlaceAddressPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/address/${language}`,
-    placeAddressPut,
-    options
-  );
-};
+    placeId: string,
+    language: 'nl' | 'fr' | 'en' | 'de',
+    placeAddressPut: PlaceAddressPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/address/${language}`,
+      placeAddressPut,options
+    );
+  }
 
-export const getPlaceAddressPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeAddressPut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceAddressPut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeAddressPut>>,
-  TError,
-  {
-    placeId: string;
-    language: 'nl' | 'fr' | 'en' | 'de';
-    data: PlaceAddressPut;
-  },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeAddressPut>>,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceAddressPut;
-    }
-  > = (props) => {
-    const { placeId, language, data } = props ?? {};
 
-    return placeAddressPut(placeId, language, data, axiosOptions);
-  };
+export const getPlaceAddressPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeAddressPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceAddressPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeAddressPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceAddressPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceAddressPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeAddressPut>>
->;
-export type PlaceAddressPutMutationBody = PlaceAddressPut;
-export type PlaceAddressPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeAddressPut>>, {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceAddressPut}> = (props) => {
+          const {placeId,language,data} = props ?? {};
+
+          return  placeAddressPut(placeId,language,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceAddressPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeAddressPut>>>
+    export type PlaceAddressPutMutationBody = PlaceAddressPut
+    export type PlaceAddressPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary address - update
  */
-export const usePlaceAddressPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeAddressPut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceAddressPut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeAddressPut>>,
-  TError,
-  {
-    placeId: string;
-    language: 'nl' | 'fr' | 'en' | 'de';
-    data: PlaceAddressPut;
-  },
-  TContext
-> => {
-  const mutationOptions = getPlaceAddressPutMutationOptions(options);
+export const usePlaceAddressPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeAddressPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceAddressPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeAddressPut>>,
+        TError,
+        {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceAddressPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceAddressPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the availableFrom of the place. This is the first date & time that the place is allowed to be visible on publication channels.
  * @summary availableFrom - update
  */
 export const placeAvailableFromPut = (
-  placeId: string,
-  placeAvailableFromPut: PlaceAvailableFromPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/available-from`,
-    placeAvailableFromPut,
-    options
-  );
-};
+    placeId: string,
+    placeAvailableFromPut: PlaceAvailableFromPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/available-from`,
+      placeAvailableFromPut,options
+    );
+  }
 
-export const getPlaceAvailableFromPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeAvailableFromPut>>,
-    TError,
-    { placeId: string; data: PlaceAvailableFromPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeAvailableFromPut>>,
-  TError,
-  { placeId: string; data: PlaceAvailableFromPut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeAvailableFromPut>>,
-    { placeId: string; data: PlaceAvailableFromPut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeAvailableFromPut(placeId, data, axiosOptions);
-  };
+export const getPlaceAvailableFromPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeAvailableFromPut>>, TError,{placeId: string;data: PlaceAvailableFromPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeAvailableFromPut>>, TError,{placeId: string;data: PlaceAvailableFromPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceAvailableFromPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeAvailableFromPut>>
->;
-export type PlaceAvailableFromPutMutationBody = PlaceAvailableFromPut;
-export type PlaceAvailableFromPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeAvailableFromPut>>, {placeId: string;data: PlaceAvailableFromPut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeAvailableFromPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceAvailableFromPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeAvailableFromPut>>>
+    export type PlaceAvailableFromPutMutationBody = PlaceAvailableFromPut
+    export type PlaceAvailableFromPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary availableFrom - update
  */
-export const usePlaceAvailableFromPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeAvailableFromPut>>,
-    TError,
-    { placeId: string; data: PlaceAvailableFromPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeAvailableFromPut>>,
-  TError,
-  { placeId: string; data: PlaceAvailableFromPut },
-  TContext
-> => {
-  const mutationOptions = getPlaceAvailableFromPutMutationOptions(options);
+export const usePlaceAvailableFromPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeAvailableFromPut>>, TError,{placeId: string;data: PlaceAvailableFromPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeAvailableFromPut>>,
+        TError,
+        {placeId: string;data: PlaceAvailableFromPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceAvailableFromPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the bookingInfo for a place.
 
 <!-- theme: info -->
@@ -753,85 +547,58 @@ export const usePlaceAvailableFromPut = <
  * @summary bookingInfo - update
  */
 export const placeBookingInfoPut = (
-  placeId: string,
-  placeBookingInfo: PlaceBookingInfo,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/booking-info`,
-    placeBookingInfo,
-    options
-  );
-};
+    placeId: string,
+    placeBookingInfo: PlaceBookingInfo, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/booking-info`,
+      placeBookingInfo,options
+    );
+  }
 
-export const getPlaceBookingInfoPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeBookingInfoPut>>,
-    TError,
-    { placeId: string; data: PlaceBookingInfo },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeBookingInfoPut>>,
-  TError,
-  { placeId: string; data: PlaceBookingInfo },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeBookingInfoPut>>,
-    { placeId: string; data: PlaceBookingInfo }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeBookingInfoPut(placeId, data, axiosOptions);
-  };
+export const getPlaceBookingInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeBookingInfoPut>>, TError,{placeId: string;data: PlaceBookingInfo}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeBookingInfoPut>>, TError,{placeId: string;data: PlaceBookingInfo}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceBookingInfoPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeBookingInfoPut>>
->;
-export type PlaceBookingInfoPutMutationBody = PlaceBookingInfo;
-export type PlaceBookingInfoPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeBookingInfoPut>>, {placeId: string;data: PlaceBookingInfo}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeBookingInfoPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceBookingInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeBookingInfoPut>>>
+    export type PlaceBookingInfoPutMutationBody = PlaceBookingInfo
+    export type PlaceBookingInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary bookingInfo - update
  */
-export const usePlaceBookingInfoPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeBookingInfoPut>>,
-    TError,
-    { placeId: string; data: PlaceBookingInfo },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeBookingInfoPut>>,
-  TError,
-  { placeId: string; data: PlaceBookingInfo },
-  TContext
-> => {
-  const mutationOptions = getPlaceBookingInfoPutMutationOptions(options);
+export const usePlaceBookingInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeBookingInfoPut>>, TError,{placeId: string;data: PlaceBookingInfo}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeBookingInfoPut>>,
+        TError,
+        {placeId: string;data: PlaceBookingInfo},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceBookingInfoPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the calendar information of the given `placeId`. The calendar information will be completely replaced with the new one.
 
 The required properties depend on the `calendarType` property.
@@ -851,193 +618,123 @@ The required properties depend on the `calendarType` property.
  * @summary calendar - update
  */
 export const placeCalendarPut = (
-  placeId: string,
-  placeCalendarPut: PlaceCalendarPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar`,
-    placeCalendarPut,
-    options
-  );
-};
+    placeId: string,
+    placeCalendarPut: PlaceCalendarPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar`,
+      placeCalendarPut,options
+    );
+  }
 
-export const getPlaceCalendarPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeCalendarPut>>,
-    TError,
-    { placeId: string; data: PlaceCalendarPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeCalendarPut>>,
-  TError,
-  { placeId: string; data: PlaceCalendarPut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeCalendarPut>>,
-    { placeId: string; data: PlaceCalendarPut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeCalendarPut(placeId, data, axiosOptions);
-  };
+export const getPlaceCalendarPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeCalendarPut>>, TError,{placeId: string;data: PlaceCalendarPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeCalendarPut>>, TError,{placeId: string;data: PlaceCalendarPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceCalendarPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeCalendarPut>>
->;
-export type PlaceCalendarPutMutationBody = PlaceCalendarPut;
-export type PlaceCalendarPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeCalendarPut>>, {placeId: string;data: PlaceCalendarPut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeCalendarPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceCalendarPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeCalendarPut>>>
+    export type PlaceCalendarPutMutationBody = PlaceCalendarPut
+    export type PlaceCalendarPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary calendar - update
  */
-export const usePlaceCalendarPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeCalendarPut>>,
-    TError,
-    { placeId: string; data: PlaceCalendarPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeCalendarPut>>,
-  TError,
-  { placeId: string; data: PlaceCalendarPut },
-  TContext
-> => {
-  const mutationOptions = getPlaceCalendarPutMutationOptions(options);
+export const usePlaceCalendarPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeCalendarPut>>, TError,{placeId: string;data: PlaceCalendarPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeCalendarPut>>,
+        TError,
+        {placeId: string;data: PlaceCalendarPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceCalendarPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Returns a human-readable summary of the calendar information of the place. Can be configured to return either plain text or HTML, and to switch between four different formats depending on the amount of space you have to display it.
 
 > For backward compatibility this endpoint is also accessible at the old abbreviated `/places/{placeId}/calsum` path.
  * @summary calendar summary - get
  */
 export const placeCalendarSummaryGet = (
-  placeId: string,
-  params?: PlaceCalendarSummaryGetParams,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.get(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar-summary`,
-    {
-      ...options,
-      params: { ...params, ...options?.params },
-    }
-  );
-};
-
-export const getPlaceCalendarSummaryGetQueryKey = (
-  placeId: string,
-  params?: PlaceCalendarSummaryGetParams
-) => {
-  return [
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar-summary`,
-    ...(params ? [params] : []),
-  ] as const;
-};
-
-export const getPlaceCalendarSummaryGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof placeCalendarSummaryGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  placeId: string,
-  params?: PlaceCalendarSummaryGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof placeCalendarSummaryGet>>,
-        TError,
-        TData
-      >
-    >;
-    axios?: AxiosRequestConfig;
+    placeId: string,
+    params?: PlaceCalendarSummaryGetParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.get(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar-summary`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
   }
+
+
+export const getPlaceCalendarSummaryGetQueryKey = (placeId: string,
+    params?: PlaceCalendarSummaryGetParams,) => {
+    return [`NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/calendar-summary`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getPlaceCalendarSummaryGetQueryOptions = <TData = Awaited<ReturnType<typeof placeCalendarSummaryGet>>, TError = AxiosError<NotFoundResponse>>(placeId: string,
+    params?: PlaceCalendarSummaryGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof placeCalendarSummaryGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getPlaceCalendarSummaryGetQueryKey(placeId, params);
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof placeCalendarSummaryGet>>
-  > = ({ signal }) =>
-    placeCalendarSummaryGet(placeId, params, { signal, ...axiosOptions });
+  const queryKey =  queryOptions?.queryKey ?? getPlaceCalendarSummaryGetQueryKey(placeId,params);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!placeId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof placeCalendarSummaryGet>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type PlaceCalendarSummaryGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof placeCalendarSummaryGet>>
->;
-export type PlaceCalendarSummaryGetQueryError = AxiosError<NotFoundResponse>;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof placeCalendarSummaryGet>>> = ({ signal }) => placeCalendarSummaryGet(placeId,params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(placeId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof placeCalendarSummaryGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type PlaceCalendarSummaryGetQueryResult = NonNullable<Awaited<ReturnType<typeof placeCalendarSummaryGet>>>
+export type PlaceCalendarSummaryGetQueryError = AxiosError<NotFoundResponse>
 
 /**
  * @summary calendar summary - get
  */
-export const usePlaceCalendarSummaryGet = <
-  TData = Awaited<ReturnType<typeof placeCalendarSummaryGet>>,
-  TError = AxiosError<NotFoundResponse>,
->(
-  placeId: string,
-  params?: PlaceCalendarSummaryGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof placeCalendarSummaryGet>>,
-        TError,
-        TData
-      >
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getPlaceCalendarSummaryGetQueryOptions(
-    placeId,
-    params,
-    options
-  );
+export const usePlaceCalendarSummaryGet = <TData = Awaited<ReturnType<typeof placeCalendarSummaryGet>>, TError = AxiosError<NotFoundResponse>>(
+ placeId: string,
+    params?: PlaceCalendarSummaryGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof placeCalendarSummaryGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  query.queryKey = queryOptions.queryKey;
+  const queryOptions = getPlaceCalendarSummaryGetQueryOptions(placeId,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
 
 /**
  * Updates the contact point information of the place with the given `placeId`.
@@ -1052,85 +749,58 @@ export const usePlaceCalendarSummaryGet = <
  * @summary contactPoint - update
  */
 export const placeContactPointPut = (
-  placeId: string,
-  commonOfferContactPoint: CommonOfferContactPoint,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/contact-point`,
-    commonOfferContactPoint,
-    options
-  );
-};
+    placeId: string,
+    commonOfferContactPoint: CommonOfferContactPoint, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/contact-point`,
+      commonOfferContactPoint,options
+    );
+  }
 
-export const getPlaceContactPointPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeContactPointPut>>,
-    TError,
-    { placeId: string; data: CommonOfferContactPoint },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeContactPointPut>>,
-  TError,
-  { placeId: string; data: CommonOfferContactPoint },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeContactPointPut>>,
-    { placeId: string; data: CommonOfferContactPoint }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeContactPointPut(placeId, data, axiosOptions);
-  };
+export const getPlaceContactPointPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeContactPointPut>>, TError,{placeId: string;data: CommonOfferContactPoint}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeContactPointPut>>, TError,{placeId: string;data: CommonOfferContactPoint}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceContactPointPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeContactPointPut>>
->;
-export type PlaceContactPointPutMutationBody = CommonOfferContactPoint;
-export type PlaceContactPointPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeContactPointPut>>, {placeId: string;data: CommonOfferContactPoint}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeContactPointPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceContactPointPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeContactPointPut>>>
+    export type PlaceContactPointPutMutationBody = CommonOfferContactPoint
+    export type PlaceContactPointPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary contactPoint - update
  */
-export const usePlaceContactPointPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeContactPointPut>>,
-    TError,
-    { placeId: string; data: CommonOfferContactPoint },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeContactPointPut>>,
-  TError,
-  { placeId: string; data: CommonOfferContactPoint },
-  TContext
-> => {
-  const mutationOptions = getPlaceContactPointPutMutationOptions(options);
+export const usePlaceContactPointPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeContactPointPut>>, TError,{placeId: string;data: CommonOfferContactPoint}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeContactPointPut>>,
+        TError,
+        {placeId: string;data: CommonOfferContactPoint},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceContactPointPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the localized description of a place based on the given `placeId` and `language` inside the URL. The description is not limited in size, but it is recommended to use the first 200 characters of the description for promotional copy as these characters are visible in the list-view of results.
 
 <!-- theme: info -->
@@ -1143,190 +813,116 @@ export const usePlaceContactPointPut = <
  * @summary description - update
  */
 export const placeDescriptionPut = (
-  placeId: string,
-  language: 'nl' | 'fr' | 'en' | 'de',
-  placeDescriptionPut: PlaceDescriptionPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/description/${language}`,
-    placeDescriptionPut,
-    options
-  );
-};
+    placeId: string,
+    language: 'nl' | 'fr' | 'en' | 'de',
+    placeDescriptionPut: PlaceDescriptionPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/description/${language}`,
+      placeDescriptionPut,options
+    );
+  }
 
-export const getPlaceDescriptionPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDescriptionPut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceDescriptionPut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeDescriptionPut>>,
-  TError,
-  {
-    placeId: string;
-    language: 'nl' | 'fr' | 'en' | 'de';
-    data: PlaceDescriptionPut;
-  },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeDescriptionPut>>,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceDescriptionPut;
-    }
-  > = (props) => {
-    const { placeId, language, data } = props ?? {};
 
-    return placeDescriptionPut(placeId, language, data, axiosOptions);
-  };
+export const getPlaceDescriptionPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceDescriptionPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceDescriptionPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeDescriptionPut>>
->;
-export type PlaceDescriptionPutMutationBody = PlaceDescriptionPut;
-export type PlaceDescriptionPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeDescriptionPut>>, {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceDescriptionPut}> = (props) => {
+          const {placeId,language,data} = props ?? {};
+
+          return  placeDescriptionPut(placeId,language,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceDescriptionPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeDescriptionPut>>>
+    export type PlaceDescriptionPutMutationBody = PlaceDescriptionPut
+    export type PlaceDescriptionPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary description - update
  */
-export const usePlaceDescriptionPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDescriptionPut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceDescriptionPut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeDescriptionPut>>,
-  TError,
-  {
-    placeId: string;
-    language: 'nl' | 'fr' | 'en' | 'de';
-    data: PlaceDescriptionPut;
-  },
-  TContext
-> => {
-  const mutationOptions = getPlaceDescriptionPutMutationOptions(options);
+export const usePlaceDescriptionPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionPut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeDescriptionPut>>,
+        TError,
+        {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceDescriptionPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceDescriptionPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Deletes the localized description of a place based on the given `placeId` and `language` inside the URL. 
 
 <!-- theme: info -->
  * @summary description - delete
  */
 export const placeDescriptionDelete = (
-  placeId: string,
-  language: 'nl' | 'fr' | 'en' | 'de',
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/description/${language}`,
-    options
-  );
-};
+    placeId: string,
+    language: 'nl' | 'fr' | 'en' | 'de', options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/description/${language}`,options
+    );
+  }
 
-export const getPlaceDescriptionDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDescriptionDelete>>,
-    TError,
-    { placeId: string; language: 'nl' | 'fr' | 'en' | 'de' },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeDescriptionDelete>>,
-  TError,
-  { placeId: string; language: 'nl' | 'fr' | 'en' | 'de' },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeDescriptionDelete>>,
-    { placeId: string; language: 'nl' | 'fr' | 'en' | 'de' }
-  > = (props) => {
-    const { placeId, language } = props ?? {};
 
-    return placeDescriptionDelete(placeId, language, axiosOptions);
-  };
+export const getPlaceDescriptionDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionDelete>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionDelete>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceDescriptionDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeDescriptionDelete>>
->;
 
-export type PlaceDescriptionDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeDescriptionDelete>>, {placeId: string;language: 'nl' | 'fr' | 'en' | 'de'}> = (props) => {
+          const {placeId,language} = props ?? {};
 
-/**
+          return  placeDescriptionDelete(placeId,language,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceDescriptionDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeDescriptionDelete>>>
+    
+    export type PlaceDescriptionDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary description - delete
  */
-export const usePlaceDescriptionDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeDescriptionDelete>>,
-    TError,
-    { placeId: string; language: 'nl' | 'fr' | 'en' | 'de' },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeDescriptionDelete>>,
-  TError,
-  { placeId: string; language: 'nl' | 'fr' | 'en' | 'de' },
-  TContext
-> => {
-  const mutationOptions = getPlaceDescriptionDeleteMutationOptions(options);
+export const usePlaceDescriptionDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeDescriptionDelete>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeDescriptionDelete>>,
+        TError,
+        {placeId: string;language: 'nl' | 'fr' | 'en' | 'de'},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceDescriptionDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the list of available (accessibility) facilities on the place. These will show up in the [place's `terms`](/models/place-terms.json).
 
 A list of possible facilities can be found using our [guide about taxonomy terms](../docs/taxonomy-api/terms.md).
@@ -1335,413 +931,282 @@ A list of possible facilities can be found using our [guide about taxonomy terms
  * @summary facilities - update
  */
 export const placeFacilitiesPut = (
-  placeId: string,
-  placeFacilitiesPut: PlaceFacilitiesPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/facilities`,
-    placeFacilitiesPut,
-    options
-  );
-};
+    placeId: string,
+    placeFacilitiesPut: PlaceFacilitiesPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/facilities`,
+      placeFacilitiesPut,options
+    );
+  }
 
-export const getPlaceFacilitiesPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeFacilitiesPut>>,
-    TError,
-    { placeId: string; data: PlaceFacilitiesPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeFacilitiesPut>>,
-  TError,
-  { placeId: string; data: PlaceFacilitiesPut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeFacilitiesPut>>,
-    { placeId: string; data: PlaceFacilitiesPut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeFacilitiesPut(placeId, data, axiosOptions);
-  };
+export const getPlaceFacilitiesPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeFacilitiesPut>>, TError,{placeId: string;data: PlaceFacilitiesPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeFacilitiesPut>>, TError,{placeId: string;data: PlaceFacilitiesPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceFacilitiesPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeFacilitiesPut>>
->;
-export type PlaceFacilitiesPutMutationBody = PlaceFacilitiesPut;
-export type PlaceFacilitiesPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeFacilitiesPut>>, {placeId: string;data: PlaceFacilitiesPut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeFacilitiesPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceFacilitiesPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeFacilitiesPut>>>
+    export type PlaceFacilitiesPutMutationBody = PlaceFacilitiesPut
+    export type PlaceFacilitiesPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary facilities - update
  */
-export const usePlaceFacilitiesPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeFacilitiesPut>>,
-    TError,
-    { placeId: string; data: PlaceFacilitiesPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeFacilitiesPut>>,
-  TError,
-  { placeId: string; data: PlaceFacilitiesPut },
-  TContext
-> => {
-  const mutationOptions = getPlaceFacilitiesPutMutationOptions(options);
+export const usePlaceFacilitiesPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeFacilitiesPut>>, TError,{placeId: string;data: PlaceFacilitiesPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeFacilitiesPut>>,
+        TError,
+        {placeId: string;data: PlaceFacilitiesPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceFacilitiesPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Adds an image to a place. To upload an image, use the [`POST /images`](./entry.json/paths/~1images/post) endpoint.
  * @summary images - add
  */
 export const placeImagesPost = (
-  placeId: string,
-  placeImagePost: PlaceImagePost,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.post(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images`,
-    placeImagePost,
-    options
-  );
-};
+    placeId: string,
+    placeImagePost: PlaceImagePost, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images`,
+      placeImagePost,options
+    );
+  }
 
-export const getPlaceImagesPostMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImagesPost>>,
-    TError,
-    { placeId: string; data: PlaceImagePost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeImagesPost>>,
-  TError,
-  { placeId: string; data: PlaceImagePost },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeImagesPost>>,
-    { placeId: string; data: PlaceImagePost }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeImagesPost(placeId, data, axiosOptions);
-  };
+export const getPlaceImagesPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImagesPost>>, TError,{placeId: string;data: PlaceImagePost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeImagesPost>>, TError,{placeId: string;data: PlaceImagePost}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceImagesPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeImagesPost>>
->;
-export type PlaceImagesPostMutationBody = PlaceImagePost;
-export type PlaceImagesPostMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeImagesPost>>, {placeId: string;data: PlaceImagePost}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeImagesPost(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof placeImagesPost>>>
+    export type PlaceImagesPostMutationBody = PlaceImagePost
+    export type PlaceImagesPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary images - add
  */
-export const usePlaceImagesPost = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImagesPost>>,
-    TError,
-    { placeId: string; data: PlaceImagePost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeImagesPost>>,
-  TError,
-  { placeId: string; data: PlaceImagePost },
-  TContext
-> => {
-  const mutationOptions = getPlaceImagesPostMutationOptions(options);
+export const usePlaceImagesPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImagesPost>>, TError,{placeId: string;data: PlaceImagePost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeImagesPost>>,
+        TError,
+        {placeId: string;data: PlaceImagePost},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceImagesPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Removes the image with the given `imageId` from the place's `mediaObject` property.
  * @summary images - delete
  */
 export const placeImageDelete = (
-  placeId: string,
-  imageId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/${imageId}`,
-    options
-  );
-};
+    placeId: string,
+    imageId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/${imageId}`,options
+    );
+  }
 
-export const getPlaceImageDeleteMutationOptions = <
-  TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImageDelete>>,
-    TError,
-    { placeId: string; imageId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeImageDelete>>,
-  TError,
-  { placeId: string; imageId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeImageDelete>>,
-    { placeId: string; imageId: string }
-  > = (props) => {
-    const { placeId, imageId } = props ?? {};
 
-    return placeImageDelete(placeId, imageId, axiosOptions);
-  };
+export const getPlaceImageDeleteMutationOptions = <TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImageDelete>>, TError,{placeId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeImageDelete>>, TError,{placeId: string;imageId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceImageDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeImageDelete>>
->;
 
-export type PlaceImageDeleteMutationError = AxiosError<
-  ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeImageDelete>>, {placeId: string;imageId: string}> = (props) => {
+          const {placeId,imageId} = props ?? {};
 
-/**
+          return  placeImageDelete(placeId,imageId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceImageDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeImageDelete>>>
+    
+    export type PlaceImageDeleteMutationError = AxiosError<ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary images - delete
  */
-export const usePlaceImageDelete = <
-  TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImageDelete>>,
-    TError,
-    { placeId: string; imageId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeImageDelete>>,
-  TError,
-  { placeId: string; imageId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceImageDeleteMutationOptions(options);
+export const usePlaceImageDelete = <TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImageDelete>>, TError,{placeId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeImageDelete>>,
+        TError,
+        {placeId: string;imageId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceImageDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the metadata of an image on a place.
  * @summary images - update
  */
 export const placeImagePut = (
-  placeId: string,
-  imageId: string,
-  placeImagePut: PlaceImagePut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/${imageId}`,
-    placeImagePut,
-    options
-  );
-};
+    placeId: string,
+    imageId: string,
+    placeImagePut: PlaceImagePut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/${imageId}`,
+      placeImagePut,options
+    );
+  }
 
-export const getPlaceImagePutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImagePut>>,
-    TError,
-    { placeId: string; imageId: string; data: PlaceImagePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeImagePut>>,
-  TError,
-  { placeId: string; imageId: string; data: PlaceImagePut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeImagePut>>,
-    { placeId: string; imageId: string; data: PlaceImagePut }
-  > = (props) => {
-    const { placeId, imageId, data } = props ?? {};
 
-    return placeImagePut(placeId, imageId, data, axiosOptions);
-  };
+export const getPlaceImagePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImagePut>>, TError,{placeId: string;imageId: string;data: PlaceImagePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeImagePut>>, TError,{placeId: string;imageId: string;data: PlaceImagePut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceImagePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeImagePut>>
->;
-export type PlaceImagePutMutationBody = PlaceImagePut;
-export type PlaceImagePutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeImagePut>>, {placeId: string;imageId: string;data: PlaceImagePut}> = (props) => {
+          const {placeId,imageId,data} = props ?? {};
+
+          return  placeImagePut(placeId,imageId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof placeImagePut>>>
+    export type PlaceImagePutMutationBody = PlaceImagePut
+    export type PlaceImagePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary images - update
  */
-export const usePlaceImagePut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeImagePut>>,
-    TError,
-    { placeId: string; imageId: string; data: PlaceImagePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeImagePut>>,
-  TError,
-  { placeId: string; imageId: string; data: PlaceImagePut },
-  TContext
-> => {
-  const mutationOptions = getPlaceImagePutMutationOptions(options);
+export const usePlaceImagePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeImagePut>>, TError,{placeId: string;imageId: string;data: PlaceImagePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeImagePut>>,
+        TError,
+        {placeId: string;imageId: string;data: PlaceImagePut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceImagePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the main image of a place. The main image is the only image shown in search-result listviews and the image more prominently displayed on place-details, when the place has multiple images.
  * @summary images main - update
  */
 export const placeMainImagePut = (
-  placeId: string,
-  placeMainImagePut: PlaceMainImagePut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/main`,
-    placeMainImagePut,
-    options
-  );
-};
+    placeId: string,
+    placeMainImagePut: PlaceMainImagePut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/images/main`,
+      placeMainImagePut,options
+    );
+  }
 
-export const getPlaceMainImagePutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeMainImagePut>>,
-    TError,
-    { placeId: string; data: PlaceMainImagePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeMainImagePut>>,
-  TError,
-  { placeId: string; data: PlaceMainImagePut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeMainImagePut>>,
-    { placeId: string; data: PlaceMainImagePut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeMainImagePut(placeId, data, axiosOptions);
-  };
+export const getPlaceMainImagePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeMainImagePut>>, TError,{placeId: string;data: PlaceMainImagePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeMainImagePut>>, TError,{placeId: string;data: PlaceMainImagePut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceMainImagePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeMainImagePut>>
->;
-export type PlaceMainImagePutMutationBody = PlaceMainImagePut;
-export type PlaceMainImagePutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeMainImagePut>>, {placeId: string;data: PlaceMainImagePut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeMainImagePut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceMainImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof placeMainImagePut>>>
+    export type PlaceMainImagePutMutationBody = PlaceMainImagePut
+    export type PlaceMainImagePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary images main - update
  */
-export const usePlaceMainImagePut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeMainImagePut>>,
-    TError,
-    { placeId: string; data: PlaceMainImagePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeMainImagePut>>,
-  TError,
-  { placeId: string; data: PlaceMainImagePut },
-  TContext
-> => {
-  const mutationOptions = getPlaceMainImagePutMutationOptions(options);
+export const usePlaceMainImagePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeMainImagePut>>, TError,{placeId: string;data: PlaceMainImagePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeMainImagePut>>,
+        TError,
+        {placeId: string;data: PlaceMainImagePut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceMainImagePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Adds the given label to the place with the given `placeId`.
 
 If the specified label does not exist yet in UiTdatabank a new label will be created with default visibility and public permissions (usable by anyone), and linked to the place.
@@ -1750,167 +1215,112 @@ The label must be longer than 1 character and shorter than 255 characters. The l
  * @summary labels - add
  */
 export const placesLabelsAdd = (
-  placeId: string,
-  labelName: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/labels/${labelName}`,
-    undefined,
-    options
-  );
-};
+    placeId: string,
+    labelName: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/labels/${labelName}`,undefined,options
+    );
+  }
 
-export const getPlacesLabelsAddMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placesLabelsAdd>>,
-    TError,
-    { placeId: string; labelName: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placesLabelsAdd>>,
-  TError,
-  { placeId: string; labelName: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placesLabelsAdd>>,
-    { placeId: string; labelName: string }
-  > = (props) => {
-    const { placeId, labelName } = props ?? {};
 
-    return placesLabelsAdd(placeId, labelName, axiosOptions);
-  };
+export const getPlacesLabelsAddMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placesLabelsAdd>>, TError,{placeId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placesLabelsAdd>>, TError,{placeId: string;labelName: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlacesLabelsAddMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placesLabelsAdd>>
->;
 
-export type PlacesLabelsAddMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placesLabelsAdd>>, {placeId: string;labelName: string}> = (props) => {
+          const {placeId,labelName} = props ?? {};
 
-/**
+          return  placesLabelsAdd(placeId,labelName,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlacesLabelsAddMutationResult = NonNullable<Awaited<ReturnType<typeof placesLabelsAdd>>>
+    
+    export type PlacesLabelsAddMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary labels - add
  */
-export const usePlacesLabelsAdd = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placesLabelsAdd>>,
-    TError,
-    { placeId: string; labelName: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placesLabelsAdd>>,
-  TError,
-  { placeId: string; labelName: string },
-  TContext
-> => {
-  const mutationOptions = getPlacesLabelsAddMutationOptions(options);
+export const usePlacesLabelsAdd = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placesLabelsAdd>>, TError,{placeId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placesLabelsAdd>>,
+        TError,
+        {placeId: string;labelName: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlacesLabelsAddMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Deletes a label from the `labels` or `hiddenLabels` property on an place based on the place id, the label name, and the label's visibility.
  * @summary labels - delete
  */
 export const placeLabelsDelete = (
-  placeId: string,
-  labelName: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/labels/${labelName}`,
-    options
-  );
-};
+    placeId: string,
+    labelName: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/labels/${labelName}`,options
+    );
+  }
 
-export const getPlaceLabelsDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeLabelsDelete>>,
-    TError,
-    { placeId: string; labelName: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeLabelsDelete>>,
-  TError,
-  { placeId: string; labelName: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeLabelsDelete>>,
-    { placeId: string; labelName: string }
-  > = (props) => {
-    const { placeId, labelName } = props ?? {};
 
-    return placeLabelsDelete(placeId, labelName, axiosOptions);
-  };
+export const getPlaceLabelsDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeLabelsDelete>>, TError,{placeId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeLabelsDelete>>, TError,{placeId: string;labelName: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceLabelsDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeLabelsDelete>>
->;
 
-export type PlaceLabelsDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeLabelsDelete>>, {placeId: string;labelName: string}> = (props) => {
+          const {placeId,labelName} = props ?? {};
 
-/**
+          return  placeLabelsDelete(placeId,labelName,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceLabelsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeLabelsDelete>>>
+    
+    export type PlaceLabelsDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary labels - delete
  */
-export const usePlaceLabelsDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeLabelsDelete>>,
-    TError,
-    { placeId: string; labelName: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeLabelsDelete>>,
-  TError,
-  { placeId: string; labelName: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceLabelsDeleteMutationOptions(options);
+export const usePlaceLabelsDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeLabelsDelete>>, TError,{placeId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeLabelsDelete>>,
+        TError,
+        {placeId: string;labelName: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceLabelsDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * <!-- theme: danger -->
 
 > The major-info endpoint is deprecated and should not be used in new integrations!
@@ -1933,260 +1343,171 @@ All properties are required (except for `theme`) and will overwrite existing val
  * @summary major-info - update
  */
 export const placeMajorInfoPut = (
-  placeId: string,
-  placeMajorInfoPutBody: PlaceMajorInfoPutBody,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/major-info`,
-    placeMajorInfoPutBody,
-    options
-  );
-};
+    placeId: string,
+    placeMajorInfoPutBody: PlaceMajorInfoPutBody, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/major-info`,
+      placeMajorInfoPutBody,options
+    );
+  }
 
-export const getPlaceMajorInfoPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeMajorInfoPut>>,
-    TError,
-    { placeId: string; data: PlaceMajorInfoPutBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeMajorInfoPut>>,
-  TError,
-  { placeId: string; data: PlaceMajorInfoPutBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeMajorInfoPut>>,
-    { placeId: string; data: PlaceMajorInfoPutBody }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeMajorInfoPut(placeId, data, axiosOptions);
-  };
+export const getPlaceMajorInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeMajorInfoPut>>, TError,{placeId: string;data: PlaceMajorInfoPutBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeMajorInfoPut>>, TError,{placeId: string;data: PlaceMajorInfoPutBody}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceMajorInfoPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeMajorInfoPut>>
->;
-export type PlaceMajorInfoPutMutationBody = PlaceMajorInfoPutBody;
-export type PlaceMajorInfoPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeMajorInfoPut>>, {placeId: string;data: PlaceMajorInfoPutBody}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeMajorInfoPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceMajorInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeMajorInfoPut>>>
+    export type PlaceMajorInfoPutMutationBody = PlaceMajorInfoPutBody
+    export type PlaceMajorInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @deprecated
  * @summary major-info - update
  */
-export const usePlaceMajorInfoPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeMajorInfoPut>>,
-    TError,
-    { placeId: string; data: PlaceMajorInfoPutBody },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeMajorInfoPut>>,
-  TError,
-  { placeId: string; data: PlaceMajorInfoPutBody },
-  TContext
-> => {
-  const mutationOptions = getPlaceMajorInfoPutMutationOptions(options);
+export const usePlaceMajorInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeMajorInfoPut>>, TError,{placeId: string;data: PlaceMajorInfoPutBody}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeMajorInfoPut>>,
+        TError,
+        {placeId: string;data: PlaceMajorInfoPutBody},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceMajorInfoPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the localized name of a place based on the given `placeId` and `language` inside the URL.
  * @summary name - update
  */
 export const placeNamePut = (
-  placeId: string,
-  language: 'nl' | 'fr' | 'en' | 'de',
-  placeNamePut: PlaceNamePut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/name/${language}`,
-    placeNamePut,
-    options
-  );
-};
+    placeId: string,
+    language: 'nl' | 'fr' | 'en' | 'de',
+    placeNamePut: PlaceNamePut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/name/${language}`,
+      placeNamePut,options
+    );
+  }
 
-export const getPlaceNamePutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeNamePut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceNamePut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeNamePut>>,
-  TError,
-  { placeId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: PlaceNamePut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeNamePut>>,
-    { placeId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: PlaceNamePut }
-  > = (props) => {
-    const { placeId, language, data } = props ?? {};
 
-    return placeNamePut(placeId, language, data, axiosOptions);
-  };
+export const getPlaceNamePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeNamePut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceNamePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeNamePut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceNamePut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceNamePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeNamePut>>
->;
-export type PlaceNamePutMutationBody = PlaceNamePut;
-export type PlaceNamePutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeNamePut>>, {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceNamePut}> = (props) => {
+          const {placeId,language,data} = props ?? {};
+
+          return  placeNamePut(placeId,language,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceNamePutMutationResult = NonNullable<Awaited<ReturnType<typeof placeNamePut>>>
+    export type PlaceNamePutMutationBody = PlaceNamePut
+    export type PlaceNamePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary name - update
  */
-export const usePlaceNamePut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeNamePut>>,
-    TError,
-    {
-      placeId: string;
-      language: 'nl' | 'fr' | 'en' | 'de';
-      data: PlaceNamePut;
-    },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeNamePut>>,
-  TError,
-  { placeId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: PlaceNamePut },
-  TContext
-> => {
-  const mutationOptions = getPlaceNamePutMutationOptions(options);
+export const usePlaceNamePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeNamePut>>, TError,{placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceNamePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeNamePut>>,
+        TError,
+        {placeId: string;language: 'nl' | 'fr' | 'en' | 'de';data: PlaceNamePut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceNamePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Deletes the organizer of the place with the given `placeId`.
  * @summary organizer - delete
  */
 export const placeOrganizerDelete = (
-  placeId: string,
-  organizerId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/organizer/${organizerId}`,
-    options
-  );
-};
+    placeId: string,
+    organizerId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/organizer/${organizerId}`,options
+    );
+  }
 
-export const getPlaceOrganizerDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeOrganizerDelete>>,
-    TError,
-    { placeId: string; organizerId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeOrganizerDelete>>,
-  TError,
-  { placeId: string; organizerId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeOrganizerDelete>>,
-    { placeId: string; organizerId: string }
-  > = (props) => {
-    const { placeId, organizerId } = props ?? {};
 
-    return placeOrganizerDelete(placeId, organizerId, axiosOptions);
-  };
+export const getPlaceOrganizerDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerDelete>>, TError,{placeId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerDelete>>, TError,{placeId: string;organizerId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceOrganizerDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeOrganizerDelete>>
->;
 
-export type PlaceOrganizerDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeOrganizerDelete>>, {placeId: string;organizerId: string}> = (props) => {
+          const {placeId,organizerId} = props ?? {};
 
-/**
+          return  placeOrganizerDelete(placeId,organizerId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceOrganizerDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeOrganizerDelete>>>
+    
+    export type PlaceOrganizerDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary organizer - delete
  */
-export const usePlaceOrganizerDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeOrganizerDelete>>,
-    TError,
-    { placeId: string; organizerId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeOrganizerDelete>>,
-  TError,
-  { placeId: string; organizerId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceOrganizerDeleteMutationOptions(options);
+export const usePlaceOrganizerDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerDelete>>, TError,{placeId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeOrganizerDelete>>,
+        TError,
+        {placeId: string;organizerId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceOrganizerDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the organizer of the place with the given `placeId`. A list of organizers can be found using our [guide about finding existing organizers](/docs/entry-api/organizers/finding-and-reusing-organizers.md).
 
 <!-- theme: info -->
@@ -2195,251 +1516,169 @@ export const usePlaceOrganizerDelete = <
  * @summary organizer - update
  */
 export const placeOrganizerUpdate = (
-  placeId: string,
-  organizerId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/organizer/${organizerId}`,
-    undefined,
-    options
-  );
-};
+    placeId: string,
+    organizerId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/organizer/${organizerId}`,undefined,options
+    );
+  }
 
-export const getPlaceOrganizerUpdateMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeOrganizerUpdate>>,
-    TError,
-    { placeId: string; organizerId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeOrganizerUpdate>>,
-  TError,
-  { placeId: string; organizerId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeOrganizerUpdate>>,
-    { placeId: string; organizerId: string }
-  > = (props) => {
-    const { placeId, organizerId } = props ?? {};
 
-    return placeOrganizerUpdate(placeId, organizerId, axiosOptions);
-  };
+export const getPlaceOrganizerUpdateMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerUpdate>>, TError,{placeId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerUpdate>>, TError,{placeId: string;organizerId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceOrganizerUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeOrganizerUpdate>>
->;
 
-export type PlaceOrganizerUpdateMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeOrganizerUpdate>>, {placeId: string;organizerId: string}> = (props) => {
+          const {placeId,organizerId} = props ?? {};
 
-/**
+          return  placeOrganizerUpdate(placeId,organizerId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceOrganizerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof placeOrganizerUpdate>>>
+    
+    export type PlaceOrganizerUpdateMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary organizer - update
  */
-export const usePlaceOrganizerUpdate = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeOrganizerUpdate>>,
-    TError,
-    { placeId: string; organizerId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeOrganizerUpdate>>,
-  TError,
-  { placeId: string; organizerId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceOrganizerUpdateMutationOptions(options);
+export const usePlaceOrganizerUpdate = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeOrganizerUpdate>>, TError,{placeId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeOrganizerUpdate>>,
+        TError,
+        {placeId: string;organizerId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceOrganizerUpdateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the price info of a place.
  * @summary priceInfo - update
  */
 export const placePriceInfoPut = (
-  placeId: string,
-  placePriceInfo: PlacePriceInfo,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/price-info`,
-    placePriceInfo,
-    options
-  );
-};
+    placeId: string,
+    placePriceInfo: PlacePriceInfo, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/price-info`,
+      placePriceInfo,options
+    );
+  }
 
-export const getPlacePriceInfoPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePriceInfoPut>>,
-    TError,
-    { placeId: string; data: PlacePriceInfo },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placePriceInfoPut>>,
-  TError,
-  { placeId: string; data: PlacePriceInfo },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placePriceInfoPut>>,
-    { placeId: string; data: PlacePriceInfo }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placePriceInfoPut(placeId, data, axiosOptions);
-  };
+export const getPlacePriceInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePriceInfoPut>>, TError,{placeId: string;data: PlacePriceInfo}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placePriceInfoPut>>, TError,{placeId: string;data: PlacePriceInfo}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlacePriceInfoPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placePriceInfoPut>>
->;
-export type PlacePriceInfoPutMutationBody = PlacePriceInfo;
-export type PlacePriceInfoPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placePriceInfoPut>>, {placeId: string;data: PlacePriceInfo}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placePriceInfoPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlacePriceInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof placePriceInfoPut>>>
+    export type PlacePriceInfoPutMutationBody = PlacePriceInfo
+    export type PlacePriceInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary priceInfo - update
  */
-export const usePlacePriceInfoPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placePriceInfoPut>>,
-    TError,
-    { placeId: string; data: PlacePriceInfo },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placePriceInfoPut>>,
-  TError,
-  { placeId: string; data: PlacePriceInfo },
-  TContext
-> => {
-  const mutationOptions = getPlacePriceInfoPutMutationOptions(options);
+export const usePlacePriceInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placePriceInfoPut>>, TError,{placeId: string;data: PlacePriceInfo}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placePriceInfoPut>>,
+        TError,
+        {placeId: string;data: PlacePriceInfo},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlacePriceInfoPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the status on the top level of the place with the given `placeId`.
  * @summary status - update
  */
 export const placeStatusPut = (
-  placeId: string,
-  placeStatus: PlaceStatus,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/status`,
-    placeStatus,
-    options
-  );
-};
+    placeId: string,
+    placeStatus: PlaceStatus, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/status`,
+      placeStatus,options
+    );
+  }
 
-export const getPlaceStatusPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeStatusPut>>,
-    TError,
-    { placeId: string; data: PlaceStatus },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeStatusPut>>,
-  TError,
-  { placeId: string; data: PlaceStatus },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeStatusPut>>,
-    { placeId: string; data: PlaceStatus }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeStatusPut(placeId, data, axiosOptions);
-  };
+export const getPlaceStatusPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeStatusPut>>, TError,{placeId: string;data: PlaceStatus}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeStatusPut>>, TError,{placeId: string;data: PlaceStatus}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceStatusPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeStatusPut>>
->;
-export type PlaceStatusPutMutationBody = PlaceStatus;
-export type PlaceStatusPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeStatusPut>>, {placeId: string;data: PlaceStatus}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeStatusPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceStatusPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeStatusPut>>>
+    export type PlaceStatusPutMutationBody = PlaceStatus
+    export type PlaceStatusPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary status - update
  */
-export const usePlaceStatusPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeStatusPut>>,
-    TError,
-    { placeId: string; data: PlaceStatus },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeStatusPut>>,
-  TError,
-  { placeId: string; data: PlaceStatus },
-  TContext
-> => {
-  const mutationOptions = getPlaceStatusPutMutationOptions(options);
+export const usePlaceStatusPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeStatusPut>>, TError,{placeId: string;data: PlaceStatus}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeStatusPut>>,
+        TError,
+        {placeId: string;data: PlaceStatus},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceStatusPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the place's type (examples of types are `Bioscoop`, `Monument`, `Theater`, and so on) based on the given `placeId` and `termId`.
 
 Terms are pre-defined and can be found using our [guide about taxonomy terms](../docs/taxonomy-api/terms.md). Only terms from the `eventtype` domain can be used as place types.
@@ -2448,249 +1687,167 @@ If the `placeId` does not exist a `404 Not Found` will be returned. If the `term
  * @summary type - update
  */
 export const placeTypePut = (
-  placeId: string,
-  termId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/type/${termId}`,
-    undefined,
-    options
-  );
-};
+    placeId: string,
+    termId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/type/${termId}`,undefined,options
+    );
+  }
 
-export const getPlaceTypePutMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypePut>>,
-    TError,
-    { placeId: string; termId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeTypePut>>,
-  TError,
-  { placeId: string; termId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeTypePut>>,
-    { placeId: string; termId: string }
-  > = (props) => {
-    const { placeId, termId } = props ?? {};
 
-    return placeTypePut(placeId, termId, axiosOptions);
-  };
+export const getPlaceTypePutMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypePut>>, TError,{placeId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeTypePut>>, TError,{placeId: string;termId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceTypePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeTypePut>>
->;
 
-export type PlaceTypePutMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeTypePut>>, {placeId: string;termId: string}> = (props) => {
+          const {placeId,termId} = props ?? {};
 
-/**
+          return  placeTypePut(placeId,termId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceTypePutMutationResult = NonNullable<Awaited<ReturnType<typeof placeTypePut>>>
+    
+    export type PlaceTypePutMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary type - update
  */
-export const usePlaceTypePut = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypePut>>,
-    TError,
-    { placeId: string; termId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeTypePut>>,
-  TError,
-  { placeId: string; termId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceTypePutMutationOptions(options);
+export const usePlaceTypePut = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypePut>>, TError,{placeId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeTypePut>>,
+        TError,
+        {placeId: string;termId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceTypePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Deletes the age range from a place.
  * @summary typicalAgeRange - delete
  */
 export const placeTypicalAgeRangeDelete = (
-  placeId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/typical-age-range`,
-    options
-  );
-};
+    placeId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/typical-age-range`,options
+    );
+  }
 
-export const getPlaceTypicalAgeRangeDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
-    TError,
-    { placeId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
-  TError,
-  { placeId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
-    { placeId: string }
-  > = (props) => {
-    const { placeId } = props ?? {};
 
-    return placeTypicalAgeRangeDelete(placeId, axiosOptions);
-  };
+export const getPlaceTypicalAgeRangeDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>, TError,{placeId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>, TError,{placeId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceTypicalAgeRangeDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>
->;
 
-export type PlaceTypicalAgeRangeDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>, {placeId: string}> = (props) => {
+          const {placeId} = props ?? {};
 
-/**
+          return  placeTypicalAgeRangeDelete(placeId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceTypicalAgeRangeDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>>
+    
+    export type PlaceTypicalAgeRangeDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary typicalAgeRange - delete
  */
-export const usePlaceTypicalAgeRangeDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
-    TError,
-    { placeId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
-  TError,
-  { placeId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceTypicalAgeRangeDeleteMutationOptions(options);
+export const usePlaceTypicalAgeRangeDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>, TError,{placeId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeTypicalAgeRangeDelete>>,
+        TError,
+        {placeId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceTypicalAgeRangeDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the age range of the place with the given `placeId`.
  * @summary typicalAgeRange - update
  */
 export const placeTypicalAgeRangePut = (
-  placeId: string,
-  placeTypicalAgeRangePut: PlaceTypicalAgeRangePut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/typical-age-range`,
-    placeTypicalAgeRangePut,
-    options
-  );
-};
+    placeId: string,
+    placeTypicalAgeRangePut: PlaceTypicalAgeRangePut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/typical-age-range`,
+      placeTypicalAgeRangePut,options
+    );
+  }
 
-export const getPlaceTypicalAgeRangePutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
-    TError,
-    { placeId: string; data: PlaceTypicalAgeRangePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
-  TError,
-  { placeId: string; data: PlaceTypicalAgeRangePut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
-    { placeId: string; data: PlaceTypicalAgeRangePut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeTypicalAgeRangePut(placeId, data, axiosOptions);
-  };
+export const getPlaceTypicalAgeRangePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangePut>>, TError,{placeId: string;data: PlaceTypicalAgeRangePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangePut>>, TError,{placeId: string;data: PlaceTypicalAgeRangePut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceTypicalAgeRangePutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeTypicalAgeRangePut>>
->;
-export type PlaceTypicalAgeRangePutMutationBody = PlaceTypicalAgeRangePut;
-export type PlaceTypicalAgeRangePutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeTypicalAgeRangePut>>, {placeId: string;data: PlaceTypicalAgeRangePut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeTypicalAgeRangePut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceTypicalAgeRangePutMutationResult = NonNullable<Awaited<ReturnType<typeof placeTypicalAgeRangePut>>>
+    export type PlaceTypicalAgeRangePutMutationBody = PlaceTypicalAgeRangePut
+    export type PlaceTypicalAgeRangePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary typicalAgeRange - update
  */
-export const usePlaceTypicalAgeRangePut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
-    TError,
-    { placeId: string; data: PlaceTypicalAgeRangePut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
-  TError,
-  { placeId: string; data: PlaceTypicalAgeRangePut },
-  TContext
-> => {
-  const mutationOptions = getPlaceTypicalAgeRangePutMutationOptions(options);
+export const usePlaceTypicalAgeRangePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeTypicalAgeRangePut>>, TError,{placeId: string;data: PlaceTypicalAgeRangePut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeTypicalAgeRangePut>>,
+        TError,
+        {placeId: string;data: PlaceTypicalAgeRangePut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceTypicalAgeRangePutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Add a video as a URL reference to place
 
 The video objects contains:
@@ -2700,85 +1857,58 @@ The video objects contains:
  * @summary videos - add
  */
 export const placeVideosPost = (
-  placeId: string,
-  placeVideosPost: PlaceVideosPost,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<PlaceVideosPost200>> => {
-  return axios.post(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos`,
-    placeVideosPost,
-    options
-  );
-};
+    placeId: string,
+    placeVideosPost: PlaceVideosPost, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<PlaceVideosPost200>> => {
+    
+    return axios.post(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos`,
+      placeVideosPost,options
+    );
+  }
 
-export const getPlaceVideosPostMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeVideosPost>>,
-    TError,
-    { placeId: string; data: PlaceVideosPost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeVideosPost>>,
-  TError,
-  { placeId: string; data: PlaceVideosPost },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeVideosPost>>,
-    { placeId: string; data: PlaceVideosPost }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeVideosPost(placeId, data, axiosOptions);
-  };
+export const getPlaceVideosPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeVideosPost>>, TError,{placeId: string;data: PlaceVideosPost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeVideosPost>>, TError,{placeId: string;data: PlaceVideosPost}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceVideosPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeVideosPost>>
->;
-export type PlaceVideosPostMutationBody = PlaceVideosPost;
-export type PlaceVideosPostMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeVideosPost>>, {placeId: string;data: PlaceVideosPost}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeVideosPost(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceVideosPostMutationResult = NonNullable<Awaited<ReturnType<typeof placeVideosPost>>>
+    export type PlaceVideosPostMutationBody = PlaceVideosPost
+    export type PlaceVideosPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary videos - add
  */
-export const usePlaceVideosPost = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeVideosPost>>,
-    TError,
-    { placeId: string; data: PlaceVideosPost },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeVideosPost>>,
-  TError,
-  { placeId: string; data: PlaceVideosPost },
-  TContext
-> => {
-  const mutationOptions = getPlaceVideosPostMutationOptions(options);
+export const usePlaceVideosPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeVideosPost>>, TError,{placeId: string;data: PlaceVideosPost}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeVideosPost>>,
+        TError,
+        {placeId: string;data: PlaceVideosPost},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceVideosPostMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Update one or more videos of a place.
 
 The video object(s) must contain
@@ -2793,167 +1923,113 @@ The video object(s) can contain:
  * @summary videos - patch
  */
 export const placesVideosPatch = (
-  placeId: string,
-  placeVideosPatch: PlaceVideosPatch,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.patch(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos`,
-    placeVideosPatch,
-    options
-  );
-};
+    placeId: string,
+    placeVideosPatch: PlaceVideosPatch, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.patch(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos`,
+      placeVideosPatch,options
+    );
+  }
 
-export const getPlacesVideosPatchMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placesVideosPatch>>,
-    TError,
-    { placeId: string; data: PlaceVideosPatch },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placesVideosPatch>>,
-  TError,
-  { placeId: string; data: PlaceVideosPatch },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placesVideosPatch>>,
-    { placeId: string; data: PlaceVideosPatch }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placesVideosPatch(placeId, data, axiosOptions);
-  };
+export const getPlacesVideosPatchMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placesVideosPatch>>, TError,{placeId: string;data: PlaceVideosPatch}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placesVideosPatch>>, TError,{placeId: string;data: PlaceVideosPatch}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlacesVideosPatchMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placesVideosPatch>>
->;
-export type PlacesVideosPatchMutationBody = PlaceVideosPatch;
-export type PlacesVideosPatchMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placesVideosPatch>>, {placeId: string;data: PlaceVideosPatch}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placesVideosPatch(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlacesVideosPatchMutationResult = NonNullable<Awaited<ReturnType<typeof placesVideosPatch>>>
+    export type PlacesVideosPatchMutationBody = PlaceVideosPatch
+    export type PlacesVideosPatchMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary videos - patch
  */
-export const usePlacesVideosPatch = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placesVideosPatch>>,
-    TError,
-    { placeId: string; data: PlaceVideosPatch },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placesVideosPatch>>,
-  TError,
-  { placeId: string; data: PlaceVideosPatch },
-  TContext
-> => {
-  const mutationOptions = getPlacesVideosPatchMutationOptions(options);
+export const usePlacesVideosPatch = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placesVideosPatch>>, TError,{placeId: string;data: PlaceVideosPatch}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placesVideosPatch>>,
+        TError,
+        {placeId: string;data: PlaceVideosPatch},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlacesVideosPatchMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Delete an embedded video from an place based on the place id and the video id.
  * @summary videos - delete
  */
 export const placeVideosDelete = (
-  placeId: string,
-  videoId: string,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.delete(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos/${videoId}`,
-    options
-  );
-};
+    placeId: string,
+    videoId: string, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.delete(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/videos/${videoId}`,options
+    );
+  }
 
-export const getPlaceVideosDeleteMutationOptions = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeVideosDelete>>,
-    TError,
-    { placeId: string; videoId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeVideosDelete>>,
-  TError,
-  { placeId: string; videoId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeVideosDelete>>,
-    { placeId: string; videoId: string }
-  > = (props) => {
-    const { placeId, videoId } = props ?? {};
 
-    return placeVideosDelete(placeId, videoId, axiosOptions);
-  };
+export const getPlaceVideosDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeVideosDelete>>, TError,{placeId: string;videoId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeVideosDelete>>, TError,{placeId: string;videoId: string}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceVideosDeleteMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeVideosDelete>>
->;
 
-export type PlaceVideosDeleteMutationError = AxiosError<
-  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeVideosDelete>>, {placeId: string;videoId: string}> = (props) => {
+          const {placeId,videoId} = props ?? {};
 
-/**
+          return  placeVideosDelete(placeId,videoId,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceVideosDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof placeVideosDelete>>>
+    
+    export type PlaceVideosDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary videos - delete
  */
-export const usePlaceVideosDelete = <
-  TError = AxiosError<
-    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeVideosDelete>>,
-    TError,
-    { placeId: string; videoId: string },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeVideosDelete>>,
-  TError,
-  { placeId: string; videoId: string },
-  TContext
-> => {
-  const mutationOptions = getPlaceVideosDeleteMutationOptions(options);
+export const usePlaceVideosDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeVideosDelete>>, TError,{placeId: string;videoId: string}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeVideosDelete>>,
+        TError,
+        {placeId: string;videoId: string},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
-/**
+      const mutationOptions = getPlaceVideosDeleteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    /**
  * Updates the workflow status of an place. Possible statuses are:
 
 - `DRAFT`: The default status of new places. Places with this status do not appear in online calendars like <https://www.uitinvlaanderen.be> or the search on <https://www.uitdatabank.be>
@@ -2964,81 +2040,55 @@ export const usePlaceVideosDelete = <
  * @summary workflowStatus - update
  */
 export const placeWorkflowStatusPut = (
-  placeId: string,
-  placeWorkflowStatusPut: PlaceWorkflowStatusPut,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return axios.put(
-    `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/workflow-status`,
-    placeWorkflowStatusPut,
-    options
-  );
-};
+    placeId: string,
+    placeWorkflowStatusPut: PlaceWorkflowStatusPut, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<void>> => {
+    
+    return axios.put(
+      `NEXT_PUBLIC_ENTRY_API_PATH/places/${placeId}/workflow-status`,
+      placeWorkflowStatusPut,options
+    );
+  }
 
-export const getPlaceWorkflowStatusPutMutationOptions = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
-    TError,
-    { placeId: string; data: PlaceWorkflowStatusPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
-  TError,
-  { placeId: string; data: PlaceWorkflowStatusPut },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
-    { placeId: string; data: PlaceWorkflowStatusPut }
-  > = (props) => {
-    const { placeId, data } = props ?? {};
 
-    return placeWorkflowStatusPut(placeId, data, axiosOptions);
-  };
+export const getPlaceWorkflowStatusPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeWorkflowStatusPut>>, TError,{placeId: string;data: PlaceWorkflowStatusPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof placeWorkflowStatusPut>>, TError,{placeId: string;data: PlaceWorkflowStatusPut}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
-  return { mutationFn, ...mutationOptions };
-};
+      
 
-export type PlaceWorkflowStatusPutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof placeWorkflowStatusPut>>
->;
-export type PlaceWorkflowStatusPutMutationBody = PlaceWorkflowStatusPut;
-export type PlaceWorkflowStatusPutMutationError = AxiosError<
-  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
->;
 
-/**
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof placeWorkflowStatusPut>>, {placeId: string;data: PlaceWorkflowStatusPut}> = (props) => {
+          const {placeId,data} = props ?? {};
+
+          return  placeWorkflowStatusPut(placeId,data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PlaceWorkflowStatusPutMutationResult = NonNullable<Awaited<ReturnType<typeof placeWorkflowStatusPut>>>
+    export type PlaceWorkflowStatusPutMutationBody = PlaceWorkflowStatusPut
+    export type PlaceWorkflowStatusPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+
+    /**
  * @summary workflowStatus - update
  */
-export const usePlaceWorkflowStatusPut = <
-  TError = AxiosError<
-    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
-  >,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
-    TError,
-    { placeId: string; data: PlaceWorkflowStatusPut },
-    TContext
-  >;
-  axios?: AxiosRequestConfig;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
-  TError,
-  { placeId: string; data: PlaceWorkflowStatusPut },
-  TContext
-> => {
-  const mutationOptions = getPlaceWorkflowStatusPutMutationOptions(options);
+export const usePlaceWorkflowStatusPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof placeWorkflowStatusPut>>, TError,{placeId: string;data: PlaceWorkflowStatusPut}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof placeWorkflowStatusPut>>,
+        TError,
+        {placeId: string;data: PlaceWorkflowStatusPut},
+        TContext
+      > => {
 
-  return useMutation(mutationOptions);
-};
+      const mutationOptions = getPlaceWorkflowStatusPutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

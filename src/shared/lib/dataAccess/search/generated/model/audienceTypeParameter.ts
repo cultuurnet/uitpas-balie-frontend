@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type AudienceTypeParameter =
-  (typeof AudienceTypeParameter)[keyof typeof AudienceTypeParameter];
+export type AudienceTypeParameter = typeof AudienceTypeParameter[keyof typeof AudienceTypeParameter];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AudienceTypeParameter = {

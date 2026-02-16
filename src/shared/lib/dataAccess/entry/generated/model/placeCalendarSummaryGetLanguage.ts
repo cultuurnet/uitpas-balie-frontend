@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type PlaceCalendarSummaryGetLanguage =
-  (typeof PlaceCalendarSummaryGetLanguage)[keyof typeof PlaceCalendarSummaryGetLanguage];
+export type PlaceCalendarSummaryGetLanguage = typeof PlaceCalendarSummaryGetLanguage[keyof typeof PlaceCalendarSummaryGetLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCalendarSummaryGetLanguage = {

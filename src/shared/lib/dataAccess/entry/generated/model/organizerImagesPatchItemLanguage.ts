@@ -10,8 +10,8 @@
  * The language of the image or description.
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type OrganizerImagesPatchItemLanguage =
-  (typeof OrganizerImagesPatchItemLanguage)[keyof typeof OrganizerImagesPatchItemLanguage];
+export type OrganizerImagesPatchItemLanguage = typeof OrganizerImagesPatchItemLanguage[keyof typeof OrganizerImagesPatchItemLanguage];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerImagesPatchItemLanguage = {

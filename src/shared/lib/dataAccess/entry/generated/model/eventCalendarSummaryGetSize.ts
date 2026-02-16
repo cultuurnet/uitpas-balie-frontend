@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EventCalendarSummaryGetSize =
-  (typeof EventCalendarSummaryGetSize)[keyof typeof EventCalendarSummaryGetSize];
+export type EventCalendarSummaryGetSize = typeof EventCalendarSummaryGetSize[keyof typeof EventCalendarSummaryGetSize];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventCalendarSummaryGetSize = {

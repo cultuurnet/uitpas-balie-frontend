@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type WorkflowStatusOrganizerParameterItem =
-  (typeof WorkflowStatusOrganizerParameterItem)[keyof typeof WorkflowStatusOrganizerParameterItem];
+export type WorkflowStatusOrganizerParameterItem = typeof WorkflowStatusOrganizerParameterItem[keyof typeof WorkflowStatusOrganizerParameterItem];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkflowStatusOrganizerParameterItem = {

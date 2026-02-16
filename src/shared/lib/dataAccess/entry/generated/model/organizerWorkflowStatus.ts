@@ -14,8 +14,8 @@ Can be one of two values:
 - `ACTIVE`: The organizer is created and can be used.
 - `DELETED`: The organizer was deleted and should not be visible on any publication channels.
  */
-export type OrganizerWorkflowStatus =
-  (typeof OrganizerWorkflowStatus)[keyof typeof OrganizerWorkflowStatus];
+export type OrganizerWorkflowStatus = typeof OrganizerWorkflowStatus[keyof typeof OrganizerWorkflowStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerWorkflowStatus = {
