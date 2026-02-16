@@ -60,7 +60,7 @@
     "@types/mousetrap": "^1.6.11",
     "@types/node": "22.13.1",
     "@types/react": "19.0.12",
-    "@types/react-datepicker": "^4.11.2",
+    "@types/react-datepicker": "^7.0.0",
     "@types/react-dom": "19.0.4",
     "@types/react-transition-group": "^4.4.10",
     "@types/ua-parser-js": "^0.7.39",
