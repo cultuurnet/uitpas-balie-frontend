@@ -58,7 +58,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
     "@types/mousetrap": "^1.6.11",
-    "@types/node": "18.14.4",
+    "@types/node": "22.13.1",
     "@types/react": "19.0.12",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "19.0.4",
