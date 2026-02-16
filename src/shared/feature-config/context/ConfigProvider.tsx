@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { PropsWithChildren, useEffect, useState } from "react";
-import { ConfigContext } from "./ConfigContext";
-import { PublicRuntimeConfig } from "../types";
-import { getConfig } from "../getConfig";
-import { initAxios } from "@/shared/lib/dataAccess/initAxios";
-import { initUrlUtils } from "@/shared/lib/utils";
+import { PropsWithChildren, useEffect, useState } from 'react';
+import { ConfigContext } from './ConfigContext';
+import { PublicRuntimeConfig } from '../types';
+import { getConfig } from '../getConfig';
+import { initAxios } from '@/shared/lib/dataAccess/initAxios';
+import { initUrlUtils } from '@/shared/lib/utils';
 
 type ConfigProviderProps = {};
 

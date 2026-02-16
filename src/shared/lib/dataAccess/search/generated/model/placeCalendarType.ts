@@ -15,8 +15,8 @@ Possible values: `periodic`, `permanent`.
 
 - **permanent**: For places that exist permanently. Can optionally have [openingHours](./models/place-openingHours.json). [Here is a detailed guide](./entry-api/shared/calendar-info#calendartype) with more information.
  */
-export type PlaceCalendarType = typeof PlaceCalendarType[keyof typeof PlaceCalendarType];
-
+export type PlaceCalendarType =
+  (typeof PlaceCalendarType)[keyof typeof PlaceCalendarType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCalendarType = {

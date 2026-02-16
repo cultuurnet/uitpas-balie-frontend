@@ -10,8 +10,8 @@
  * The language of the video.
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type CommonLanguage = typeof CommonLanguage[keyof typeof CommonLanguage];
-
+export type CommonLanguage =
+  (typeof CommonLanguage)[keyof typeof CommonLanguage];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CommonLanguage = {

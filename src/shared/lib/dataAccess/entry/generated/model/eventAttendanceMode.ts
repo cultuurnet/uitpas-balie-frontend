@@ -9,8 +9,8 @@
 /**
  * Indicates if the [event](./models/event.json) is happening online, offline, or both (mixed).
  */
-export type EventAttendanceMode = typeof EventAttendanceMode[keyof typeof EventAttendanceMode];
-
+export type EventAttendanceMode =
+  (typeof EventAttendanceMode)[keyof typeof EventAttendanceMode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventAttendanceMode = {

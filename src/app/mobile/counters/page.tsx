@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { CounterPage } from "@/mobile/feature-counter";
+import { CounterPage } from '@/mobile/feature-counter';
 
 const MobileCounters = () => <CounterPage />;
 

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { MobileSavingPage } from "@/mobile/feature-saving";
+import { MobileSavingPage } from '@/mobile/feature-saving';
 
 const MobileSaving = () => <MobileSavingPage />;
 

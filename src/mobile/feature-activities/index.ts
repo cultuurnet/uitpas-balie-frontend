@@ -1,2 +1,2 @@
-export * from "./components/ActivitiesPage";
-export * from "./components/ActivitiesPicker";
+export * from './components/ActivitiesPage';
+export * from './components/ActivitiesPicker';

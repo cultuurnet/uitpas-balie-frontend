@@ -15,4 +15,5 @@ Added automatically by UiTdatabank based on the languages present in localized p
 See also [languages](./models/organizer-languages.json).
  * @minItems 1
  */
-export type OrganizerCompletedLanguages = readonly OrganizerCompletedLanguagesItem[];
+export type OrganizerCompletedLanguages =
+  readonly OrganizerCompletedLanguagesItem[];

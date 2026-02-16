@@ -1,4 +1,4 @@
-import { FallbackPage } from "@/web/feature-legacy";
+import { FallbackPage } from '@/web/feature-legacy';
 
 const Fallback = () => {
   return <FallbackPage />;

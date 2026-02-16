@@ -2,18 +2,18 @@ import {
   CardSystemMembership,
   CardSystemMembershipSocialTariff,
   Passholder,
-} from "@/shared/lib/dataAccess";
-import dayjs from "dayjs";
-import React, { Fragment } from "react";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { OpportunityStateCard } from "@/mobile/feature-saving";
-import { Require } from "@/shared/lib/utils/typescriptUtil";
+} from '@/shared/lib/dataAccess';
+import dayjs from 'dayjs';
+import React, { Fragment } from 'react';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { OpportunityStateCard } from '@/mobile/feature-saving';
+import { Require } from '@/shared/lib/utils/typescriptUtil';
 
 type OpportunityStateDateProps = {
   passholder: Passholder;
 };
 
-const paragraphStyle = { fontWeight: 700, fontSize: "11px", margin: 0 };
+const paragraphStyle = { fontWeight: 700, fontSize: '11px', margin: 0 };
 
 export const OpportunityStatePassholder = ({
   passholder,
@@ -24,11 +24,11 @@ export const OpportunityStatePassholder = ({
 
   // 1. Prepare filtered sets of memberships
   const blockedMemberships = passholder.cardSystemMemberships.filter(
-    (csm) => csm.status === "BLOCKED"
+    (csm) => csm.status === 'BLOCKED'
   );
 
   const hasActiveMemberships = passholder.cardSystemMemberships.some(
-    (csm) => csm.status === "ACTIVE"
+    (csm) => csm.status === 'ACTIVE'
   );
 
   // 2. Show blocked memberships *only* when there are no active memberships
@@ -36,17 +36,17 @@ export const OpportunityStatePassholder = ({
     return (
       <OpportunityStateCard
         status="BLOCKED"
-        title={t("saving.mobile.opportunityState.passholder.blocked.title")}
+        title={t('saving.mobile.opportunityState.passholder.blocked.title')}
       >
         {blockedMemberships.map((csm) => (
           <p key={csm.cardSystem.id} style={paragraphStyle}>
-            {t("saving.mobile.opportunityState.passholder.blocked.content", {
+            {t('saving.mobile.opportunityState.passholder.blocked.content', {
               cardSystemName: csm.cardSystem.name,
             })}
           </p>
         ))}
         <p style={paragraphStyle}>
-          {t("saving.mobile.opportunityState.passholder.blocked.content2")}
+          {t('saving.mobile.opportunityState.passholder.blocked.content2')}
         </p>
       </OpportunityStateCard>
     );
@@ -55,15 +55,15 @@ export const OpportunityStatePassholder = ({
   // 3. Filter memberships that have a social tariff.
   const memberships = passholder.cardSystemMemberships.filter(
     (csm) => csm.socialTariff
-  ) as Require<CardSystemMembership, "socialTariff">[];
+  ) as Require<CardSystemMembership, 'socialTariff'>[];
   if (!memberships.length) return null;
 
   // 4. Determine the main membership to use for the card header.
   const mainMembership =
     memberships.find(
-      (csm) => csm.status === "ACTIVE" && csm.socialTariff?.status === "ACTIVE"
+      (csm) => csm.status === 'ACTIVE' && csm.socialTariff?.status === 'ACTIVE'
     ) ||
-    memberships.find((csm) => csm.status === "ACTIVE") ||
+    memberships.find((csm) => csm.status === 'ACTIVE') ||
     memberships[0];
 
   const headerStatus = mainMembership.socialTariff.status;
@@ -82,10 +82,10 @@ export const OpportunityStatePassholder = ({
         const translationData = {
           cardSystemName: cardSystem.name,
           socialTariffEndDate: socialTariff.endDate
-            ? dayjs(socialTariff.endDate).format("DD/MM/YYYY")
+            ? dayjs(socialTariff.endDate).format('DD/MM/YYYY')
             : undefined,
           suspendedUntilDate: socialTariff.suspendedUntilDate
-            ? dayjs(socialTariff.suspendedUntilDate).format("DD/MM/YYYY")
+            ? dayjs(socialTariff.suspendedUntilDate).format('DD/MM/YYYY')
             : undefined,
           firstName: passholder.firstName,
           lastName: passholder.name,

@@ -9,8 +9,8 @@
 /**
  * Only used and mandatory in passholder registration.
  */
-export type PassholderRegistrationCardType = typeof PassholderRegistrationCardType[keyof typeof PassholderRegistrationCardType];
-
+export type PassholderRegistrationCardType =
+  (typeof PassholderRegistrationCardType)[keyof typeof PassholderRegistrationCardType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PassholderRegistrationCardType = {

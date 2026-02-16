@@ -9,8 +9,8 @@
 /**
  * Gender of the passholder.
  */
-export type PassholderGender = typeof PassholderGender[keyof typeof PassholderGender];
-
+export type PassholderGender =
+  (typeof PassholderGender)[keyof typeof PassholderGender];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PassholderGender = {

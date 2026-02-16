@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { FC, PropsWithChildren, useEffect, useState } from "react";
-import { Counter, CounterContext } from "./CounterContext";
-import { readPrevCounter, storePrevCounter } from "./counterStore";
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { Counter, CounterContext } from './CounterContext';
+import { readPrevCounter, storePrevCounter } from './counterStore';
 
 export const CounterProvider: FC<
   {

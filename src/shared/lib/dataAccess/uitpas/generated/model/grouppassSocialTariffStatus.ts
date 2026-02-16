@@ -12,8 +12,8 @@
 - `EXPIRED`: the grouppass is NOT entitled to social tariff anymore
 
  */
-export type GrouppassSocialTariffStatus = typeof GrouppassSocialTariffStatus[keyof typeof GrouppassSocialTariffStatus];
-
+export type GrouppassSocialTariffStatus =
+  (typeof GrouppassSocialTariffStatus)[keyof typeof GrouppassSocialTariffStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GrouppassSocialTariffStatus = {

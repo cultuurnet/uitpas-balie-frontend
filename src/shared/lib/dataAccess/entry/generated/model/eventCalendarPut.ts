@@ -10,4 +10,7 @@ import type { EventCalendarPutAllOf } from './eventCalendarPutAllOf';
 /**
  * Request body to update the calendar information of an event.
  */
-export type EventCalendarPut = EventCalendarPutAllOf & unknown & unknown & unknown;
+export type EventCalendarPut = EventCalendarPutAllOf &
+  unknown &
+  unknown &
+  unknown;

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext } from "react";
-import { UaEventOptions } from "react-ga4/types/ga4";
+import { createContext } from 'react';
+import { UaEventOptions } from 'react-ga4/types/ga4';
 
 interface AnalyticsContextType {
   trackEvent: (

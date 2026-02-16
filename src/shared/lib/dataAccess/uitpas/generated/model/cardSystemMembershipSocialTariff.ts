@@ -8,7 +8,7 @@
 import type { CardSystemMembershipSocialTariffStatus } from './cardSystemMembershipSocialTariffStatus';
 
 /**
- * If the passholder has (or had) right to a social tariff, this object contains details like the  end date. Check the `status` of the `socialTariff`: the passholder is only currently entitled to a social tariff is `status` is `ACTIVE`. 
+ * If the passholder has (or had) right to a social tariff, this object contains details like the  end date. Check the `status` of the `socialTariff`: the passholder is only currently entitled to a social tariff is `status` is `ACTIVE`.
  */
 export type CardSystemMembershipSocialTariff = {
   /** Exact moment the passholder's right to a social tariff expires. */

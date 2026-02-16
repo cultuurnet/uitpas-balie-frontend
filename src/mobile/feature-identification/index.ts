@@ -1,2 +1,2 @@
-export * from "./components/IdentificationPage";
-export * from "./components/ManualCardInput";
+export * from './components/IdentificationPage';
+export * from './components/ManualCardInput';

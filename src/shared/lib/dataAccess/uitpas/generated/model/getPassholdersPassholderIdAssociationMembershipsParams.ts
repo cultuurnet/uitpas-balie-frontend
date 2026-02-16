@@ -7,8 +7,8 @@
  */
 
 export type GetPassholdersPassholderIdAssociationMembershipsParams = {
-/**
- * ID of the organizer
- */
-organiserId: string;
+  /**
+   * ID of the organizer
+   */
+  organiserId: string;
 };

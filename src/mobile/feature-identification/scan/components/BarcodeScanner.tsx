@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   IconButton,
   MenuItem,
   Select,
   SelectChangeEvent,
-} from "@mui/material";
-import { Typography, UitpasLoading } from "@/mobile/lib/ui";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { FlashlightOn, FlashlightOff, Close } from "@mui/icons-material";
-import { useRouter, useSearchParams } from "next/navigation";
-import { PermissionBox } from "@/mobile/feature-identification/scan/components/PermissionBox";
-import Quagga, { QuaggaJSResultObject } from "@ericblade/quagga2";
-import { useCamera } from "@/shared/lib/utils/hooks/useCamera";
-import { useActivity } from "@/mobile/feature-activities/useActivity";
+} from '@mui/material';
+import { Typography, UitpasLoading } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { FlashlightOn, FlashlightOff, Close } from '@mui/icons-material';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { PermissionBox } from '@/mobile/feature-identification/scan/components/PermissionBox';
+import Quagga, { QuaggaJSResultObject } from '@ericblade/quagga2';
+import { useCamera } from '@/shared/lib/utils/hooks/useCamera';
+import { useActivity } from '@/mobile/feature-activities/useActivity';
 
 export const BarcodeScanner: React.FC = () => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ export const BarcodeScanner: React.FC = () => {
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
   const { navigateToIdentification, navigateToSaving } = useActivity();
-  const firstCardEntry = Boolean(params.get("firstCardEntry")) ?? false;
+  const firstCardEntry = Boolean(params.get('firstCardEntry')) ?? false;
   const [scannerInitializationCount, setScannerInitializationCount] =
     useState(1);
 
@@ -87,19 +87,19 @@ export const BarcodeScanner: React.FC = () => {
     const device = detectedCameras?.find((cam) => cam.id === e.target.value);
     if (device) {
       setSelectedCamera(device);
-    } else if(detectedCameras){
+    } else if (detectedCameras) {
       // Fallback to the first camera with torch support or back camera if no torch support, or the last camera if none of the aforementioned cameras are available
-        setSelectedCamera(
-          detectedCameras.find((c) => c.canTorch) ||
-            detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
-            detectedCameras[detectedCameras.length - 1]
-        );
+      setSelectedCamera(
+        detectedCameras.find((c) => c.canTorch) ||
+          detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
+          detectedCameras[detectedCameras.length - 1]
+      );
     }
   };
 
   useEffect(() => {
     if (
-      permission === "granted" &&
+      permission === 'granted' &&
       selectedCamera &&
       scannerRef.current &&
       !isLoading &&
@@ -118,20 +118,20 @@ export const BarcodeScanner: React.FC = () => {
                   deviceId: selectedCamera.id,
                 },
                 area: {
-                  top: "38%",
-                  right: "5%",
-                  left: "5%",
-                  bottom: "38%",
+                  top: '38%',
+                  right: '5%',
+                  left: '5%',
+                  bottom: '38%',
                 },
                 target: scannerRef.current,
               },
               locator: {
-                patchSize: "medium",
+                patchSize: 'medium',
                 halfSample: true,
               },
               numOfWorkers: 4,
               decoder: {
-                readers: ["code_128_reader"],
+                readers: ['code_128_reader'],
                 multiple: false,
               },
               locate: false,
@@ -173,30 +173,30 @@ export const BarcodeScanner: React.FC = () => {
   if (!scannerSupported && !isLoading)
     return <PermissionBox permission="not_supported" />;
 
-  if (permission !== "granted") {
+  if (permission !== 'granted') {
     return <PermissionBox permission={permission} />;
   }
 
   return (
     <>
       <UitpasLoading
-        sx={{ ...(scannerReady && { display: "none !important" }) }}
+        sx={{ ...(scannerReady && { display: 'none !important' }) }}
       />
       <Box
         sx={{
-          position: "relative",
-          height: "100dvh",
-          overflow: "hidden",
-          ...(!scannerReady && { display: "none" }),
+          position: 'relative',
+          height: '100dvh',
+          overflow: 'hidden',
+          ...(!scannerReady && { display: 'none' }),
         }}
       >
         <IconButton
           disableRipple
           size="large"
           sx={(theme) => ({
-            position: "absolute",
+            position: 'absolute',
             color: theme.palette.neutral[0],
-            left: "0%",
+            left: '0%',
             zIndex: 20,
           })}
           onClick={handleClose}
@@ -215,20 +215,20 @@ export const BarcodeScanner: React.FC = () => {
               }
               onChange={handleCameraChange}
               sx={(theme) => ({
-                position: "absolute",
-                width: "max-content",
-                left: "50%",
-                top: "1%",
-                transform: "translateX(-50%)",
+                position: 'absolute',
+                width: 'max-content',
+                left: '50%',
+                top: '1%',
+                transform: 'translateX(-50%)',
                 zIndex: 20,
                 border: `1px solid ${theme.palette.neutral[0]}`,
                 borderRadius: 0,
-                backgroundColor: "transparent",
+                backgroundColor: 'transparent',
                 color: theme.palette.neutral[0],
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: 'none',
                 },
-                "& .MuiSelect-icon": {
+                '& .MuiSelect-icon': {
                   color: theme.palette.neutral[0],
                 },
               })}
@@ -245,9 +245,9 @@ export const BarcodeScanner: React.FC = () => {
             disableRipple
             size="large"
             sx={(theme) => ({
-              position: "absolute",
+              position: 'absolute',
               color: theme.palette.neutral[0],
-              right: "0%",
+              right: '0%',
               zIndex: 20,
             })}
             onClick={handleFlashToggle}
@@ -262,83 +262,83 @@ export const BarcodeScanner: React.FC = () => {
         <Box
           ref={scannerRef}
           sx={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
+            position: 'relative',
+            width: '100%',
+            height: '100%',
             video: {
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
             },
             canvas: {
-              display: "none",
+              display: 'none',
             },
           }}
         />
         {/* bottom-right and top-left corner borders */}
         <Box
           sx={{
-            position: "absolute",
-            top: "38%",
-            left: "5%",
-            right: "5%",
-            bottom: "38%",
-            boxShadow: "0 0 0 2000px rgba(0, 0, 0, 0.7)",
-            pointerEvents: "none",
+            position: 'absolute',
+            top: '38%',
+            left: '5%',
+            right: '5%',
+            bottom: '38%',
+            boxShadow: '0 0 0 2000px rgba(0, 0, 0, 0.7)',
+            pointerEvents: 'none',
             zIndex: 10,
-            "&::before, &::after": {
+            '&::before, &::after': {
               content: '""',
-              position: "absolute",
-              backgroundColor: "transparent",
-              border: `3px solid ${codeFound ? "#00ff00" : "white"}`,
+              position: 'absolute',
+              backgroundColor: 'transparent',
+              border: `3px solid ${codeFound ? '#00ff00' : 'white'}`,
             },
-            "&::before": {
+            '&::before': {
               top: -2,
               left: -3,
-              width: "20px",
-              height: "20px",
-              borderBottom: "none",
-              borderRight: "none",
+              width: '20px',
+              height: '20px',
+              borderBottom: 'none',
+              borderRight: 'none',
             },
-            "&::after": {
+            '&::after': {
               bottom: -2,
               right: -3,
-              width: "20px",
-              height: "20px",
-              borderTop: "none",
-              borderLeft: "none",
+              width: '20px',
+              height: '20px',
+              borderTop: 'none',
+              borderLeft: 'none',
             },
           }}
         >
           {/* bottom-left and top-right corner borders */}
           <Box
             sx={{
-              position: "absolute",
+              position: 'absolute',
               top: 0,
               right: 0,
               bottom: 0,
               left: 0,
-              "&::before, &::after": {
+              '&::before, &::after': {
                 content: '""',
-                position: "absolute",
-                backgroundColor: "transparent",
-                border: `3px solid ${codeFound ? "#00ff00" : "white"}`,
+                position: 'absolute',
+                backgroundColor: 'transparent',
+                border: `3px solid ${codeFound ? '#00ff00' : 'white'}`,
               },
-              "&::before": {
+              '&::before': {
                 top: -2,
                 right: -3,
-                width: "20px",
-                height: "20px",
-                borderBottom: "none",
-                borderLeft: "none",
+                width: '20px',
+                height: '20px',
+                borderBottom: 'none',
+                borderLeft: 'none',
               },
-              "&::after": {
+              '&::after': {
                 bottom: -2,
                 left: -3,
-                width: "20px",
-                height: "20px",
-                borderTop: "none",
-                borderRight: "none",
+                width: '20px',
+                height: '20px',
+                borderTop: 'none',
+                borderRight: 'none',
               },
             }}
           />
@@ -346,15 +346,15 @@ export const BarcodeScanner: React.FC = () => {
         <Typography
           variant="h1"
           sx={(theme) => ({
-            position: "absolute",
-            top: "30%",
-            width: "100%",
-            textAlign: "center",
+            position: 'absolute',
+            top: '30%',
+            width: '100%',
+            textAlign: 'center',
             color: theme.palette.neutral[0],
             zIndex: 20,
           })}
         >
-          {t("identification.mobile.scan.scanOverlay")}
+          {t('identification.mobile.scan.scanOverlay')}
         </Typography>
       </Box>
     </>

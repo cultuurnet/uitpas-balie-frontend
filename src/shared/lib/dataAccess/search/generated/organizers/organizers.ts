@@ -5,30 +5,22 @@
  * With UiTdatabank's Search API you can search events, places and organizers.
  * OpenAPI spec version: 3.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   ForbiddenResponse,
   GetOrganizers200,
   GetOrganizersParams,
   NotFoundResponse,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Returns a paginated list of organizers that match the given filters.
@@ -43,59 +35,82 @@ Parameters that have the type `array[string]` and `[]` as a suffix in their name
  * @summary Search organizers
  */
 export const getOrganizers = (
-    params?: GetOrganizersParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetOrganizers200>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_SEARCH_API_PATH/organizers`,{
+  params?: GetOrganizersParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GetOrganizers200>> => {
+  return axios.get(`NEXT_PUBLIC_SEARCH_API_PATH/organizers`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    params: { ...params, ...options?.params },
+  });
+};
+
+export const getGetOrganizersQueryKey = (params?: GetOrganizersParams) => {
+  return [
+    `NEXT_PUBLIC_SEARCH_API_PATH/organizers`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetOrganizersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getOrganizers>>,
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+>(
+  params?: GetOrganizersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getGetOrganizersQueryKey = (params?: GetOrganizersParams,) => {
-    return [`NEXT_PUBLIC_SEARCH_API_PATH/organizers`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetOrganizersQueryOptions = <TData = Awaited<ReturnType<typeof getOrganizers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(params?: GetOrganizersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetOrganizersQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetOrganizersQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizers>>> = ({
+    signal,
+  }) => getOrganizers(params, { signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getOrganizers>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOrganizers>>> = ({ signal }) => getOrganizers(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetOrganizersQueryResult = NonNullable<Awaited<ReturnType<typeof getOrganizers>>>
-export type GetOrganizersQueryError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
+export type GetOrganizersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getOrganizers>>
+>;
+export type GetOrganizersQueryError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
 /**
  * @summary Search organizers
  */
-export const useGetOrganizers = <TData = Awaited<ReturnType<typeof getOrganizers>>, TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>>(
- params?: GetOrganizersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetOrganizers = <
+  TData = Awaited<ReturnType<typeof getOrganizers>>,
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+>(
+  params?: GetOrganizersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getOrganizers>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetOrganizersQueryOptions(params, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetOrganizersQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

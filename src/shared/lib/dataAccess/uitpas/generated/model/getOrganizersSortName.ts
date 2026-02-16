@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetOrganizersSortName = typeof GetOrganizersSortName[keyof typeof GetOrganizersSortName];
-
+export type GetOrganizersSortName =
+  (typeof GetOrganizersSortName)[keyof typeof GetOrganizersSortName];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetOrganizersSortName = {

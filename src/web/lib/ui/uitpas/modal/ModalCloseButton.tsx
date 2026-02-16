@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import {
   IconButton,
   IconButtonProps,
   ModalClose,
   ModalCloseProps,
-} from "@mui/joy";
-import { mdiCloseThick } from "@mdi/js";
-import Icon from "@mdi/react";
-import React, { forwardRef, Ref } from "react";
+} from '@mui/joy';
+import { mdiCloseThick } from '@mdi/js';
+import Icon from '@mdi/react';
+import React, { forwardRef, Ref } from 'react';
 
 const ForwardedIconButton = forwardRef(
   (rootProps: IconButtonProps, ref: Ref<HTMLButtonElement>) => (
@@ -19,8 +19,8 @@ const ForwardedIconButton = forwardRef(
       sx={(theme) => ({
         color: theme.palette.neutral[900],
         opacity: 0.2,
-        "&:hover": {
-          backgroundColor: "transparent",
+        '&:hover': {
+          backgroundColor: 'transparent',
           opacity: 0.5,
         },
       })}
@@ -32,7 +32,7 @@ const ForwardedIconButton = forwardRef(
 );
 
 // https://stackoverflow.com/questions/67992894/component-definition-is-missing-display-name-for-forwardref
-ForwardedIconButton.displayName = "ForwardedIconButton";
+ForwardedIconButton.displayName = 'ForwardedIconButton';
 
 export const ModalCloseButton = (props: ModalCloseProps) => {
   return (

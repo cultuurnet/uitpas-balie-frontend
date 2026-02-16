@@ -5,30 +5,22 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
-import {
-  useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 import type {
   QueryFunction,
   QueryKey,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   Error,
   ForbiddenResponse,
   GetGrouppassesParams,
   GrouppassesPaginatedResponse,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Retrieve grouppasses based on search parameters.
@@ -45,59 +37,78 @@ The caller of this request must have `GROUPPASSES_SEARCH` permission.
  * @summary Search grouppasses
  */
 export const getGrouppasses = (
-    params?: GetGrouppassesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GrouppassesPaginatedResponse>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_API_PATH/grouppasses`,{
+  params?: GetGrouppassesParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GrouppassesPaginatedResponse>> => {
+  return axios.get(`NEXT_PUBLIC_API_PATH/grouppasses`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    params: { ...params, ...options?.params },
+  });
+};
+
+export const getGetGrouppassesQueryKey = (params?: GetGrouppassesParams) => {
+  return [
+    `NEXT_PUBLIC_API_PATH/grouppasses`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetGrouppassesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getGrouppasses>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+>(
+  params?: GetGrouppassesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGrouppasses>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getGetGrouppassesQueryKey = (params?: GetGrouppassesParams,) => {
-    return [`NEXT_PUBLIC_API_PATH/grouppasses`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetGrouppassesQueryOptions = <TData = Awaited<ReturnType<typeof getGrouppasses>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(params?: GetGrouppassesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGrouppasses>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetGrouppassesQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetGrouppassesQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getGrouppasses>>> = ({
+    signal,
+  }) => getGrouppasses(params, { signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getGrouppasses>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGrouppasses>>> = ({ signal }) => getGrouppasses(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGrouppasses>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetGrouppassesQueryResult = NonNullable<Awaited<ReturnType<typeof getGrouppasses>>>
-export type GetGrouppassesQueryError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
+export type GetGrouppassesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getGrouppasses>>
+>;
+export type GetGrouppassesQueryError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
 /**
  * @summary Search grouppasses
  */
-export const useGetGrouppasses = <TData = Awaited<ReturnType<typeof getGrouppasses>>, TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>>(
- params?: GetGrouppassesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGrouppasses>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useGetGrouppasses = <
+  TData = Awaited<ReturnType<typeof getGrouppasses>>,
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+>(
+  params?: GetGrouppassesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getGrouppasses>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetGrouppassesQueryOptions(params, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getGetGrouppassesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
-
+};

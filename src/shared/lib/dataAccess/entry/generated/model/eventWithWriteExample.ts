@@ -12,4 +12,7 @@ import type { EventWithWriteExampleAllOf } from './eventWithWriteExampleAllOf';
 
 For more information: <a href="https://docs.publiq.be/docs/uitdatabank/entry-api/events/what-are-events">What are events?</a>
  */
-export type EventWithWriteExample = EventWithWriteExampleAllOf & unknown & unknown & unknown;
+export type EventWithWriteExample = EventWithWriteExampleAllOf &
+  unknown &
+  unknown &
+  unknown;

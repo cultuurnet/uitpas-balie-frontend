@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export enum LegacyMode {
-  PREFER_NEXT = "PREFER_NEXT",
-  SPLIT_X = "SPLIT_X",
-  SPLIT_Y = "SPLIT_Y",
-  PREFER_LEGACY = "PREFER_LEGACY",
+  PREFER_NEXT = 'PREFER_NEXT',
+  SPLIT_X = 'SPLIT_X',
+  SPLIT_Y = 'SPLIT_Y',
+  PREFER_LEGACY = 'PREFER_LEGACY',
 }
 
 export const legacyModeOrder = [

@@ -1,17 +1,17 @@
 import {
   getGetTariffsQueryOptions,
   TariffAvailibility,
-} from "@/shared/lib/dataAccess";
-import { getUuid } from "@/shared/lib/utils";
-import { useQueries } from "@tanstack/react-query";
+} from '@/shared/lib/dataAccess';
+import { getUuid } from '@/shared/lib/utils';
+import { useQueries } from '@tanstack/react-query';
 import {
   CommonName,
   EventPriceInfo,
-} from "@/shared/lib/dataAccess/entry/generated/model";
-import { TariffCard } from "@/mobile/feature-saving";
-import { CircularProgress, Typography, useTheme } from "@mui/material";
-import { useEffect } from "react";
-import { useTranslation } from "@/shared/lib/utils/hooks";
+} from '@/shared/lib/dataAccess/entry/generated/model';
+import { TariffCard } from '@/mobile/feature-saving';
+import { CircularProgress, Typography, useTheme } from '@mui/material';
+import { useEffect } from 'react';
+import { useTranslation } from '@/shared/lib/utils/hooks';
 
 type TariffProps = {
   passHolderName?: string;
@@ -83,7 +83,7 @@ export const Tariff = ({
     const tariffResponse = data[index]?.data;
 
     if (
-      tariffResponse?.available?.findIndex((t) => t.type === "SOCIALTARIFF") ===
+      tariffResponse?.available?.findIndex((t) => t.type === 'SOCIALTARIFF') ===
       -1
     ) {
       socialTariffs.push({
@@ -101,9 +101,9 @@ export const Tariff = ({
         tariff: tariff,
       };
 
-      if (tariff.type === "SOCIALTARIFF") {
+      if (tariff.type === 'SOCIALTARIFF') {
         socialTariffs.push(item);
-      } else if (tariff.type === "COUPON") {
+      } else if (tariff.type === 'COUPON') {
         coupons.push({ ...item, tariffMessage: tariff.name });
       }
     });
@@ -112,7 +112,7 @@ export const Tariff = ({
   const sorted = [...invalidTariffs, ...socialTariffs, ...coupons];
 
   return isLoading ? (
-    <CircularProgress sx={{ m: "auto auto" }} />
+    <CircularProgress sx={{ m: 'auto auto' }} />
   ) : (
     <>
       {sorted.length > 0 ? (
@@ -139,10 +139,10 @@ export const Tariff = ({
       ) : (
         <Typography variant="body2" sx={{ color: theme.palette.neutral[900] }}>
           {passHolderName
-            ? t("saving.mobile.tariff.drawer.noTariffs", {
+            ? t('saving.mobile.tariff.drawer.noTariffs', {
                 name: passHolderName,
               })
-            : t("saving.mobile.tariff.drawer.noTariffsNoName")}
+            : t('saving.mobile.tariff.drawer.noTariffsNoName')}
         </Typography>
       )}
     </>

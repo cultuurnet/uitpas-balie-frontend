@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetCardSystemsCardsystemidMembershipPricesCardType = typeof GetCardSystemsCardsystemidMembershipPricesCardType[keyof typeof GetCardSystemsCardsystemidMembershipPricesCardType];
-
+export type GetCardSystemsCardsystemidMembershipPricesCardType =
+  (typeof GetCardSystemsCardsystemidMembershipPricesCardType)[keyof typeof GetCardSystemsCardsystemidMembershipPricesCardType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetCardSystemsCardsystemidMembershipPricesCardType = {

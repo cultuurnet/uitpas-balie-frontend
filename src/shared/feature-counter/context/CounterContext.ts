@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext, Dispatch, SetStateAction } from "react";
-import { Organizer } from "@/shared/lib/dataAccess";
+import { createContext, Dispatch, SetStateAction } from 'react';
+import { Organizer } from '@/shared/lib/dataAccess';
 
 export type Counter = Organizer | null;
 

@@ -1,1 +1,1 @@
-export * from './components/HelpPage'
+export * from './components/HelpPage';

@@ -1,10 +1,10 @@
-import { readCookie, storeCookie } from "@/shared/lib/utils/cookieUtils";
-import { readData, storeData } from "@/shared/lib/utils/localStorageUtils";
-import { Counter } from "@/shared/feature-counter/context/CounterContext";
+import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
+import { readData, storeData } from '@/shared/lib/utils/localStorageUtils';
+import { Counter } from '@/shared/feature-counter/context/CounterContext';
 
-const localstorageSupport = typeof localStorage !== "undefined";
+const localstorageSupport = typeof localStorage !== 'undefined';
 
-const PREV_COUNTER_STORAGE_KEY = "@uitpas-balie/counter-prev";
+const PREV_COUNTER_STORAGE_KEY = '@uitpas-balie/counter-prev';
 
 export const storePrevCounter = (counter: Counter) => {
   localstorageSupport

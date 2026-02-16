@@ -1,1 +1,1 @@
-export * from "./components/SelectCounterPage";
+export * from './components/SelectCounterPage';

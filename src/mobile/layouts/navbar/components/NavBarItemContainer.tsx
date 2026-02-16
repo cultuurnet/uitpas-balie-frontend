@@ -1,5 +1,5 @@
-import { Box, BoxProps } from "@mui/material";
-import { ElementType, ReactNode } from "react";
+import { Box, BoxProps } from '@mui/material';
+import { ElementType, ReactNode } from 'react';
 
 type NavBarItemContainerProps<C extends ElementType> = BoxProps<C> & {
   component?: C;
@@ -16,11 +16,11 @@ export const NavBarItemContainer = <C extends ElementType = typeof Box>({
       component={component}
       {...props}
       sx={{
-        display: "flex",
-        alignItems: "center",
-        mr: "8px",
-        textDecoration: "none",
-        overflow: "hidden",
+        display: 'flex',
+        alignItems: 'center',
+        mr: '8px',
+        textDecoration: 'none',
+        overflow: 'hidden',
         ...props.sx,
       }}
     >

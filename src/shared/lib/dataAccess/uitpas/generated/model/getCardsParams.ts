@@ -7,12 +7,12 @@
  */
 
 export type GetCardsParams = {
-/**
- * The UiTPAS number of the card to search
- */
-uitpasNumber?: string;
-/**
- * The chip number of the card to search
- */
-chipNumber?: string;
+  /**
+   * The UiTPAS number of the card to search
+   */
+  uitpasNumber?: string;
+  /**
+   * The chip number of the card to search
+   */
+  chipNumber?: string;
 };

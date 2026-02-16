@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetEventsQrCheckincodesDownloadlinkFormat = typeof GetEventsQrCheckincodesDownloadlinkFormat[keyof typeof GetEventsQrCheckincodesDownloadlinkFormat];
-
+export type GetEventsQrCheckincodesDownloadlinkFormat =
+  (typeof GetEventsQrCheckincodesDownloadlinkFormat)[keyof typeof GetEventsQrCheckincodesDownloadlinkFormat];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetEventsQrCheckincodesDownloadlinkFormat = {

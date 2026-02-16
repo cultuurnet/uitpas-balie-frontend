@@ -1,7 +1,7 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { Button, StepperField } from "@/mobile/lib/ui";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { useState } from "react";
+import { Box, Typography, useTheme } from '@mui/material';
+import { Button, StepperField } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { useState } from 'react';
 
 type TariffCardProps = {
   tariffName?: string;
@@ -43,8 +43,8 @@ export const TariffCard = ({
   const calculatedRemainingDiscounts = isNaN(stepperCount)
     ? remainingDiscounts
     : remainingDiscounts
-    ? remainingDiscounts - stepperCount
-    : 0;
+      ? remainingDiscounts - stepperCount
+      : 0;
 
   if (!tariffName) {
     return null;
@@ -53,14 +53,14 @@ export const TariffCard = ({
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: theme.palette.background.default,
-        padding: "16px 12px 12px 12px",
-        borderRadius: "6px",
+        padding: '16px 12px 12px 12px',
+        borderRadius: '6px',
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}>
         <Typography variant="h6">{`${tariffName}:`}</Typography>
         <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
           {`€ ${regularPrice}`}
@@ -69,7 +69,7 @@ export const TariffCard = ({
       {tariffType ? (
         <>
           <Box
-            sx={{ display: "flex", alignItems: "center", columnGap: "10px" }}
+            sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
           >
             <Typography variant="h6">{tariffType}:</Typography>
             <Typography variant="h6" sx={{ color: theme.palette.brand.blue }}>
@@ -88,13 +88,13 @@ export const TariffCard = ({
       ) : (
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            columnGap: "10px",
+            display: 'flex',
+            flexDirection: 'column',
+            columnGap: '10px',
           }}
         >
           <Typography variant="h6">
-            {t("saving.mobile.tariff.card.noDiscount")}
+            {t('saving.mobile.tariff.card.noDiscount')}
           </Typography>
           <Typography variant="body2">{tariffMessage}</Typography>
         </Box>
@@ -102,23 +102,23 @@ export const TariffCard = ({
       {isGroupPass && (
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            columnGap: "10px",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            columnGap: '10px',
+            alignItems: 'center',
           }}
         >
           <Typography
             variant="h6"
-            sx={{ ...(remainingDiscounts && { mt: "-16px" }) }}
+            sx={{ ...(remainingDiscounts && { mt: '-16px' }) }}
           >
-            {t("saving.mobile.tariff.card.count")}
+            {t('saving.mobile.tariff.card.count')}
           </Typography>
           <StepperField
             value={stepperCount}
             onChange={setStepperCount}
             {...(remainingDiscounts && {
-              subtitle: t("saving.mobile.tariff.card.discountsAvailable", {
+              subtitle: t('saving.mobile.tariff.card.discountsAvailable', {
                 count: calculatedRemainingDiscounts,
               }),
               maxValue: remainingDiscounts,
@@ -131,13 +131,13 @@ export const TariffCard = ({
           onClick={handleApplyTariffClick}
           sx={{
             backgroundColor: theme.palette.brand.blue,
-            borderRadius: "6px",
+            borderRadius: '6px',
             fontWeight: 400,
-            height: "38px",
-            mt: "16px",
+            height: '38px',
+            mt: '16px',
           }}
         >
-          {t("saving.mobile.tariff.card.applyTariff", { price: tariffPrice })}
+          {t('saving.mobile.tariff.card.applyTariff', { price: tariffPrice })}
         </Button>
       ) : null}
     </Box>

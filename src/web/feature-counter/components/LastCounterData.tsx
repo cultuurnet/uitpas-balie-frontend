@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Link, Typography } from "@/web/lib/ui";
-import { Organizer } from "@/shared/lib/dataAccess";
-import { useTranslation } from "@/shared/lib/i18n/client";
+import { Link, Typography } from '@/web/lib/ui';
+import { Organizer } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type LastCounterDataProps = {
   lastCounter: Organizer;
@@ -20,15 +20,15 @@ export const LastCounterData = ({
       <Typography
         level="h3"
         sx={(theme) => ({
-          borderBottom: `1px solid ${theme.vars.palette.neutral["500"]}`,
-          pb: "0.5em",
-          mb: "1em",
-          textTransform: "uppercase",
-          fontSize: "1em",
+          borderBottom: `1px solid ${theme.vars.palette.neutral['500']}`,
+          pb: '0.5em',
+          mb: '1em',
+          textTransform: 'uppercase',
+          fontSize: '1em',
           fontWeight: 600,
         })}
       >
-        {t("counter.lastUsed")}
+        {t('counter.lastUsed')}
       </Typography>
       <li style={{ marginBottom: 6 }}>
         <Link onClick={handleCounterClick(lastCounter)}>

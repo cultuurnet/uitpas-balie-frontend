@@ -7,12 +7,12 @@
  */
 
 export type GetPassholdersPassholderIdMembershipPricesParams = {
-/**
- * postal code of the residence of the user so the result is sorted on most nearby options first. Must be a valid Belgian postal code or `0000` for foreign places.
- */
-postalCode?: string;
-/**
- * date of birth of the user used to determine the correct price. The default price is used when omitted.
- */
-dateOfBirth?: string;
+  /**
+   * postal code of the residence of the user so the result is sorted on most nearby options first. Must be a valid Belgian postal code or `0000` for foreign places.
+   */
+  postalCode?: string;
+  /**
+   * date of birth of the user used to determine the correct price. The default price is used when omitted.
+   */
+  dateOfBirth?: string;
 };

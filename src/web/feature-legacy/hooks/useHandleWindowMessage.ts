@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo } from "react";
-import { isClient } from "@/shared/lib/utils";
-import { Counter } from "@/shared/feature-counter/context/CounterContext";
+import { useCallback, useEffect, useMemo } from 'react';
+import { isClient } from '@/shared/lib/utils';
+import { Counter } from '@/shared/feature-counter/context/CounterContext';
 
 export enum WindowMessageSources {
-  BALIE = "BALIE",
+  BALIE = 'BALIE',
 }
 
 export enum WindowMessageTypesReceived {
-  URL_CHANGED = "URL_CHANGED",
-  URL_UNKNOWN = "URL_UNKNOWN",
-  HTTP_ERROR_CODE = "HTTP_ERROR_CODE",
-  LOGOUT = "LOGOUT",
-  GET_COUNTER = "GET_COUNTER",
+  URL_CHANGED = 'URL_CHANGED',
+  URL_UNKNOWN = 'URL_UNKNOWN',
+  HTTP_ERROR_CODE = 'HTTP_ERROR_CODE',
+  LOGOUT = 'LOGOUT',
+  GET_COUNTER = 'GET_COUNTER',
 }
 
 enum WindowMessageTypesSent {
-  SET_COUNTER = "SET_COUNTER",
+  SET_COUNTER = 'SET_COUNTER',
 }
 
 export const createCounterMessage = (counter: Counter) => {
@@ -38,7 +38,7 @@ type TDataBase = {
 type EventsMap<TData extends TDataBase> = Partial<
   Record<
     WindowMessageTypesReceived,
-    (data: Omit<TData, "type" | "source">) => void
+    (data: Omit<TData, 'type' | 'source'>) => void
   >
 >;
 
@@ -59,7 +59,7 @@ export const useHandleWindowMessage = <TData extends TDataBase>(
 
   useEffect(() => {
     if (!isClientSide) return;
-    window.addEventListener("message", internalHandler);
-    return () => window.removeEventListener("message", internalHandler);
+    window.addEventListener('message', internalHandler);
+    return () => window.removeEventListener('message', internalHandler);
   }, [isClientSide, internalHandler]);
 };

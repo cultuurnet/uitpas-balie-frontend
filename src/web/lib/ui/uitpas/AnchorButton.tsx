@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import styled from "@emotion/styled";
-import { Typography, TypographyProps } from "@mui/joy";
-import { PropsWithChildren } from "react";
+import styled from '@emotion/styled';
+import { Typography, TypographyProps } from '@mui/joy';
+import { PropsWithChildren } from 'react';
 
 const StyledTypography = styled(Typography)`
   color: ${({ theme }) =>

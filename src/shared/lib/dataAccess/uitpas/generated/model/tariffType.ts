@@ -9,8 +9,7 @@
 /**
  * Type of discount being applied.
  */
-export type TariffType = typeof TariffType[keyof typeof TariffType];
-
+export type TariffType = (typeof TariffType)[keyof typeof TariffType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TariffType = {

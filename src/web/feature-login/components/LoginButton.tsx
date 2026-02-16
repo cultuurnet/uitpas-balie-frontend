@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import { Button } from "@/web/lib/ui";
-import { FC, PropsWithChildren } from "react";
-import { useConfig } from "@/shared/feature-config/context/useConfig";
+import { useSearchParams } from 'next/navigation';
+import { Button } from '@/web/lib/ui';
+import { FC, PropsWithChildren } from 'react';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 export const LoginButton: FC<PropsWithChildren> = ({ children }) => {
   const search = useSearchParams();
   const { publicRuntimeConfig } = useConfig();
-  const destination = /*"/app_v1"; */ search.get("redirectTo") ?? "/";
+  const destination = /*"/app_v1"; */ search.get('redirectTo') ?? '/';
   const href = `${
-    publicRuntimeConfig?.oauthPath ?? "/"
+    publicRuntimeConfig?.oauthPath ?? '/'
   }?destination=${destination}`;
 
   return (

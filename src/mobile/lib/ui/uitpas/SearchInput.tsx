@@ -4,8 +4,8 @@ import {
   TextFieldProps,
   SxProps,
   Theme,
-} from "@mui/material";
-import { Search } from "@mui/icons-material";
+} from '@mui/material';
+import { Search } from '@mui/icons-material';
 
 export const SearchInput = ({ ...props }: TextFieldProps) => {
   return (
@@ -20,10 +20,10 @@ export const SearchInput = ({ ...props }: TextFieldProps) => {
         sx: ((theme: Theme): SxProps<Theme> => ({
           backgroundColor: theme.palette.neutral[0],
           color: theme.palette.neutral[900],
-          fontSize: "18px",
+          fontSize: '18px',
           fontWeight: 700,
-          borderRadius: "8px",
-          height: "58px",
+          borderRadius: '8px',
+          height: '58px',
           ...props.sx,
         })) as SxProps<Theme>,
       }}

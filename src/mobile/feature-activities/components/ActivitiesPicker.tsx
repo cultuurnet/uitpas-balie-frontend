@@ -1,6 +1,6 @@
-import { CircularProgress, Stack } from "@mui/material";
-import { Search } from "@/shared/lib/dataAccess";
-import { OutlinedButton } from "@/mobile/lib/ui/uitpas/OutlinedButton";
+import { CircularProgress, Stack } from '@mui/material';
+import { Search } from '@/shared/lib/dataAccess';
+import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
 import {
   Dispatch,
   SetStateAction,
@@ -8,15 +8,15 @@ import {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { ScrollableContainer, Typography } from "@/mobile/lib/ui";
-import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
-import { useActivity } from "@/mobile/feature-activities/useActivity";
-import { useTranslation } from "@/shared/lib/utils/hooks/useTranslation";
+} from 'react';
+import { ScrollableContainer, Typography } from '@/mobile/lib/ui';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
 
 type ActivitiesPickerProps = {
   isInitialLoading: boolean;
-  data: Omit<Search.GetEvents200, "member"> & {
+  data: Omit<Search.GetEvents200, 'member'> & {
     member: Set<Search.Event & { isNew: boolean }>;
   };
   fetchLimit: number;
@@ -48,7 +48,7 @@ export const ActivitiesPicker = ({
       // Scroll one (new) item down
       scrollRef.current.scrollTo({
         top: scrollPosition + (data.member.size > 7 ? 56 : 0),
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [data.member]);
@@ -69,7 +69,7 @@ export const ActivitiesPicker = ({
     setScrollPosition(e.currentTarget.scrollTop);
     scrollRef.current?.scrollTo({
       top: e.currentTarget.scrollTop,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
@@ -78,7 +78,7 @@ export const ActivitiesPicker = ({
     if (isFetching) {
       scrollRef.current?.scrollTo({
         top: scrollPosition + 100, // 100 -> doesn't have to be exact, it will bottom out anyway
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }, [isFetching]);
@@ -87,34 +87,34 @@ export const ActivitiesPicker = ({
     setSelectedActivity(activity);
 
   if (isInitialLoading) {
-    return <CircularProgress sx={{ m: "auto auto" }} />;
+    return <CircularProgress sx={{ m: 'auto auto' }} />;
   }
 
   if (data.totalItems > 0) {
     return (
       <Stack>
         <ScrollableContainer
-          sx={{ height: "410px" }}
+          sx={{ height: '410px' }}
           ref={scrollRef}
           onScroll={handleScroll}
         >
           {Array.from(data.member).map((activity) => (
             <OutlinedButton
               onClick={() => handleActivityClick(activity)}
-              key={activity["@id"]}
+              key={activity['@id']}
               sx={{
                 ...(activity.isNew && {
                   opacity: 0,
-                  transform: "translateY(20px)",
-                  animation: "fade-in 0.3s ease-out forwards",
-                  "@keyframes fade-in": {
-                    "0%": {
+                  transform: 'translateY(20px)',
+                  animation: 'fade-in 0.3s ease-out forwards',
+                  '@keyframes fade-in': {
+                    '0%': {
                       opacity: 0,
-                      transform: "translateY(20px)",
+                      transform: 'translateY(20px)',
                     },
-                    "100%": {
+                    '100%': {
                       opacity: 1,
-                      transform: "translateY(0)",
+                      transform: 'translateY(0)',
                     },
                   },
                 }),
@@ -124,7 +124,7 @@ export const ActivitiesPicker = ({
             </OutlinedButton>
           ))}
 
-          {isFetching && <CircularProgress sx={{ m: "auto auto" }} size={20} />}
+          {isFetching && <CircularProgress sx={{ m: 'auto auto' }} size={20} />}
         </ScrollableContainer>
       </Stack>
     );
@@ -133,10 +133,10 @@ export const ActivitiesPicker = ({
   return (
     <Typography variant="body1">
       {searchQuery
-        ? t("activities.mobile.noActivitiesSearch", {
+        ? t('activities.mobile.noActivitiesSearch', {
             searchTerm: searchQuery,
           })
-        : t("activities.mobile.noActivities")}
+        : t('activities.mobile.noActivities')}
     </Typography>
   );
 };
