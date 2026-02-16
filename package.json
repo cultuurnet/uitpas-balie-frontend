@@ -59,7 +59,7 @@
     "react-ga4": "^2.1.0",
     "react-i18next": "^14.1.0",
     "react-transition-group": "^4.4.5",
-    "ua-parser-js": "^1.0.38",
+    "ua-parser-js": "^2.0.9",
     "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
