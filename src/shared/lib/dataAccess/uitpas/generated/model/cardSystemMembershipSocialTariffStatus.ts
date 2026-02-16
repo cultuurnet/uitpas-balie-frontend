@@ -12,8 +12,8 @@
 - `EXPIRED`: the passholder is NOT entitled to social tariff anymore
 - `SUSPENDED`: the passholder is temporarily NOT entitled to social tariff. In this case a extra property `suspendedUntilDate` will also be available.
  */
-export type CardSystemMembershipSocialTariffStatus = typeof CardSystemMembershipSocialTariffStatus[keyof typeof CardSystemMembershipSocialTariffStatus];
-
+export type CardSystemMembershipSocialTariffStatus =
+  (typeof CardSystemMembershipSocialTariffStatus)[keyof typeof CardSystemMembershipSocialTariffStatus];
 
 export const CardSystemMembershipSocialTariffStatus = {
   ACTIVE: 'ACTIVE',

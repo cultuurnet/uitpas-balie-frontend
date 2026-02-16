@@ -9,8 +9,8 @@
 /**
  * Indicates the types of online cardless registrations this cardsystem supports.
  */
-export type CardSystemCardlessRegistrationType = typeof CardSystemCardlessRegistrationType[keyof typeof CardSystemCardlessRegistrationType];
-
+export type CardSystemCardlessRegistrationType =
+  (typeof CardSystemCardlessRegistrationType)[keyof typeof CardSystemCardlessRegistrationType];
 
 export const CardSystemCardlessRegistrationType = {
   ALL: 'ALL',

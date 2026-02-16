@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettify": "yarn prettier --write src",
+    "format:check": "yarn prettier src --check --ignore-path ./.gitignore",
+    "types:check": "tsc -v && tsc && echo '\n✅ Type check passed!'",
     "routes": "npx next-list",
     "orval": "dotenv -e .env.local -- orval --config .config/orval.config.ts",
     "depcruise:archi": "depcruise --include-only \"^src|^@/\" --config ./.config/.dependency-cruiser.js -T archi src | dot -T svg | tee depgraphs/dependencygraph.svg | depcruise-wrap-stream-in-html > depgraphs/dependencygraph.html",

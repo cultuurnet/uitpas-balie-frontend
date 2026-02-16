@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetPassholdersPassholderIdTransactionsSortCreationDate = typeof GetPassholdersPassholderIdTransactionsSortCreationDate[keyof typeof GetPassholdersPassholderIdTransactionsSortCreationDate];
-
+export type GetPassholdersPassholderIdTransactionsSortCreationDate =
+  (typeof GetPassholdersPassholderIdTransactionsSortCreationDate)[keyof typeof GetPassholdersPassholderIdTransactionsSortCreationDate];
 
 export const GetPassholdersPassholderIdTransactionsSortCreationDate = {
   asc: 'asc',

@@ -9,8 +9,8 @@
 /**
  * Severity level of the message
  */
-export type PassMessagesItemLevel = typeof PassMessagesItemLevel[keyof typeof PassMessagesItemLevel];
-
+export type PassMessagesItemLevel =
+  (typeof PassMessagesItemLevel)[keyof typeof PassMessagesItemLevel];
 
 export const PassMessagesItemLevel = {
   INFO: 'INFO',

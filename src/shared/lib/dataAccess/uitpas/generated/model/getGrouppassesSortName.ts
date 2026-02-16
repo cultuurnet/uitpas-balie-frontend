@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetGrouppassesSortName = typeof GetGrouppassesSortName[keyof typeof GetGrouppassesSortName];
-
+export type GetGrouppassesSortName =
+  (typeof GetGrouppassesSortName)[keyof typeof GetGrouppassesSortName];
 
 export const GetGrouppassesSortName = {
   asc: 'asc',

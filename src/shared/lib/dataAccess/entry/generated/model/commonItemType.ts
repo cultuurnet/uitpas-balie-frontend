@@ -9,8 +9,8 @@
 /**
  * The possible resource types used in UiTdatabank.
  */
-export type CommonItemType = typeof CommonItemType[keyof typeof CommonItemType];
-
+export type CommonItemType =
+  (typeof CommonItemType)[keyof typeof CommonItemType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CommonItemType = {

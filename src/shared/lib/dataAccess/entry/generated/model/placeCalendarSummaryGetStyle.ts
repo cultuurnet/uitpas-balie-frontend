@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type PlaceCalendarSummaryGetStyle = typeof PlaceCalendarSummaryGetStyle[keyof typeof PlaceCalendarSummaryGetStyle];
-
+export type PlaceCalendarSummaryGetStyle =
+  (typeof PlaceCalendarSummaryGetStyle)[keyof typeof PlaceCalendarSummaryGetStyle];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PlaceCalendarSummaryGetStyle = {

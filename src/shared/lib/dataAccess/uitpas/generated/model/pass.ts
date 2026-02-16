@@ -9,7 +9,7 @@ import type { PassMessagesItem } from './passMessagesItem';
 import type { PassSocialTariff } from './passSocialTariff';
 
 /**
- * The `Pass` entity includes basic information about the UiTPAS and its related `Passholder`.  
+ * The `Pass` entity includes basic information about the UiTPAS and its related `Passholder`.
  */
 export interface Pass {
   /** ID of the passholder associated with this pass */

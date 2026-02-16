@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsSortRedeemCount = typeof GetRewardsSortRedeemCount[keyof typeof GetRewardsSortRedeemCount];
-
+export type GetRewardsSortRedeemCount =
+  (typeof GetRewardsSortRedeemCount)[keyof typeof GetRewardsSortRedeemCount];
 
 export const GetRewardsSortRedeemCount = {
   asc: 'asc',

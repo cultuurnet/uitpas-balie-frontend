@@ -9,8 +9,7 @@
 /**
  * ID of the permission
  */
-export type Permission = typeof Permission[keyof typeof Permission];
-
+export type Permission = (typeof Permission)[keyof typeof Permission];
 
 export const Permission = {
   TARIFFS_READ: 'TARIFFS_READ',

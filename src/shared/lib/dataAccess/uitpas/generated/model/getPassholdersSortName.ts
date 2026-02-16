@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetPassholdersSortName = typeof GetPassholdersSortName[keyof typeof GetPassholdersSortName];
-
+export type GetPassholdersSortName =
+  (typeof GetPassholdersSortName)[keyof typeof GetPassholdersSortName];
 
 export const GetPassholdersSortName = {
   asc: 'asc',

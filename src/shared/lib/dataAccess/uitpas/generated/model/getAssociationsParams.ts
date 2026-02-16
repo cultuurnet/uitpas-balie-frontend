@@ -8,12 +8,12 @@
 import type { GetAssociationsPermission } from './getAssociationsPermission';
 
 export type GetAssociationsParams = {
-/**
- * ID of the organizer
- */
-organizerId: string;
-/**
- * Type of association permission
- */
-permission: GetAssociationsPermission;
+  /**
+   * ID of the organizer
+   */
+  organizerId: string;
+  /**
+   * Type of association permission
+   */
+  permission: GetAssociationsPermission;
 };

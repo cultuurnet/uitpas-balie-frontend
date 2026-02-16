@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EventCalendarSummaryGetFormat = typeof EventCalendarSummaryGetFormat[keyof typeof EventCalendarSummaryGetFormat];
-
+export type EventCalendarSummaryGetFormat =
+  (typeof EventCalendarSummaryGetFormat)[keyof typeof EventCalendarSummaryGetFormat];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventCalendarSummaryGetFormat = {

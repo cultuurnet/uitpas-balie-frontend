@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType = typeof GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType[keyof typeof GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType];
-
+export type GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType =
+  (typeof GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType)[keyof typeof GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType];
 
 export const GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType = {
   NFC_CARD: 'NFC_CARD',

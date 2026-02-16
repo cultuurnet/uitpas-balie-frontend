@@ -7,12 +7,12 @@
  */
 
 export type GetCheckinStatusParams = {
-/**
- * UiTPAS number of the passholder who wants to checkin
- */
-uitpasNumber: string;
-/**
- * Id of the event where the passholder wants to checkin
- */
-eventId: string;
+  /**
+   * UiTPAS number of the passholder who wants to checkin
+   */
+  uitpasNumber: string;
+  /**
+   * Id of the event where the passholder wants to checkin
+   */
+  eventId: string;
 };

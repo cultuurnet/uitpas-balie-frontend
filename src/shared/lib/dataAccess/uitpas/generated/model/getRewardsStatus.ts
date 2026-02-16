@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsStatus = typeof GetRewardsStatus[keyof typeof GetRewardsStatus];
-
+export type GetRewardsStatus =
+  (typeof GetRewardsStatus)[keyof typeof GetRewardsStatus];
 
 export const GetRewardsStatus = {
   ACTIVE: 'ACTIVE',

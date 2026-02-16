@@ -7,8 +7,8 @@
  */
 
 export type GetCardsystemsCardsystemidSocialTariffSettingsParams = {
-/**
- * Postal code of the passholder who is being registered. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
- */
-postalCode: string;
+  /**
+   * Postal code of the passholder who is being registered. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
+   */
+  postalCode: string;
 };

@@ -9,8 +9,8 @@
 /**
  * Release track of this kiosk
  */
-export type KioskDeviceReleaseTrack = typeof KioskDeviceReleaseTrack[keyof typeof KioskDeviceReleaseTrack];
-
+export type KioskDeviceReleaseTrack =
+  (typeof KioskDeviceReleaseTrack)[keyof typeof KioskDeviceReleaseTrack];
 
 export const KioskDeviceReleaseTrack = {
   beta: 'beta',

@@ -7,12 +7,12 @@
  */
 
 export type GetTariffsStaticParams = {
-/**
- * The regular price the passholder would have to pay for the ticket if they are not eligible for discounts
- */
-regularPrice: number;
-/**
- * The id of the event for which the ticket is sold
- */
-eventId: string;
+  /**
+   * The regular price the passholder would have to pay for the ticket if they are not eligible for discounts
+   */
+  regularPrice: number;
+  /**
+   * The id of the event for which the ticket is sold
+   */
+  eventId: string;
 };

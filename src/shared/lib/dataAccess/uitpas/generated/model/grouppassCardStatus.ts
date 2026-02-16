@@ -9,8 +9,8 @@
 /**
  * Status of the card linked to this grouppass.
  */
-export type GrouppassCardStatus = typeof GrouppassCardStatus[keyof typeof GrouppassCardStatus];
-
+export type GrouppassCardStatus =
+  (typeof GrouppassCardStatus)[keyof typeof GrouppassCardStatus];
 
 export const GrouppassCardStatus = {
   PROVISIONED: 'PROVISIONED',

@@ -9,8 +9,8 @@
 /**
  * Gender of the passholder to register.
  */
-export type PassholderRegistrationGender = typeof PassholderRegistrationGender[keyof typeof PassholderRegistrationGender];
-
+export type PassholderRegistrationGender =
+  (typeof PassholderRegistrationGender)[keyof typeof PassholderRegistrationGender];
 
 export const PassholderRegistrationGender = {
   MALE: 'MALE',

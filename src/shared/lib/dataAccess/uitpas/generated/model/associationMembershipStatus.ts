@@ -9,8 +9,8 @@
 /**
  * Status of the membership
  */
-export type AssociationMembershipStatus = typeof AssociationMembershipStatus[keyof typeof AssociationMembershipStatus];
-
+export type AssociationMembershipStatus =
+  (typeof AssociationMembershipStatus)[keyof typeof AssociationMembershipStatus];
 
 export const AssociationMembershipStatus = {
   ACTIVE: 'ACTIVE',

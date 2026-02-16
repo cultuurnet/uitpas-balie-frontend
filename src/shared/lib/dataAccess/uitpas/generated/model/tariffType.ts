@@ -9,8 +9,7 @@
 /**
  * Type of discount being applied.
  */
-export type TariffType = typeof TariffType[keyof typeof TariffType];
-
+export type TariffType = (typeof TariffType)[keyof typeof TariffType];
 
 export const TariffType = {
   SOCIALTARIFF: 'SOCIALTARIFF',

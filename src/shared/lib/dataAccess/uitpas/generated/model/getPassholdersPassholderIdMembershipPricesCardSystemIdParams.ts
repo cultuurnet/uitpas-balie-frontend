@@ -8,16 +8,16 @@
 import type { GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType } from './getPassholdersPassholderIdMembershipPricesCardSystemIdCardType';
 
 export type GetPassholdersPassholderIdMembershipPricesCardSystemIdParams = {
-/**
- * whether or not the user is entitled to a social tariff
- */
-socialTariff?: boolean;
-/**
- * optional voucher that might reduce the membership price
- */
-voucher?: string;
-/**
- * type of the card
- */
-cardType: GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType;
+  /**
+   * whether or not the user is entitled to a social tariff
+   */
+  socialTariff?: boolean;
+  /**
+   * optional voucher that might reduce the membership price
+   */
+  voucher?: string;
+  /**
+   * type of the card
+   */
+  cardType: GetPassholdersPassholderIdMembershipPricesCardSystemIdCardType;
 };

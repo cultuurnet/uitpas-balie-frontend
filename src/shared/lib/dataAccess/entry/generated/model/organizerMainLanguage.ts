@@ -11,8 +11,8 @@
 
 Can be one of `nl`, `fr`, `de`, or `en`.
  */
-export type OrganizerMainLanguage = typeof OrganizerMainLanguage[keyof typeof OrganizerMainLanguage];
-
+export type OrganizerMainLanguage =
+  (typeof OrganizerMainLanguage)[keyof typeof OrganizerMainLanguage];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrganizerMainLanguage = {

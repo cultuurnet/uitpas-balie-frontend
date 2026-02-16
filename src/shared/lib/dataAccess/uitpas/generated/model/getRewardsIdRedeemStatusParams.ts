@@ -7,8 +7,8 @@
  */
 
 export type GetRewardsIdRedeemStatusParams = {
-/**
- * UiTPAS number identifying the passholder who wants to redeem this reward.
- */
-uitpasNumber: string;
+  /**
+   * UiTPAS number identifying the passholder who wants to redeem this reward.
+   */
+  uitpasNumber: string;
 };

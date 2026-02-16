@@ -8,8 +8,8 @@
 import type { GetEventsQrCheckincodesDownloadlinkFormat } from './getEventsQrCheckincodesDownloadlinkFormat';
 
 export type GetEventsQrCheckincodesDownloadlinkParams = {
-/**
- * format of the result file.
- */
-format?: GetEventsQrCheckincodesDownloadlinkFormat;
+  /**
+   * format of the result file.
+   */
+  format?: GetEventsQrCheckincodesDownloadlinkFormat;
 };

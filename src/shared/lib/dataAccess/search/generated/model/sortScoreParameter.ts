@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type SortScoreParameter = typeof SortScoreParameter[keyof typeof SortScoreParameter];
-
+export type SortScoreParameter =
+  (typeof SortScoreParameter)[keyof typeof SortScoreParameter];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SortScoreParameter = {

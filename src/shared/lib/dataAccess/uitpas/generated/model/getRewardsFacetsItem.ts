@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsFacetsItem = typeof GetRewardsFacetsItem[keyof typeof GetRewardsFacetsItem];
-
+export type GetRewardsFacetsItem =
+  (typeof GetRewardsFacetsItem)[keyof typeof GetRewardsFacetsItem];
 
 export const GetRewardsFacetsItem = {
   categories: 'categories',

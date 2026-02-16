@@ -9,8 +9,7 @@
 /**
  * Type of this card.
  */
-export type CardCardType = typeof CardCardType[keyof typeof CardCardType];
-
+export type CardCardType = (typeof CardCardType)[keyof typeof CardCardType];
 
 export const CardCardType = {
   NFC_CARD: 'NFC_CARD',

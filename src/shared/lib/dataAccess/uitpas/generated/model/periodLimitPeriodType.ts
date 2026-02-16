@@ -9,8 +9,8 @@
 /**
  * Period type of the limit
  */
-export type PeriodLimitPeriodType = typeof PeriodLimitPeriodType[keyof typeof PeriodLimitPeriodType];
-
+export type PeriodLimitPeriodType =
+  (typeof PeriodLimitPeriodType)[keyof typeof PeriodLimitPeriodType];
 
 export const PeriodLimitPeriodType = {
   ABSOLUTE: 'ABSOLUTE',

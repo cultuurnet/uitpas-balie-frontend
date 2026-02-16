@@ -9,8 +9,7 @@
 /**
  * Status of the order. This property is always present in responses.
  */
-export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
-
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 export const OrderStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',

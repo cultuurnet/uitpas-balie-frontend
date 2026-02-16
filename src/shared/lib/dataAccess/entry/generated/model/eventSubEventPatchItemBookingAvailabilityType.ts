@@ -13,8 +13,8 @@ One of two possible status types.
 - `Available`: The subEvent still has tickets or places available.
 - `Unavailable`: The subEvent has no more tickets or places available.
  */
-export type EventSubEventPatchItemBookingAvailabilityType = typeof EventSubEventPatchItemBookingAvailabilityType[keyof typeof EventSubEventPatchItemBookingAvailabilityType];
-
+export type EventSubEventPatchItemBookingAvailabilityType =
+  (typeof EventSubEventPatchItemBookingAvailabilityType)[keyof typeof EventSubEventPatchItemBookingAvailabilityType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventSubEventPatchItemBookingAvailabilityType = {

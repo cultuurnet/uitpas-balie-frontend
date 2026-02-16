@@ -13,8 +13,8 @@
 - `TemporarilyUnavailable`: Postponed or temporarily closed
 - `Unavailable`: Cancelled or permanently closed
  */
-export type EventStatusType = typeof EventStatusType[keyof typeof EventStatusType];
-
+export type EventStatusType =
+  (typeof EventStatusType)[keyof typeof EventStatusType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventStatusType = {

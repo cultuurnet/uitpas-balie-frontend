@@ -9,8 +9,8 @@
 /**
  * The state of an ownership request
  */
-export type OwnershipState = typeof OwnershipState[keyof typeof OwnershipState];
-
+export type OwnershipState =
+  (typeof OwnershipState)[keyof typeof OwnershipState];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OwnershipState = {

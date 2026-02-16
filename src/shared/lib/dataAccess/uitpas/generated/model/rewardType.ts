@@ -9,8 +9,7 @@
 /**
  * Type of the reward
  */
-export type RewardType = typeof RewardType[keyof typeof RewardType];
-
+export type RewardType = (typeof RewardType)[keyof typeof RewardType];
 
 export const RewardType = {
   POINTS: 'POINTS',

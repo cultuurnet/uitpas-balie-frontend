@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsCategoriesItem = typeof GetRewardsCategoriesItem[keyof typeof GetRewardsCategoriesItem];
-
+export type GetRewardsCategoriesItem =
+  (typeof GetRewardsCategoriesItem)[keyof typeof GetRewardsCategoriesItem];
 
 export const GetRewardsCategoriesItem = {
   Goede_doel: 'Goede doel',

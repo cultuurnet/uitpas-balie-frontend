@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetCardSystemsCardsystemidMembershipPricesCardType = typeof GetCardSystemsCardsystemidMembershipPricesCardType[keyof typeof GetCardSystemsCardsystemidMembershipPricesCardType];
-
+export type GetCardSystemsCardsystemidMembershipPricesCardType =
+  (typeof GetCardSystemsCardsystemidMembershipPricesCardType)[keyof typeof GetCardSystemsCardsystemidMembershipPricesCardType];
 
 export const GetCardSystemsCardsystemidMembershipPricesCardType = {
   DIGITAL: 'DIGITAL',

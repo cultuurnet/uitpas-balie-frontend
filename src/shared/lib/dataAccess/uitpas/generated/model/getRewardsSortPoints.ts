@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsSortPoints = typeof GetRewardsSortPoints[keyof typeof GetRewardsSortPoints];
-
+export type GetRewardsSortPoints =
+  (typeof GetRewardsSortPoints)[keyof typeof GetRewardsSortPoints];
 
 export const GetRewardsSortPoints = {
   asc: 'asc',

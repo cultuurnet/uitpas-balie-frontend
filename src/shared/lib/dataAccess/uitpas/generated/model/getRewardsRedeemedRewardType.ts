@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsRedeemedRewardType = typeof GetRewardsRedeemedRewardType[keyof typeof GetRewardsRedeemedRewardType];
-
+export type GetRewardsRedeemedRewardType =
+  (typeof GetRewardsRedeemedRewardType)[keyof typeof GetRewardsRedeemedRewardType];
 
 export const GetRewardsRedeemedRewardType = {
   POINTS: 'POINTS',

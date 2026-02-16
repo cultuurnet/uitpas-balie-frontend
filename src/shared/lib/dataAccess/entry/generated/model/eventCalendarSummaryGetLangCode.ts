@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EventCalendarSummaryGetLangCode = typeof EventCalendarSummaryGetLangCode[keyof typeof EventCalendarSummaryGetLangCode];
-
+export type EventCalendarSummaryGetLangCode =
+  (typeof EventCalendarSummaryGetLangCode)[keyof typeof EventCalendarSummaryGetLangCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EventCalendarSummaryGetLangCode = {

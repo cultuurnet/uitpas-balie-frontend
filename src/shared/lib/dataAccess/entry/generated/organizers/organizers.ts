@@ -5,10 +5,7 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,14 +13,10 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   Error,
   ForbiddenResponse,
@@ -42,10 +35,8 @@ import type {
   OrganizerPut200,
   OrganizerUrlPut,
   OrganizerWithReadExample,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Creates a new organizer.
@@ -60,114 +51,160 @@ import type {
  * @summary organizer - create
  */
 export const organizerPost = (
-    organizerPostBody: OrganizerPostBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<OrganizerPost201>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers`,
-      organizerPostBody,options
-    );
-  }
+  organizerPostBody: OrganizerPostBody,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<OrganizerPost201>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers`,
+    organizerPostBody,
+    options
+  );
+};
 
+export const getOrganizerPostMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerPost>>,
+    TError,
+    { data: OrganizerPostBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerPost>>,
+  TError,
+  { data: OrganizerPostBody },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerPost>>,
+    { data: OrganizerPostBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getOrganizerPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerPost>>, TError,{data: OrganizerPostBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerPost>>, TError,{data: OrganizerPostBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerPost(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerPost>>
+>;
+export type OrganizerPostMutationBody = OrganizerPostBody;
+export type OrganizerPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerPost>>, {data: OrganizerPostBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  organizerPost(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerPostMutationResult = NonNullable<Awaited<ReturnType<typeof organizerPost>>>
-    export type OrganizerPostMutationBody = OrganizerPostBody
-    export type OrganizerPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary organizer - create
  */
-export const useOrganizerPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerPost>>, TError,{data: OrganizerPostBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerPost>>,
-        TError,
-        {data: OrganizerPostBody},
-        TContext
-      > => {
+export const useOrganizerPost = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerPost>>,
+    TError,
+    { data: OrganizerPostBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerPost>>,
+  TError,
+  { data: OrganizerPostBody },
+  TContext
+> => {
+  const mutationOptions = getOrganizerPostMutationOptions(options);
 
-      const mutationOptions = getOrganizerPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Returns an the organizer with the given `organizerId`
  * @summary organizer - get
  */
 export const organizerGet = (
-    organizerId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<OrganizerWithReadExample>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`,options
-    );
+  organizerId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<OrganizerWithReadExample>> => {
+  return axios.get(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`,
+    options
+  );
+};
+
+export const getOrganizerGetQueryKey = (organizerId: string) => {
+  return [`NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`] as const;
+};
+
+export const getOrganizerGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof organizerGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  organizerId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof organizerGet>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getOrganizerGetQueryKey = (organizerId: string,) => {
-    return [`NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`] as const;
-    }
-
-    
-export const getOrganizerGetQueryOptions = <TData = Awaited<ReturnType<typeof organizerGet>>, TError = AxiosError<NotFoundResponse>>(organizerId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizerGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getOrganizerGetQueryKey(organizerId);
 
-  const queryKey =  queryOptions?.queryKey ?? getOrganizerGetQueryKey(organizerId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof organizerGet>>> = ({
+    signal,
+  }) => organizerGet(organizerId, { signal, ...axiosOptions });
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!organizerId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof organizerGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof organizerGet>>> = ({ signal }) => organizerGet(organizerId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(organizerId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof organizerGet>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type OrganizerGetQueryResult = NonNullable<Awaited<ReturnType<typeof organizerGet>>>
-export type OrganizerGetQueryError = AxiosError<NotFoundResponse>
+export type OrganizerGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof organizerGet>>
+>;
+export type OrganizerGetQueryError = AxiosError<NotFoundResponse>;
 
 /**
  * @summary organizer - get
  */
-export const useOrganizerGet = <TData = Awaited<ReturnType<typeof organizerGet>>, TError = AxiosError<NotFoundResponse>>(
- organizerId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof organizerGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useOrganizerGet = <
+  TData = Awaited<ReturnType<typeof organizerGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  organizerId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof organizerGet>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getOrganizerGetQueryOptions(organizerId, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getOrganizerGetQueryOptions(organizerId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Updates the organizer with the given `organizerId` by completely overwriting it with the properties in the given JSON. 
@@ -182,58 +219,81 @@ export const useOrganizerGet = <TData = Awaited<ReturnType<typeof organizerGet>>
  * @summary organizer - update
  */
 export const organizerPut = (
-    organizerId: string,
-    organizer: Organizer, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<OrganizerPut200>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`,
-      organizer,options
-    );
-  }
+  organizerId: string,
+  organizer: Organizer,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<OrganizerPut200>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}`,
+    organizer,
+    options
+  );
+};
 
+export const getOrganizerPutMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerPut>>,
+    TError,
+    { organizerId: string; data: Organizer },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerPut>>,
+  TError,
+  { organizerId: string; data: Organizer },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerPut>>,
+    { organizerId: string; data: Organizer }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerPut>>, TError,{organizerId: string;data: Organizer}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerPut>>, TError,{organizerId: string;data: Organizer}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerPut(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerPut>>
+>;
+export type OrganizerPutMutationBody = Organizer;
+export type OrganizerPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerPut>>, {organizerId: string;data: Organizer}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerPut(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerPut>>>
-    export type OrganizerPutMutationBody = Organizer
-    export type OrganizerPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary organizer - update
  */
-export const useOrganizerPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerPut>>, TError,{organizerId: string;data: Organizer}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerPut>>,
-        TError,
-        {organizerId: string;data: Organizer},
-        TContext
-      > => {
+export const useOrganizerPut = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerPut>>,
+    TError,
+    { organizerId: string; data: Organizer },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerPut>>,
+  TError,
+  { organizerId: string; data: Organizer },
+  TContext
+> => {
+  const mutationOptions = getOrganizerPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the address of the organizer with the given `organizerId`. The new address of the request body will be set on the organizer in the given `language`.
 
 An address consists of the following properties which are all required:
@@ -244,59 +304,106 @@ An address consists of the following properties which are all required:
  * @summary address - update
  */
 export const organizerAddressPut = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    organizerAddressPut: OrganizerAddressPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/address/${language}`,
-      organizerAddressPut,options
-    );
-  }
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  organizerAddressPut: OrganizerAddressPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/address/${language}`,
+    organizerAddressPut,
+    options
+  );
+};
 
+export const getOrganizerAddressPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerAddressPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerAddressPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerAddressPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerAddressPut;
+  },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerAddressPut>>,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerAddressPut;
+    }
+  > = (props) => {
+    const { organizerId, language, data } = props ?? {};
 
-export const getOrganizerAddressPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerAddressPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerAddressPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerAddressPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerAddressPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerAddressPut(organizerId, language, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerAddressPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerAddressPut>>
+>;
+export type OrganizerAddressPutMutationBody = OrganizerAddressPut;
+export type OrganizerAddressPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerAddressPut>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerAddressPut}> = (props) => {
-          const {organizerId,language,data} = props ?? {};
-
-          return  organizerAddressPut(organizerId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerAddressPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerAddressPut>>>
-    export type OrganizerAddressPutMutationBody = OrganizerAddressPut
-    export type OrganizerAddressPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary address - update
  */
-export const useOrganizerAddressPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerAddressPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerAddressPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerAddressPut>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerAddressPut},
-        TContext
-      > => {
+export const useOrganizerAddressPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerAddressPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerAddressPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerAddressPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerAddressPut;
+  },
+  TContext
+> => {
+  const mutationOptions = getOrganizerAddressPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerAddressPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * <!-- theme: warning -->
 
 > This endpoint is deprecated, use [`PUT /organizers/{organizerId}/address/{language}`](/reference/entry.json/paths/~1organizers~1{organizerId}~1address~1{language}/put) instead.
@@ -313,59 +420,86 @@ An address consists of the following properties which are all required:
  * @summary address.nl - update
  */
 export const organizerAddressNlPut = (
-    organizerId: string,
-    organizerAddressPut: OrganizerAddressPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/address`,
-      organizerAddressPut,options
-    );
-  }
+  organizerId: string,
+  organizerAddressPut: OrganizerAddressPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/address`,
+    organizerAddressPut,
+    options
+  );
+};
 
+export const getOrganizerAddressNlPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerAddressNlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerAddressPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerAddressNlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerAddressPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerAddressNlPut>>,
+    { organizerId: string; data: OrganizerAddressPut }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerAddressNlPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerAddressNlPut>>, TError,{organizerId: string;data: OrganizerAddressPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerAddressNlPut>>, TError,{organizerId: string;data: OrganizerAddressPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerAddressNlPut(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerAddressNlPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerAddressNlPut>>
+>;
+export type OrganizerAddressNlPutMutationBody = OrganizerAddressPut;
+export type OrganizerAddressNlPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerAddressNlPut>>, {organizerId: string;data: OrganizerAddressPut}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerAddressNlPut(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerAddressNlPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerAddressNlPut>>>
-    export type OrganizerAddressNlPutMutationBody = OrganizerAddressPut
-    export type OrganizerAddressNlPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @deprecated
  * @summary address.nl - update
  */
-export const useOrganizerAddressNlPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerAddressNlPut>>, TError,{organizerId: string;data: OrganizerAddressPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerAddressNlPut>>,
-        TError,
-        {organizerId: string;data: OrganizerAddressPut},
-        TContext
-      > => {
+export const useOrganizerAddressNlPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerAddressNlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerAddressPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerAddressNlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerAddressPut },
+  TContext
+> => {
+  const mutationOptions = getOrganizerAddressNlPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerAddressNlPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the contact point information of the organizer with the given `organizerId`. A contact point has a list of the following properties:
 * Url: an array of valid urls
 * Email: an array of valid emails
@@ -375,282 +509,469 @@ All properties are optional.
  * @summary contactPoint - update
  */
 export const organizerContactPointPut = (
-    organizerId: string,
-    organizerContactPointPut: OrganizerContactPointPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/contact-point`,
-      organizerContactPointPut,options
-    );
-  }
+  organizerId: string,
+  organizerContactPointPut: OrganizerContactPointPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/contact-point`,
+    organizerContactPointPut,
+    options
+  );
+};
 
+export const getOrganizerContactPointPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerContactPointPut>>,
+    TError,
+    { organizerId: string; data: OrganizerContactPointPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerContactPointPut>>,
+  TError,
+  { organizerId: string; data: OrganizerContactPointPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerContactPointPut>>,
+    { organizerId: string; data: OrganizerContactPointPut }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerContactPointPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerContactPointPut>>, TError,{organizerId: string;data: OrganizerContactPointPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerContactPointPut>>, TError,{organizerId: string;data: OrganizerContactPointPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerContactPointPut(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerContactPointPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerContactPointPut>>
+>;
+export type OrganizerContactPointPutMutationBody = OrganizerContactPointPut;
+export type OrganizerContactPointPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerContactPointPut>>, {organizerId: string;data: OrganizerContactPointPut}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerContactPointPut(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerContactPointPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerContactPointPut>>>
-    export type OrganizerContactPointPutMutationBody = OrganizerContactPointPut
-    export type OrganizerContactPointPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary contactPoint - update
  */
-export const useOrganizerContactPointPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerContactPointPut>>, TError,{organizerId: string;data: OrganizerContactPointPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerContactPointPut>>,
-        TError,
-        {organizerId: string;data: OrganizerContactPointPut},
-        TContext
-      > => {
+export const useOrganizerContactPointPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerContactPointPut>>,
+    TError,
+    { organizerId: string; data: OrganizerContactPointPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerContactPointPut>>,
+  TError,
+  { organizerId: string; data: OrganizerContactPointPut },
+  TContext
+> => {
+  const mutationOptions = getOrganizerContactPointPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerContactPointPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the description of the organizer with the given `organizerId`. The new description of the request body will be set on the organizer in the given `language`. The new description needs to be at least one character long.
  * @summary description - update
  */
 export const organizerDescriptionPut = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    organizerDescriptionPut: OrganizerDescriptionPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/description/${language}`,
-      organizerDescriptionPut,options
-    );
-  }
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  organizerDescriptionPut: OrganizerDescriptionPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/description/${language}`,
+    organizerDescriptionPut,
+    options
+  );
+};
 
+export const getOrganizerDescriptionPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerDescriptionPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerDescriptionPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerDescriptionPut;
+  },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerDescriptionPut>>,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerDescriptionPut;
+    }
+  > = (props) => {
+    const { organizerId, language, data } = props ?? {};
 
-export const getOrganizerDescriptionPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerDescriptionPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerDescriptionPut(organizerId, language, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerDescriptionPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerDescriptionPut>>
+>;
+export type OrganizerDescriptionPutMutationBody = OrganizerDescriptionPut;
+export type OrganizerDescriptionPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerDescriptionPut>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerDescriptionPut}> = (props) => {
-          const {organizerId,language,data} = props ?? {};
-
-          return  organizerDescriptionPut(organizerId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerDescriptionPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerDescriptionPut>>>
-    export type OrganizerDescriptionPutMutationBody = OrganizerDescriptionPut
-    export type OrganizerDescriptionPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary description - update
  */
-export const useOrganizerDescriptionPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerDescriptionPut>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerDescriptionPut},
-        TContext
-      > => {
+export const useOrganizerDescriptionPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerDescriptionPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerDescriptionPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerDescriptionPut;
+  },
+  TContext
+> => {
+  const mutationOptions = getOrganizerDescriptionPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerDescriptionPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the description in the given `language` from the organizer with the given `organizerId`.
  * @summary description - delete
  */
 export const organizerDescriptionDelete = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de', options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/description/${language}`,options
-    );
-  }
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/description/${language}`,
+    options
+  );
+};
 
+export const getOrganizerDescriptionDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerDescriptionDelete>>,
+    TError,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerDescriptionDelete>>,
+  TError,
+  { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerDescriptionDelete>>,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' }
+  > = (props) => {
+    const { organizerId, language } = props ?? {};
 
-export const getOrganizerDescriptionDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerDescriptionDelete(organizerId, language, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerDescriptionDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerDescriptionDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerDescriptionDelete>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}> = (props) => {
-          const {organizerId,language} = props ?? {};
+export type OrganizerDescriptionDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  organizerDescriptionDelete(organizerId,language,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerDescriptionDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof organizerDescriptionDelete>>>
-    
-    export type OrganizerDescriptionDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary description - delete
  */
-export const useOrganizerDescriptionDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerDescriptionDelete>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'},
-        TContext
-      > => {
+export const useOrganizerDescriptionDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerDescriptionDelete>>,
+    TError,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerDescriptionDelete>>,
+  TError,
+  { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const mutationOptions = getOrganizerDescriptionDeleteMutationOptions(options);
 
-      const mutationOptions = getOrganizerDescriptionDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the educational description of the organizer with the given `organizerId`. The new educational description of the request body will be set on the organizer in the given `language`. The new educational description needs to be at least one character long.
  * @summary educational description - update
  */
 export const organizerEducationalDescriptionPut = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    organizerEducationalDescriptionPut: OrganizerEducationalDescriptionPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/educational-description/${language}`,
-      organizerEducationalDescriptionPut,options
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  organizerEducationalDescriptionPut: OrganizerEducationalDescriptionPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/educational-description/${language}`,
+    organizerEducationalDescriptionPut,
+    options
+  );
+};
+
+export const getOrganizerEducationalDescriptionPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerEducationalDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerEducationalDescriptionPut;
+  },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerEducationalDescriptionPut;
+    }
+  > = (props) => {
+    const { organizerId, language, data } = props ?? {};
+
+    return organizerEducationalDescriptionPut(
+      organizerId,
+      language,
+      data,
+      axiosOptions
     );
-  }
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerEducationalDescriptionPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>
+>;
+export type OrganizerEducationalDescriptionPutMutationBody =
+  OrganizerEducationalDescriptionPut;
+export type OrganizerEducationalDescriptionPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-export const getOrganizerEducationalDescriptionPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerEducationalDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerEducationalDescriptionPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerEducationalDescriptionPut}> = (props) => {
-          const {organizerId,language,data} = props ?? {};
-
-          return  organizerEducationalDescriptionPut(organizerId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerEducationalDescriptionPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>>
-    export type OrganizerEducationalDescriptionPutMutationBody = OrganizerEducationalDescriptionPut
-    export type OrganizerEducationalDescriptionPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary educational description - update
  */
-export const useOrganizerEducationalDescriptionPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerEducationalDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerEducationalDescriptionPut},
-        TContext
-      > => {
+export const useOrganizerEducationalDescriptionPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerEducationalDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionPut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerEducationalDescriptionPut;
+  },
+  TContext
+> => {
+  const mutationOptions =
+    getOrganizerEducationalDescriptionPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerEducationalDescriptionPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the educational description in the given `language` from the organizer with the given `organizerId`.
  * @summary educational description - delete
  */
 export const organizerEducationalDescriptionDelete = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de', options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/educational-description/${language}`,options
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/educational-description/${language}`,
+    options
+  );
+};
+
+export const getOrganizerEducationalDescriptionDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
+    TError,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
+  TError,
+  { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' }
+  > = (props) => {
+    const { organizerId, language } = props ?? {};
+
+    return organizerEducationalDescriptionDelete(
+      organizerId,
+      language,
+      axiosOptions
     );
-  }
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerEducationalDescriptionDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>
+>;
 
-export const getOrganizerEducationalDescriptionDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+export type OrganizerEducationalDescriptionDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}> = (props) => {
-          const {organizerId,language} = props ?? {};
-
-          return  organizerEducationalDescriptionDelete(organizerId,language,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerEducationalDescriptionDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>>
-    
-    export type OrganizerEducationalDescriptionDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary educational description - delete
  */
-export const useOrganizerEducationalDescriptionDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de'},
-        TContext
-      > => {
+export const useOrganizerEducationalDescriptionDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
+    TError,
+    { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerEducationalDescriptionDelete>>,
+  TError,
+  { organizerId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const mutationOptions =
+    getOrganizerEducationalDescriptionDeleteMutationOptions(options);
 
-      const mutationOptions = getOrganizerEducationalDescriptionDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Add an image to an organizer.
 
 The image objects contains the following properties:
@@ -664,58 +985,85 @@ The image objects contains the following properties:
  * @summary images - add
  */
 export const organizerImagesPost = (
-    organizerId: string,
-    organizerImagePost: OrganizerImagePost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images`,
-      organizerImagePost,options
-    );
-  }
+  organizerId: string,
+  organizerImagePost: OrganizerImagePost,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images`,
+    organizerImagePost,
+    options
+  );
+};
 
+export const getOrganizerImagesPostMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImagesPost>>,
+    TError,
+    { organizerId: string; data: OrganizerImagePost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerImagesPost>>,
+  TError,
+  { organizerId: string; data: OrganizerImagePost },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerImagesPost>>,
+    { organizerId: string; data: OrganizerImagePost }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerImagesPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPost>>, TError,{organizerId: string;data: OrganizerImagePost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPost>>, TError,{organizerId: string;data: OrganizerImagePost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerImagesPost(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerImagesPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerImagesPost>>
+>;
+export type OrganizerImagesPostMutationBody = OrganizerImagePost;
+export type OrganizerImagesPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerImagesPost>>, {organizerId: string;data: OrganizerImagePost}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerImagesPost(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof organizerImagesPost>>>
-    export type OrganizerImagesPostMutationBody = OrganizerImagePost
-    export type OrganizerImagesPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - add
  */
-export const useOrganizerImagesPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPost>>, TError,{organizerId: string;data: OrganizerImagePost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerImagesPost>>,
-        TError,
-        {organizerId: string;data: OrganizerImagePost},
-        TContext
-      > => {
+export const useOrganizerImagesPost = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImagesPost>>,
+    TError,
+    { organizerId: string; data: OrganizerImagePost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerImagesPost>>,
+  TError,
+  { organizerId: string; data: OrganizerImagePost },
+  TContext
+> => {
+  const mutationOptions = getOrganizerImagesPostMutationOptions(options);
 
-      const mutationOptions = getOrganizerImagesPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Update one or more images of an organizer.
 
 The images to update are identified by their `id`. It is possible to update one or more of the following properties:
@@ -728,113 +1076,167 @@ Only images included in the `PATCH` request will be updated. Other images that a
  * @summary images - patch
  */
 export const organizerImagesPatch = (
-    organizerId: string,
-    organizerImagesPatch: OrganizerImagesPatch, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.patch(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images`,
-      organizerImagesPatch,options
-    );
-  }
+  organizerId: string,
+  organizerImagesPatch: OrganizerImagesPatch,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.patch(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images`,
+    organizerImagesPatch,
+    options
+  );
+};
 
+export const getOrganizerImagesPatchMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImagesPatch>>,
+    TError,
+    { organizerId: string; data: OrganizerImagesPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerImagesPatch>>,
+  TError,
+  { organizerId: string; data: OrganizerImagesPatch },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerImagesPatch>>,
+    { organizerId: string; data: OrganizerImagesPatch }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerImagesPatchMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPatch>>, TError,{organizerId: string;data: OrganizerImagesPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPatch>>, TError,{organizerId: string;data: OrganizerImagesPatch}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerImagesPatch(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerImagesPatchMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerImagesPatch>>
+>;
+export type OrganizerImagesPatchMutationBody = OrganizerImagesPatch;
+export type OrganizerImagesPatchMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerImagesPatch>>, {organizerId: string;data: OrganizerImagesPatch}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerImagesPatch(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerImagesPatchMutationResult = NonNullable<Awaited<ReturnType<typeof organizerImagesPatch>>>
-    export type OrganizerImagesPatchMutationBody = OrganizerImagesPatch
-    export type OrganizerImagesPatchMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - patch
  */
-export const useOrganizerImagesPatch = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImagesPatch>>, TError,{organizerId: string;data: OrganizerImagesPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerImagesPatch>>,
-        TError,
-        {organizerId: string;data: OrganizerImagesPatch},
-        TContext
-      > => {
+export const useOrganizerImagesPatch = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImagesPatch>>,
+    TError,
+    { organizerId: string; data: OrganizerImagesPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerImagesPatch>>,
+  TError,
+  { organizerId: string; data: OrganizerImagesPatch },
+  TContext
+> => {
+  const mutationOptions = getOrganizerImagesPatchMutationOptions(options);
 
-      const mutationOptions = getOrganizerImagesPatchMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Remove an image from an organizer.
  * @summary images - delete
  */
 export const organizerImageDelete = (
-    organizerId: string,
-    imageId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images/${imageId}`,options
-    );
-  }
+  organizerId: string,
+  imageId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images/${imageId}`,
+    options
+  );
+};
 
+export const getOrganizerImageDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImageDelete>>,
+    TError,
+    { organizerId: string; imageId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerImageDelete>>,
+  TError,
+  { organizerId: string; imageId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerImageDelete>>,
+    { organizerId: string; imageId: string }
+  > = (props) => {
+    const { organizerId, imageId } = props ?? {};
 
-export const getOrganizerImageDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImageDelete>>, TError,{organizerId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerImageDelete>>, TError,{organizerId: string;imageId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerImageDelete(organizerId, imageId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerImageDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerImageDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerImageDelete>>, {organizerId: string;imageId: string}> = (props) => {
-          const {organizerId,imageId} = props ?? {};
+export type OrganizerImageDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  organizerImageDelete(organizerId,imageId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerImageDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof organizerImageDelete>>>
-    
-    export type OrganizerImageDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - delete
  */
-export const useOrganizerImageDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerImageDelete>>, TError,{organizerId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerImageDelete>>,
-        TError,
-        {organizerId: string;imageId: string},
-        TContext
-      > => {
+export const useOrganizerImageDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerImageDelete>>,
+    TError,
+    { organizerId: string; imageId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerImageDelete>>,
+  TError,
+  { organizerId: string; imageId: string },
+  TContext
+> => {
+  const mutationOptions = getOrganizerImageDeleteMutationOptions(options);
 
-      const mutationOptions = getOrganizerImageDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Adds the given label to the organizer with the given `organizerId`.
 
 If the specified label does not exist yet in UiTdatabank a new label will be created with default visibility and public permissions (usable by anyone), and linked to the organizer.
@@ -843,114 +1245,169 @@ The label must be longer than 1 character and shorter than 255 characters. The l
  * @summary labels - add
  */
 export const organizerLabelsAdd = (
-    organizerId: string,
-    labelName: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/labels/${labelName}`,undefined,options
-    );
-  }
+  organizerId: string,
+  labelName: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/labels/${labelName}`,
+    undefined,
+    options
+  );
+};
 
+export const getOrganizerLabelsAddMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerLabelsAdd>>,
+    TError,
+    { organizerId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerLabelsAdd>>,
+  TError,
+  { organizerId: string; labelName: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerLabelsAdd>>,
+    { organizerId: string; labelName: string }
+  > = (props) => {
+    const { organizerId, labelName } = props ?? {};
 
-export const getOrganizerLabelsAddMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsAdd>>, TError,{organizerId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsAdd>>, TError,{organizerId: string;labelName: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerLabelsAdd(organizerId, labelName, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerLabelsAddMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerLabelsAdd>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerLabelsAdd>>, {organizerId: string;labelName: string}> = (props) => {
-          const {organizerId,labelName} = props ?? {};
+export type OrganizerLabelsAddMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  organizerLabelsAdd(organizerId,labelName,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerLabelsAddMutationResult = NonNullable<Awaited<ReturnType<typeof organizerLabelsAdd>>>
-    
-    export type OrganizerLabelsAddMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary labels - add
  */
-export const useOrganizerLabelsAdd = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsAdd>>, TError,{organizerId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerLabelsAdd>>,
-        TError,
-        {organizerId: string;labelName: string},
-        TContext
-      > => {
+export const useOrganizerLabelsAdd = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerLabelsAdd>>,
+    TError,
+    { organizerId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerLabelsAdd>>,
+  TError,
+  { organizerId: string; labelName: string },
+  TContext
+> => {
+  const mutationOptions = getOrganizerLabelsAddMutationOptions(options);
 
-      const mutationOptions = getOrganizerLabelsAddMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the given label from the organizer with the given `organizerId`.
 
 The label must be longer than 1 character and shorter than 255 characters. The label can also not contain the semicolon character. It should match the regex `^(?=.{2,255}$)(?=.*\S.*\S.*)[^;]*$`
  * @summary labels - delete
  */
 export const organizerLabelsDelete = (
-    organizerId: string,
-    labelName: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/labels/${labelName}`,options
-    );
-  }
+  organizerId: string,
+  labelName: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/labels/${labelName}`,
+    options
+  );
+};
 
+export const getOrganizerLabelsDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerLabelsDelete>>,
+    TError,
+    { organizerId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerLabelsDelete>>,
+  TError,
+  { organizerId: string; labelName: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerLabelsDelete>>,
+    { organizerId: string; labelName: string }
+  > = (props) => {
+    const { organizerId, labelName } = props ?? {};
 
-export const getOrganizerLabelsDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsDelete>>, TError,{organizerId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsDelete>>, TError,{organizerId: string;labelName: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerLabelsDelete(organizerId, labelName, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerLabelsDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerLabelsDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerLabelsDelete>>, {organizerId: string;labelName: string}> = (props) => {
-          const {organizerId,labelName} = props ?? {};
+export type OrganizerLabelsDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  organizerLabelsDelete(organizerId,labelName,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerLabelsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof organizerLabelsDelete>>>
-    
-    export type OrganizerLabelsDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary labels - delete
  */
-export const useOrganizerLabelsDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerLabelsDelete>>, TError,{organizerId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerLabelsDelete>>,
-        TError,
-        {organizerId: string;labelName: string},
-        TContext
-      > => {
+export const useOrganizerLabelsDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerLabelsDelete>>,
+    TError,
+    { organizerId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerLabelsDelete>>,
+  TError,
+  { organizerId: string; labelName: string },
+  TContext
+> => {
+  const mutationOptions = getOrganizerLabelsDeleteMutationOptions(options);
 
-      const mutationOptions = getOrganizerLabelsDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Sets the main image of an organizer. This only requires the `imageId` of the image to set as main.
 
 <!-- theme: info -->
@@ -958,115 +1415,189 @@ export const useOrganizerLabelsDelete = <TError = AxiosError<UnauthorizedRespons
  * @summary mainImage - update
  */
 export const organizerMainImageUpdate = (
-    organizerId: string,
-    organizerMainImagePut: OrganizerMainImagePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images/main`,
-      organizerMainImagePut,options
-    );
-  }
+  organizerId: string,
+  organizerMainImagePut: OrganizerMainImagePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/images/main`,
+    organizerMainImagePut,
+    options
+  );
+};
 
+export const getOrganizerMainImageUpdateMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerMainImageUpdate>>,
+    TError,
+    { organizerId: string; data: OrganizerMainImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerMainImageUpdate>>,
+  TError,
+  { organizerId: string; data: OrganizerMainImagePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerMainImageUpdate>>,
+    { organizerId: string; data: OrganizerMainImagePut }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerMainImageUpdateMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerMainImageUpdate>>, TError,{organizerId: string;data: OrganizerMainImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerMainImageUpdate>>, TError,{organizerId: string;data: OrganizerMainImagePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerMainImageUpdate(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerMainImageUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerMainImageUpdate>>
+>;
+export type OrganizerMainImageUpdateMutationBody = OrganizerMainImagePut;
+export type OrganizerMainImageUpdateMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerMainImageUpdate>>, {organizerId: string;data: OrganizerMainImagePut}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerMainImageUpdate(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerMainImageUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof organizerMainImageUpdate>>>
-    export type OrganizerMainImageUpdateMutationBody = OrganizerMainImagePut
-    export type OrganizerMainImageUpdateMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary mainImage - update
  */
-export const useOrganizerMainImageUpdate = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerMainImageUpdate>>, TError,{organizerId: string;data: OrganizerMainImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerMainImageUpdate>>,
-        TError,
-        {organizerId: string;data: OrganizerMainImagePut},
-        TContext
-      > => {
+export const useOrganizerMainImageUpdate = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerMainImageUpdate>>,
+    TError,
+    { organizerId: string; data: OrganizerMainImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerMainImageUpdate>>,
+  TError,
+  { organizerId: string; data: OrganizerMainImagePut },
+  TContext
+> => {
+  const mutationOptions = getOrganizerMainImageUpdateMutationOptions(options);
 
-      const mutationOptions = getOrganizerMainImageUpdateMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the name of the organizer with the given `organizerId`. The new name of the request body will be set on the organizer in the given `language`. The new name needs to be at least one character long.
  * @summary name - update
  */
 export const organizerNamePut = (
-    organizerId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    organizerNamePut: OrganizerNamePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/name/${language}`,
-      organizerNamePut,options
-    );
-  }
+  organizerId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  organizerNamePut: OrganizerNamePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/name/${language}`,
+    organizerNamePut,
+    options
+  );
+};
 
+export const getOrganizerNamePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerNamePut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerNamePut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerNamePut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerNamePut;
+  },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerNamePut>>,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerNamePut;
+    }
+  > = (props) => {
+    const { organizerId, language, data } = props ?? {};
 
-export const getOrganizerNamePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerNamePut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerNamePut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerNamePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerNamePut(organizerId, language, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerNamePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerNamePut>>
+>;
+export type OrganizerNamePutMutationBody = OrganizerNamePut;
+export type OrganizerNamePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerNamePut>>, {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerNamePut}> = (props) => {
-          const {organizerId,language,data} = props ?? {};
-
-          return  organizerNamePut(organizerId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerNamePutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerNamePut>>>
-    export type OrganizerNamePutMutationBody = OrganizerNamePut
-    export type OrganizerNamePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary name - update
  */
-export const useOrganizerNamePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerNamePut>>, TError,{organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerNamePut>>,
-        TError,
-        {organizerId: string;language: 'nl' | 'fr' | 'en' | 'de';data: OrganizerNamePut},
-        TContext
-      > => {
+export const useOrganizerNamePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerNamePut>>,
+    TError,
+    {
+      organizerId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: OrganizerNamePut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerNamePut>>,
+  TError,
+  {
+    organizerId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: OrganizerNamePut;
+  },
+  TContext
+> => {
+  const mutationOptions = getOrganizerNamePutMutationOptions(options);
 
-      const mutationOptions = getOrganizerNamePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * <!-- theme: warning -->
 
 > This endpoint is deprecated, use [`PUT /organizers/{organizerId}/name/{language}`](/reference/entry.json/paths/~1organizers~1{organizerId}~1name~1{language}/put) instead.
@@ -1076,112 +1607,165 @@ Updates the name of the organizer with the given `organizerId`. The new name of 
  * @summary name.nl - update
  */
 export const organizerNameNlPut = (
-    organizerId: string,
-    organizerNamePut: OrganizerNamePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/name`,
-      organizerNamePut,options
-    );
-  }
+  organizerId: string,
+  organizerNamePut: OrganizerNamePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/name`,
+    organizerNamePut,
+    options
+  );
+};
 
+export const getOrganizerNameNlPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerNameNlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerNamePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerNameNlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerNamePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerNameNlPut>>,
+    { organizerId: string; data: OrganizerNamePut }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerNameNlPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerNameNlPut>>, TError,{organizerId: string;data: OrganizerNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerNameNlPut>>, TError,{organizerId: string;data: OrganizerNamePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerNameNlPut(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerNameNlPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerNameNlPut>>
+>;
+export type OrganizerNameNlPutMutationBody = OrganizerNamePut;
+export type OrganizerNameNlPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerNameNlPut>>, {organizerId: string;data: OrganizerNamePut}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerNameNlPut(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerNameNlPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerNameNlPut>>>
-    export type OrganizerNameNlPutMutationBody = OrganizerNamePut
-    export type OrganizerNameNlPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @deprecated
  * @summary name.nl - update
  */
-export const useOrganizerNameNlPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerNameNlPut>>, TError,{organizerId: string;data: OrganizerNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerNameNlPut>>,
-        TError,
-        {organizerId: string;data: OrganizerNamePut},
-        TContext
-      > => {
+export const useOrganizerNameNlPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerNameNlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerNamePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerNameNlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerNamePut },
+  TContext
+> => {
+  const mutationOptions = getOrganizerNameNlPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerNameNlPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the url of the organizer with the given `organizerId`. The provided url can not be in use on another organizer.
  * @summary url - update
  */
 export const organizerUrlPut = (
-    organizerId: string,
-    organizerUrlPut: OrganizerUrlPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/url`,
-      organizerUrlPut,options
-    );
-  }
+  organizerId: string,
+  organizerUrlPut: OrganizerUrlPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/organizers/${organizerId}/url`,
+    organizerUrlPut,
+    options
+  );
+};
 
+export const getOrganizerUrlPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerUrlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerUrlPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof organizerUrlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerUrlPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof organizerUrlPut>>,
+    { organizerId: string; data: OrganizerUrlPut }
+  > = (props) => {
+    const { organizerId, data } = props ?? {};
 
-export const getOrganizerUrlPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerUrlPut>>, TError,{organizerId: string;data: OrganizerUrlPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof organizerUrlPut>>, TError,{organizerId: string;data: OrganizerUrlPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return organizerUrlPut(organizerId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type OrganizerUrlPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof organizerUrlPut>>
+>;
+export type OrganizerUrlPutMutationBody = OrganizerUrlPut;
+export type OrganizerUrlPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof organizerUrlPut>>, {organizerId: string;data: OrganizerUrlPut}> = (props) => {
-          const {organizerId,data} = props ?? {};
-
-          return  organizerUrlPut(organizerId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type OrganizerUrlPutMutationResult = NonNullable<Awaited<ReturnType<typeof organizerUrlPut>>>
-    export type OrganizerUrlPutMutationBody = OrganizerUrlPut
-    export type OrganizerUrlPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary url - update
  */
-export const useOrganizerUrlPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof organizerUrlPut>>, TError,{organizerId: string;data: OrganizerUrlPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof organizerUrlPut>>,
-        TError,
-        {organizerId: string;data: OrganizerUrlPut},
-        TContext
-      > => {
+export const useOrganizerUrlPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof organizerUrlPut>>,
+    TError,
+    { organizerId: string; data: OrganizerUrlPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof organizerUrlPut>>,
+  TError,
+  { organizerId: string; data: OrganizerUrlPut },
+  TContext
+> => {
+  const mutationOptions = getOrganizerUrlPutMutationOptions(options);
 
-      const mutationOptions = getOrganizerUrlPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+};

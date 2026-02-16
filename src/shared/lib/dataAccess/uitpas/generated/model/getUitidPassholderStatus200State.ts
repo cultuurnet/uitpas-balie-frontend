@@ -9,8 +9,8 @@
 /**
  * State of the passholder
  */
-export type GetUitidPassholderStatus200State = typeof GetUitidPassholderStatus200State[keyof typeof GetUitidPassholderStatus200State];
-
+export type GetUitidPassholderStatus200State =
+  (typeof GetUitidPassholderStatus200State)[keyof typeof GetUitidPassholderStatus200State];
 
 export const GetUitidPassholderStatus200State = {
   REGISTERED: 'REGISTERED',

@@ -12,8 +12,8 @@
 - `EXPIRED`: the passholder is NOT entitled to social tariff anymore
 - `NONE`: the passholder is NOT entitled to social tariff
  */
-export type PassSocialTariffStatus = typeof PassSocialTariffStatus[keyof typeof PassSocialTariffStatus];
-
+export type PassSocialTariffStatus =
+  (typeof PassSocialTariffStatus)[keyof typeof PassSocialTariffStatus];
 
 export const PassSocialTariffStatus = {
   ACTIVE: 'ACTIVE',

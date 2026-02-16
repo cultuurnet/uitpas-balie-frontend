@@ -17,8 +17,8 @@
 - `PASSHOLDER_NO_ACTIVE_CARDSYSTEMS`: the passholder is not active or has no active card system memberships
 
  */
-export type GetRewardsIdRedeemStatus200Reason = typeof GetRewardsIdRedeemStatus200Reason[keyof typeof GetRewardsIdRedeemStatus200Reason];
-
+export type GetRewardsIdRedeemStatus200Reason =
+  (typeof GetRewardsIdRedeemStatus200Reason)[keyof typeof GetRewardsIdRedeemStatus200Reason];
 
 export const GetRewardsIdRedeemStatus200Reason = {
   INVALID_CARD: 'INVALID_CARD',

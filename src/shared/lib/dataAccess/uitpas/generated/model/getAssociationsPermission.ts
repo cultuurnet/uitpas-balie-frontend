@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetAssociationsPermission = typeof GetAssociationsPermission[keyof typeof GetAssociationsPermission];
-
+export type GetAssociationsPermission =
+  (typeof GetAssociationsPermission)[keyof typeof GetAssociationsPermission];
 
 export const GetAssociationsPermission = {
   READ: 'READ',

@@ -8,20 +8,20 @@
 import type { GetTariffsType } from './getTariffsType';
 
 export type GetTariffsParams = {
-/**
- * The regular price the passholder would have to pay for the ticket if they are not eligible for discounts
- */
-regularPrice: number;
-/**
- * The id of the event for which the ticket is sold
- */
-eventId: string;
-/**
- * UiTPAS Number identifying the passholder who wants to buy a ticket
- */
-uitpasNumber: string;
-/**
- * Return only available tariffs of this type. Defaults to ANY type.
- */
-type?: GetTariffsType;
+  /**
+   * The regular price the passholder would have to pay for the ticket if they are not eligible for discounts
+   */
+  regularPrice: number;
+  /**
+   * The id of the event for which the ticket is sold
+   */
+  eventId: string;
+  /**
+   * UiTPAS Number identifying the passholder who wants to buy a ticket
+   */
+  uitpasNumber: string;
+  /**
+   * Return only available tariffs of this type. Defaults to ANY type.
+   */
+  type?: GetTariffsType;
 };

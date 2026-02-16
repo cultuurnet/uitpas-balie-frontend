@@ -9,8 +9,8 @@
 /**
  * Whether or not the passholder has a an UiTiD registered. This field is always available in responses.
  */
-export type PassholderUitidStatus = typeof PassholderUitidStatus[keyof typeof PassholderUitidStatus];
-
+export type PassholderUitidStatus =
+  (typeof PassholderUitidStatus)[keyof typeof PassholderUitidStatus];
 
 export const PassholderUitidStatus = {
   REGISTERED: 'REGISTERED',

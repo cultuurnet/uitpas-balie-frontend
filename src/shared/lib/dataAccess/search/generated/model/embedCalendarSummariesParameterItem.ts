@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type EmbedCalendarSummariesParameterItem = typeof EmbedCalendarSummariesParameterItem[keyof typeof EmbedCalendarSummariesParameterItem];
-
+export type EmbedCalendarSummariesParameterItem =
+  (typeof EmbedCalendarSummariesParameterItem)[keyof typeof EmbedCalendarSummariesParameterItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EmbedCalendarSummariesParameterItem = {

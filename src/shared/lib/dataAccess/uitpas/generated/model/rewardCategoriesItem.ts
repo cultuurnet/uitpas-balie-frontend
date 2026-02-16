@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type RewardCategoriesItem = typeof RewardCategoriesItem[keyof typeof RewardCategoriesItem];
-
+export type RewardCategoriesItem =
+  (typeof RewardCategoriesItem)[keyof typeof RewardCategoriesItem];
 
 export const RewardCategoriesItem = {
   Eten_en_drinken: 'Eten en drinken',

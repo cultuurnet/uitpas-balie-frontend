@@ -9,8 +9,7 @@
 /**
  * Status of this reward.
  */
-export type RewardStatus = typeof RewardStatus[keyof typeof RewardStatus];
-
+export type RewardStatus = (typeof RewardStatus)[keyof typeof RewardStatus];
 
 export const RewardStatus = {
   ACTIVE: 'ACTIVE',

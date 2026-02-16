@@ -15,8 +15,8 @@
 - `QUARTER`: this constraint applies to the first day of the quarter to the last day: January-March, April-June, July-September, October-December.
 - `YEAR`: from the Jan 1st to Dec 31st
  */
-export type RewardRedeemConstraintPeriod = typeof RewardRedeemConstraintPeriod[keyof typeof RewardRedeemConstraintPeriod];
-
+export type RewardRedeemConstraintPeriod =
+  (typeof RewardRedeemConstraintPeriod)[keyof typeof RewardRedeemConstraintPeriod];
 
 export const RewardRedeemConstraintPeriod = {
   ABSOLUTE: 'ABSOLUTE',

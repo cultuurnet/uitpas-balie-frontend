@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type SortModifiedParameter = typeof SortModifiedParameter[keyof typeof SortModifiedParameter];
-
+export type SortModifiedParameter =
+  (typeof SortModifiedParameter)[keyof typeof SortModifiedParameter];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SortModifiedParameter = {

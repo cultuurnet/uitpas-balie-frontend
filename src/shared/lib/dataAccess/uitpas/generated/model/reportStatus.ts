@@ -9,8 +9,7 @@
 /**
  * Whether the report has started (but not ready yet), is available for download, or failed to be created.
  */
-export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
-
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus];
 
 export const ReportStatus = {
   STARTED: 'STARTED',

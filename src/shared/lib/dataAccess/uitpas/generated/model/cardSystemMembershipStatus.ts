@@ -9,8 +9,8 @@
 /**
  * Whether the membership is active or blocked.
  */
-export type CardSystemMembershipStatus = typeof CardSystemMembershipStatus[keyof typeof CardSystemMembershipStatus];
-
+export type CardSystemMembershipStatus =
+  (typeof CardSystemMembershipStatus)[keyof typeof CardSystemMembershipStatus];
 
 export const CardSystemMembershipStatus = {
   ACTIVE: 'ACTIVE',
