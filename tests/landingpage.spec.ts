@@ -8,6 +8,8 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
+  await page.waitForTimeout(3000);
+
   await expect(
     page.getByRole('heading', { name: 'selecteer je balie' })
   ).toBeVisible();
