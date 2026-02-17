@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -40,7 +42,14 @@ export default defineConfig({
     // },
 
     {
+      name: 'setup-user',
+      testMatch: /auth\.setup\.ts/,
+      use: { ...devices['Pixel 5'] },
+    },
+
+    {
       name: 'Mobile Chrome',
+      dependencies: ['setup-user'],
       use: { ...devices['Pixel 5'] },
     },
   ],
@@ -50,7 +59,5 @@ export default defineConfig({
     command: 'yarn dev',
     url: 'http://localhost:3000/app',
     reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
-    stderr: 'pipe',
   },
 });
