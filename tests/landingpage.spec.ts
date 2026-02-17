@@ -14,6 +14,14 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByRole('heading', { name: 'selecteer je balie' })
   ).toBeVisible();
 
+  await expect(
+    page.getByRole('heading', { name: 'laatst gebruikt' })
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole('heading', { name: 'andere balies' })
+  ).toBeVisible();
+
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
 
   // Select counter
@@ -21,8 +29,6 @@ test('Go to landingpage', async ({ page, baseURL }) => {
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
-
-  await page.getByRole('button', { name: 'muntpunt' }).click();
 
   await page.screenshot({ path: 'activity.png' });
 
