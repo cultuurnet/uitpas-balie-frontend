@@ -22,6 +22,8 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
+  await page.getByRole('button', { name: 'muntpunt' }).click();
+
   await page.screenshot({ path: 'activity.png' });
 
   // Counter detail
