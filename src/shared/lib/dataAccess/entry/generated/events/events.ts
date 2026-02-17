@@ -72,7 +72,7 @@ export const eventPost = (
 
 export const getEventPostMutationOptions = <
   TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPost>>,
@@ -114,7 +114,7 @@ export type EventPostMutationError = AxiosError<
  */
 export const useEventPost = <
   TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPost>>,
@@ -150,7 +150,7 @@ export const getEventGetQueryKey = (eventId: string) => {
 
 export const getEventGetQueryOptions = <
   TData = Awaited<ReturnType<typeof eventGet>>,
-  TError = AxiosError<NotFoundResponse>
+  TError = AxiosError<NotFoundResponse>,
 >(
   eventId: string,
   options?: {
@@ -188,7 +188,7 @@ export type EventGetQueryError = AxiosError<NotFoundResponse>;
  */
 export const useEventGet = <
   TData = Awaited<ReturnType<typeof eventGet>>,
-  TError = AxiosError<NotFoundResponse>
+  TError = AxiosError<NotFoundResponse>,
 >(
   eventId: string,
   options?: {
@@ -235,7 +235,7 @@ export const getEventPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPut>>,
@@ -279,7 +279,7 @@ export const useEventPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPut>>,
@@ -313,7 +313,7 @@ export const getEventDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDelete>>,
@@ -357,7 +357,7 @@ export const useEventDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDelete>>,
@@ -404,7 +404,7 @@ export const eventImportNew = (
 
 export const getEventImportNewMutationOptions = <
   TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImportNew>>,
@@ -447,7 +447,7 @@ export type EventImportNewMutationError = AxiosError<
  */
 export const useEventImportNew = <
   TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImportNew>>,
@@ -491,7 +491,7 @@ export const getEventImportUpdateMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImportUpdate>>,
@@ -536,7 +536,7 @@ export const useEventImportUpdate = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImportUpdate>>,
@@ -577,7 +577,7 @@ export const getEventCopiesPostMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventCopiesPost>>,
@@ -621,7 +621,7 @@ export const useEventCopiesPost = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventCopiesPost>>,
@@ -665,7 +665,7 @@ export const getEventAttendanceModePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAttendanceModePut>>,
@@ -709,7 +709,7 @@ export const useEventAttendanceModePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAttendanceModePut>>,
@@ -750,7 +750,7 @@ export const getEventAudiencePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAudiencePut>>,
@@ -794,7 +794,7 @@ export const useEventAudiencePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAudiencePut>>,
@@ -833,7 +833,7 @@ export const getEventAvailableFromPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAvailableFromPut>>,
@@ -877,7 +877,7 @@ export const useEventAvailableFromPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventAvailableFromPut>>,
@@ -922,7 +922,7 @@ export const getEventBookingAvailabilityPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
@@ -966,7 +966,7 @@ export const useEventBookingAvailabilityPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
@@ -1010,7 +1010,7 @@ export const getEventBookingInfoPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventBookingInfoPut>>,
@@ -1054,7 +1054,7 @@ export const useEventBookingInfoPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventBookingInfoPut>>,
@@ -1118,7 +1118,7 @@ export const getEventCalendarPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventCalendarPut>>,
@@ -1162,7 +1162,7 @@ export const useEventCalendarPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventCalendarPut>>,
@@ -1213,7 +1213,7 @@ export const getEventCalendarSummaryGetQueryKey = (
 
 export const getEventCalendarSummaryGetQueryOptions = <
   TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
-  TError = AxiosError<NotFoundResponse>
+  TError = AxiosError<NotFoundResponse>,
 >(
   eventId: string,
   params?: EventCalendarSummaryGetParams,
@@ -1261,7 +1261,7 @@ export type EventCalendarSummaryGetQueryError = AxiosError<NotFoundResponse>;
  */
 export const useEventCalendarSummaryGet = <
   TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
-  TError = AxiosError<NotFoundResponse>
+  TError = AxiosError<NotFoundResponse>,
 >(
   eventId: string,
   params?: EventCalendarSummaryGetParams,
@@ -1319,7 +1319,7 @@ export const getEventContactPointPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventContactPointPut>>,
@@ -1363,7 +1363,7 @@ export const useEventContactPointPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventContactPointPut>>,
@@ -1411,7 +1411,7 @@ export const getEventDescriptionPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDescriptionPut>>,
@@ -1467,7 +1467,7 @@ export const useEventDescriptionPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDescriptionPut>>,
@@ -1515,7 +1515,7 @@ export const getEventDescriptionDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDescriptionDelete>>,
@@ -1559,7 +1559,7 @@ export const useEventDescriptionDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventDescriptionDelete>>,
@@ -1602,7 +1602,7 @@ export const getEventFacilitiesPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventFacilitiesPut>>,
@@ -1646,7 +1646,7 @@ export const useEventFacilitiesPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventFacilitiesPut>>,
@@ -1685,7 +1685,7 @@ export const getEventImagesPostMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImagesPost>>,
@@ -1729,7 +1729,7 @@ export const useEventImagesPost = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImagesPost>>,
@@ -1765,7 +1765,7 @@ export const eventImageDelete = (
 
 export const getEventImageDeleteMutationOptions = <
   TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImageDelete>>,
@@ -1807,7 +1807,7 @@ export type EventImageDeleteMutationError = AxiosError<
  */
 export const useEventImageDelete = <
   TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImageDelete>>,
@@ -1847,7 +1847,7 @@ export const getEventImagePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImagePut>>,
@@ -1891,7 +1891,7 @@ export const useEventImagePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventImagePut>>,
@@ -1930,7 +1930,7 @@ export const getEventMainImagePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventMainImagePut>>,
@@ -1974,7 +1974,7 @@ export const useEventMainImagePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventMainImagePut>>,
@@ -2017,7 +2017,7 @@ export const getEventLabelsAddMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLabelsAdd>>,
@@ -2061,7 +2061,7 @@ export const useEventLabelsAdd = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLabelsAdd>>,
@@ -2099,7 +2099,7 @@ export const getEventLabelsDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLabelsDelete>>,
@@ -2143,7 +2143,7 @@ export const useEventLabelsDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLabelsDelete>>,
@@ -2184,7 +2184,7 @@ export const getEventLocationPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLocationPut>>,
@@ -2228,7 +2228,7 @@ export const useEventLocationPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventLocationPut>>,
@@ -2285,7 +2285,7 @@ export const getEventMajorInfoPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventMajorInfoPut>>,
@@ -2330,7 +2330,7 @@ export const useEventMajorInfoPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventMajorInfoPut>>,
@@ -2370,7 +2370,7 @@ export const getEventNamePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventNamePut>>,
@@ -2418,7 +2418,7 @@ export const useEventNamePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventNamePut>>,
@@ -2461,7 +2461,7 @@ export const getEventOnlineUrlPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOnlineUrlPut>>,
@@ -2505,7 +2505,7 @@ export const useEventOnlineUrlPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOnlineUrlPut>>,
@@ -2542,7 +2542,7 @@ export const getEventOnlineUrlDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
@@ -2586,7 +2586,7 @@ export const useEventOnlineUrlDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
@@ -2624,7 +2624,7 @@ export const getEventOrganizerDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOrganizerDelete>>,
@@ -2668,7 +2668,7 @@ export const useEventOrganizerDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOrganizerDelete>>,
@@ -2711,7 +2711,7 @@ export const getEventOrganizerUpdateMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOrganizerUpdate>>,
@@ -2755,7 +2755,7 @@ export const useEventOrganizerUpdate = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventOrganizerUpdate>>,
@@ -2794,7 +2794,7 @@ export const getEventPriceInfoPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPriceInfoPut>>,
@@ -2838,7 +2838,7 @@ export const useEventPriceInfoPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventPriceInfoPut>>,
@@ -2879,7 +2879,7 @@ export const getEventStatusPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventStatusPut>>,
@@ -2923,7 +2923,7 @@ export const useEventStatusPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventStatusPut>>,
@@ -2972,7 +2972,7 @@ export const getEventSubEventPatchMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventSubEventPatch>>,
@@ -3016,7 +3016,7 @@ export const useEventSubEventPatch = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventSubEventPatch>>,
@@ -3059,7 +3059,7 @@ export const getEventTermsEventtypePutMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsEventtypePut>>,
@@ -3103,7 +3103,7 @@ export const useEventTermsEventtypePut = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsEventtypePut>>,
@@ -3142,7 +3142,7 @@ export const getEventTermsThemeDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsThemeDelete>>,
@@ -3186,7 +3186,7 @@ export const useEventTermsThemeDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsThemeDelete>>,
@@ -3229,7 +3229,7 @@ export const getEventTermsThemePutMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsThemePut>>,
@@ -3273,7 +3273,7 @@ export const useEventTermsThemePut = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTermsThemePut>>,
@@ -3310,7 +3310,7 @@ export const getEventTypicalAgeRangeDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
@@ -3354,7 +3354,7 @@ export const useEventTypicalAgeRangeDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
@@ -3393,7 +3393,7 @@ export const getEventTypicalAgeRangePutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
@@ -3437,7 +3437,7 @@ export const useEventTypicalAgeRangePut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
@@ -3481,7 +3481,7 @@ export const getEventVideosPostMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosPost>>,
@@ -3525,7 +3525,7 @@ export const useEventVideosPost = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosPost>>,
@@ -3574,7 +3574,7 @@ export const getEventVideosPatchMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosPatch>>,
@@ -3618,7 +3618,7 @@ export const useEventVideosPatch = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosPatch>>,
@@ -3656,7 +3656,7 @@ export const getEventVideosDeleteMutationOptions = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosDelete>>,
@@ -3700,7 +3700,7 @@ export const useEventVideosDelete = <
   TError = AxiosError<
     UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventVideosDelete>>,
@@ -3745,7 +3745,7 @@ export const getEventWorkflowStatusPutMutationOptions = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
@@ -3789,7 +3789,7 @@ export const useEventWorkflowStatusPut = <
   TError = AxiosError<
     Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
   >,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof eventWorkflowStatusPut>>,

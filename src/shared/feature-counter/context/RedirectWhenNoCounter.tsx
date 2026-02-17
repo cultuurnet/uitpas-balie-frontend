@@ -21,18 +21,18 @@ export const RedirectWhenNoCounter: FC<
     whiteListedPages === undefined
       ? Boolean(isLoggedIn && !counter && asPath !== counterPath)
       : Array.isArray(whiteListedPages)
-      ? Boolean(
-          isLoggedIn &&
+        ? Boolean(
+            isLoggedIn &&
             !counter &&
             asPath !== counterPath &&
             !whiteListedPages.includes(asPath)
-        )
-      : Boolean(
-          isLoggedIn &&
+          )
+        : Boolean(
+            isLoggedIn &&
             !counter &&
             asPath !== counterPath &&
             asPath !== whiteListedPages
-        );
+          );
 
   const shouldRedirectToApp = Boolean(
     isLoggedIn && counter && asPath === counterPath
