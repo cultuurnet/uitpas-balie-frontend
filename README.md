@@ -38,7 +38,6 @@ To get started with local development, you need to set up your environment varia
 
 2. By default, this frontend application uses the Test environment endpoints. To switch to the Acceptance environment, simply open the `.env.local` file and replace all instances of `test` with `acc`.
 
-3. If you also want to run the AngularJS application locally, modify the `NEXT_PUBLIC_LEGACY_APP_URL` variable in the `.env.local` file to `http://localhost:9999`. You can then start the AngularJS application separately.
 
 ### Step 3: Install Dependencies
 
@@ -81,15 +80,6 @@ This project is based on Next.js v14, utilizing the app router. It also employs 
 - FontAwesome (v6) icons.
 
 ### Main Concept
-
-The project is designed for a gradual migration from the AngularJS application to this Next.js application. 
-Whenever a route is available in the Next.js app, it is used; otherwise, an iframe with the AngularJS application is rendered.
-
-⚠️ Restart the dev server after adding a new path in NextJS!
-
-Communication between the Next.js and AngularJS apps is facilitated through EventListeners on the Window object. 
-The logic for this is encapsulated in `src/feature-legacy`. 
-Once the migration is complete, the `feature-legacy` can be safely removed along with any associated references.
 
 The mobile app is also served by the same Next.js application, allowing code to be shared between web and mobile environments. 
 Detection and switching between the web and mobile app versions are based on browser size, using the `useDetectMobile.ts` React hook.
