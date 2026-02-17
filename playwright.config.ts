@@ -50,7 +50,10 @@ export default defineConfig({
     {
       name: 'Mobile Chrome',
       dependencies: ['setup-user'],
-      use: { ...devices['Pixel 5'] },
+      use: {
+        ...devices['Pixel 5'],
+        storageState: 'playwright/.auth/user.json',
+      },
     },
   ],
 
