@@ -18,6 +18,9 @@ jobs:
       - name: Install Playwright Browsers
         run: yarn playwright install chromium --with-deps
       - name: Run Playwright tests
+        env:
+          E2E_TEST_ADMIN_EMAIL: ${{ secrets.E2E_TEST_ADMIN_EMAIL }}
+          E2E_TEST_ADMIN_PASSWORD: ${{ secrets.E2E_TEST_ADMIN_PASSWORD }}
         run: yarn playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
