@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 test('Go to landingpage', async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/app`);
 
+  await page.screenshot({ path: 'landing-start.png' });
+
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 

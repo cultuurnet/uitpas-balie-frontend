@@ -4,6 +4,7 @@ import { expect, test as setup } from '@playwright/test';
 const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ baseURL, page }) => {
+  await page.screenshot({ path: 'start.png' });
   await page.goto(`${baseURL}/login?redirectTo=/`);
 
   await page.waitForLoadState('networkidle');
@@ -25,6 +26,9 @@ setup('authenticate', async ({ baseURL, page }) => {
     .fill(process.env.E2E_TEST_ADMIN_PASSWORD ?? '');
 
   await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
+
+  await page.screenshot({ path: 'login.png' });
+
   await page.waitForLoadState('networkidle');
 
   // Modify cookies after login
