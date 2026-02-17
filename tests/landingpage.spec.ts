@@ -17,12 +17,20 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   // Select counter
   await page.getByRole('button', { name: 'muntpunt' }).click();
 
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+
+  await page.screenshot({ path: 'activity.png' });
+
   // Counter detail
   await expect(
     page.getByRole('heading', { name: 'kies een activiteit' })
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'kom naar muntpunt' }).click();
+
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
 
   // Event detail
   await expect(
@@ -41,6 +49,9 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   await page.getByPlaceholder('Kaartnummer of RRN').fill('55100100130');
 
   await page.getByRole('button', { name: 'bevestig' }).click();
+
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
 
   await expect(
     page.getByRole('heading', { name: 'Jean-Marie Hoffelinck' })
