@@ -63,22 +63,5 @@ export default defineConfig({
     command: 'yarn build && yarn start',
     url: 'http://localhost:3000/app',
     reuseExistingServer: !process.env.CI,
-    env: {
-      NEXT_PUBLIC_LEGACY_APP_URL: 'http://localhost:3000',
-      NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT:
-        'https://balie-test.uitpas.be/culturefeed/oauth/token',
-      NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT:
-        'https://balie-test.uitpas.be/uitid/logout',
-      NEXT_PUBLIC_LEGACY_API_PATH: 'https://balie-test.uitpas.be',
-      NEXT_PUBLIC_API_PATH: 'https://api-test.uitpas.be',
-      NEXT_PUBLIC_SEARCH_API_PATH: 'https://search-test.uitdatabank.be',
-      NEXT_PUBLIC_ENTRY_API_PATH: 'https://io-test.uitdatabank.be',
-      NEXT_PUBLIC_OAUTH_PATH:
-        'https://balie-test.uitpas.be/culturefeed/oauth/connect',
-      NEXT_PUBLIC_UITINVLAANDEREN_URL: 'https://test.uitinvlaanderen.be',
-      NEXT_PUBLIC_UITDATABANK_URL: 'https://test.uitdatabank.be',
-      NEXT_PUBLIC_OAUTH_USERINFO_PATH: 'https://account-test.uitid.be/userinfo',
-      NEXT_PUBLIC_BASE_PATH: '/app',
-    },
   },
 });
