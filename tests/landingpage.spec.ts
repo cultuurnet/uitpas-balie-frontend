@@ -1,13 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test('Go to landingpage', async ({ page, baseURL }) => {
-  test.setTimeout(120000); // 120 seconds (2 minutes)
-
   await page.goto(`${baseURL}/app`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
-
-  await page.waitForTimeout(3000);
 
   await expect(
     page.getByRole('heading', { name: 'selecteer je balie' })
@@ -20,8 +16,6 @@ test('Go to landingpage', async ({ page, baseURL }) => {
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
-
-  await page.screenshot({ path: 'activity.png' });
 
   // Counter detail
   await expect(
