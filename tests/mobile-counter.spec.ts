@@ -72,7 +72,9 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByText('eerlijk kopje koffie in Muntpunt')
   ).toBeVisible();
 
-  await page.getByRole('button', { name: 'sluiten' }).click();
+  await page.getByRole('button', { name: 'Omruilen (2 punten)' }).click();
+
+  await expect(page.getByText('voordeel omgeruild')).toBeVisible();
 
   await expect(
     page.getByRole('button', { name: 'Volgende uitpas scannen' })
