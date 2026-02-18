@@ -91,4 +91,16 @@ test('Go to landingpage', async ({ page, baseURL }) => {
 
   // Should have kansenstatuut
   await expect(page.getByText('kansenstatuut geldig')).toBeVisible();
+
+  await page.getByRole('button', { name: 'kies tarief' }).click();
+
+  await expect(
+    page.getByRole('heading', { name: 'kansentarief' })
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole('button', { name: 'tarief toekennen (€  2)' })
+  ).toBeVisible();
+
+  await expect(page.getByText('korting geregistreerd (€ 2)')).toBeVisible();
 });
