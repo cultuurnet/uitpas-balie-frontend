@@ -22,7 +22,7 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByRole('heading', { name: 'kies een activiteit' })
   ).toBeVisible();
 
-  await page.getByRole('button', { name: 'schaken in muntpunt' }).click();
+  await page.getByRole('button', { name: 'schaken in het muntpunt' }).click();
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
@@ -33,7 +33,7 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   ).toBeVisible();
 
   await expect(
-    page.getByRole('heading', { name: 'schaken in muntpunt' })
+    page.getByRole('heading', { name: 'schaken in het muntpunt' })
   ).toBeVisible();
 
   await expect(
