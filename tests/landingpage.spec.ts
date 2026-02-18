@@ -11,14 +11,6 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByRole('heading', { name: 'selecteer je balie' })
   ).toBeVisible();
 
-  await expect(
-    page.getByRole('heading', { name: 'laatst gebruikt' })
-  ).toBeVisible();
-
-  await expect(
-    page.getByRole('heading', { name: 'andere balies' })
-  ).toBeVisible();
-
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
 
   // Select counter

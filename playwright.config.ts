@@ -64,7 +64,7 @@ export default defineConfig({
     url: 'http://localhost:3000/app',
     reuseExistingServer: !process.env.CI,
     env: {
-      NEXT_PUBLIC_LEGACY_APP_URL: 'https://balie-test.uitpas.be',
+      NEXT_PUBLIC_LEGACY_APP_URL: 'http://localhost:3000',
       NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT:
         'https://balie-test.uitpas.be/culturefeed/oauth/token',
       NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT:
