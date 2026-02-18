@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const MUNTPUNT_ID = '28808C2F-0DB2-D2CF-F508ECB994D2505F';
-
 test('Go to landingpage', async ({ page, baseURL }) => {
   test.setTimeout(120000); // 120 seconds (2 minutes)
 
@@ -15,10 +13,10 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByRole('heading', { name: 'selecteer je balie' })
   ).toBeVisible();
 
-  // Go to Muntpunt hardcoded:
-  await page.goto(`${baseURL}/app/mobile/counters/${MUNTPUNT_ID}/activities`);
+  await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
 
   // Select counter
+  await page.getByRole('button', { name: 'muntpunt' }).click();
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
