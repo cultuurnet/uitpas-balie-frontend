@@ -79,4 +79,16 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   await expect(
     page.getByRole('button', { name: 'Volgende uitpas scannen' })
   ).toBeVisible();
+
+  // Scan MIA card
+  await page.getByPlaceholder('Kaartnummer of RRN').fill('0900011354819');
+
+  await page.getByRole('button', { name: 'bevestig' }).click();
+
+  await expect(
+    page.getByRole('heading', { name: 'Bernadette De Los Palmas' })
+  ).toBeVisible();
+
+  // Should have kansenstatuut
+  await expect(page.getByText('kansenstatuut geldig')).toBeVisible();
 });
