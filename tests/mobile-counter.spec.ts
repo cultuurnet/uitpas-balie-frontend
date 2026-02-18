@@ -40,6 +40,10 @@ test('Go to landingpage', async ({ page, baseURL }) => {
     page.getByRole('button', { name: 'barcode scannen' })
   ).toBeVisible();
 
+  await page.getByRole('button', { name: 'bevestig' }).click();
+  // Get validation error
+  await expect(page.getByText('Dit veld is verplicht')).toBeVisible();
+
   // TODO make the pass number configurable
   await page.getByPlaceholder('Kaartnummer of RRN').fill('55100100130');
 
@@ -53,6 +57,22 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   ).toBeVisible();
 
   await expect(page.getByText('punt gespaard')).toBeVisible();
+
+  await page.getByRole('button', { name: 'kies tarief' }).click();
+
+  await expect(
+    page.getByText('Er zijn momenteel geen kortingen beschikbaar')
+  ).toBeVisible();
+
+  await page.getByRole('button', { name: 'sluiten' }).click();
+
+  await page.getByRole('button', { name: 'voordeel omruilen' }).click();
+
+  await expect(
+    page.getByText('eerlijk kopje koffie in Muntpunt')
+  ).toBeVisible();
+
+  await page.getByRole('button', { name: 'sluiten' }).click();
 
   await expect(
     page.getByRole('button', { name: 'Volgende uitpas scannen' })
