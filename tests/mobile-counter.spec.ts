@@ -60,11 +60,16 @@ test('Go to landingpage', async ({ page, baseURL }) => {
 
   await page.getByRole('button', { name: 'kies tarief' }).click();
 
-  await expect(page.getByText('Geen korting beschikbaar')).toBeVisible();
   await expect(
-    page.getByText(
-      'Geen korting Je UiTPAS heeft geen geldig kansenstatuut en er zijn ook geen coupon-kortingen beschikbaar.'
-    )
+    page.getByRole('heading', { name: 'geen korting beschikbaar' }).first()
+  ).toBeVisible();
+
+  await expect(
+    page
+      .getByText(
+        'Je UiTPAS heeft geen geldig kansenstatuut en er zijn ook geen coupon-kortingen beschikbaar.'
+      )
+      .first()
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'sluiten' }).click();
@@ -98,12 +103,13 @@ test('Go to landingpage', async ({ page, baseURL }) => {
   await page.getByRole('button', { name: 'kies tarief' }).click();
 
   await expect(
-    page.getByRole('heading', { name: 'kansentarief' })
+    page.getByRole('heading', { name: 'kansentarief' }).first()
   ).toBeVisible();
 
-  await expect(
-    page.getByRole('button', { name: 'tarief toekennen (€  2)' })
-  ).toBeVisible();
+  await page
+    .getByRole('button', { name: 'tarief toekennen (€  2)' })
+    .first()
+    .click();
 
   await expect(page.getByText('korting geregistreerd (€ 2)')).toBeVisible();
 });
