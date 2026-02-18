@@ -60,8 +60,11 @@ test('Go to landingpage', async ({ page, baseURL }) => {
 
   await page.getByRole('button', { name: 'kies tarief' }).click();
 
+  await expect(page.getByText('Geen korting beschikbaar')).toBeVisible();
   await expect(
-    page.getByText('Er zijn momenteel geen kortingen beschikbaar')
+    page.getByText(
+      'Geen korting Je UiTPAS heeft geen geldig kansenstatuut en er zijn ook geen coupon-kortingen beschikbaar.'
+    )
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'sluiten' }).click();
