@@ -20,11 +20,11 @@
 
 ### Step 1: Specify Node.js Version
 
-Before you begin, make sure you have Node.js version 18.16.1 installed (other versions might work, but was not tested).
-You can use `nvm` (Node Version Manager) to easily switch to this version if you have it installed. If not, you can install it with the following command:
+Before you begin, make sure you have Node.js installed.
+You can use `nvm` (Node Version Manager) to easily switch to this version if you have it installed. You can use the correct node version defined in the .nvmrc with teh following command
 
 ```shell
-nvm install 18.16.1
+nvm use
 ```
 
 ### Step 2: Setting Up Environment Variables
