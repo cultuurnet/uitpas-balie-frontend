@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+const CARD_NUMBER = '0900004518206';
+const CARD_NUMBER_WITH_SOCIAL_TARIFF = '0900011354819';
+
 test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.goto(`${baseURL}/app`);
   await page.waitForLoadState('networkidle');
@@ -41,7 +44,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await expect(page.getByText('Dit veld is verplicht')).toBeVisible();
 
   // TODO make the pass number configurable
-  await page.getByPlaceholder('Kaartnummer of RRN').fill('55100100130');
+  await page.getByPlaceholder('Kaartnummer of RRN').fill(CARD_NUMBER);
 
   await page.getByRole('button', { name: 'bevestig' }).click();
 
@@ -85,7 +88,9 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   ).toBeVisible();
 
   // Scan MIA card
-  await page.getByPlaceholder('Kaartnummer of RRN').fill('0900011354819');
+  await page
+    .getByPlaceholder('Kaartnummer of RRN')
+    .fill(CARD_NUMBER_WITH_SOCIAL_TARIFF);
 
   await page.getByRole('button', { name: 'bevestig' }).click();
 
