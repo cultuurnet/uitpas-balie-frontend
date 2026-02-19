@@ -1,7 +1,5 @@
-import { FallbackPage } from '@/web/feature-legacy';
-
-const Fallback = () => {
-  return <FallbackPage />;
+const Homepage = () => {
+  return <h1>Homepage</h1>;
 };
 
-export default Fallback;
+export default Homepage;

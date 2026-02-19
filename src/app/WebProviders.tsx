@@ -6,7 +6,6 @@ import { AuthProvider } from '@/shared/lib/auth';
 import { UserProvider } from '@/shared/lib/user';
 import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
 import { Layout } from '@/layouts';
-import { LegacyModeProvider } from '@/web/feature-legacy';
 import ThemeRegistry from '@/app/ThemeRegistry';
 
 const queryClient = new QueryClient({
@@ -29,9 +28,7 @@ export function WebProviders({ children }: PropsWithChildren) {
         <AuthProvider loginPath={'/login'}>
           <UserProvider>
             <CounterProvider counterPath={'/counters'}>
-              <Layout>
-                <LegacyModeProvider>{children}</LegacyModeProvider>
-              </Layout>
+              <Layout>{children}</Layout>
             </CounterProvider>
           </UserProvider>
         </AuthProvider>
