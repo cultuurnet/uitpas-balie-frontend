@@ -1,17 +1,18 @@
 # Table of Contents
+
 - [UiTPAS Balie](#uitpas-balie)
-   - [Local Development - Getting Started](#local-development---getting-started)
-     - [Step 1: Specify Node.js Version](#step-1-specify-nodejs-version)
-     - [Step 2: Setting Up Environment Variables](#step-1-setting-up-environment-variables)
-     - [Step 3: Install Dependencies](#step-2-install-dependencies)
-     - [Step 4: Start the Application](#step-3-start-the-application)
-     - [Step 5: Login](#step-4-login)
-   - [Guidebook](#guidebook)
-      - [Main Framework & Libraries](#main-framework--libraries)
-      - [Main Concept](#main-concept)
-      - [Internationalization (I18n)](#internationalization-i18n)
-      - [Environment Variables](#environment-variables)
-      - [Test Local Development on Mobile Device](#Test-Local-Development-on-Mobile-Device)
+  - [Local Development - Getting Started](#local-development---getting-started)
+    - [Step 1: Specify Node.js Version](#step-1-specify-nodejs-version)
+    - [Step 2: Setting Up Environment Variables](#step-1-setting-up-environment-variables)
+    - [Step 3: Install Dependencies](#step-2-install-dependencies)
+    - [Step 4: Start the Application](#step-3-start-the-application)
+    - [Step 5: Login](#step-4-login)
+  - [Guidebook](#guidebook)
+    - [Main Framework & Libraries](#main-framework--libraries)
+    - [Main Concept](#main-concept)
+    - [Internationalization (I18n)](#internationalization-i18n)
+    - [Environment Variables](#environment-variables)
+    - [Test Local Development on Mobile Device](#Test-Local-Development-on-Mobile-Device)
 
 # UiTPAS Balie
 
@@ -19,7 +20,7 @@
 
 ### Step 1: Specify Node.js Version
 
-Before you begin, make sure you have Node.js version 18.16.1 installed (other versions might work, but was not tested). 
+Before you begin, make sure you have Node.js version 18.16.1 installed (other versions might work, but was not tested).
 You can use `nvm` (Node Version Manager) to easily switch to this version if you have it installed. If not, you can install it with the following command:
 
 ```shell
@@ -82,16 +83,16 @@ This project is based on Next.js v14, utilizing the app router. It also employs 
 
 ### Main Concept
 
-The project is designed for a gradual migration from the AngularJS application to this Next.js application. 
+The project is designed for a gradual migration from the AngularJS application to this Next.js application.
 Whenever a route is available in the Next.js app, it is used; otherwise, an iframe with the AngularJS application is rendered.
 
 ⚠️ Restart the dev server after adding a new path in NextJS!
 
-Communication between the Next.js and AngularJS apps is facilitated through EventListeners on the Window object. 
-The logic for this is encapsulated in `src/feature-legacy`. 
+Communication between the Next.js and AngularJS apps is facilitated through EventListeners on the Window object.
+The logic for this is encapsulated in `src/feature-legacy`.
 Once the migration is complete, the `feature-legacy` can be safely removed along with any associated references.
 
-The mobile app is also served by the same Next.js application, allowing code to be shared between web and mobile environments. 
+The mobile app is also served by the same Next.js application, allowing code to be shared between web and mobile environments.
 Detection and switching between the web and mobile app versions are based on browser size, using the `useDetectMobile.ts` React hook.
 
 ### Internationalization (I18n)
@@ -102,7 +103,7 @@ For text translation, `next-i18next` is used. You can find the translations in t
 
 ### Environment Variables
 
-All variables specified in the `.env(.local)` file should also be passed to `publicRuntimeConfig` in `src/shared/feature-config/getConfig.ts`, but only if they need to be available client-side.
+All variables specified in the `.env` file should also be passed to `publicRuntimeConfig` in `src/shared/feature-config/getConfig.ts`, but only if they need to be available client-side.
 Use the `useConfig` hook to get the environment variables.
 
 ### Test Local Development on Mobile Device

@@ -11,8 +11,9 @@
     "prettify": "yarn prettier --write src",
     "format:check": "yarn prettier src --check --ignore-path ./.gitignore",
     "types:check": "tsc -v && tsc && echo '\n✅ Type check passed!'",
+    "e2e": "yarn playwright test",
     "routes": "npx next-list",
-    "orval": "dotenv -e .env.local -- orval --config .config/orval.config.ts",
+    "orval": "dotenv -e .env -- orval --config .config/orval.config.ts",
     "depcruise:archi": "depcruise --include-only \"^src|^@/\" --config ./.config/.dependency-cruiser.js -T archi src | dot -T svg | tee depgraphs/dependencygraph.svg | depcruise-wrap-stream-in-html > depgraphs/dependencygraph.html",
     "expose": "loclx tunnel http --to 127.0.0.1:3000 --region eu"
   },
@@ -65,6 +66,7 @@
     "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@types/file-saver": "^2.0.5",
     "@types/react-transition-group": "^4.4.10",
     "@types/ua-parser-js": "^0.7.39",
