@@ -124,7 +124,9 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
                 <strong> {t('activities.startDate')}</strong>
               </Typography>
               <DateInput
-                onChange={(date) => date && handleDateChange(date, 'from')}
+                onChange={(date: Date | null) =>
+                  date && handleDateChange(date, 'from')
+                }
                 selected={new Date(customDateRanges.from)}
                 dateFormat={DATE_FORMAT_SEPARATED_FNS}
               />
@@ -134,7 +136,9 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
                 <strong> {t('activities.endDate')}</strong>
               </Typography>
               <DateInput
-                onChange={(date) => date && handleDateChange(date, 'to')}
+                onChange={(date: Date | null) =>
+                  date && handleDateChange(date, 'to')
+                }
                 selected={new Date(customDateRanges.to)}
                 dateFormat={DATE_FORMAT_SEPARATED_FNS}
               />
