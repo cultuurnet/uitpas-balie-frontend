@@ -33,6 +33,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     video: 'on',
+    permissions: ['camera'],
   },
 
   /* Configure projects for major browsers */
@@ -54,6 +55,7 @@ export default defineConfig({
       use: {
         ...devices['Pixel 5'],
         storageState: 'playwright/.auth/user.json',
+        permissions: ['camera'],
       },
     },
   ],
