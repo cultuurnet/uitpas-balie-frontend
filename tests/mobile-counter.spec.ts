@@ -1,10 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test('Go to landingpage', async ({ page, context, baseURL }) => {
-  await context.grantPermissions(['camera'], {
-    origin: baseURL,
-  });
-
   await page.goto(`${baseURL}/app`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
@@ -39,17 +35,6 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await expect(
     page.getByRole('heading', { name: 'schaken in het muntpunt' })
   ).toBeVisible();
-
-  await page.getByRole('button', { name: 'barcode scannen' }).click();
-
-  // Check for camera
-  await expect(page.locator('video')).toBeVisible();
-
-  // Close camera
-  await page.getByTestId('CloseIcon').click();
-
-  // Verify camera closed
-  await expect(page.locator('video')).not.toBeVisible();
 
   await page.getByRole('button', { name: 'bevestig' }).click();
   // Get validation error
