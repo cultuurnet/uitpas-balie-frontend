@@ -1,0 +1,44 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm install -g yarn && yarn install --frozen-lockfile
+      - name: Install Playwright Browsers
+        run: yarn playwright install chromium --with-deps
+      - name: Run Playwright tests
+        env:
+          E2E_TEST_ADMIN_EMAIL: ${{ secrets.E2E_TEST_ADMIN_EMAIL }}
+          E2E_TEST_ADMIN_PASSWORD: ${{ secrets.E2E_TEST_ADMIN_PASSWORD }}
+          NEXT_PUBLIC_LEGACY_APP_URL: ${{ secrets.NEXT_PUBLIC_LEGACY_APP_URL }}
+          NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT: ${{ secrets.NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT }}
+          NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT: ${{ secrets.NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT }}
+          NEXT_PUBLIC_LEGACY_API_PATH: ${{ secrets.NEXT_PUBLIC_LEGACY_API_PATH }}
+          NEXT_PUBLIC_API_PATH: ${{ secrets.NEXT_PUBLIC_API_PATH }}
+          NEXT_PUBLIC_SEARCH_API_PATH: ${{ secrets.NEXT_PUBLIC_SEARCH_API_PATH }}
+          NEXT_PUBLIC_ENTRY_API_PATH: ${{ secrets.NEXT_PUBLIC_ENTRY_API_PATH }}
+          NEXT_PUBLIC_OAUTH_PATH: ${{ secrets.NEXT_PUBLIC_OAUTH_PATH }}
+          NEXT_PUBLIC_UITINVLAANDEREN_URL: ${{ secrets.NEXT_PUBLIC_UITINVLAANDEREN_URL }}
+          NEXT_PUBLIC_UITDATABANK_URL: ${{ secrets.NEXT_PUBLIC_UITDATABANK_URL }}
+          NEXT_PUBLIC_OAUTH_USERINFO_PATH: ${{ secrets.NEXT_PUBLIC_OAUTH_USERINFO_PATH }}
+          NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
+        run: yarn playwright test
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            **/*.png
+          retention-days: 30
