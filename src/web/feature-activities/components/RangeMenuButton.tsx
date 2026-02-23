@@ -1,10 +1,10 @@
-import { TriggerButton } from "@/web/feature-activities/components/DateMenu.styles";
-import Icon from "@mdi/react";
-import { mdiMenuDown } from "@mdi/js";
-import { Stack, Typography } from "@/web/lib/ui";
-import { rangeMenuItem } from "@/web/feature-activities/components/RangeMenu";
-import { MouseEvent, RefObject } from "react";
-import { useTranslation } from "@/shared/lib/i18n/client";
+import { TriggerButton } from '@/web/feature-activities/components/DateMenu.styles';
+import Icon from '@mdi/react';
+import { mdiMenuDown } from '@mdi/js';
+import { Stack, Typography } from '@/web/lib/ui';
+import { rangeMenuItem } from '@/web/feature-activities/components/RangeMenu';
+import { MouseEvent, RefObject } from 'react';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type RangeMenuButtonProps = {
   currentItem: rangeMenuItem;
@@ -24,9 +24,9 @@ export const RangeMenuButton = ({
   const { t } = useTranslation();
 
   return (
-    <Stack sx={{ minWidth: "130px" }}>
+    <Stack sx={{ minWidth: '130px' }}>
       <Typography level="body2">
-        <strong> {t("activities.dateRange")}</strong>
+        <strong> {t('activities.dateRange')}</strong>
       </Typography>
       <Stack direction="row">
         <TriggerButton
@@ -36,7 +36,7 @@ export const RangeMenuButton = ({
           ref={buttonRef}
           disabled={disabled}
         >
-          {typeof currentItem.display === "string" && t(currentItem.display)}
+          {typeof currentItem.display === 'string' && t(currentItem.display)}
         </TriggerButton>
         <TriggerButton
           type="button"

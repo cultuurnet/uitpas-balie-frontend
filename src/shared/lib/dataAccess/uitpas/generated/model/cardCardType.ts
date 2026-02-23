@@ -9,8 +9,7 @@
 /**
  * Type of this card.
  */
-export type CardCardType = typeof CardCardType[keyof typeof CardCardType];
-
+export type CardCardType = (typeof CardCardType)[keyof typeof CardCardType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CardCardType = {

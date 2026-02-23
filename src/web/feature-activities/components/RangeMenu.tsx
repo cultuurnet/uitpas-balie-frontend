@@ -1,23 +1,23 @@
-import { MenuUnstyled } from "@mui/base";
+import { MenuUnstyled } from '@mui/base';
 import {
   Popper,
   StyledDateItem,
   StyledListbox,
   StyledDivider,
-} from "./DateMenu.styles";
-import { useTranslation } from "@/shared/lib/i18n/client";
+} from './DateMenu.styles';
+import { useTranslation } from '@/shared/lib/i18n/client';
 import {
   DATE_FORMAT_SEPARATED_FNS,
   dateToISODateString,
   useMenu,
-} from "@/shared/lib/utils";
-import { useState, isValidElement, Fragment, type JSX } from "react";
-import { StyledMenuItem } from "@/layouts/components/Navbar.styles";
-import { DateInput, Stack, Typography } from "@/web/lib/ui";
-import { usePaginationQuery } from "@/shared/lib/utils/hooks/usePaginationQuery";
-import { TDateSelection } from "@/shared/lib/utils/dateUtils";
-import { RangeMenuButton } from "@/web/feature-activities/components/RangeMenuButton";
-import { useRouter, useSearchParams } from "next/navigation";
+} from '@/shared/lib/utils';
+import { useState, isValidElement, Fragment, type JSX } from 'react';
+import { StyledMenuItem } from '@/layouts/components/Navbar.styles';
+import { DateInput, Stack, Typography } from '@/web/lib/ui';
+import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
+import { TDateSelection } from '@/shared/lib/utils/dateUtils';
+import { RangeMenuButton } from '@/web/feature-activities/components/RangeMenuButton';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export type rangeMenuItem = {
   display: string | JSX.Element;
@@ -26,35 +26,35 @@ export type rangeMenuItem = {
 
 const rangeMenuItems: rangeMenuItem[] = [
   {
-    display: "activities.rangeMenu.today",
-    value: "today",
+    display: 'activities.rangeMenu.today',
+    value: 'today',
   },
   {
-    display: "activities.rangeMenu.next7Days",
-    value: "next7days",
+    display: 'activities.rangeMenu.next7Days',
+    value: 'next7days',
   },
   {
-    display: "activities.rangeMenu.next30Days",
-    value: "next30Days",
+    display: 'activities.rangeMenu.next30Days',
+    value: 'next30Days',
   },
   {
-    display: "activities.rangeMenu.next12Months",
-    value: "next12Months",
+    display: 'activities.rangeMenu.next12Months',
+    value: 'next12Months',
   },
   {
-    display: "activities.rangeMenu.unlimited",
-    value: "unlimited",
+    display: 'activities.rangeMenu.unlimited',
+    value: 'unlimited',
   },
   {
     display: <StyledDivider />,
   },
   {
-    display: "activities.rangeMenu.pastActivities",
-    value: "pastActivities",
+    display: 'activities.rangeMenu.pastActivities',
+    value: 'pastActivities',
   },
   {
-    display: "activities.rangeMenu.chooseDate",
-    value: "chooseDate",
+    display: 'activities.rangeMenu.chooseDate',
+    value: 'chooseDate',
   },
 ];
 
@@ -84,21 +84,21 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
     from: string;
     to: string;
   }>({
-    from: searchParams.get("from")
-      ? String(searchParams.get("from"))
+    from: searchParams.get('from')
+      ? String(searchParams.get('from'))
       : dateToISODateString(new Date()),
-    to: searchParams.get("to")
-      ? String(searchParams.get("to"))
+    to: searchParams.get('to')
+      ? String(searchParams.get('to'))
       : dateToISODateString(new Date()),
   });
 
   const handleItemClick = (item: rangeMenuItem) => {
     onClose(true);
     setCurrentItem(item);
-    return handleQuery("range", item.value!);
+    return handleQuery('range', item.value!);
   };
 
-  const handleDateChange = (date: Date, rangeType: "from" | "to") => {
+  const handleDateChange = (date: Date, rangeType: 'from' | 'to') => {
     const dateString = dateToISODateString(date);
     setCustomDateRanges((prev) => ({ ...prev, [rangeType]: dateString }));
     return handleQuery(rangeType, dateString);
@@ -106,13 +106,13 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
 
   return (
     <Stack sx={{ flex: 1 }}>
-      {currentItem.value === "chooseDate" ? (
+      {currentItem.value === 'chooseDate' ? (
         <Stack
           sx={{
-            flexDirection: { sm: "column", md: "row" },
+            flexDirection: { sm: 'column', md: 'row' },
             columnGap: 2,
             rowGap: 1,
-            alignItems: { sm: "flex-start", md: "center" },
+            alignItems: { sm: 'flex-start', md: 'center' },
           }}
         >
           <RangeMenuButton
@@ -121,20 +121,24 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
           <Stack direction="row" gap={2}>
             <Stack>
               <Typography level="body2">
-                <strong> {t("activities.startDate")}</strong>
+                <strong> {t('activities.startDate')}</strong>
               </Typography>
               <DateInput
-                onChange={(date) => date && handleDateChange(date, "from")}
+                onChange={(date: Date | null) =>
+                  date && handleDateChange(date, 'from')
+                }
                 selected={new Date(customDateRanges.from)}
                 dateFormat={DATE_FORMAT_SEPARATED_FNS}
               />
             </Stack>
             <Stack>
               <Typography level="body2">
-                <strong> {t("activities.endDate")}</strong>
+                <strong> {t('activities.endDate')}</strong>
               </Typography>
               <DateInput
-                onChange={(date) => date && handleDateChange(date, "to")}
+                onChange={(date: Date | null) =>
+                  date && handleDateChange(date, 'to')
+                }
                 selected={new Date(customDateRanges.to)}
                 dateFormat={DATE_FORMAT_SEPARATED_FNS}
               />
@@ -154,14 +158,14 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
         anchorEl={menuAnchorEl}
         slots={{ root: Popper, listbox: StyledListbox }}
         slotProps={{
-          root: { placement: "bottom-start" },
+          root: { placement: 'bottom-start' },
         }}
       >
         {rangeMenuItems.map((item, i) =>
           isValidElement(item.display) ? (
             <Fragment key={`range-item-${i}`}>{item.display}</Fragment>
           ) : (
-            typeof item.display === "string" && (
+            typeof item.display === 'string' && (
               <StyledMenuItem
                 key={item.value}
                 onClick={() => handleItemClick(item)}

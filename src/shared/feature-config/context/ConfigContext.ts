@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { createContext } from "react";
-import { PublicRuntimeConfig } from "@/shared/feature-config/types";
+import { createContext } from 'react';
+import { PublicRuntimeConfig } from '@/shared/feature-config/types';
 
 export const ConfigContext = createContext<{
   config: { publicRuntimeConfig: PublicRuntimeConfig } | null;

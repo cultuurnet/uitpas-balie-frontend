@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { ActivitiesPage } from "@/mobile/feature-activities";
+import { ActivitiesPage } from '@/mobile/feature-activities';
 
 const Activities = () => <ActivitiesPage />;
 

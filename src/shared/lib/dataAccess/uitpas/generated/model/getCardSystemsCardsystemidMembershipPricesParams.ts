@@ -8,8 +8,8 @@
 import type { GetCardSystemsCardsystemidMembershipPricesCardType } from './getCardSystemsCardsystemidMembershipPricesCardType';
 
 export type GetCardSystemsCardsystemidMembershipPricesParams = {
-/**
- * Type of the card
- */
-cardType: GetCardSystemsCardsystemidMembershipPricesCardType;
+  /**
+   * Type of the card
+   */
+  cardType: GetCardSystemsCardsystemidMembershipPricesCardType;
 };

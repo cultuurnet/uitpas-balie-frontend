@@ -8,24 +8,24 @@
 import type { GetPassholdersMembershipPricesCardSystemIdCardType } from './getPassholdersMembershipPricesCardSystemIdCardType';
 
 export type GetPassholdersMembershipPricesCardSystemIdParams = {
-/**
- * postal code of the residence of the user. Must be a valid Belgian postal code or `0000` for foreign places.
- */
-postalCode: string;
-/**
- * date of birth of the user used to determine the correct price.
- */
-dateOfBirth: string;
-/**
- * whether or not the user is entitled to a social tariff
- */
-socialTariff?: boolean;
-/**
- * optional voucher that might reduce the membership price
- */
-voucher?: string;
-/**
- * type of the card
- */
-cardType: GetPassholdersMembershipPricesCardSystemIdCardType;
+  /**
+   * postal code of the residence of the user. Must be a valid Belgian postal code or `0000` for foreign places.
+   */
+  postalCode: string;
+  /**
+   * date of birth of the user used to determine the correct price.
+   */
+  dateOfBirth: string;
+  /**
+   * whether or not the user is entitled to a social tariff
+   */
+  socialTariff?: boolean;
+  /**
+   * optional voucher that might reduce the membership price
+   */
+  voucher?: string;
+  /**
+   * type of the card
+   */
+  cardType: GetPassholdersMembershipPricesCardSystemIdCardType;
 };

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type GetRewardsSortFeatured = typeof GetRewardsSortFeatured[keyof typeof GetRewardsSortFeatured];
-
+export type GetRewardsSortFeatured =
+  (typeof GetRewardsSortFeatured)[keyof typeof GetRewardsSortFeatured];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetRewardsSortFeatured = {

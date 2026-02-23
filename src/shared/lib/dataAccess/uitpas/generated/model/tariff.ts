@@ -8,7 +8,7 @@
 import type { TariffType } from './tariffType';
 
 /**
- * The Tariff describes the discounted price a passholder has to pay for a given ticket. 
+ * The Tariff describes the discounted price a passholder has to pay for a given ticket.
  */
 export interface Tariff {
   /** ID of the tariff */

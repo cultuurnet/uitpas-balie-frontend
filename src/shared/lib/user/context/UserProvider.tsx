@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { FC, PropsWithChildren, useEffect } from "react";
-import { useGetUserInfo } from "@/shared/lib/dataAccess";
-import { useIsLoggedIn } from "@/shared/lib/auth";
-import { UserContext } from "./UserContext";
+import { FC, PropsWithChildren, useEffect } from 'react';
+import { useGetUserInfo } from '@/shared/lib/dataAccess';
+import { useIsLoggedIn } from '@/shared/lib/auth';
+import { UserContext } from './UserContext';
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const isLoggedIn = useIsLoggedIn();

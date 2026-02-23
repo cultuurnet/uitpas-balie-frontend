@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from "react";
-import { Counter, CounterContext } from "./CounterContext";
-import { RedirectWhenNoCounter } from "./RedirectWhenNoCounter";
+import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { Counter, CounterContext } from './CounterContext';
+import { RedirectWhenNoCounter } from './RedirectWhenNoCounter';
 import {
   readCounter,
   storeCounter,
   readPrevCounter,
   storePrevCounter,
-} from "@/shared/feature-counter/context/counterStore";
+} from '@/shared/feature-counter/context/counterStore';
 
 export const CounterProvider: FC<
   {

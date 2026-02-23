@@ -9,8 +9,8 @@
 /**
  * ID of the permission
  */
-export type PermissionDetailId = typeof PermissionDetailId[keyof typeof PermissionDetailId];
-
+export type PermissionDetailId =
+  (typeof PermissionDetailId)[keyof typeof PermissionDetailId];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PermissionDetailId = {

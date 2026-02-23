@@ -9,8 +9,7 @@
 /**
  * Status of the order. This property is always present in responses.
  */
-export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
-
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const OrderStatus = {

@@ -1,11 +1,11 @@
-import { PropsWithChildren, useState } from "react";
-import { Box, BoxProps, IconButton, useTheme } from "@mui/material";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import { PropsWithChildren, useState } from 'react';
+import { Box, BoxProps, IconButton, useTheme } from '@mui/material';
+import { ExpandMore, ExpandLess } from '@mui/icons-material';
 
 type OpportunityStateCardProps = PropsWithChildren &
   BoxProps & {
     title: string;
-    status: "ACTIVE" | "SUSPENDED" | "EXPIRED" | "BLOCKED";
+    status: 'ACTIVE' | 'SUSPENDED' | 'EXPIRED' | 'BLOCKED';
   };
 
 export const OpportunityStateCard = ({
@@ -32,16 +32,16 @@ export const OpportunityStateCard = ({
   return (
     <Box
       sx={{
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "8px",
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '8px',
         border: `1px solid ${borderColor}`,
-        rowGap: "6px",
-        padding: "8px 12px",
+        rowGap: '6px',
+        padding: '8px 12px',
         backgroundColor,
         color: theme.palette.neutral[0],
-        overflow: "hidden",
+        overflow: 'hidden',
         ...props.sx,
       }}
       onClick={handleClick}
@@ -49,21 +49,21 @@ export const OpportunityStateCard = ({
     >
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
         }}
       >
-        <p style={{ fontWeight: 700, fontSize: "18px", margin: 0 }}>{title}</p>
+        <p style={{ fontWeight: 700, fontSize: '18px', margin: 0 }}>{title}</p>
         <IconButton
           disableRipple
           sx={{
             p: 0,
             color: theme.palette.neutral[0],
-            transform: "scale(1.5)",
-            width: "22px",
-            height: "12px",
+            transform: 'scale(1.5)',
+            width: '22px',
+            height: '12px',
           }}
         >
           {open ? <ExpandLess /> : <ExpandMore />}

@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type SortDistanceParameter = typeof SortDistanceParameter[keyof typeof SortDistanceParameter];
-
+export type SortDistanceParameter =
+  (typeof SortDistanceParameter)[keyof typeof SortDistanceParameter];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SortDistanceParameter = {

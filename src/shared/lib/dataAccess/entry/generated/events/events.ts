@@ -5,10 +5,7 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryFunction,
@@ -16,14 +13,10 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   CommonOfferContactPoint,
   Error,
@@ -61,10 +54,8 @@ import type {
   EventWorkflowStatusPut,
   ForbiddenResponse,
   NotFoundResponse,
-  UnauthorizedResponse
-} from '.././model'
-
-
+  UnauthorizedResponse,
+} from '.././model';
 
 /**
  * Creates a new event with the required properties and any additional optional properties.
@@ -73,114 +64,150 @@ By default, the new event will be editable and removable by the user or client t
  * @summary event - create
  */
 export const eventPost = (
-    eventPost: EventPost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventPost201>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events`,
-      eventPost,options
-    );
-  }
+  eventPost: EventPost,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventPost201>> => {
+  return axios.post(`NEXT_PUBLIC_ENTRY_API_PATH/events`, eventPost, options);
+};
 
+export const getEventPostMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPost>>,
+    TError,
+    { data: EventPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventPost>>,
+  TError,
+  { data: EventPost },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventPost>>,
+    { data: EventPost }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getEventPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPost>>, TError,{data: EventPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventPost>>, TError,{data: EventPost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventPost(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventPost>>
+>;
+export type EventPostMutationBody = EventPost;
+export type EventPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventPost>>, {data: EventPost}> = (props) => {
-          const {data} = props ?? {};
-
-          return  eventPost(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventPostMutationResult = NonNullable<Awaited<ReturnType<typeof eventPost>>>
-    export type EventPostMutationBody = EventPost
-    export type EventPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @summary event - create
  */
-export const useEventPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPost>>, TError,{data: EventPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventPost>>,
-        TError,
-        {data: EventPost},
-        TContext
-      > => {
+export const useEventPost = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPost>>,
+    TError,
+    { data: EventPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventPost>>,
+  TError,
+  { data: EventPost },
+  TContext
+> => {
+  const mutationOptions = getEventPostMutationOptions(options);
 
-      const mutationOptions = getEventPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Returns the details of the event for the given `eventId`.
  * @summary event - get
  */
 export const eventGet = (
-    eventId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventWithReadExample>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`,options
-    );
+  eventId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventWithReadExample>> => {
+  return axios.get(`NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`, options);
+};
+
+export const getEventGetQueryKey = (eventId: string) => {
+  return [`NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`] as const;
+};
+
+export const getEventGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof eventGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  eventId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
   }
-
-
-export const getEventGetQueryKey = (eventId: string,) => {
-    return [`NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`] as const;
-    }
-
-    
-export const getEventGetQueryOptions = <TData = Awaited<ReturnType<typeof eventGet>>, TError = AxiosError<NotFoundResponse>>(eventId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData>>, axios?: AxiosRequestConfig}
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getEventGetQueryKey(eventId);
 
-  const queryKey =  queryOptions?.queryKey ?? getEventGetQueryKey(eventId);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof eventGet>>> = ({
+    signal,
+  }) => eventGet(eventId, { signal, ...axiosOptions });
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData> & {
+    queryKey: QueryKey;
+  };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof eventGet>>> = ({ signal }) => eventGet(eventId, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type EventGetQueryResult = NonNullable<Awaited<ReturnType<typeof eventGet>>>
-export type EventGetQueryError = AxiosError<NotFoundResponse>
+export type EventGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof eventGet>>
+>;
+export type EventGetQueryError = AxiosError<NotFoundResponse>;
 
 /**
  * @summary event - get
  */
-export const useEventGet = <TData = Awaited<ReturnType<typeof eventGet>>, TError = AxiosError<NotFoundResponse>>(
- eventId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useEventGet = <
+  TData = Awaited<ReturnType<typeof eventGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  eventId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof eventGet>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getEventGetQueryOptions(eventId, options);
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getEventGetQueryOptions(eventId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Updates the event with the given `eventId` by completely overwriting it with the properties in the given JSON. 
@@ -193,112 +220,163 @@ export const useEventGet = <TData = Awaited<ReturnType<typeof eventGet>>, TError
  * @summary event - update
  */
 export const eventPut = (
-    eventId: string,
-    eventWithWriteExample: EventWithWriteExample, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventPut200>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`,
-      eventWithWriteExample,options
-    );
-  }
+  eventId: string,
+  eventWithWriteExample: EventWithWriteExample,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventPut200>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`,
+    eventWithWriteExample,
+    options
+  );
+};
 
+export const getEventPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPut>>,
+    TError,
+    { eventId: string; data: EventWithWriteExample },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventPut>>,
+  TError,
+  { eventId: string; data: EventWithWriteExample },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventPut>>,
+    { eventId: string; data: EventWithWriteExample }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPut>>, TError,{eventId: string;data: EventWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventPut>>, TError,{eventId: string;data: EventWithWriteExample}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventPut>>
+>;
+export type EventPutMutationBody = EventWithWriteExample;
+export type EventPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventPut>>, {eventId: string;data: EventWithWriteExample}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventPut>>>
-    export type EventPutMutationBody = EventWithWriteExample
-    export type EventPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary event - update
  */
-export const useEventPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPut>>, TError,{eventId: string;data: EventWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventPut>>,
-        TError,
-        {eventId: string;data: EventWithWriteExample},
-        TContext
-      > => {
+export const useEventPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPut>>,
+    TError,
+    { eventId: string; data: EventWithWriteExample },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventPut>>,
+  TError,
+  { eventId: string; data: EventWithWriteExample },
+  TContext
+> => {
+  const mutationOptions = getEventPutMutationOptions(options);
 
-      const mutationOptions = getEventPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Does a soft-delete of the event. The event will continue to exist but it's `workflowStatus` will be changed to `DELETED`. This will remove it from all publication channels.
  * @summary event - delete
  */
 export const eventDelete = (
-    eventId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`,options
-    );
-  }
+  eventId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(`NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}`, options);
+};
 
+export const getEventDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventDelete>>,
+    { eventId: string }
+  > = (props) => {
+    const { eventId } = props ?? {};
 
-export const getEventDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventDelete>>, TError,{eventId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventDelete(eventId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventDelete>>, {eventId: string}> = (props) => {
-          const {eventId} = props ?? {};
+export type EventDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventDelete(eventId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventDelete>>>
-    
-    export type EventDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary event - delete
  */
-export const useEventDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventDelete>>,
-        TError,
-        {eventId: string},
-        TContext
-      > => {
+export const useEventDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const mutationOptions = getEventDeleteMutationOptions(options);
 
-      const mutationOptions = getEventDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Creates a new event via the historical `/imports/events` URL.
 
 <!-- theme: danger -->
@@ -314,58 +392,81 @@ export const useEventDelete = <TError = AxiosError<UnauthorizedResponse | Forbid
  * @summary event - import (create)
  */
 export const eventImportNew = (
-    eventPost: EventPost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventImportNew201>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/imports/events`,
-      eventPost,options
-    );
-  }
+  eventPost: EventPost,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventImportNew201>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/imports/events`,
+    eventPost,
+    options
+  );
+};
 
+export const getEventImportNewMutationOptions = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImportNew>>,
+    TError,
+    { data: EventPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventImportNew>>,
+  TError,
+  { data: EventPost },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventImportNew>>,
+    { data: EventPost }
+  > = (props) => {
+    const { data } = props ?? {};
 
-export const getEventImportNewMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImportNew>>, TError,{data: EventPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventImportNew>>, TError,{data: EventPost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventImportNew(data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventImportNewMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventImportNew>>
+>;
+export type EventImportNewMutationBody = EventPost;
+export type EventImportNewMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventImportNew>>, {data: EventPost}> = (props) => {
-          const {data} = props ?? {};
-
-          return  eventImportNew(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventImportNewMutationResult = NonNullable<Awaited<ReturnType<typeof eventImportNew>>>
-    export type EventImportNewMutationBody = EventPost
-    export type EventImportNewMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>
-
-    /**
+/**
  * @deprecated
  * @summary event - import (create)
  */
-export const useEventImportNew = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImportNew>>, TError,{data: EventPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventImportNew>>,
-        TError,
-        {data: EventPost},
-        TContext
-      > => {
+export const useEventImportNew = <
+  TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImportNew>>,
+    TError,
+    { data: EventPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventImportNew>>,
+  TError,
+  { data: EventPost },
+  TContext
+> => {
+  const mutationOptions = getEventImportNewMutationOptions(options);
 
-      const mutationOptions = getEventImportNewMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the event via the historical `/imports/events/{eventId}` URL by completely overwriting it with the properties in the given JSON. 
 
 <!-- theme: danger -->
@@ -375,117 +476,171 @@ export const useEventImportNew = <TError = AxiosError<Error | UnauthorizedRespon
  * @summary event - import (update)
  */
 export const eventImportUpdate = (
-    eventId: string,
-    eventWithWriteExample: EventWithWriteExample, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventImportUpdate200>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/imports/events/${eventId}`,
-      eventWithWriteExample,options
-    );
-  }
+  eventId: string,
+  eventWithWriteExample: EventWithWriteExample,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventImportUpdate200>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/imports/events/${eventId}`,
+    eventWithWriteExample,
+    options
+  );
+};
 
+export const getEventImportUpdateMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImportUpdate>>,
+    TError,
+    { eventId: string; data: EventWithWriteExample },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventImportUpdate>>,
+  TError,
+  { eventId: string; data: EventWithWriteExample },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventImportUpdate>>,
+    { eventId: string; data: EventWithWriteExample }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventImportUpdateMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImportUpdate>>, TError,{eventId: string;data: EventWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventImportUpdate>>, TError,{eventId: string;data: EventWithWriteExample}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventImportUpdate(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventImportUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventImportUpdate>>
+>;
+export type EventImportUpdateMutationBody = EventWithWriteExample;
+export type EventImportUpdateMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventImportUpdate>>, {eventId: string;data: EventWithWriteExample}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventImportUpdate(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventImportUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof eventImportUpdate>>>
-    export type EventImportUpdateMutationBody = EventWithWriteExample
-    export type EventImportUpdateMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @deprecated
  * @summary event - import (update)
  */
-export const useEventImportUpdate = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImportUpdate>>, TError,{eventId: string;data: EventWithWriteExample}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventImportUpdate>>,
-        TError,
-        {eventId: string;data: EventWithWriteExample},
-        TContext
-      > => {
+export const useEventImportUpdate = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImportUpdate>>,
+    TError,
+    { eventId: string; data: EventWithWriteExample },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventImportUpdate>>,
+  TError,
+  { eventId: string; data: EventWithWriteExample },
+  TContext
+> => {
+  const mutationOptions = getEventImportUpdateMutationOptions(options);
 
-      const mutationOptions = getEventImportUpdateMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Creates a new event based on all the properties of an existing event with the given `eventId`. Only the calendar information will be completely replaced with a new one, which has to be included in the request body.
 
 The schema of the request body is the same as the one for the [`PUT /events/{eventId}/calendar`](/reference/entry.json/paths/~1events~1{eventId}~1calendar/put) endpoint.
  * @summary event - copy
  */
 export const eventCopiesPost = (
-    eventId: string,
-    eventCopiesPostBody: EventCopiesPostBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventCopiesPost201>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/copies`,
-      eventCopiesPostBody,options
-    );
-  }
+  eventId: string,
+  eventCopiesPostBody: EventCopiesPostBody,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventCopiesPost201>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/copies`,
+    eventCopiesPostBody,
+    options
+  );
+};
 
+export const getEventCopiesPostMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventCopiesPost>>,
+    TError,
+    { eventId: string; data: EventCopiesPostBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventCopiesPost>>,
+  TError,
+  { eventId: string; data: EventCopiesPostBody },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventCopiesPost>>,
+    { eventId: string; data: EventCopiesPostBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventCopiesPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventCopiesPost>>, TError,{eventId: string;data: EventCopiesPostBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventCopiesPost>>, TError,{eventId: string;data: EventCopiesPostBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventCopiesPost(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventCopiesPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventCopiesPost>>
+>;
+export type EventCopiesPostMutationBody = EventCopiesPostBody;
+export type EventCopiesPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventCopiesPost>>, {eventId: string;data: EventCopiesPostBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventCopiesPost(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventCopiesPostMutationResult = NonNullable<Awaited<ReturnType<typeof eventCopiesPost>>>
-    export type EventCopiesPostMutationBody = EventCopiesPostBody
-    export type EventCopiesPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary event - copy
  */
-export const useEventCopiesPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventCopiesPost>>, TError,{eventId: string;data: EventCopiesPostBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventCopiesPost>>,
-        TError,
-        {eventId: string;data: EventCopiesPostBody},
-        TContext
-      > => {
+export const useEventCopiesPost = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventCopiesPost>>,
+    TError,
+    { eventId: string; data: EventCopiesPostBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventCopiesPost>>,
+  TError,
+  { eventId: string; data: EventCopiesPostBody },
+  TContext
+> => {
+  const mutationOptions = getEventCopiesPostMutationOptions(options);
 
-      const mutationOptions = getEventCopiesPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the attendance mode of an event. There are three different attendance modes:
 - `offline`: the event takes places on a physical location
 - `online`: the events takes places on an online location
@@ -495,172 +650,253 @@ When changing from attendance mode online to either offline or mixed it is requi
  * @summary attendanceMode - update
  */
 export const eventAttendanceModePut = (
-    eventId: string,
-    eventAttendanceModePut: EventAttendanceModePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/attendance-mode`,
-      eventAttendanceModePut,options
-    );
-  }
+  eventId: string,
+  eventAttendanceModePut: EventAttendanceModePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/attendance-mode`,
+    eventAttendanceModePut,
+    options
+  );
+};
 
+export const getEventAttendanceModePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAttendanceModePut>>,
+    TError,
+    { eventId: string; data: EventAttendanceModePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventAttendanceModePut>>,
+  TError,
+  { eventId: string; data: EventAttendanceModePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventAttendanceModePut>>,
+    { eventId: string; data: EventAttendanceModePut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventAttendanceModePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAttendanceModePut>>, TError,{eventId: string;data: EventAttendanceModePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventAttendanceModePut>>, TError,{eventId: string;data: EventAttendanceModePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventAttendanceModePut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventAttendanceModePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventAttendanceModePut>>
+>;
+export type EventAttendanceModePutMutationBody = EventAttendanceModePut;
+export type EventAttendanceModePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventAttendanceModePut>>, {eventId: string;data: EventAttendanceModePut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventAttendanceModePut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventAttendanceModePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventAttendanceModePut>>>
-    export type EventAttendanceModePutMutationBody = EventAttendanceModePut
-    export type EventAttendanceModePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary attendanceMode - update
  */
-export const useEventAttendanceModePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAttendanceModePut>>, TError,{eventId: string;data: EventAttendanceModePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventAttendanceModePut>>,
-        TError,
-        {eventId: string;data: EventAttendanceModePut},
-        TContext
-      > => {
+export const useEventAttendanceModePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAttendanceModePut>>,
+    TError,
+    { eventId: string; data: EventAttendanceModePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventAttendanceModePut>>,
+  TError,
+  { eventId: string; data: EventAttendanceModePut },
+  TContext
+> => {
+  const mutationOptions = getEventAttendanceModePutMutationOptions(options);
 
-      const mutationOptions = getEventAttendanceModePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the intended audience of the event, which currently only has one property `audienceType`. 
 
 By default the audienceType is set to `everyone`. If needed the audience can be updated to `members` to hide it on public channels, or `education` for CultuurKuur events for schools.
  * @summary audience - update
  */
 export const eventAudiencePut = (
-    eventId: string,
-    eventAudience: EventAudience, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/audience`,
-      eventAudience,options
-    );
-  }
+  eventId: string,
+  eventAudience: EventAudience,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/audience`,
+    eventAudience,
+    options
+  );
+};
 
+export const getEventAudiencePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAudiencePut>>,
+    TError,
+    { eventId: string; data: EventAudience },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventAudiencePut>>,
+  TError,
+  { eventId: string; data: EventAudience },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventAudiencePut>>,
+    { eventId: string; data: EventAudience }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventAudiencePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAudiencePut>>, TError,{eventId: string;data: EventAudience}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventAudiencePut>>, TError,{eventId: string;data: EventAudience}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventAudiencePut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventAudiencePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventAudiencePut>>
+>;
+export type EventAudiencePutMutationBody = EventAudience;
+export type EventAudiencePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventAudiencePut>>, {eventId: string;data: EventAudience}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventAudiencePut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventAudiencePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventAudiencePut>>>
-    export type EventAudiencePutMutationBody = EventAudience
-    export type EventAudiencePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary audience - update
  */
-export const useEventAudiencePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAudiencePut>>, TError,{eventId: string;data: EventAudience}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventAudiencePut>>,
-        TError,
-        {eventId: string;data: EventAudience},
-        TContext
-      > => {
+export const useEventAudiencePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAudiencePut>>,
+    TError,
+    { eventId: string; data: EventAudience },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventAudiencePut>>,
+  TError,
+  { eventId: string; data: EventAudience },
+  TContext
+> => {
+  const mutationOptions = getEventAudiencePutMutationOptions(options);
 
-      const mutationOptions = getEventAudiencePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the availableFrom of the event. This is the first date & time that the event is allowed to be visible on publication channels.
  * @summary availableFrom - update
  */
 export const eventAvailableFromPut = (
-    eventId: string,
-    eventAvailableFromPut: EventAvailableFromPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/available-from`,
-      eventAvailableFromPut,options
-    );
-  }
+  eventId: string,
+  eventAvailableFromPut: EventAvailableFromPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/available-from`,
+    eventAvailableFromPut,
+    options
+  );
+};
 
+export const getEventAvailableFromPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAvailableFromPut>>,
+    TError,
+    { eventId: string; data: EventAvailableFromPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventAvailableFromPut>>,
+  TError,
+  { eventId: string; data: EventAvailableFromPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventAvailableFromPut>>,
+    { eventId: string; data: EventAvailableFromPut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventAvailableFromPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAvailableFromPut>>, TError,{eventId: string;data: EventAvailableFromPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventAvailableFromPut>>, TError,{eventId: string;data: EventAvailableFromPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventAvailableFromPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventAvailableFromPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventAvailableFromPut>>
+>;
+export type EventAvailableFromPutMutationBody = EventAvailableFromPut;
+export type EventAvailableFromPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventAvailableFromPut>>, {eventId: string;data: EventAvailableFromPut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventAvailableFromPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventAvailableFromPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventAvailableFromPut>>>
-    export type EventAvailableFromPutMutationBody = EventAvailableFromPut
-    export type EventAvailableFromPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary availableFrom - update
  */
-export const useEventAvailableFromPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventAvailableFromPut>>, TError,{eventId: string;data: EventAvailableFromPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventAvailableFromPut>>,
-        TError,
-        {eventId: string;data: EventAvailableFromPut},
-        TContext
-      > => {
+export const useEventAvailableFromPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventAvailableFromPut>>,
+    TError,
+    { eventId: string; data: EventAvailableFromPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventAvailableFromPut>>,
+  TError,
+  { eventId: string; data: EventAvailableFromPut },
+  TContext
+> => {
+  const mutationOptions = getEventAvailableFromPutMutationOptions(options);
 
-      const mutationOptions = getEventAvailableFromPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the general bookingAvailability info on the top level of the event with the given `eventId`.
 
 The bookingAvailability of any subEvents that the event has will also be updated to match the general bookingAvailability.
@@ -671,58 +907,86 @@ The bookingAvailability of any subEvents that the event has will also be updated
  * @summary bookingAvailability - update
  */
 export const eventBookingAvailabilityPut = (
-    eventId: string,
-    eventBookingAvailability: EventBookingAvailability, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/booking-availability`,
-      eventBookingAvailability,options
-    );
-  }
+  eventId: string,
+  eventBookingAvailability: EventBookingAvailability,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/booking-availability`,
+    eventBookingAvailability,
+    options
+  );
+};
 
+export const getEventBookingAvailabilityPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
+    TError,
+    { eventId: string; data: EventBookingAvailability },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
+  TError,
+  { eventId: string; data: EventBookingAvailability },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
+    { eventId: string; data: EventBookingAvailability }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventBookingAvailabilityPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventBookingAvailabilityPut>>, TError,{eventId: string;data: EventBookingAvailability}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventBookingAvailabilityPut>>, TError,{eventId: string;data: EventBookingAvailability}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventBookingAvailabilityPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventBookingAvailabilityPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventBookingAvailabilityPut>>
+>;
+export type EventBookingAvailabilityPutMutationBody = EventBookingAvailability;
+export type EventBookingAvailabilityPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventBookingAvailabilityPut>>, {eventId: string;data: EventBookingAvailability}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventBookingAvailabilityPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventBookingAvailabilityPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventBookingAvailabilityPut>>>
-    export type EventBookingAvailabilityPutMutationBody = EventBookingAvailability
-    export type EventBookingAvailabilityPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary bookingAvailability - update
  */
-export const useEventBookingAvailabilityPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventBookingAvailabilityPut>>, TError,{eventId: string;data: EventBookingAvailability}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
-        TError,
-        {eventId: string;data: EventBookingAvailability},
-        TContext
-      > => {
+export const useEventBookingAvailabilityPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
+    TError,
+    { eventId: string; data: EventBookingAvailability },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventBookingAvailabilityPut>>,
+  TError,
+  { eventId: string; data: EventBookingAvailability },
+  TContext
+> => {
+  const mutationOptions =
+    getEventBookingAvailabilityPutMutationOptions(options);
 
-      const mutationOptions = getEventBookingAvailabilityPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the bookingInfo for an event.
 
 <!-- theme: info -->
@@ -731,58 +995,85 @@ export const useEventBookingAvailabilityPut = <TError = AxiosError<Error | Unaut
  * @summary bookingInfo - update
  */
 export const eventBookingInfoPut = (
-    eventId: string,
-    eventBookingInfo: EventBookingInfo, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/booking-info`,
-      eventBookingInfo,options
-    );
-  }
+  eventId: string,
+  eventBookingInfo: EventBookingInfo,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/booking-info`,
+    eventBookingInfo,
+    options
+  );
+};
 
+export const getEventBookingInfoPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventBookingInfoPut>>,
+    TError,
+    { eventId: string; data: EventBookingInfo },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventBookingInfoPut>>,
+  TError,
+  { eventId: string; data: EventBookingInfo },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventBookingInfoPut>>,
+    { eventId: string; data: EventBookingInfo }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventBookingInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventBookingInfoPut>>, TError,{eventId: string;data: EventBookingInfo}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventBookingInfoPut>>, TError,{eventId: string;data: EventBookingInfo}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventBookingInfoPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventBookingInfoPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventBookingInfoPut>>
+>;
+export type EventBookingInfoPutMutationBody = EventBookingInfo;
+export type EventBookingInfoPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventBookingInfoPut>>, {eventId: string;data: EventBookingInfo}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventBookingInfoPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventBookingInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventBookingInfoPut>>>
-    export type EventBookingInfoPutMutationBody = EventBookingInfo
-    export type EventBookingInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary bookingInfo - update
  */
-export const useEventBookingInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventBookingInfoPut>>, TError,{eventId: string;data: EventBookingInfo}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventBookingInfoPut>>,
-        TError,
-        {eventId: string;data: EventBookingInfo},
-        TContext
-      > => {
+export const useEventBookingInfoPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventBookingInfoPut>>,
+    TError,
+    { eventId: string; data: EventBookingInfo },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventBookingInfoPut>>,
+  TError,
+  { eventId: string; data: EventBookingInfo },
+  TContext
+> => {
+  const mutationOptions = getEventBookingInfoPutMutationOptions(options);
 
-      const mutationOptions = getEventBookingInfoPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the calendar information of the given `eventId`. The calendar information will be completely replaced with the new one.
 
 The required properties depend on the `calendarType` property.
@@ -812,123 +1103,193 @@ The required properties depend on the `calendarType` property.
  * @summary calendar - put
  */
 export const eventCalendarPut = (
-    eventId: string,
-    eventCalendarPutBody: EventCalendarPutBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar`,
-      eventCalendarPutBody,options
-    );
-  }
+  eventId: string,
+  eventCalendarPutBody: EventCalendarPutBody,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar`,
+    eventCalendarPutBody,
+    options
+  );
+};
 
+export const getEventCalendarPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventCalendarPut>>,
+    TError,
+    { eventId: string; data: EventCalendarPutBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventCalendarPut>>,
+  TError,
+  { eventId: string; data: EventCalendarPutBody },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventCalendarPut>>,
+    { eventId: string; data: EventCalendarPutBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventCalendarPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventCalendarPut>>, TError,{eventId: string;data: EventCalendarPutBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventCalendarPut>>, TError,{eventId: string;data: EventCalendarPutBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventCalendarPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventCalendarPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventCalendarPut>>
+>;
+export type EventCalendarPutMutationBody = EventCalendarPutBody;
+export type EventCalendarPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventCalendarPut>>, {eventId: string;data: EventCalendarPutBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventCalendarPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventCalendarPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventCalendarPut>>>
-    export type EventCalendarPutMutationBody = EventCalendarPutBody
-    export type EventCalendarPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary calendar - put
  */
-export const useEventCalendarPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventCalendarPut>>, TError,{eventId: string;data: EventCalendarPutBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventCalendarPut>>,
-        TError,
-        {eventId: string;data: EventCalendarPutBody},
-        TContext
-      > => {
+export const useEventCalendarPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventCalendarPut>>,
+    TError,
+    { eventId: string; data: EventCalendarPutBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventCalendarPut>>,
+  TError,
+  { eventId: string; data: EventCalendarPutBody },
+  TContext
+> => {
+  const mutationOptions = getEventCalendarPutMutationOptions(options);
 
-      const mutationOptions = getEventCalendarPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Returns a human-readable summary of the calendar information of the event. Can be configured to return either plain text or HTML, and to switch between four different formats depending on the amount of space you have to display it.
 
 > For backward compatibility this endpoint is also accessible at the old abbreviated `/events/{eventId}/calsum` path.
  * @summary calendar summary - get
  */
 export const eventCalendarSummaryGet = (
-    eventId: string,
-    params?: EventCalendarSummaryGetParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.get(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar-summary`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
-
-export const getEventCalendarSummaryGetQueryKey = (eventId: string,
-    params?: EventCalendarSummaryGetParams,) => {
-    return [`NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar-summary`, ...(params ? [params]: [])] as const;
+  eventId: string,
+  params?: EventCalendarSummaryGetParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.get(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar-summary`,
+    {
+      ...options,
+      params: { ...params, ...options?.params },
     }
+  );
+};
 
-    
-export const getEventCalendarSummaryGetQueryOptions = <TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>, TError = AxiosError<NotFoundResponse>>(eventId: string,
-    params?: EventCalendarSummaryGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof eventCalendarSummaryGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getEventCalendarSummaryGetQueryKey = (
+  eventId: string,
+  params?: EventCalendarSummaryGetParams
 ) => {
+  return [
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/calendar-summary`,
+    ...(params ? [params] : []),
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getEventCalendarSummaryGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  eventId: string,
+  params?: EventCalendarSummaryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getEventCalendarSummaryGetQueryKey(eventId,params);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getEventCalendarSummaryGetQueryKey(eventId, params);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof eventCalendarSummaryGet>>
+  > = ({ signal }) =>
+    eventCalendarSummaryGet(eventId, params, { signal, ...axiosOptions });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof eventCalendarSummaryGet>>> = ({ signal }) => eventCalendarSummaryGet(eventId,params, { signal, ...axiosOptions });
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!eventId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof eventCalendarSummaryGet>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type EventCalendarSummaryGetQueryResult = NonNullable<Awaited<ReturnType<typeof eventCalendarSummaryGet>>>
-export type EventCalendarSummaryGetQueryError = AxiosError<NotFoundResponse>
+export type EventCalendarSummaryGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof eventCalendarSummaryGet>>
+>;
+export type EventCalendarSummaryGetQueryError = AxiosError<NotFoundResponse>;
 
 /**
  * @summary calendar summary - get
  */
-export const useEventCalendarSummaryGet = <TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>, TError = AxiosError<NotFoundResponse>>(
- eventId: string,
-    params?: EventCalendarSummaryGetParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof eventCalendarSummaryGet>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const useEventCalendarSummaryGet = <
+  TData = Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
+  TError = AxiosError<NotFoundResponse>
+>(
+  eventId: string,
+  params?: EventCalendarSummaryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof eventCalendarSummaryGet>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getEventCalendarSummaryGetQueryOptions(
+    eventId,
+    params,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-  const queryOptions = getEventCalendarSummaryGetQueryOptions(eventId,params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
-}
-
-
+};
 
 /**
  * Updates the contact point information of the event with the given `eventId`.
@@ -943,58 +1304,85 @@ export const useEventCalendarSummaryGet = <TData = Awaited<ReturnType<typeof eve
  * @summary contactPoint - update
  */
 export const eventContactPointPut = (
-    eventId: string,
-    commonOfferContactPoint: CommonOfferContactPoint, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/contact-point`,
-      commonOfferContactPoint,options
-    );
-  }
+  eventId: string,
+  commonOfferContactPoint: CommonOfferContactPoint,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/contact-point`,
+    commonOfferContactPoint,
+    options
+  );
+};
 
+export const getEventContactPointPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventContactPointPut>>,
+    TError,
+    { eventId: string; data: CommonOfferContactPoint },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventContactPointPut>>,
+  TError,
+  { eventId: string; data: CommonOfferContactPoint },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventContactPointPut>>,
+    { eventId: string; data: CommonOfferContactPoint }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventContactPointPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventContactPointPut>>, TError,{eventId: string;data: CommonOfferContactPoint}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventContactPointPut>>, TError,{eventId: string;data: CommonOfferContactPoint}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventContactPointPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventContactPointPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventContactPointPut>>
+>;
+export type EventContactPointPutMutationBody = CommonOfferContactPoint;
+export type EventContactPointPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventContactPointPut>>, {eventId: string;data: CommonOfferContactPoint}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventContactPointPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventContactPointPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventContactPointPut>>>
-    export type EventContactPointPutMutationBody = CommonOfferContactPoint
-    export type EventContactPointPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary contactPoint - update
  */
-export const useEventContactPointPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventContactPointPut>>, TError,{eventId: string;data: CommonOfferContactPoint}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventContactPointPut>>,
-        TError,
-        {eventId: string;data: CommonOfferContactPoint},
-        TContext
-      > => {
+export const useEventContactPointPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventContactPointPut>>,
+    TError,
+    { eventId: string; data: CommonOfferContactPoint },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventContactPointPut>>,
+  TError,
+  { eventId: string; data: CommonOfferContactPoint },
+  TContext
+> => {
+  const mutationOptions = getEventContactPointPutMutationOptions(options);
 
-      const mutationOptions = getEventContactPointPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the localized description of an event based on the given `eventId` and `language` inside the URL. The description is not limited in size, but it is recommended to use the first 200 characters of the description for promotional copy as these characters are visible in the list-view of results.
 
 <!-- theme: info -->
@@ -1007,116 +1395,190 @@ export const useEventContactPointPut = <TError = AxiosError<Error | Unauthorized
  * @summary description - update
  */
 export const eventDescriptionPut = (
-    eventId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    eventDescriptionPut: EventDescriptionPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/description/${language}`,
-      eventDescriptionPut,options
-    );
-  }
+  eventId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  eventDescriptionPut: EventDescriptionPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/description/${language}`,
+    eventDescriptionPut,
+    options
+  );
+};
 
+export const getEventDescriptionPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDescriptionPut>>,
+    TError,
+    {
+      eventId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: EventDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventDescriptionPut>>,
+  TError,
+  {
+    eventId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: EventDescriptionPut;
+  },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventDescriptionPut>>,
+    {
+      eventId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: EventDescriptionPut;
+    }
+  > = (props) => {
+    const { eventId, language, data } = props ?? {};
 
-export const getEventDescriptionPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionPut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionPut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventDescriptionPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventDescriptionPut(eventId, language, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventDescriptionPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventDescriptionPut>>
+>;
+export type EventDescriptionPutMutationBody = EventDescriptionPut;
+export type EventDescriptionPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventDescriptionPut>>, {eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventDescriptionPut}> = (props) => {
-          const {eventId,language,data} = props ?? {};
-
-          return  eventDescriptionPut(eventId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventDescriptionPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventDescriptionPut>>>
-    export type EventDescriptionPutMutationBody = EventDescriptionPut
-    export type EventDescriptionPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary description - update
  */
-export const useEventDescriptionPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionPut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventDescriptionPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventDescriptionPut>>,
-        TError,
-        {eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventDescriptionPut},
-        TContext
-      > => {
+export const useEventDescriptionPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDescriptionPut>>,
+    TError,
+    {
+      eventId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: EventDescriptionPut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventDescriptionPut>>,
+  TError,
+  {
+    eventId: string;
+    language: 'nl' | 'fr' | 'en' | 'de';
+    data: EventDescriptionPut;
+  },
+  TContext
+> => {
+  const mutationOptions = getEventDescriptionPutMutationOptions(options);
 
-      const mutationOptions = getEventDescriptionPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the localized description of an event based on the given `eventId` and `language` inside the URL. 
 
 <!-- theme: info -->
  * @summary description - delete
  */
 export const eventDescriptionDelete = (
-    eventId: string,
-    language: 'nl' | 'fr' | 'en' | 'de', options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/description/${language}`,options
-    );
-  }
+  eventId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/description/${language}`,
+    options
+  );
+};
 
+export const getEventDescriptionDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDescriptionDelete>>,
+    TError,
+    { eventId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventDescriptionDelete>>,
+  TError,
+  { eventId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventDescriptionDelete>>,
+    { eventId: string; language: 'nl' | 'fr' | 'en' | 'de' }
+  > = (props) => {
+    const { eventId, language } = props ?? {};
 
-export const getEventDescriptionDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionDelete>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionDelete>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventDescriptionDelete(eventId, language, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventDescriptionDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventDescriptionDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventDescriptionDelete>>, {eventId: string;language: 'nl' | 'fr' | 'en' | 'de'}> = (props) => {
-          const {eventId,language} = props ?? {};
+export type EventDescriptionDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventDescriptionDelete(eventId,language,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventDescriptionDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventDescriptionDelete>>>
-    
-    export type EventDescriptionDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary description - delete
  */
-export const useEventDescriptionDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventDescriptionDelete>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de'}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventDescriptionDelete>>,
-        TError,
-        {eventId: string;language: 'nl' | 'fr' | 'en' | 'de'},
-        TContext
-      > => {
+export const useEventDescriptionDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventDescriptionDelete>>,
+    TError,
+    { eventId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventDescriptionDelete>>,
+  TError,
+  { eventId: string; language: 'nl' | 'fr' | 'en' | 'de' },
+  TContext
+> => {
+  const mutationOptions = getEventDescriptionDeleteMutationOptions(options);
 
-      const mutationOptions = getEventDescriptionDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the list of available (accessibility) facilities on the event. These will show up in the [event's `terms`](/models/event-terms.json).
 
 A list of possible facilities can be found using our [guide about taxonomy terms](../docs/taxonomy-api/terms.md).
@@ -1125,282 +1587,413 @@ A list of possible facilities can be found using our [guide about taxonomy terms
  * @summary facilities - update
  */
 export const eventFacilitiesPut = (
-    eventId: string,
-    eventFacilitiesPut: EventFacilitiesPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/facilities`,
-      eventFacilitiesPut,options
-    );
-  }
+  eventId: string,
+  eventFacilitiesPut: EventFacilitiesPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/facilities`,
+    eventFacilitiesPut,
+    options
+  );
+};
 
+export const getEventFacilitiesPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventFacilitiesPut>>,
+    TError,
+    { eventId: string; data: EventFacilitiesPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventFacilitiesPut>>,
+  TError,
+  { eventId: string; data: EventFacilitiesPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventFacilitiesPut>>,
+    { eventId: string; data: EventFacilitiesPut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventFacilitiesPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventFacilitiesPut>>, TError,{eventId: string;data: EventFacilitiesPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventFacilitiesPut>>, TError,{eventId: string;data: EventFacilitiesPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventFacilitiesPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventFacilitiesPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventFacilitiesPut>>
+>;
+export type EventFacilitiesPutMutationBody = EventFacilitiesPut;
+export type EventFacilitiesPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventFacilitiesPut>>, {eventId: string;data: EventFacilitiesPut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventFacilitiesPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventFacilitiesPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventFacilitiesPut>>>
-    export type EventFacilitiesPutMutationBody = EventFacilitiesPut
-    export type EventFacilitiesPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary facilities - update
  */
-export const useEventFacilitiesPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventFacilitiesPut>>, TError,{eventId: string;data: EventFacilitiesPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventFacilitiesPut>>,
-        TError,
-        {eventId: string;data: EventFacilitiesPut},
-        TContext
-      > => {
+export const useEventFacilitiesPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventFacilitiesPut>>,
+    TError,
+    { eventId: string; data: EventFacilitiesPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventFacilitiesPut>>,
+  TError,
+  { eventId: string; data: EventFacilitiesPut },
+  TContext
+> => {
+  const mutationOptions = getEventFacilitiesPutMutationOptions(options);
 
-      const mutationOptions = getEventFacilitiesPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Adds an image to an event. To upload an image, use the [`POST /images`](./entry.json/paths/~1images/post) endpoint.
  * @summary images - add
  */
 export const eventImagesPost = (
-    eventId: string,
-    eventImagePost: EventImagePost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images`,
-      eventImagePost,options
-    );
-  }
+  eventId: string,
+  eventImagePost: EventImagePost,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images`,
+    eventImagePost,
+    options
+  );
+};
 
+export const getEventImagesPostMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImagesPost>>,
+    TError,
+    { eventId: string; data: EventImagePost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventImagesPost>>,
+  TError,
+  { eventId: string; data: EventImagePost },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventImagesPost>>,
+    { eventId: string; data: EventImagePost }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventImagesPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImagesPost>>, TError,{eventId: string;data: EventImagePost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventImagesPost>>, TError,{eventId: string;data: EventImagePost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventImagesPost(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventImagesPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventImagesPost>>
+>;
+export type EventImagesPostMutationBody = EventImagePost;
+export type EventImagesPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventImagesPost>>, {eventId: string;data: EventImagePost}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventImagesPost(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventImagesPostMutationResult = NonNullable<Awaited<ReturnType<typeof eventImagesPost>>>
-    export type EventImagesPostMutationBody = EventImagePost
-    export type EventImagesPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - add
  */
-export const useEventImagesPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImagesPost>>, TError,{eventId: string;data: EventImagePost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventImagesPost>>,
-        TError,
-        {eventId: string;data: EventImagePost},
-        TContext
-      > => {
+export const useEventImagesPost = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImagesPost>>,
+    TError,
+    { eventId: string; data: EventImagePost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventImagesPost>>,
+  TError,
+  { eventId: string; data: EventImagePost },
+  TContext
+> => {
+  const mutationOptions = getEventImagesPostMutationOptions(options);
 
-      const mutationOptions = getEventImagesPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Removes the image with the given `imageId` from the event's `mediaObject` property.
  * @summary images - delete
  */
 export const eventImageDelete = (
-    eventId: string,
-    imageId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/${imageId}`,options
-    );
-  }
+  eventId: string,
+  imageId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/${imageId}`,
+    options
+  );
+};
 
+export const getEventImageDeleteMutationOptions = <
+  TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImageDelete>>,
+    TError,
+    { eventId: string; imageId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventImageDelete>>,
+  TError,
+  { eventId: string; imageId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventImageDelete>>,
+    { eventId: string; imageId: string }
+  > = (props) => {
+    const { eventId, imageId } = props ?? {};
 
-export const getEventImageDeleteMutationOptions = <TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImageDelete>>, TError,{eventId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventImageDelete>>, TError,{eventId: string;imageId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventImageDelete(eventId, imageId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventImageDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventImageDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventImageDelete>>, {eventId: string;imageId: string}> = (props) => {
-          const {eventId,imageId} = props ?? {};
+export type EventImageDeleteMutationError = AxiosError<
+  ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventImageDelete(eventId,imageId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventImageDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventImageDelete>>>
-    
-    export type EventImageDeleteMutationError = AxiosError<ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - delete
  */
-export const useEventImageDelete = <TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImageDelete>>, TError,{eventId: string;imageId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventImageDelete>>,
-        TError,
-        {eventId: string;imageId: string},
-        TContext
-      > => {
+export const useEventImageDelete = <
+  TError = AxiosError<ForbiddenResponse | NotFoundResponse>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImageDelete>>,
+    TError,
+    { eventId: string; imageId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventImageDelete>>,
+  TError,
+  { eventId: string; imageId: string },
+  TContext
+> => {
+  const mutationOptions = getEventImageDeleteMutationOptions(options);
 
-      const mutationOptions = getEventImageDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the metadata of an image on an event.
  * @summary images - update
  */
 export const eventImagePut = (
-    eventId: string,
-    imageId: string,
-    eventImagePut: EventImagePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/${imageId}`,
-      eventImagePut,options
-    );
-  }
+  eventId: string,
+  imageId: string,
+  eventImagePut: EventImagePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/${imageId}`,
+    eventImagePut,
+    options
+  );
+};
 
+export const getEventImagePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImagePut>>,
+    TError,
+    { eventId: string; imageId: string; data: EventImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventImagePut>>,
+  TError,
+  { eventId: string; imageId: string; data: EventImagePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventImagePut>>,
+    { eventId: string; imageId: string; data: EventImagePut }
+  > = (props) => {
+    const { eventId, imageId, data } = props ?? {};
 
-export const getEventImagePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImagePut>>, TError,{eventId: string;imageId: string;data: EventImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventImagePut>>, TError,{eventId: string;imageId: string;data: EventImagePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventImagePut(eventId, imageId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventImagePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventImagePut>>
+>;
+export type EventImagePutMutationBody = EventImagePut;
+export type EventImagePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventImagePut>>, {eventId: string;imageId: string;data: EventImagePut}> = (props) => {
-          const {eventId,imageId,data} = props ?? {};
-
-          return  eventImagePut(eventId,imageId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventImagePut>>>
-    export type EventImagePutMutationBody = EventImagePut
-    export type EventImagePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images - update
  */
-export const useEventImagePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventImagePut>>, TError,{eventId: string;imageId: string;data: EventImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventImagePut>>,
-        TError,
-        {eventId: string;imageId: string;data: EventImagePut},
-        TContext
-      > => {
+export const useEventImagePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventImagePut>>,
+    TError,
+    { eventId: string; imageId: string; data: EventImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventImagePut>>,
+  TError,
+  { eventId: string; imageId: string; data: EventImagePut },
+  TContext
+> => {
+  const mutationOptions = getEventImagePutMutationOptions(options);
 
-      const mutationOptions = getEventImagePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the main image of an event. The main image is the only image shown in search-result listviews and the image more prominently displayed on event-details, when the event has multiple images.
  * @summary images main - update
  */
 export const eventMainImagePut = (
-    eventId: string,
-    eventMainImagePut: EventMainImagePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/main`,
-      eventMainImagePut,options
-    );
-  }
+  eventId: string,
+  eventMainImagePut: EventMainImagePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/images/main`,
+    eventMainImagePut,
+    options
+  );
+};
 
+export const getEventMainImagePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventMainImagePut>>,
+    TError,
+    { eventId: string; data: EventMainImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventMainImagePut>>,
+  TError,
+  { eventId: string; data: EventMainImagePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventMainImagePut>>,
+    { eventId: string; data: EventMainImagePut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventMainImagePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventMainImagePut>>, TError,{eventId: string;data: EventMainImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventMainImagePut>>, TError,{eventId: string;data: EventMainImagePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventMainImagePut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventMainImagePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventMainImagePut>>
+>;
+export type EventMainImagePutMutationBody = EventMainImagePut;
+export type EventMainImagePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventMainImagePut>>, {eventId: string;data: EventMainImagePut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventMainImagePut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventMainImagePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventMainImagePut>>>
-    export type EventMainImagePutMutationBody = EventMainImagePut
-    export type EventMainImagePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary images main - update
  */
-export const useEventMainImagePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventMainImagePut>>, TError,{eventId: string;data: EventMainImagePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventMainImagePut>>,
-        TError,
-        {eventId: string;data: EventMainImagePut},
-        TContext
-      > => {
+export const useEventMainImagePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventMainImagePut>>,
+    TError,
+    { eventId: string; data: EventMainImagePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventMainImagePut>>,
+  TError,
+  { eventId: string; data: EventMainImagePut },
+  TContext
+> => {
+  const mutationOptions = getEventMainImagePutMutationOptions(options);
 
-      const mutationOptions = getEventMainImagePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Adds the given label to the event with the given `eventId`.
 
 If the specified label does not exist yet in UiTdatabank a new label will be created with default visibility and public permissions (usable by anyone), and linked to the event.
@@ -1409,169 +2002,252 @@ The label must be longer than 1 character and shorter than 255 characters. The l
  * @summary labels - add
  */
 export const eventLabelsAdd = (
-    eventId: string,
-    labelName: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/labels/${labelName}`,undefined,options
-    );
-  }
+  eventId: string,
+  labelName: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/labels/${labelName}`,
+    undefined,
+    options
+  );
+};
 
+export const getEventLabelsAddMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLabelsAdd>>,
+    TError,
+    { eventId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventLabelsAdd>>,
+  TError,
+  { eventId: string; labelName: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventLabelsAdd>>,
+    { eventId: string; labelName: string }
+  > = (props) => {
+    const { eventId, labelName } = props ?? {};
 
-export const getEventLabelsAddMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLabelsAdd>>, TError,{eventId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventLabelsAdd>>, TError,{eventId: string;labelName: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventLabelsAdd(eventId, labelName, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventLabelsAddMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventLabelsAdd>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventLabelsAdd>>, {eventId: string;labelName: string}> = (props) => {
-          const {eventId,labelName} = props ?? {};
+export type EventLabelsAddMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventLabelsAdd(eventId,labelName,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventLabelsAddMutationResult = NonNullable<Awaited<ReturnType<typeof eventLabelsAdd>>>
-    
-    export type EventLabelsAddMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary labels - add
  */
-export const useEventLabelsAdd = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLabelsAdd>>, TError,{eventId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventLabelsAdd>>,
-        TError,
-        {eventId: string;labelName: string},
-        TContext
-      > => {
+export const useEventLabelsAdd = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLabelsAdd>>,
+    TError,
+    { eventId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventLabelsAdd>>,
+  TError,
+  { eventId: string; labelName: string },
+  TContext
+> => {
+  const mutationOptions = getEventLabelsAddMutationOptions(options);
 
-      const mutationOptions = getEventLabelsAddMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes a label from the `labels` or `hiddenLabels` property on an event based on the event id, the label name, and the label's visibility.
  * @summary labels - delete
  */
 export const eventLabelsDelete = (
-    eventId: string,
-    labelName: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/labels/${labelName}`,options
-    );
-  }
+  eventId: string,
+  labelName: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/labels/${labelName}`,
+    options
+  );
+};
 
+export const getEventLabelsDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLabelsDelete>>,
+    TError,
+    { eventId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventLabelsDelete>>,
+  TError,
+  { eventId: string; labelName: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventLabelsDelete>>,
+    { eventId: string; labelName: string }
+  > = (props) => {
+    const { eventId, labelName } = props ?? {};
 
-export const getEventLabelsDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLabelsDelete>>, TError,{eventId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventLabelsDelete>>, TError,{eventId: string;labelName: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventLabelsDelete(eventId, labelName, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventLabelsDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventLabelsDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventLabelsDelete>>, {eventId: string;labelName: string}> = (props) => {
-          const {eventId,labelName} = props ?? {};
+export type EventLabelsDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventLabelsDelete(eventId,labelName,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventLabelsDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventLabelsDelete>>>
-    
-    export type EventLabelsDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary labels - delete
  */
-export const useEventLabelsDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLabelsDelete>>, TError,{eventId: string;labelName: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventLabelsDelete>>,
-        TError,
-        {eventId: string;labelName: string},
-        TContext
-      > => {
+export const useEventLabelsDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLabelsDelete>>,
+    TError,
+    { eventId: string; labelName: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventLabelsDelete>>,
+  TError,
+  { eventId: string; labelName: string },
+  TContext
+> => {
+  const mutationOptions = getEventLabelsDeleteMutationOptions(options);
 
-      const mutationOptions = getEventLabelsDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the event's location to a new place based on the given `eventId` and `placeId` in the URL.
 
 If the `eventId` does not exist a `404 Not Found` response will be returned. If the `placeId` does not exist a `400 Bad Request` response will be returned. Otherwise a `204 No Content` will be returned if successful. (See response examples below.)
  * @summary location - update
  */
 export const eventLocationPut = (
-    eventId: string,
-    placeId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/location/${placeId}`,undefined,options
-    );
-  }
+  eventId: string,
+  placeId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/location/${placeId}`,
+    undefined,
+    options
+  );
+};
 
+export const getEventLocationPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLocationPut>>,
+    TError,
+    { eventId: string; placeId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventLocationPut>>,
+  TError,
+  { eventId: string; placeId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventLocationPut>>,
+    { eventId: string; placeId: string }
+  > = (props) => {
+    const { eventId, placeId } = props ?? {};
 
-export const getEventLocationPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLocationPut>>, TError,{eventId: string;placeId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventLocationPut>>, TError,{eventId: string;placeId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventLocationPut(eventId, placeId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventLocationPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventLocationPut>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventLocationPut>>, {eventId: string;placeId: string}> = (props) => {
-          const {eventId,placeId} = props ?? {};
+export type EventLocationPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventLocationPut(eventId,placeId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventLocationPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventLocationPut>>>
-    
-    export type EventLocationPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary location - update
  */
-export const useEventLocationPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventLocationPut>>, TError,{eventId: string;placeId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventLocationPut>>,
-        TError,
-        {eventId: string;placeId: string},
-        TContext
-      > => {
+export const useEventLocationPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventLocationPut>>,
+    TError,
+    { eventId: string; placeId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventLocationPut>>,
+  TError,
+  { eventId: string; placeId: string },
+  TContext
+> => {
+  const mutationOptions = getEventLocationPutMutationOptions(options);
 
-      const mutationOptions = getEventLocationPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * <!-- theme: danger -->
 
 > The major-info endpoint is deprecated and should not be used in new integrations!
@@ -1594,281 +2270,424 @@ All properties are required (except for `theme`) and will overwrite existing val
  * @summary major-info - update
  */
 export const eventMajorInfoPut = (
-    eventId: string,
-    eventMajorInfoPutBody: EventMajorInfoPutBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/major-info`,
-      eventMajorInfoPutBody,options
-    );
-  }
+  eventId: string,
+  eventMajorInfoPutBody: EventMajorInfoPutBody,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/major-info`,
+    eventMajorInfoPutBody,
+    options
+  );
+};
 
+export const getEventMajorInfoPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventMajorInfoPut>>,
+    TError,
+    { eventId: string; data: EventMajorInfoPutBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventMajorInfoPut>>,
+  TError,
+  { eventId: string; data: EventMajorInfoPutBody },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventMajorInfoPut>>,
+    { eventId: string; data: EventMajorInfoPutBody }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventMajorInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventMajorInfoPut>>, TError,{eventId: string;data: EventMajorInfoPutBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventMajorInfoPut>>, TError,{eventId: string;data: EventMajorInfoPutBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventMajorInfoPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventMajorInfoPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventMajorInfoPut>>
+>;
+export type EventMajorInfoPutMutationBody = EventMajorInfoPutBody;
+export type EventMajorInfoPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventMajorInfoPut>>, {eventId: string;data: EventMajorInfoPutBody}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventMajorInfoPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventMajorInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventMajorInfoPut>>>
-    export type EventMajorInfoPutMutationBody = EventMajorInfoPutBody
-    export type EventMajorInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @deprecated
  * @summary major-info - update
  */
-export const useEventMajorInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventMajorInfoPut>>, TError,{eventId: string;data: EventMajorInfoPutBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventMajorInfoPut>>,
-        TError,
-        {eventId: string;data: EventMajorInfoPutBody},
-        TContext
-      > => {
+export const useEventMajorInfoPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventMajorInfoPut>>,
+    TError,
+    { eventId: string; data: EventMajorInfoPutBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventMajorInfoPut>>,
+  TError,
+  { eventId: string; data: EventMajorInfoPutBody },
+  TContext
+> => {
+  const mutationOptions = getEventMajorInfoPutMutationOptions(options);
 
-      const mutationOptions = getEventMajorInfoPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the localized name of an event based on the given `eventId` and `language` inside the URL.
  * @summary name - update
  */
 export const eventNamePut = (
-    eventId: string,
-    language: 'nl' | 'fr' | 'en' | 'de',
-    eventNamePut: EventNamePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/name/${language}`,
-      eventNamePut,options
-    );
-  }
+  eventId: string,
+  language: 'nl' | 'fr' | 'en' | 'de',
+  eventNamePut: EventNamePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/name/${language}`,
+    eventNamePut,
+    options
+  );
+};
 
+export const getEventNamePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventNamePut>>,
+    TError,
+    {
+      eventId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: EventNamePut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventNamePut>>,
+  TError,
+  { eventId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: EventNamePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventNamePut>>,
+    { eventId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: EventNamePut }
+  > = (props) => {
+    const { eventId, language, data } = props ?? {};
 
-export const getEventNamePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventNamePut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventNamePut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventNamePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventNamePut(eventId, language, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventNamePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventNamePut>>
+>;
+export type EventNamePutMutationBody = EventNamePut;
+export type EventNamePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventNamePut>>, {eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventNamePut}> = (props) => {
-          const {eventId,language,data} = props ?? {};
-
-          return  eventNamePut(eventId,language,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventNamePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventNamePut>>>
-    export type EventNamePutMutationBody = EventNamePut
-    export type EventNamePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary name - update
  */
-export const useEventNamePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventNamePut>>, TError,{eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventNamePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventNamePut>>,
-        TError,
-        {eventId: string;language: 'nl' | 'fr' | 'en' | 'de';data: EventNamePut},
-        TContext
-      > => {
+export const useEventNamePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventNamePut>>,
+    TError,
+    {
+      eventId: string;
+      language: 'nl' | 'fr' | 'en' | 'de';
+      data: EventNamePut;
+    },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventNamePut>>,
+  TError,
+  { eventId: string; language: 'nl' | 'fr' | 'en' | 'de'; data: EventNamePut },
+  TContext
+> => {
+  const mutationOptions = getEventNamePutMutationOptions(options);
 
-      const mutationOptions = getEventNamePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the online url of an event. Only events with attendance mode `online` or `mixed` can have an online url.
  * @summary onlineUrl - update
  */
 export const eventOnlineUrlPut = (
-    eventId: string,
-    eventOnlineUrlPut: EventOnlineUrlPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/online-url`,
-      eventOnlineUrlPut,options
-    );
-  }
+  eventId: string,
+  eventOnlineUrlPut: EventOnlineUrlPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/online-url`,
+    eventOnlineUrlPut,
+    options
+  );
+};
 
+export const getEventOnlineUrlPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOnlineUrlPut>>,
+    TError,
+    { eventId: string; data: EventOnlineUrlPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventOnlineUrlPut>>,
+  TError,
+  { eventId: string; data: EventOnlineUrlPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventOnlineUrlPut>>,
+    { eventId: string; data: EventOnlineUrlPut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventOnlineUrlPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlPut>>, TError,{eventId: string;data: EventOnlineUrlPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlPut>>, TError,{eventId: string;data: EventOnlineUrlPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventOnlineUrlPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventOnlineUrlPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventOnlineUrlPut>>
+>;
+export type EventOnlineUrlPutMutationBody = EventOnlineUrlPut;
+export type EventOnlineUrlPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventOnlineUrlPut>>, {eventId: string;data: EventOnlineUrlPut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventOnlineUrlPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventOnlineUrlPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventOnlineUrlPut>>>
-    export type EventOnlineUrlPutMutationBody = EventOnlineUrlPut
-    export type EventOnlineUrlPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary onlineUrl - update
  */
-export const useEventOnlineUrlPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlPut>>, TError,{eventId: string;data: EventOnlineUrlPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventOnlineUrlPut>>,
-        TError,
-        {eventId: string;data: EventOnlineUrlPut},
-        TContext
-      > => {
+export const useEventOnlineUrlPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOnlineUrlPut>>,
+    TError,
+    { eventId: string; data: EventOnlineUrlPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventOnlineUrlPut>>,
+  TError,
+  { eventId: string; data: EventOnlineUrlPut },
+  TContext
+> => {
+  const mutationOptions = getEventOnlineUrlPutMutationOptions(options);
 
-      const mutationOptions = getEventOnlineUrlPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Delete the onlineUrl of an event.
  * @summary onlineUrl - delete
  */
 export const eventOnlineUrlDelete = (
-    eventId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/online-url`,options
-    );
-  }
+  eventId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/online-url`,
+    options
+  );
+};
 
+export const getEventOnlineUrlDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
+    { eventId: string }
+  > = (props) => {
+    const { eventId } = props ?? {};
 
-export const getEventOnlineUrlDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlDelete>>, TError,{eventId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventOnlineUrlDelete(eventId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventOnlineUrlDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventOnlineUrlDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventOnlineUrlDelete>>, {eventId: string}> = (props) => {
-          const {eventId} = props ?? {};
+export type EventOnlineUrlDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventOnlineUrlDelete(eventId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventOnlineUrlDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventOnlineUrlDelete>>>
-    
-    export type EventOnlineUrlDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary onlineUrl - delete
  */
-export const useEventOnlineUrlDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOnlineUrlDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
-        TError,
-        {eventId: string},
-        TContext
-      > => {
+export const useEventOnlineUrlDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventOnlineUrlDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const mutationOptions = getEventOnlineUrlDeleteMutationOptions(options);
 
-      const mutationOptions = getEventOnlineUrlDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the organizer of the event with the given `eventId`.
  * @summary organizer - delete
  */
 export const eventOrganizerDelete = (
-    eventId: string,
-    organizerId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/organizer/${organizerId}`,options
-    );
-  }
+  eventId: string,
+  organizerId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/organizer/${organizerId}`,
+    options
+  );
+};
 
+export const getEventOrganizerDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOrganizerDelete>>,
+    TError,
+    { eventId: string; organizerId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventOrganizerDelete>>,
+  TError,
+  { eventId: string; organizerId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventOrganizerDelete>>,
+    { eventId: string; organizerId: string }
+  > = (props) => {
+    const { eventId, organizerId } = props ?? {};
 
-export const getEventOrganizerDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerDelete>>, TError,{eventId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerDelete>>, TError,{eventId: string;organizerId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventOrganizerDelete(eventId, organizerId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventOrganizerDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventOrganizerDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventOrganizerDelete>>, {eventId: string;organizerId: string}> = (props) => {
-          const {eventId,organizerId} = props ?? {};
+export type EventOrganizerDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventOrganizerDelete(eventId,organizerId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventOrganizerDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventOrganizerDelete>>>
-    
-    export type EventOrganizerDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary organizer - delete
  */
-export const useEventOrganizerDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerDelete>>, TError,{eventId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventOrganizerDelete>>,
-        TError,
-        {eventId: string;organizerId: string},
-        TContext
-      > => {
+export const useEventOrganizerDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOrganizerDelete>>,
+    TError,
+    { eventId: string; organizerId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventOrganizerDelete>>,
+  TError,
+  { eventId: string; organizerId: string },
+  TContext
+> => {
+  const mutationOptions = getEventOrganizerDeleteMutationOptions(options);
 
-      const mutationOptions = getEventOrganizerDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the organizer of the event with the given `eventId`. A list of organizers can be found using our [guide about finding existing organizers](/docs/entry-api/organizers/finding-and-reusing-organizers.md).
 
 <!-- theme: info -->
@@ -1877,171 +2696,253 @@ export const useEventOrganizerDelete = <TError = AxiosError<UnauthorizedResponse
  * @summary organizer - update
  */
 export const eventOrganizerUpdate = (
-    eventId: string,
-    organizerId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/organizer/${organizerId}`,undefined,options
-    );
-  }
+  eventId: string,
+  organizerId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/organizer/${organizerId}`,
+    undefined,
+    options
+  );
+};
 
+export const getEventOrganizerUpdateMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOrganizerUpdate>>,
+    TError,
+    { eventId: string; organizerId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventOrganizerUpdate>>,
+  TError,
+  { eventId: string; organizerId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventOrganizerUpdate>>,
+    { eventId: string; organizerId: string }
+  > = (props) => {
+    const { eventId, organizerId } = props ?? {};
 
-export const getEventOrganizerUpdateMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerUpdate>>, TError,{eventId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerUpdate>>, TError,{eventId: string;organizerId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventOrganizerUpdate(eventId, organizerId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventOrganizerUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventOrganizerUpdate>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventOrganizerUpdate>>, {eventId: string;organizerId: string}> = (props) => {
-          const {eventId,organizerId} = props ?? {};
+export type EventOrganizerUpdateMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventOrganizerUpdate(eventId,organizerId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventOrganizerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof eventOrganizerUpdate>>>
-    
-    export type EventOrganizerUpdateMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary organizer - update
  */
-export const useEventOrganizerUpdate = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventOrganizerUpdate>>, TError,{eventId: string;organizerId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventOrganizerUpdate>>,
-        TError,
-        {eventId: string;organizerId: string},
-        TContext
-      > => {
+export const useEventOrganizerUpdate = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventOrganizerUpdate>>,
+    TError,
+    { eventId: string; organizerId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventOrganizerUpdate>>,
+  TError,
+  { eventId: string; organizerId: string },
+  TContext
+> => {
+  const mutationOptions = getEventOrganizerUpdateMutationOptions(options);
 
-      const mutationOptions = getEventOrganizerUpdateMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the price info of an event.
  * @summary priceInfo - update
  */
 export const eventPriceInfoPut = (
-    eventId: string,
-    eventPriceInfo: EventPriceInfo, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/price-info`,
-      eventPriceInfo,options
-    );
-  }
+  eventId: string,
+  eventPriceInfo: EventPriceInfo,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/price-info`,
+    eventPriceInfo,
+    options
+  );
+};
 
+export const getEventPriceInfoPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPriceInfoPut>>,
+    TError,
+    { eventId: string; data: EventPriceInfo },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventPriceInfoPut>>,
+  TError,
+  { eventId: string; data: EventPriceInfo },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventPriceInfoPut>>,
+    { eventId: string; data: EventPriceInfo }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventPriceInfoPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPriceInfoPut>>, TError,{eventId: string;data: EventPriceInfo}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventPriceInfoPut>>, TError,{eventId: string;data: EventPriceInfo}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventPriceInfoPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventPriceInfoPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventPriceInfoPut>>
+>;
+export type EventPriceInfoPutMutationBody = EventPriceInfo;
+export type EventPriceInfoPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventPriceInfoPut>>, {eventId: string;data: EventPriceInfo}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventPriceInfoPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventPriceInfoPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventPriceInfoPut>>>
-    export type EventPriceInfoPutMutationBody = EventPriceInfo
-    export type EventPriceInfoPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary priceInfo - update
  */
-export const useEventPriceInfoPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventPriceInfoPut>>, TError,{eventId: string;data: EventPriceInfo}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventPriceInfoPut>>,
-        TError,
-        {eventId: string;data: EventPriceInfo},
-        TContext
-      > => {
+export const useEventPriceInfoPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventPriceInfoPut>>,
+    TError,
+    { eventId: string; data: EventPriceInfo },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventPriceInfoPut>>,
+  TError,
+  { eventId: string; data: EventPriceInfo },
+  TContext
+> => {
+  const mutationOptions = getEventPriceInfoPutMutationOptions(options);
 
-      const mutationOptions = getEventPriceInfoPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the general status on the top level of the event with the given `eventId`.
 
 The status of any subEvents that the event has will also be updated to match the general status.
  * @summary status - update
  */
 export const eventStatusPut = (
-    eventId: string,
-    eventStatus: EventStatus, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/status`,
-      eventStatus,options
-    );
-  }
+  eventId: string,
+  eventStatus: EventStatus,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/status`,
+    eventStatus,
+    options
+  );
+};
 
+export const getEventStatusPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventStatusPut>>,
+    TError,
+    { eventId: string; data: EventStatus },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventStatusPut>>,
+  TError,
+  { eventId: string; data: EventStatus },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventStatusPut>>,
+    { eventId: string; data: EventStatus }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventStatusPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventStatusPut>>, TError,{eventId: string;data: EventStatus}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventStatusPut>>, TError,{eventId: string;data: EventStatus}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventStatusPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventStatusPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventStatusPut>>
+>;
+export type EventStatusPutMutationBody = EventStatus;
+export type EventStatusPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventStatusPut>>, {eventId: string;data: EventStatus}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventStatusPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventStatusPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventStatusPut>>>
-    export type EventStatusPutMutationBody = EventStatus
-    export type EventStatusPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary status - update
  */
-export const useEventStatusPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventStatusPut>>, TError,{eventId: string;data: EventStatus}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventStatusPut>>,
-        TError,
-        {eventId: string;data: EventStatus},
-        TContext
-      > => {
+export const useEventStatusPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventStatusPut>>,
+    TError,
+    { eventId: string; data: EventStatus },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventStatusPut>>,
+  TError,
+  { eventId: string; data: EventStatus },
+  TContext
+> => {
+  const mutationOptions = getEventStatusPutMutationOptions(options);
 
-      const mutationOptions = getEventStatusPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the given subEvents on the event with the given `eventId`.
 
 Allows partial updates, omitted properties will be ignored and remain unchanged. Omitted subEvents will also remain unchanged.
@@ -2056,58 +2957,85 @@ Only events with calendar type `single` and `multiple` have subEvents, so only e
  * @summary subEvent - patch
  */
 export const eventSubEventPatch = (
-    eventId: string,
-    eventSubEventPatch: EventSubEventPatch, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.patch(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/sub-events`,
-      eventSubEventPatch,options
-    );
-  }
+  eventId: string,
+  eventSubEventPatch: EventSubEventPatch,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.patch(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/sub-events`,
+    eventSubEventPatch,
+    options
+  );
+};
 
+export const getEventSubEventPatchMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventSubEventPatch>>,
+    TError,
+    { eventId: string; data: EventSubEventPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventSubEventPatch>>,
+  TError,
+  { eventId: string; data: EventSubEventPatch },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventSubEventPatch>>,
+    { eventId: string; data: EventSubEventPatch }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventSubEventPatchMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventSubEventPatch>>, TError,{eventId: string;data: EventSubEventPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventSubEventPatch>>, TError,{eventId: string;data: EventSubEventPatch}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventSubEventPatch(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventSubEventPatchMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventSubEventPatch>>
+>;
+export type EventSubEventPatchMutationBody = EventSubEventPatch;
+export type EventSubEventPatchMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventSubEventPatch>>, {eventId: string;data: EventSubEventPatch}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventSubEventPatch(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventSubEventPatchMutationResult = NonNullable<Awaited<ReturnType<typeof eventSubEventPatch>>>
-    export type EventSubEventPatchMutationBody = EventSubEventPatch
-    export type EventSubEventPatchMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary subEvent - patch
  */
-export const useEventSubEventPatch = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventSubEventPatch>>, TError,{eventId: string;data: EventSubEventPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventSubEventPatch>>,
-        TError,
-        {eventId: string;data: EventSubEventPatch},
-        TContext
-      > => {
+export const useEventSubEventPatch = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventSubEventPatch>>,
+    TError,
+    { eventId: string; data: EventSubEventPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventSubEventPatch>>,
+  TError,
+  { eventId: string; data: EventSubEventPatch },
+  TContext
+> => {
+  const mutationOptions = getEventSubEventPatchMutationOptions(options);
 
-      const mutationOptions = getEventSubEventPatchMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the event's type (examples of types are `Concert`, `Opendeurdag`, `Lessenreeks`, and so on) based on the given `eventId` and `termId`.
 
 Terms are pre-defined and can be found using our [guide about taxonomy terms](../docs/taxonomy-api/terms.md). Only terms from the `eventtype` domain can be used as event types.
@@ -2116,113 +3044,168 @@ If the `eventId` does not exist a `404 Not Found` will be returned. If the `term
  * @summary terms > eventtype - update
  */
 export const eventTermsEventtypePut = (
-    eventId: string,
-    termId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/type/${termId}`,undefined,options
-    );
-  }
+  eventId: string,
+  termId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/type/${termId}`,
+    undefined,
+    options
+  );
+};
 
+export const getEventTermsEventtypePutMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsEventtypePut>>,
+    TError,
+    { eventId: string; termId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventTermsEventtypePut>>,
+  TError,
+  { eventId: string; termId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventTermsEventtypePut>>,
+    { eventId: string; termId: string }
+  > = (props) => {
+    const { eventId, termId } = props ?? {};
 
-export const getEventTermsEventtypePutMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsEventtypePut>>, TError,{eventId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventTermsEventtypePut>>, TError,{eventId: string;termId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventTermsEventtypePut(eventId, termId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventTermsEventtypePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventTermsEventtypePut>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventTermsEventtypePut>>, {eventId: string;termId: string}> = (props) => {
-          const {eventId,termId} = props ?? {};
+export type EventTermsEventtypePutMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventTermsEventtypePut(eventId,termId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventTermsEventtypePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventTermsEventtypePut>>>
-    
-    export type EventTermsEventtypePutMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary terms > eventtype - update
  */
-export const useEventTermsEventtypePut = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsEventtypePut>>, TError,{eventId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventTermsEventtypePut>>,
-        TError,
-        {eventId: string;termId: string},
-        TContext
-      > => {
+export const useEventTermsEventtypePut = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsEventtypePut>>,
+    TError,
+    { eventId: string; termId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventTermsEventtypePut>>,
+  TError,
+  { eventId: string; termId: string },
+  TContext
+> => {
+  const mutationOptions = getEventTermsEventtypePutMutationOptions(options);
 
-      const mutationOptions = getEventTermsEventtypePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the event's current theme based on the given `eventId`.
 
 If the `eventId` does not exist a `404 Not Found` will be returned. If the request is successful a `204 No Content` will be returned.
  * @summary terms > theme - delete
  */
 export const eventTermsThemeDelete = (
-    eventId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/theme`,options
-    );
-  }
+  eventId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/theme`,
+    options
+  );
+};
 
+export const getEventTermsThemeDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsThemeDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventTermsThemeDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventTermsThemeDelete>>,
+    { eventId: string }
+  > = (props) => {
+    const { eventId } = props ?? {};
 
-export const getEventTermsThemeDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemeDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemeDelete>>, TError,{eventId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventTermsThemeDelete(eventId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventTermsThemeDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventTermsThemeDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventTermsThemeDelete>>, {eventId: string}> = (props) => {
-          const {eventId} = props ?? {};
+export type EventTermsThemeDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventTermsThemeDelete(eventId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventTermsThemeDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventTermsThemeDelete>>>
-    
-    export type EventTermsThemeDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary terms > theme - delete
  */
-export const useEventTermsThemeDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemeDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventTermsThemeDelete>>,
-        TError,
-        {eventId: string},
-        TContext
-      > => {
+export const useEventTermsThemeDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsThemeDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventTermsThemeDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const mutationOptions = getEventTermsThemeDeleteMutationOptions(options);
 
-      const mutationOptions = getEventTermsThemeDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the event's theme (examples of themes are `Audiovisuele kunst`, `Moderne dans`, `Actie en avontuur`, and so on) based on the given `eventId` and `termId`.
 
 Terms are pre-defined and can be found using our [guide about taxonomy terms](../docs/taxonomy-api/terms.md). Only terms from the `theme` domain can be used as theme.
@@ -2231,167 +3214,249 @@ If the `eventId` does not exist a `404 Not Found` will be returned. If the `term
  * @summary terms > theme - update
  */
 export const eventTermsThemePut = (
-    eventId: string,
-    termId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/theme/${termId}`,undefined,options
-    );
-  }
+  eventId: string,
+  termId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/theme/${termId}`,
+    undefined,
+    options
+  );
+};
 
+export const getEventTermsThemePutMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsThemePut>>,
+    TError,
+    { eventId: string; termId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventTermsThemePut>>,
+  TError,
+  { eventId: string; termId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventTermsThemePut>>,
+    { eventId: string; termId: string }
+  > = (props) => {
+    const { eventId, termId } = props ?? {};
 
-export const getEventTermsThemePutMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemePut>>, TError,{eventId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemePut>>, TError,{eventId: string;termId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventTermsThemePut(eventId, termId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventTermsThemePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventTermsThemePut>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventTermsThemePut>>, {eventId: string;termId: string}> = (props) => {
-          const {eventId,termId} = props ?? {};
+export type EventTermsThemePutMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventTermsThemePut(eventId,termId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventTermsThemePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventTermsThemePut>>>
-    
-    export type EventTermsThemePutMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary terms > theme - update
  */
-export const useEventTermsThemePut = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTermsThemePut>>, TError,{eventId: string;termId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventTermsThemePut>>,
-        TError,
-        {eventId: string;termId: string},
-        TContext
-      > => {
+export const useEventTermsThemePut = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTermsThemePut>>,
+    TError,
+    { eventId: string; termId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventTermsThemePut>>,
+  TError,
+  { eventId: string; termId: string },
+  TContext
+> => {
+  const mutationOptions = getEventTermsThemePutMutationOptions(options);
 
-      const mutationOptions = getEventTermsThemePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Deletes the age range from an event.
  * @summary typicalAgeRange - delete
  */
 export const eventTypicalAgeRangeDelete = (
-    eventId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/typical-age-range`,options
-    );
-  }
+  eventId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/typical-age-range`,
+    options
+  );
+};
 
+export const getEventTypicalAgeRangeDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
+    { eventId: string }
+  > = (props) => {
+    const { eventId } = props ?? {};
 
-export const getEventTypicalAgeRangeDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>, TError,{eventId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventTypicalAgeRangeDelete(eventId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventTypicalAgeRangeDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>, {eventId: string}> = (props) => {
-          const {eventId} = props ?? {};
+export type EventTypicalAgeRangeDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventTypicalAgeRangeDelete(eventId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventTypicalAgeRangeDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>>
-    
-    export type EventTypicalAgeRangeDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary typicalAgeRange - delete
  */
-export const useEventTypicalAgeRangeDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>, TError,{eventId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
-        TError,
-        {eventId: string},
-        TContext
-      > => {
+export const useEventTypicalAgeRangeDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
+    TError,
+    { eventId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventTypicalAgeRangeDelete>>,
+  TError,
+  { eventId: string },
+  TContext
+> => {
+  const mutationOptions = getEventTypicalAgeRangeDeleteMutationOptions(options);
 
-      const mutationOptions = getEventTypicalAgeRangeDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the age range of the event with the given `eventId`.
  * @summary typicalAgeRange - update
  */
 export const eventTypicalAgeRangePut = (
-    eventId: string,
-    eventTypicalAgeRangePut: EventTypicalAgeRangePut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/typical-age-range`,
-      eventTypicalAgeRangePut,options
-    );
-  }
+  eventId: string,
+  eventTypicalAgeRangePut: EventTypicalAgeRangePut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/typical-age-range`,
+    eventTypicalAgeRangePut,
+    options
+  );
+};
 
+export const getEventTypicalAgeRangePutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
+    TError,
+    { eventId: string; data: EventTypicalAgeRangePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
+  TError,
+  { eventId: string; data: EventTypicalAgeRangePut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
+    { eventId: string; data: EventTypicalAgeRangePut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventTypicalAgeRangePutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangePut>>, TError,{eventId: string;data: EventTypicalAgeRangePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangePut>>, TError,{eventId: string;data: EventTypicalAgeRangePut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventTypicalAgeRangePut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventTypicalAgeRangePutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventTypicalAgeRangePut>>
+>;
+export type EventTypicalAgeRangePutMutationBody = EventTypicalAgeRangePut;
+export type EventTypicalAgeRangePutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventTypicalAgeRangePut>>, {eventId: string;data: EventTypicalAgeRangePut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventTypicalAgeRangePut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventTypicalAgeRangePutMutationResult = NonNullable<Awaited<ReturnType<typeof eventTypicalAgeRangePut>>>
-    export type EventTypicalAgeRangePutMutationBody = EventTypicalAgeRangePut
-    export type EventTypicalAgeRangePutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary typicalAgeRange - update
  */
-export const useEventTypicalAgeRangePut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventTypicalAgeRangePut>>, TError,{eventId: string;data: EventTypicalAgeRangePut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
-        TError,
-        {eventId: string;data: EventTypicalAgeRangePut},
-        TContext
-      > => {
+export const useEventTypicalAgeRangePut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
+    TError,
+    { eventId: string; data: EventTypicalAgeRangePut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventTypicalAgeRangePut>>,
+  TError,
+  { eventId: string; data: EventTypicalAgeRangePut },
+  TContext
+> => {
+  const mutationOptions = getEventTypicalAgeRangePutMutationOptions(options);
 
-      const mutationOptions = getEventTypicalAgeRangePutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Add a video as a URL reference to an event
 
 The video objects contains:
@@ -2401,58 +3466,85 @@ The video objects contains:
  * @summary videos - add
  */
 export const eventVideosPost = (
-    eventId: string,
-    eventVideosPost: EventVideosPost, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<EventVideosPost200>> => {
-    
-    return axios.post(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos`,
-      eventVideosPost,options
-    );
-  }
+  eventId: string,
+  eventVideosPost: EventVideosPost,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<EventVideosPost200>> => {
+  return axios.post(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos`,
+    eventVideosPost,
+    options
+  );
+};
 
+export const getEventVideosPostMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosPost>>,
+    TError,
+    { eventId: string; data: EventVideosPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventVideosPost>>,
+  TError,
+  { eventId: string; data: EventVideosPost },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventVideosPost>>,
+    { eventId: string; data: EventVideosPost }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventVideosPostMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosPost>>, TError,{eventId: string;data: EventVideosPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventVideosPost>>, TError,{eventId: string;data: EventVideosPost}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventVideosPost(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventVideosPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventVideosPost>>
+>;
+export type EventVideosPostMutationBody = EventVideosPost;
+export type EventVideosPostMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventVideosPost>>, {eventId: string;data: EventVideosPost}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventVideosPost(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventVideosPostMutationResult = NonNullable<Awaited<ReturnType<typeof eventVideosPost>>>
-    export type EventVideosPostMutationBody = EventVideosPost
-    export type EventVideosPostMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary videos - add
  */
-export const useEventVideosPost = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosPost>>, TError,{eventId: string;data: EventVideosPost}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventVideosPost>>,
-        TError,
-        {eventId: string;data: EventVideosPost},
-        TContext
-      > => {
+export const useEventVideosPost = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosPost>>,
+    TError,
+    { eventId: string; data: EventVideosPost },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventVideosPost>>,
+  TError,
+  { eventId: string; data: EventVideosPost },
+  TContext
+> => {
+  const mutationOptions = getEventVideosPostMutationOptions(options);
 
-      const mutationOptions = getEventVideosPostMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Update one or more videos of an event.
 
 The video object(s) must contain
@@ -2467,113 +3559,167 @@ The video object(s) can contain:
  * @summary videos - patch
  */
 export const eventVideosPatch = (
-    eventId: string,
-    eventVideosPatch: EventVideosPatch, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.patch(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos`,
-      eventVideosPatch,options
-    );
-  }
+  eventId: string,
+  eventVideosPatch: EventVideosPatch,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.patch(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos`,
+    eventVideosPatch,
+    options
+  );
+};
 
+export const getEventVideosPatchMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosPatch>>,
+    TError,
+    { eventId: string; data: EventVideosPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventVideosPatch>>,
+  TError,
+  { eventId: string; data: EventVideosPatch },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventVideosPatch>>,
+    { eventId: string; data: EventVideosPatch }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventVideosPatchMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosPatch>>, TError,{eventId: string;data: EventVideosPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventVideosPatch>>, TError,{eventId: string;data: EventVideosPatch}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventVideosPatch(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventVideosPatchMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventVideosPatch>>
+>;
+export type EventVideosPatchMutationBody = EventVideosPatch;
+export type EventVideosPatchMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventVideosPatch>>, {eventId: string;data: EventVideosPatch}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventVideosPatch(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventVideosPatchMutationResult = NonNullable<Awaited<ReturnType<typeof eventVideosPatch>>>
-    export type EventVideosPatchMutationBody = EventVideosPatch
-    export type EventVideosPatchMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary videos - patch
  */
-export const useEventVideosPatch = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosPatch>>, TError,{eventId: string;data: EventVideosPatch}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventVideosPatch>>,
-        TError,
-        {eventId: string;data: EventVideosPatch},
-        TContext
-      > => {
+export const useEventVideosPatch = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosPatch>>,
+    TError,
+    { eventId: string; data: EventVideosPatch },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventVideosPatch>>,
+  TError,
+  { eventId: string; data: EventVideosPatch },
+  TContext
+> => {
+  const mutationOptions = getEventVideosPatchMutationOptions(options);
 
-      const mutationOptions = getEventVideosPatchMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Delete an embedded video from an event based on the event id and the video id.
  * @summary videos - delete
  */
 export const eventVideosDelete = (
-    eventId: string,
-    videoId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.delete(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos/${videoId}`,options
-    );
-  }
+  eventId: string,
+  videoId: string,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.delete(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/videos/${videoId}`,
+    options
+  );
+};
 
+export const getEventVideosDeleteMutationOptions = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosDelete>>,
+    TError,
+    { eventId: string; videoId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventVideosDelete>>,
+  TError,
+  { eventId: string; videoId: string },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventVideosDelete>>,
+    { eventId: string; videoId: string }
+  > = (props) => {
+    const { eventId, videoId } = props ?? {};
 
-export const getEventVideosDeleteMutationOptions = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosDelete>>, TError,{eventId: string;videoId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventVideosDelete>>, TError,{eventId: string;videoId: string}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventVideosDelete(eventId, videoId, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventVideosDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventVideosDelete>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventVideosDelete>>, {eventId: string;videoId: string}> = (props) => {
-          const {eventId,videoId} = props ?? {};
+export type EventVideosDeleteMutationError = AxiosError<
+  UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-          return  eventVideosDelete(eventId,videoId,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventVideosDeleteMutationResult = NonNullable<Awaited<ReturnType<typeof eventVideosDelete>>>
-    
-    export type EventVideosDeleteMutationError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary videos - delete
  */
-export const useEventVideosDelete = <TError = AxiosError<UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventVideosDelete>>, TError,{eventId: string;videoId: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventVideosDelete>>,
-        TError,
-        {eventId: string;videoId: string},
-        TContext
-      > => {
+export const useEventVideosDelete = <
+  TError = AxiosError<
+    UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventVideosDelete>>,
+    TError,
+    { eventId: string; videoId: string },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventVideosDelete>>,
+  TError,
+  { eventId: string; videoId: string },
+  TContext
+> => {
+  const mutationOptions = getEventVideosDeleteMutationOptions(options);
 
-      const mutationOptions = getEventVideosDeleteMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    /**
+  return useMutation(mutationOptions);
+};
+/**
  * Updates the workflow status of an event. Possible statuses are:
 
 - `DRAFT`: The default status of new events. Events with this status do not appear in online calendars like <https://www.uitinvlaanderen.be> or the search on <https://www.uitdatabank.be>
@@ -2584,55 +3730,81 @@ export const useEventVideosDelete = <TError = AxiosError<UnauthorizedResponse | 
  * @summary workflowStatus - update
  */
 export const eventWorkflowStatusPut = (
-    eventId: string,
-    eventWorkflowStatusPut: EventWorkflowStatusPut, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.put(
-      `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/workflow-status`,
-      eventWorkflowStatusPut,options
-    );
-  }
+  eventId: string,
+  eventWorkflowStatusPut: EventWorkflowStatusPut,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<void>> => {
+  return axios.put(
+    `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/workflow-status`,
+    eventWorkflowStatusPut,
+    options
+  );
+};
 
+export const getEventWorkflowStatusPutMutationOptions = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
+    TError,
+    { eventId: string; data: EventWorkflowStatusPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
+  TError,
+  { eventId: string; data: EventWorkflowStatusPut },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
+    { eventId: string; data: EventWorkflowStatusPut }
+  > = (props) => {
+    const { eventId, data } = props ?? {};
 
-export const getEventWorkflowStatusPutMutationOptions = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventWorkflowStatusPut>>, TError,{eventId: string;data: EventWorkflowStatusPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof eventWorkflowStatusPut>>, TError,{eventId: string;data: EventWorkflowStatusPut}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+    return eventWorkflowStatusPut(eventId, data, axiosOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type EventWorkflowStatusPutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eventWorkflowStatusPut>>
+>;
+export type EventWorkflowStatusPutMutationBody = EventWorkflowStatusPut;
+export type EventWorkflowStatusPutMutationError = AxiosError<
+  Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventWorkflowStatusPut>>, {eventId: string;data: EventWorkflowStatusPut}> = (props) => {
-          const {eventId,data} = props ?? {};
-
-          return  eventWorkflowStatusPut(eventId,data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type EventWorkflowStatusPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventWorkflowStatusPut>>>
-    export type EventWorkflowStatusPutMutationBody = EventWorkflowStatusPut
-    export type EventWorkflowStatusPutMutationError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>
-
-    /**
+/**
  * @summary workflowStatus - update
  */
-export const useEventWorkflowStatusPut = <TError = AxiosError<Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventWorkflowStatusPut>>, TError,{eventId: string;data: EventWorkflowStatusPut}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
-        TError,
-        {eventId: string;data: EventWorkflowStatusPut},
-        TContext
-      > => {
+export const useEventWorkflowStatusPut = <
+  TError = AxiosError<
+    Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+  >,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
+    TError,
+    { eventId: string; data: EventWorkflowStatusPut },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eventWorkflowStatusPut>>,
+  TError,
+  { eventId: string; data: EventWorkflowStatusPut },
+  TContext
+> => {
+  const mutationOptions = getEventWorkflowStatusPutMutationOptions(options);
 
-      const mutationOptions = getEventWorkflowStatusPutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
+  return useMutation(mutationOptions);
+};

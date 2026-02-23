@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRef, useState, MouseEvent, KeyboardEvent } from "react";
-import { MenuUnstyledActions } from "@mui/base/MenuUnstyled";
+import { useRef, useState, MouseEvent, KeyboardEvent } from 'react';
+import { MenuUnstyledActions } from '@mui/base/MenuUnstyled';
 
 export const useMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -20,10 +20,10 @@ export const useMenu = () => {
   };
 
   const handleButtonKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
       setAnchorEl(event.currentTarget);
-      if (event.key === "ArrowUp") {
+      if (event.key === 'ArrowUp') {
         menuActions.current?.highlightLastItem();
       }
     }

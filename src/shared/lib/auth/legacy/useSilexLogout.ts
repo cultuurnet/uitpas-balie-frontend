@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useConfig } from "@/shared/feature-config/context/useConfig";
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 export const useSilexLogout = () => {
   const { publicRuntimeConfig } = useConfig();
 
   const { refetch } = useQuery<{ data: { token: string } }>({
-    queryKey: ["logout"],
+    queryKey: ['logout'],
     queryFn: () => {
       const tokenEndpoint = publicRuntimeConfig?.legacyLogoutEndpoint;
       if (!tokenEndpoint)

@@ -9,32 +9,32 @@ import type { StartParameter } from './startParameter';
 import type { LimitParameter } from './limitParameter';
 
 export type GetCardSystemsParams = {
-/**
- * Include only permanent (`true`) card systems or temporary (`false`) card systems.
- */
-permanent?: boolean;
-/**
- * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
- */
-start?: StartParameter;
-/**
- * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
- */
-limit?: LimitParameter;
-/**
- * Search card systems by city name. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
- */
-city?: string[];
-/**
- * Search card systems by postal code. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
- */
-postalCode?: string[];
-/**
- * Sorts the cardsystems in a specific order. Possible values are: `name`, `postalCode`. By default the sort uses ascending order. Descending order can be specified by including a `-` sign before the field that needs to be ordered descending. e.g. use `-name` to sort on name descending. `postalCode` sort will geographically sort based on the query param `postalCodeSort`.
- */
-sort?: string;
-/**
- * The postalCode that will be used by `sort=postalCode` as its geographic center. If `sort` is not `postalCode` this parameter is ignored. If `sort` is `postalCode`, this parameter is mandatory.
- */
-postalCodeSort?: string;
+  /**
+   * Include only permanent (`true`) card systems or temporary (`false`) card systems.
+   */
+  permanent?: boolean;
+  /**
+   * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
+   */
+  start?: StartParameter;
+  /**
+   * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
+   */
+  limit?: LimitParameter;
+  /**
+   * Search card systems by city name. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
+   */
+  city?: string[];
+  /**
+   * Search card systems by postal code. Can be included more than once to allow multiple values. Valid values can found in https://taxonomy.uitdatabank.be/api/city
+   */
+  postalCode?: string[];
+  /**
+   * Sorts the cardsystems in a specific order. Possible values are: `name`, `postalCode`. By default the sort uses ascending order. Descending order can be specified by including a `-` sign before the field that needs to be ordered descending. e.g. use `-name` to sort on name descending. `postalCode` sort will geographically sort based on the query param `postalCodeSort`.
+   */
+  sort?: string;
+  /**
+   * The postalCode that will be used by `sort=postalCode` as its geographic center. If `sort` is not `postalCode` this parameter is ignored. If `sort` is `postalCode`, this parameter is mandatory.
+   */
+  postalCodeSort?: string;
 };

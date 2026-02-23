@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import {
   Modal as MuiModal,
   ModalProps as MuiModalProps,
   ModalDialog as ModalDialogMui,
   ModalDialogProps,
-} from "@mui/joy";
-import React, { useRef } from "react";
-import { Transition } from "react-transition-group";
-import { alpha } from "@mui/system";
+} from '@mui/joy';
+import React, { useRef } from 'react';
+import { Transition } from 'react-transition-group';
+import { alpha } from '@mui/system';
 
 type ModalProps = {
   open: boolean;
@@ -36,7 +36,7 @@ export const Modal = ({
           slotProps={{
             backdrop: {
               sx: (theme) => ({
-                backdropFilter: "none",
+                backdropFilter: 'none',
                 transition: `opacity ${backdropTransitionDuration}ms linear`,
                 backgroundColor: theme.palette.neutral[900],
                 ...{
@@ -55,8 +55,8 @@ export const Modal = ({
             slotProps={{
               root: {
                 sx: (theme) => ({
-                  maxWidth: "600px",
-                  width: "100%",
+                  maxWidth: '600px',
+                  width: '100%',
                   borderRadius: 0,
                   border: `1px solid ${alpha(theme.palette.neutral[900], 0.2)}`,
                   backgroundColor: theme.palette.neutral[50],
@@ -67,14 +67,14 @@ export const Modal = ({
                   padding: 0,
                   transition: `top ${modalTransitionDuration}ms ease-out, opacity ${modalTransitionDuration}ms ease-out`,
                   ...{
-                    entering: { top: "6%", opacity: 0 },
-                    entered: { top: "12%", opacity: 1 },
+                    entering: { top: '6%', opacity: 0 },
+                    entered: { top: '12%', opacity: 1 },
                   }[state],
                 }),
               },
             }}
             sx={{
-              backgroundColor: "white",
+              backgroundColor: 'white',
             }}
             {...dialogProps}
           >

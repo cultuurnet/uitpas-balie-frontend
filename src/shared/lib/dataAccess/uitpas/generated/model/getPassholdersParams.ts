@@ -10,56 +10,56 @@ import type { LimitParameter } from './limitParameter';
 import type { GetPassholdersSortName } from './getPassholdersSortName';
 
 export type GetPassholdersParams = {
-/**
- * Unique national (Belgian) INSZ number of an individual passholder to look up.
- */
-inszNumber?: string;
-/**
- * Unique UiTPAS number of an individual passholder to look up.
- */
-uitpasNumber?: string;
-/**
- * Hexadecimal notation of the chip number of an individual UiTPAS card.
- */
-chipNumber?: string;
-/**
- * Complete or partial last name of a passholder to look up.
- */
-name?: string;
-/**
- * Complete or partial first name of a passholder to look up.
- */
-firstName?: string;
-/**
- * Organizer ID of a school, to only return passholders linked to a specific school. Use `*` to return passholders that are linked to any school. Note: Only used in very specific cases for educational integrations.
- */
-schoolId?: string;
-/**
- * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
- */
-start?: StartParameter;
-/**
- * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
- */
-limit?: LimitParameter;
-/**
- * Sorts the passholders by their last name in ascending or descending order. By default passholders are sorted by name, ascending order.
- */
-'sort[name]'?: GetPassholdersSortName;
-/**
- * A specific organizer ID to only return passholders that are linked to a card system related to this organizer. If omitted, the results will return passholders linked to the organizers you have permission to access.
- */
-organizerId?: string;
-/**
- * Returns only passholders with a date of birth of this value (including) or more recent. Format `yyyy-mm-dd`, e.g. `2003-01-01`
- */
-dateOfBirthFrom?: string;
-/**
- * Returns only passholders with a date of birth of this value (including) or older. Format `yyyy-mm-dd`, e.g. `2003-01-01`
- */
-dateOfBirthTo?: string;
-/**
- * Unique ID of the UiTiD user linked to an individual passholder to look up.
- */
-uitidId?: string;
+  /**
+   * Unique national (Belgian) INSZ number of an individual passholder to look up.
+   */
+  inszNumber?: string;
+  /**
+   * Unique UiTPAS number of an individual passholder to look up.
+   */
+  uitpasNumber?: string;
+  /**
+   * Hexadecimal notation of the chip number of an individual UiTPAS card.
+   */
+  chipNumber?: string;
+  /**
+   * Complete or partial last name of a passholder to look up.
+   */
+  name?: string;
+  /**
+   * Complete or partial first name of a passholder to look up.
+   */
+  firstName?: string;
+  /**
+   * Organizer ID of a school, to only return passholders linked to a specific school. Use `*` to return passholders that are linked to any school. Note: Only used in very specific cases for educational integrations.
+   */
+  schoolId?: string;
+  /**
+   * Position to start returning results from. When set to `0` the results starting from the very first position will be returned. When set to for example `10` the results 0-9 will be skipped and the ones starting from position 10 will be returned. Can be used in combination with `limit` for pagination.
+   */
+  start?: StartParameter;
+  /**
+   * Maximum amount of results to return. Can be used in combination with `start` for pagination. **Important**: the maximum value for `limit` is `500`. Exceeding this value will result in an error.
+   */
+  limit?: LimitParameter;
+  /**
+   * Sorts the passholders by their last name in ascending or descending order. By default passholders are sorted by name, ascending order.
+   */
+  'sort[name]'?: GetPassholdersSortName;
+  /**
+   * A specific organizer ID to only return passholders that are linked to a card system related to this organizer. If omitted, the results will return passholders linked to the organizers you have permission to access.
+   */
+  organizerId?: string;
+  /**
+   * Returns only passholders with a date of birth of this value (including) or more recent. Format `yyyy-mm-dd`, e.g. `2003-01-01`
+   */
+  dateOfBirthFrom?: string;
+  /**
+   * Returns only passholders with a date of birth of this value (including) or older. Format `yyyy-mm-dd`, e.g. `2003-01-01`
+   */
+  dateOfBirthTo?: string;
+  /**
+   * Unique ID of the UiTiD user linked to an individual passholder to look up.
+   */
+  uitidId?: string;
 };

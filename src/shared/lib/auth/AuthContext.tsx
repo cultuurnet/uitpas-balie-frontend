@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export const AuthContext = createContext<{
   setAuthToken: (token: string, redirectTo?: string) => void | null;

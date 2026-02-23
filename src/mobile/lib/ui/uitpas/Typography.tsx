@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { styled, Typography as MuiTypography } from "@mui/material";
+import { styled, Typography as MuiTypography } from '@mui/material';
 
 export const Typography = styled(MuiTypography)({
-  padding: "0 16px",
-  textAlign: "center",
+  padding: '0 16px',
+  textAlign: 'center',
 });

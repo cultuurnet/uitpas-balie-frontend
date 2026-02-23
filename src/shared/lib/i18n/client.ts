@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import i18next from "i18next";
+import { useEffect, useState } from 'react';
+import i18next from 'i18next';
 import {
   initReactI18next,
   useTranslation as useTranslationOrg,
   UseTranslationOptions,
-} from "react-i18next";
-import resourcesToBackend from "i18next-resources-to-backend";
-import { getOptions, languages, fallbackLng, defaultNS } from "./settings";
+} from 'react-i18next';
+import resourcesToBackend from 'i18next-resources-to-backend';
+import { getOptions, languages, fallbackLng, defaultNS } from './settings';
 
-const runsOnServerSide = typeof window === "undefined";
+const runsOnServerSide = typeof window === 'undefined';
 
 //
 i18next
@@ -25,7 +25,7 @@ i18next
     ...getOptions(),
     lng: undefined, // let detect the language on client side
     detection: {
-      order: ["path", "htmlTag", "cookie", "navigator"],
+      order: ['path', 'htmlTag', 'cookie', 'navigator'],
     },
     preload: runsOnServerSide ? languages : [],
   });

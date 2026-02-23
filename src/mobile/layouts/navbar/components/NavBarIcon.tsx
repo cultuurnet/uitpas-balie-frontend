@@ -1,8 +1,8 @@
-import { Box, SvgIconTypeMap, SxProps, useTheme } from "@mui/material";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { Box, SvgIconTypeMap, SxProps, useTheme } from '@mui/material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 type NavBarIconProps = {
-  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
   sx?: SxProps;
 };
 

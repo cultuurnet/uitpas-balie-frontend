@@ -6,8 +6,8 @@
  * OpenAPI spec version: 3.0
  */
 
-export type AttendanceModeParameterItem = typeof AttendanceModeParameterItem[keyof typeof AttendanceModeParameterItem];
-
+export type AttendanceModeParameterItem =
+  (typeof AttendanceModeParameterItem)[keyof typeof AttendanceModeParameterItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AttendanceModeParameterItem = {

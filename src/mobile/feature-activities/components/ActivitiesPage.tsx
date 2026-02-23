@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { MobileNavBar } from "@/mobile/layouts";
+import { MobileNavBar } from '@/mobile/layouts';
 import {
   Link,
   MobileContentStack,
   SearchInput,
   Typography,
-} from "@/mobile/lib/ui";
-import { useTranslation } from "@/shared/lib/i18n/client";
-import { debounce } from "@mui/material";
-import { useGetEvents, Search } from "@/shared/lib/dataAccess";
-import { useCounter } from "@/mobile/feature-counter/context/useCounter";
-import { ChangeEvent, useState, useEffect, useMemo } from "react";
-import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
-import { ActivitiesPicker } from "@/mobile/feature-activities";
-import { noActivity } from "@/mobile/feature-activities/useActivity";
-import dayjs from "dayjs";
-import { dateToISODateTimeString } from "@/shared/lib/utils";
-import { clientRoutes } from "@/mobile/feature-routing";
-import { getEventParams } from "@/shared/feature-events/getEventParams";
+} from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { debounce } from '@mui/material';
+import { useGetEvents, Search } from '@/shared/lib/dataAccess';
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { ChangeEvent, useState, useEffect, useMemo } from 'react';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
+import { ActivitiesPicker } from '@/mobile/feature-activities';
+import { noActivity } from '@/mobile/feature-activities/useActivity';
+import dayjs from 'dayjs';
+import { dateToISODateTimeString } from '@/shared/lib/utils';
+import { clientRoutes } from '@/mobile/feature-routing';
+import { getEventParams } from '@/shared/feature-events/getEventParams';
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
 
@@ -41,7 +41,7 @@ export const ActivitiesPage = () => {
 
   const [offset, setOffset] = useState<number>(0);
   const [data, setData] = useState<
-    Omit<Search.GetEvents200, "member"> & {
+    Omit<Search.GetEvents200, 'member'> & {
       member: Set<ExtendedEvent>;
       memberIndex: Map<string, ExtendedEvent>;
     }
@@ -79,7 +79,7 @@ export const ActivitiesPage = () => {
         const updatedIndex = new Map<string, ExtendedEvent>(prev.memberIndex);
 
         fetchedData.data.member.forEach((member) => {
-          const existingMember = prev.memberIndex.get(member["@id"]!);
+          const existingMember = prev.memberIndex.get(member['@id']!);
           if (existingMember) {
             Object.assign(existingMember, member);
           } else {
@@ -88,7 +88,7 @@ export const ActivitiesPage = () => {
               isNew: prev.member.size === 0,
             };
             updatedMembers.add(newMember);
-            updatedIndex.set(member["@id"]!, newMember);
+            updatedIndex.set(member['@id']!, newMember);
           }
         });
 
@@ -111,13 +111,13 @@ export const ActivitiesPage = () => {
     <MobileNavBar>
       <MobileContentStack>
         <Typography variant="h1">
-          {t("activities.mobile.chooseActivity")}
+          {t('activities.mobile.chooseActivity')}
         </Typography>
 
         {showSearchInput && (
           <SearchInput
             defaultValue={searchQuery}
-            placeholder={t("activities.mobile.searchPlaceholder")}
+            placeholder={t('activities.mobile.searchPlaceholder')}
             onChange={debounce(handleSearchInputChange, 500)}
           />
         )}
@@ -137,7 +137,7 @@ export const ActivitiesPage = () => {
             color="primary"
             href={clientRoutes.identification(activeCounter.id, noActivity)}
           >
-            {t("activities.mobile.continueNoActivity")}
+            {t('activities.mobile.continueNoActivity')}
           </Link>
         )}
       </MobileContentStack>

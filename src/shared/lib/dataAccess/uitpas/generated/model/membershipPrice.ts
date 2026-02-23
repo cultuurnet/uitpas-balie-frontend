@@ -7,7 +7,7 @@
  */
 
 /**
- * The MembershipPrice describes the price an UiTPAS membership in a specific cardsystem for a new or existing passholder.  
+ * The MembershipPrice describes the price an UiTPAS membership in a specific cardsystem for a new or existing passholder.
  */
 export interface MembershipPrice {
   /** Description of the price that can be displayed to the end-user. */

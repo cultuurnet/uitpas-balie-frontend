@@ -1,15 +1,15 @@
-import { useParams, useRouter } from "next/navigation";
-import { Search, useGetEvents } from "@/shared/lib/dataAccess";
-import { clientRoutes } from "@/mobile/feature-routing";
-import { getIdFromUrl } from "@/shared/lib/utils";
-import { useEffect } from "react";
-import { getEventParams } from "@/shared/feature-events/getEventParams";
+import { useParams, useRouter } from 'next/navigation';
+import { Search, useGetEvents } from '@/shared/lib/dataAccess';
+import { clientRoutes } from '@/mobile/feature-routing';
+import { getIdFromUrl } from '@/shared/lib/utils';
+import { useEffect } from 'react';
+import { getEventParams } from '@/shared/feature-events/getEventParams';
 
-export const noActivity = "-";
+export const noActivity = '-';
 export type NoActivity = typeof noActivity;
 
 function isNoActivity(activity: unknown | NoActivity): activity is NoActivity {
-  return activity === "-";
+  return activity === '-';
 }
 
 export const useActivity = () => {
@@ -26,12 +26,12 @@ export const useActivity = () => {
   const selectedActivity = idIsActivityId
     ? data
       ? data.data.member.find(
-          (activity) => getIdFromUrl(activity["@id"] ?? "") === params.activity
+          (activity) => getIdFromUrl(activity['@id'] ?? '') === params.activity
         )
       : null
     : undefined;
 
-  const selectedActivityId = selectedActivity?.["@id"];
+  const selectedActivityId = selectedActivity?.['@id'];
 
   useEffect(() => {
     if (idIsActivityId && !selectedActivityId && isSuccess) {
@@ -42,14 +42,14 @@ export const useActivity = () => {
   return {
     selectedActivity,
     setSelectedActivity: (activity?: Search.EventAllOf | null | NoActivity) => {
-      if (!isNoActivity(activity) && !activity?.["@id"]) return;
+      if (!isNoActivity(activity) && !activity?.['@id']) return;
 
       router.push(
         clientRoutes.identification(
           params.counter,
           isNoActivity(activity)
             ? noActivity
-            : getIdFromUrl(activity["@id"] ?? "")
+            : getIdFromUrl(activity['@id'] ?? '')
         )
       );
     },
@@ -57,14 +57,14 @@ export const useActivity = () => {
       router.push(clientRoutes.activities(params.counter));
     },
     navigateToIdentification: (
-      navigationType: "replace" | "push" = "replace"
+      navigationType: 'replace' | 'push' = 'replace'
     ) => {
       router[navigationType](
         clientRoutes.identification(params.counter, params.activity)
       );
     },
     navigateToScanner: (
-      navigationType: "replace" | "push" = "replace",
+      navigationType: 'replace' | 'push' = 'replace',
       firstCardEntry = true
     ) => {
       router[navigationType](
@@ -74,8 +74,8 @@ export const useActivity = () => {
     navigateToSaving: (
       code: string,
       firstCardEntry = true,
-      cardType: "insz" | "uitpas" = "uitpas",
-      navigationType: "replace" | "push" = "replace"
+      cardType: 'insz' | 'uitpas' = 'uitpas',
+      navigationType: 'replace' | 'push' = 'replace'
     ) => {
       router[navigationType](
         clientRoutes.saving(

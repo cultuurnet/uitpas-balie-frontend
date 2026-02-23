@@ -6,8 +6,8 @@
  * OpenAPI spec version: 4.0
  */
 
-export type RewardCategoriesItem = typeof RewardCategoriesItem[keyof typeof RewardCategoriesItem];
-
+export type RewardCategoriesItem =
+  (typeof RewardCategoriesItem)[keyof typeof RewardCategoriesItem];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RewardCategoriesItem = {

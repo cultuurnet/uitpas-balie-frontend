@@ -9,8 +9,7 @@
 /**
  * Status of this card.
  */
-export type CardStatus = typeof CardStatus[keyof typeof CardStatus];
-
+export type CardStatus = (typeof CardStatus)[keyof typeof CardStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CardStatus = {

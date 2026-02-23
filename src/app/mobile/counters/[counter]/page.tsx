@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { clientRoutes } from "@/mobile/feature-routing";
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { clientRoutes } from '@/mobile/feature-routing';
 
 export default function CounterPage() {
   const { activeCounter } = useCounter();

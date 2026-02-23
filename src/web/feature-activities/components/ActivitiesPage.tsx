@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useGetEvents } from "@/shared/lib/dataAccess";
-import { SidebarContent } from "./SidebarContent";
+import { useGetEvents } from '@/shared/lib/dataAccess';
+import { SidebarContent } from './SidebarContent';
 import {
   Grid,
   Modal,
@@ -10,11 +10,11 @@ import {
   ModalHeader,
   PageWithSideBarNew,
   Typography,
-} from "@/web/lib/ui";
-import { RangeMenu } from "./RangeMenu";
-import { SearchInput } from "./SearchInput";
-import dayjs from "dayjs";
-import { EventAllOf } from "@/shared/lib/dataAccess/search/generated/model";
+} from '@/web/lib/ui';
+import { RangeMenu } from './RangeMenu';
+import { SearchInput } from './SearchInput';
+import dayjs from 'dayjs';
+import { EventAllOf } from '@/shared/lib/dataAccess/search/generated/model';
 import {
   ActionLink,
   StyledActionsStack,
@@ -25,23 +25,23 @@ import {
   StyledPageContainerStack,
   StyledPageTitle,
   StyledUserInputStack,
-} from "./ActivitiesPages.styles";
-import React, { useState } from "react";
+} from './ActivitiesPages.styles';
+import React, { useState } from 'react';
 import {
   getQrCodeUrl,
   getUitInDatabankurl,
   getUitInVlaanderenUrl,
-} from "@/shared/lib/utils";
-import { Pagination } from "@/web/lib/ui/uitpas/Pagination";
-import { useCounter } from "@/shared/feature-counter/context/useCounter";
-import { CircularProgress } from "@mui/joy";
-import { DATE_FORMAT } from "@/shared/lib/utils/dateUtils";
-import { usePaginationQuery } from "@/shared/lib/utils/hooks/usePaginationQuery";
-import { ActionButton } from "@/web/lib/ui/uitpas/ActionButton";
-import { useRangeQuery } from "@/shared/lib/utils/hooks/useRangeQuery";
-import { useSearchQuery } from "@/shared/lib/utils/hooks/useSearchQuery";
-import { useTranslation } from "@/shared/lib/utils/hooks";
-import { getEventParams } from "@/shared/feature-events/getEventParams";
+} from '@/shared/lib/utils';
+import { Pagination } from '@/web/lib/ui/uitpas/Pagination';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { CircularProgress } from '@mui/joy';
+import { DATE_FORMAT } from '@/shared/lib/utils/dateUtils';
+import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
+import { ActionButton } from '@/web/lib/ui/uitpas/ActionButton';
+import { useRangeQuery } from '@/shared/lib/utils/hooks/useRangeQuery';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
+import { useTranslation } from '@/shared/lib/utils/hooks';
+import { getEventParams } from '@/shared/feature-events/getEventParams';
 
 export const ActivitiesPage = () => {
   const { t, LANG_KEY } = useTranslation();
@@ -69,8 +69,8 @@ export const ActivitiesPage = () => {
     <>
       <PageWithSideBarNew sideBarContent={<SidebarContent />} hasBackButton>
         <StyledPageContainerStack>
-          <StyledPageTitle level="h2">{t("activities.title")}</StyledPageTitle>
-          <StyledUserInputStack customInput={rangeQuery === "chooseDate"}>
+          <StyledPageTitle level="h2">{t('activities.title')}</StyledPageTitle>
+          <StyledUserInputStack customInput={rangeQuery === 'chooseDate'}>
             <RangeMenu defaultRange={rangeQuery} disabled={isLoading} />
             <SearchInput defaultSearch={searchQuery} disabled={isLoading} />
           </StyledUserInputStack>
@@ -92,7 +92,7 @@ export const ActivitiesPage = () => {
                     <StyledItemStack>
                       {member.startDate && member.endDate && (
                         <StyledEventDate level="body2">
-                          {t("activities.fromStartToEndDate", {
+                          {t('activities.fromStartToEndDate', {
                             startDate: dayjs(member.startDate).format(
                               DATE_FORMAT
                             ),
@@ -110,27 +110,27 @@ export const ActivitiesPage = () => {
                       <ActionLink
                         href={getUitInVlaanderenUrl(
                           member.name.nl!,
-                          member["@id"]!
+                          member['@id']!
                         )}
                         target="_blank"
                       >
-                        {t("activities.viewUiTInVlaanderenBtn")}
+                        {t('activities.viewUiTInVlaanderenBtn')}
                       </ActionLink>
                       <ActionLink
-                        href={getUitInDatabankurl(member["@id"]!)}
+                        href={getUitInDatabankurl(member['@id']!)}
                         target="_blank"
                       >
-                        {t("activities.viewUiTDatabaseBtn")}
+                        {t('activities.viewUiTDatabaseBtn')}
                       </ActionLink>
-                      <ActionLink href={getQrCodeUrl(member["@id"]!)}>
-                        {t("activities.downloadQrCodeBtn")}
+                      <ActionLink href={getQrCodeUrl(member['@id']!)}>
+                        {t('activities.downloadQrCodeBtn')}
                       </ActionLink>
                     </StyledActionsStack>
                   </StyledActivityStack>
                 ))
               ) : (
                 <Typography level="body2">
-                  {t("activities.noActivities")}
+                  {t('activities.noActivities')}
                 </Typography>
               )}
             </>
@@ -140,7 +140,7 @@ export const ActivitiesPage = () => {
               determinate={false}
               size="sm"
               variant="plain"
-              sx={{ alignSelf: "center", my: 10 }}
+              sx={{ alignSelf: 'center', my: 10 }}
             />
           )}
           <Pagination totalItems={data?.data.totalItems ?? 0} />
@@ -152,7 +152,7 @@ export const ActivitiesPage = () => {
         onClose={() => setSelectedActivity(undefined)}
       >
         <ModalHeader>
-          <Typography level="h4" sx={{ fontSize: "15px", fontWeight: 600 }}>
+          <Typography level="h4" sx={{ fontSize: '15px', fontWeight: 600 }}>
             {selectedActivity?.name[LANG_KEY] ?? selectedActivity?.name.nl}
           </Typography>
         </ModalHeader>
@@ -162,12 +162,12 @@ export const ActivitiesPage = () => {
             <Grid container sx={{ flexGrow: 1 }}>
               <Grid xs={3}>
                 <Typography level="body2" fontStyle="italic">
-                  {t("activities.activityModal.when")}
+                  {t('activities.activityModal.when')}
                 </Typography>
               </Grid>
               <Grid xs={9}>
                 <Typography level="body2">
-                  {t("activities.fromStartToEndDate", {
+                  {t('activities.fromStartToEndDate', {
                     startDate: dayjs(selectedActivity.startDate).format(
                       DATE_FORMAT
                     ),
@@ -183,7 +183,7 @@ export const ActivitiesPage = () => {
 
         <ModalActions>
           <ActionButton onClick={() => setSelectedActivity(undefined)}>
-            {t("activities.activityModal.closeBtn")}
+            {t('activities.activityModal.closeBtn')}
           </ActionButton>
         </ModalActions>
       </Modal>
