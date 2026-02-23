@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Box, Stack, Typography } from '@/web/lib/ui';
-import { SiteLoginIntro } from './Login.styles';
 import { LoginButton } from './LoginButton';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/i18n/client';
@@ -11,27 +9,28 @@ export const LoginPage = () => {
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ m: '0 auto;', pt: 12, maxWidth: 500 }}>
-      <Stack>
-        <Box display="flex" flexDirection="column" alignItems="center">
+    <div className="mx-auto pt-24 max-w-[500px]">
+      <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           <Image
             src={getAssetUrl('/images/svg/logo-uitpas-full.svg')}
             alt={'UiTPAS Logo'}
             width={280}
             height={84}
             priority
+            className="h-[84px] w-[280px]"
           />
-          <Typography>{t('appName')}</Typography>
-        </Box>
+          <p>{t('appName')}</p>
+        </div>
 
-        <Box>
-          <SiteLoginIntro>{t('login.intro')}</SiteLoginIntro>
-        </Box>
+        <p className="text-neutral-500 italic text-center my-10">
+          {t('login.intro')}
+        </p>
 
-        <Box textAlign="center">
+        <div className="text-center">
           <LoginButton>{t('login.loginBtn')}</LoginButton>
-        </Box>
-      </Stack>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 };
