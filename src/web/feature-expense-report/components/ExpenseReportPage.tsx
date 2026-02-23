@@ -84,7 +84,9 @@ export const ExpenseReportPage = () => {
             </FormLabel>
             <DateInput
               placeholderText="Placeholder"
-              onChange={(date) => setStartDate(dateToISODateString(date))}
+              onChange={(date: Date | null) =>
+                setStartDate(dateToISODateString(date))
+              }
               selected={new Date(startDate)}
             />
           </FormControl>
@@ -96,7 +98,9 @@ export const ExpenseReportPage = () => {
             </FormLabel>
             <DateInput
               placeholderText="Placeholder"
-              onChange={(date) => setEndDate(dateToISODateString(date))}
+              onChange={(date: Date | null) =>
+                setEndDate(dateToISODateString(date))
+              }
               selected={new Date(endDate)}
             />
           </FormControl>
