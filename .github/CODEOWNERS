@@ -2,10 +2,10 @@
 
 # Global owners (also need to be duplicated in later rules if they should also be owner of more specific patterns)
 # Uncomment the next line and replace @example1 and @example2 with actual GitHub users.
-# * @example1 @example2
+@brampauwelyn @vhande @alduya @bertramakers
 
 # Jenkins / deployment owners
-Gemfile* @willaerk @paulherbosch
-Jenkinsfile @willaerk @paulherbosch
-Rakefile @willaerk @paulherbosch
-lib/ @willaerk @paulherbosch
+Gemfile* @willaerk
+Jenkinsfile @willaerk
+Rakefile @willaerk
+lib/tasks @willaerk
