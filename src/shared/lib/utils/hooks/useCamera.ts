@@ -1,6 +1,6 @@
 import MediaDevices from 'media-devices';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import uaParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 import { readData, storeData } from '../localStorageUtils';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import adapter from 'webrtc-adapter';
@@ -46,7 +46,7 @@ export const useCamera = ({
   >(undefined);
 
   useEffect(() => {
-    setBrowser(uaParser(navigator.userAgent).browser.name);
+    setBrowser(UAParser(navigator.userAgent).browser.name);
     setBrowserHasSupport(
       ((navigator.mediaDevices &&
         typeof navigator.mediaDevices.getUserMedia === 'function') ??

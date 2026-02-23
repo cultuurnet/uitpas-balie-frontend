@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import uaParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 export const useUserAgentInfo = () =>
   useMemo(() => {
     if (typeof window !== 'undefined') {
-      return uaParser(navigator.userAgent);
+      return UAParser(navigator.userAgent);
     }
     return { browser: { name: undefined }, os: { name: undefined } };
   }, []);
