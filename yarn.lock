@@ -1983,10 +1983,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:18.14.4":
+"@types/node@npm:*":
   version: 18.14.4
   resolution: "@types/node@npm:18.14.4"
   checksum: 10c0/0b1d82af8f3f2db6c4516d1576a4ad08cb0f5a5ddb783c08584546611a836c734ea15acc55de350058d3634e710d7b1df39703ede20b8bd597ceb615f6ed1c68
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:22.13.1":
+  version: 22.13.1
+  resolution: "@types/node@npm:22.13.1"
+  dependencies:
+    undici-types: "npm:~6.20.0"
+  checksum: 10c0/d4e56d41d8bd53de93da2651c0a0234e330bd7b1b6d071b1a94bd3b5ee2d9f387519e739c52a15c1faa4fb9d97e825b848421af4b2e50e6518011e7adb4a34b7
   languageName: node
   linkType: hard
 
@@ -7925,7 +7934,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.45.1"
     "@types/file-saver": "npm:^2.0.5"
     "@types/mousetrap": "npm:^1.6.11"
-    "@types/node": "npm:18.14.4"
+    "@types/node": "npm:22.13.1"
     "@types/react": "npm:19.0.12"
     "@types/react-datepicker": "npm:^4.11.2"
     "@types/react-dom": "npm:19.0.4"
@@ -7969,6 +7978,13 @@ __metadata:
     has-symbols: "npm:^1.1.0"
     which-boxed-primitive: "npm:^1.1.1"
   checksum: 10c0/7dbd35ab02b0e05fe07136c72cb9355091242455473ec15057c11430129bab38b7b3624019b8778d02a881c13de44d63cd02d122ee782fb519e1de7775b5b982
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~6.20.0":
+  version: 6.20.0
+  resolution: "undici-types@npm:6.20.0"
+  checksum: 10c0/68e659a98898d6a836a9a59e6adf14a5d799707f5ea629433e025ac90d239f75e408e2e5ff086afc3cace26f8b26ee52155293564593fbb4a2f666af57fc59bf
   languageName: node
   linkType: hard
 
