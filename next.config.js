@@ -1,9 +1,8 @@
-const { i18n } = require("./next-i18next.config");
-const getPathsFromFolderStructure = require("./src/getPathsFromFolderStructure");
+const getPathsFromFolderStructure = require('./src/getPathsFromFolderStructure');
 
-const basePath = "/app";
+const basePath = '/app';
 
-const paths = getPathsFromFolderStructure("./src/app");
+const paths = getPathsFromFolderStructure('./src/app');
 
 process.env.NEXT_PUBLIC_RUNTIME_CONFIG = JSON.stringify({
   Routes: paths.map((path) => `/${path}`),
@@ -22,39 +21,37 @@ if (process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  i18n,
   basePath,
   env: {
     BASE_PATH: basePath,
   },
-  experimental: {
-    serverActions: {
-      allowedOrigins: [
-        "balie-acc.uitpas.be",
-        "balie-test.uitpas.be",
-        "balie.uitpas.be",
-        "balie-next-acc.uitpas.be",
-        "balie-next-test.uitpas.be",
-        "balie-next.uitpas.be",
-      ],
-    },
+  allowedDevOrigins: [
+    'balie-acc.uitpas.be',
+    'balie-test.uitpas.be',
+    'balie.uitpas.be',
+    'balie-next-acc.uitpas.be',
+    'balie-next-test.uitpas.be',
+    'balie-next.uitpas.be',
+  ],
+  turbopack: {
+    root: __dirname,
   },
-  transpilePackages: ["@tanstack/query-core", "@tanstack/react-query"],
+  transpilePackages: ['@tanstack/query-core', '@tanstack/react-query'],
   async headers() {
     return [
       {
-        source: "/sw.js",
+        source: '/sw.js',
         headers: [
           {
-            key: "Content-Type",
-            value: "application/javascript; charset=utf-8",
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
           },
           {
-            key: "Cache-Control",
-            value: "no-cache, no-store, must-revalidate",
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
           },
           {
-            key: "Content-Security-Policy",
+            key: 'Content-Security-Policy',
             value: "default-src 'self'; script-src 'self'",
           },
         ],
@@ -66,5 +63,5 @@ const nextConfig = {
 module.exports = nextConfig;
 
 function parseJwt(token) {
-  return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
+  return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
 }
