@@ -46,6 +46,7 @@ export const MobileSavingPage = () => {
   const { activeCounter } = useCounter();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
+  const [drawerStartPosition, setDrawerStartPosition] = useState<number>(0);
   const activityRef = useRef<ElementRef<'div'>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>('');
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
@@ -198,10 +199,12 @@ export const MobileSavingPage = () => {
   };
 
   const handleChooseTariffClick = () => {
+    setDrawerStartPosition(activityRef.current?.getBoundingClientRect().bottom ?? 0);
     setShowTariffDrawer(true);
   };
 
   const handleChooseBenefitClick = () => {
+    setDrawerStartPosition(activityRef.current?.getBoundingClientRect().bottom ?? 0);
     setShowRewardsDrawer(true);
   };
 
@@ -363,8 +366,7 @@ export const MobileSavingPage = () => {
 
         {selectedActivity &&
           selectedActivity['@id'] &&
-          passHoldersData?.data?.member &&
-          activityRef.current && (
+          passHoldersData?.data?.member && (
             <TariffDrawer
               eventId={selectedActivity['@id']}
               passHolderName={
@@ -376,7 +378,7 @@ export const MobileSavingPage = () => {
               }
               isOpen={showTariffDrawer}
               setIsOpen={setShowTariffDrawer}
-              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              startPosition={drawerStartPosition}
               uitpasNumber={
                 isGroupPass
                   ? groupPassHolder?.data.member?.at(0)?.uitpasNumber!
@@ -391,12 +393,11 @@ export const MobileSavingPage = () => {
 
         {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
         {!isGroupPass &&
-          activityRef.current &&
           passHoldersData?.data?.member && (
             <RewardsDrawer
               isOpen={showRewardsDrawer}
               setIsOpen={setShowRewardsDrawer}
-              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              startPosition={drawerStartPosition}
               passHolderId={passHoldersData.data.member[0].id}
               passHolderName={
                 passHoldersData.data.member
