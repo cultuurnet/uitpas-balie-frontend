@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { LoginButton } from './LoginButton';
+import { LoginButton } from '@/ui';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/i18n/client';
 
