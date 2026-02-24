@@ -12,20 +12,17 @@ export function useRangeQuery() {
 
   const rangeQuery = (searchParams.get('range') ??
     'next12Months') as keyof typeof TDateSelection;
+  const fromParam = searchParams.get('from');
+  const toParam = searchParams.get('to');
 
   const dateRange = useMemo(() => {
-    return (searchParams.get('from') || searchParams.get('to')) &&
-      rangeQuery === 'chooseDate'
+    return (fromParam || toParam) && rangeQuery === 'chooseDate'
       ? getRangeDateFromSelection(rangeQuery, {
-          from: searchParams.get('from')
-            ? String(searchParams.get('from'))
-            : dayjs().format(DATE_FORMAT),
-          to: searchParams.get('to')
-            ? String(searchParams.get('to'))
-            : dayjs().format(DATE_FORMAT),
+          from: fromParam ? String(fromParam) : dayjs().format(DATE_FORMAT),
+          to: toParam ? String(toParam) : dayjs().format(DATE_FORMAT),
         })
       : getRangeDateFromSelection(rangeQuery);
-  }, [rangeQuery, searchParams.get('from'), searchParams.get('to')]);
+  }, [rangeQuery, fromParam, toParam]);
 
   return {
     rangeQuery,
