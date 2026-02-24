@@ -42,7 +42,7 @@ export const RedirectWhenNoCounter: FC<
     if (shouldRedirectToCounters) {
       push(counterPath);
     }
-  }, [shouldRedirectToCounters, push]);
+  }, [shouldRedirectToCounters, counterPath, push]);
 
   useEffect(() => {
     if (shouldRedirectToApp) {
