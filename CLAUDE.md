@@ -28,6 +28,7 @@ yarn dev               # Turbopack enabled by default
 After login: manually set the `PHPSESSID` cookie to `Secure` + `SameSite=None` in DevTools (cross-host cookie limitation in local dev).
 
 **Mobile device testing:**
+
 ```bash
 yarn expose            # Creates a public tunnel URL (LocalXpose)
 # Set NEXT_PUBLIC_DEV_AUTH_TOKEN to a bearer token copied from DevTools
@@ -35,45 +36,71 @@ yarn expose            # Creates a public tunnel URL (LocalXpose)
 
 ## Key scripts
 
-| Script | Purpose |
-|---|---|
-| `yarn dev` | Dev server (Turbopack) |
-| `yarn build` | Production build |
-| `yarn lint` | ESLint |
-| `yarn types:check` | TypeScript check |
-| `yarn prettify` | Auto-format `src/` |
-| `yarn format:check` | CI format validation |
-| `yarn orval` | Regenerate API hooks from OpenAPI specs |
-| `yarn e2e` | Playwright e2e tests |
+| Script              | Purpose                                 |
+| ------------------- | --------------------------------------- |
+| `yarn dev`          | Dev server (Turbopack)                  |
+| `yarn build`        | Production build                        |
+| `yarn lint`         | ESLint                                  |
+| `yarn types:check`  | TypeScript check                        |
+| `yarn prettify`     | Auto-format `src/`                      |
+| `yarn format:check` | CI format validation                    |
+| `yarn orval`        | Regenerate API hooks from OpenAPI specs |
+| `yarn e2e`          | Playwright e2e tests                    |
 
-## Architecture
+## Architecture: as is
 
 ```
 src/
-├── app/              # Next.js app router (pages, layouts, providers)
-├── components/ui/    # shadcn base components — never edit directly
-├── web/              # Web app (shadcn + Tailwind)
-│   ├── feature-*/   # Self-contained features
-│   └── lib/ui/      # Web wrapper components built on top of shadcn
-├── mobile/           # Mobile app (Material-UI + Emotion)
+├── app/                    # Next.js app router (pages, layouts, providers)
+├── web/                    # Web app (shadcn + Tailwind)
+│   ├── feature-*/          # Self-contained features
+│   └── lib/ui/             # Web wrapper components built on top of shadcn
+├── mobile/                 # Mobile app (Material-UI + Emotion)
 │   ├── feature-*/
-│   └── lib/ui/      # Mobile UI components and MUI theme
-└── shared/           # Business logic used by both apps
+│   └── lib/ui/             # Mobile UI components and MUI theme
+└── shared/                 # Business logic used by both apps
     ├── feature-*/
-    └── lib/
-        ├── auth/         # Auth context, hooks, interceptors
-        ├── dataAccess/   # Orval-generated API hooks
-        ├── i18n/         # Translations (nl/common.json)
-        ├── user/         # User context and hooks
-        └── utils/        # Shared hooks and utilities
+    └── lib/                #
+        ├── auth/           # Auth context, hooks, interceptors
+        ├── dataAccess/     # Orval-generated API hooks
+        ├── i18n/           # Translations (nl/common.json)
+        ├── user/           # User context and hooks
+        └── utils/          # Shared hooks and utilities
 ```
 
-**Feature structure pattern:**
+## Architecture: to be: Unfinished
+
+```
+src/
+├── api/                # Orval-generated API hooks
+├── app/                # Next.js app router
+│   ├── login/          # page.tsx + route-specific files
+│   ├── counters/
+│   └── ...
+├── auth/               # Auth context, interceptors
+├── hooks/              # All React hooks (use* functions)
+├── i18n/               # Translations (nl/common.json)
+├── layouts/            # Shares layout components
+├── mobile/             # Mobile app (Material-UI + Emotion)
+│   ├── feature-*/
+│   └── lib/ui/         # Mobile UI components and MUI theme
+├── tests/              # Playwright e2e tests.
+├── ui/                 # Custom ui component files. Each with .stories file.
+│   └── shadcn/         # The base components coming from shadcn
+└── utils/              # Pure functions, constants, non-React helpers
+
+```
+
+**Feature structure pattern (legacy — dissolving into `hooks/` and `utils/`):**
+
+Each feature currently follows this structure. New code should go directly
+into `src/hooks/` (React hooks) or `src/utils/` (pure functions) instead.
+
 ```
 feature-{name}/
-├── components/    # UI components
-├── hooks/         # Business logic hooks
-└── index.ts       # Public API (only import from index)
+├── components/    # UI components → src/ui/
+├── hooks/         # Business logic hooks → src/hooks/
+└── index.ts       # Public API
 ```
 
 ## Web app UI layer
@@ -84,11 +111,15 @@ The web app uses **shadcn/ui + Tailwind v4**. Mobile uses **Material-UI + Emotio
 
 **Three-layer UI stack for web:**
 
-| Layer | Location | Rule |
-|---|---|---|
-| shadcn primitives | `src/components/ui/` | Never edit — regenerate via CLI |
-| Web wrappers | `src/web/lib/ui/` | Project-specific components built on shadcn |
+| Layer              | Location             | Rule                                                     |
+| ------------------ | -------------------- | -------------------------------------------------------- |
+| shadcn primitives  | `src/components/ui/` | Never edit — regenerate via CLI                          |
+| Web wrappers       | `src/web/lib/ui/`    | Project-specific components built on shadcn              |
 | Feature components | `src/web/feature-*/` | Consume from `src/web/lib/ui/`, not directly from shadcn |
+
+> **Legacy paths.** In the target architecture: shadcn primitives move to
+> `src/ui/shadcn/`, web wrappers to `src/ui/`, and feature components
+> to `src/app/[route]/`. The layering rule stays the same.
 
 When writing web UI: use Tailwind classes for styling and `cn()` from `@/lib/utils` for conditional classes. Do not use Emotion or `sx` props in web components.
 
@@ -98,11 +129,17 @@ All env vars must be added to both `.env.example` **and** `src/shared/feature-co
 
 Key env vars: `NEXT_PUBLIC_API_PATH`, `NEXT_PUBLIC_SEARCH_API_PATH`, `NEXT_PUBLIC_ENTRY_API_PATH`, `NEXT_PUBLIC_OAUTH_PATH`, `NEXT_PUBLIC_OAUTH_USERINFO_PATH`, `NEXT_PUBLIC_DEV_AUTH_TOKEN`, `NEXT_PUBLIC_GA_TAG`.
 
+> **Legacy path.** `src/shared/feature-config/` will move to `src/utils/getConfig.ts`
+> and `src/hooks/useConfig.ts` once `shared/` is dissolved.
+
 ## API integration (Orval)
 
 Generated hooks live in `src/shared/lib/dataAccess/{service}/generated/`. Never edit these files — regenerate with `yarn orval` when OpenAPI specs change.
 
 Wrap generated hooks in custom hooks (in feature `hooks/` folders) to add business logic. Axios base URLs are substituted at runtime via request interceptors using values from `useConfig()`.
+
+> **Legacy path.** `src/shared/lib/dataAccess/` will move to `src/api/`.
+> Custom hooks wrapping generated hooks will move to `src/hooks/` instead of feature `hooks/` folders.
 
 ## shadcn/ui components
 
@@ -111,7 +148,7 @@ Base components live in `src/components/ui/` and are generated by the shadcn CLI
 Extend them by wrapping in your feature or lib layer:
 
 ```tsx
-// src/web/lib/ui/Button.tsx
+// src/web/lib/ui/Button.tsx (legacy — will move to src/ui/Button.tsx)
 import { Button as ShadcnButton } from '@/components/ui/button';
 
 export const Button = (props) => <ShadcnButton variant="default" {...props} />;
@@ -128,22 +165,37 @@ Use `cn()` from `@/lib/utils` to compose Tailwind classes when you need style ov
 - Prefer simple solutions over abstractions
 - Never create documentation that duplicates what code already expresses
 
+## Visual testing (Storybook + Lost Pixel)
+
+Every finished web component gets a Storybook story and a Lost Pixel visual baseline. Baselines are built incrementally alongside the migration.
+
+**Workflow per component:**
+
+1. Migrate component to shadcn + Tailwind
+2. Write a co-located story (`ComponentName.stories.tsx`)
+3. Run `npx lost-pixel docker update` to establish the baseline (Docker ensures consistent rendering across machines)
+4. CI catches regressions on all baselined components automatically
+
+Stories live next to the component they test. Only write stories for components in `src/web/lib/ui/` and `src/web/feature-*/` — not for shadcn primitives in `src/components/ui/`.
+
+> **Legacy paths.** In the target architecture, stories live in `src/ui/` alongside
+> their components. Shadcn primitives in `src/ui/shadcn/` are still excluded.
+
 ## Conventions
 
 - Use `'use client'` only on interactive components; prefer server components where possible
 - Put business logic in custom hooks, not components
 - Web: style with Tailwind classes and `cn()`; Mobile: style with Emotion styled components and MUI theme tokens
 - Import from feature `index.ts` only, never from internal paths of another feature
-- Translations: all user-facing strings go in `src/shared/lib/i18n/locales/nl/common.json`
-- No test files exist yet — Playwright is configured for e2e when needed
+- Translations: all user-facing strings go in `src/shared/lib/i18n/locales/nl/common.json` (legacy — will move to `src/i18n/locales/nl/common.json`)
 
 ## Routes
 
-| Path | Description |
-|---|---|
-| `/app/login` | Login |
-| `/app/counters` | Counter (organisation) selection |
-| `/app/activities` | Activities list |
-| `/app/expense-report` | Expense report download |
-| `/app/help` | Help documentation |
-| `/app/mobile/*` | Mobile equivalents |
+| Path                  | Description                      |
+| --------------------- | -------------------------------- |
+| `/app/login`          | Login                            |
+| `/app/counters`       | Counter (organisation) selection |
+| `/app/activities`     | Activities list                  |
+| `/app/expense-report` | Expense report download          |
+| `/app/help`           | Help documentation               |
+| `/app/mobile/*`       | Mobile equivalents               |
