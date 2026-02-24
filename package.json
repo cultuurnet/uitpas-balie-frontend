@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "prettify": "yarn prettier --write src",
-    "format:check": "yarn prettier src --check --ignore-path ./.gitignore",
+    "format:check": "yarn prettier --check src",
     "types:check": "tsc -v && tsc && echo '\n✅ Type check passed!'",
     "e2e": "yarn playwright test",
     "routes": "npx next-list",
