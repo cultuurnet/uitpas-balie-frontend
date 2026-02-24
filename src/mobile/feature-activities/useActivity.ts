@@ -26,7 +26,7 @@ export const useActivity = () => {
   const selectedActivity = idIsActivityId
     ? data
       ? data.data.member.find(
-          (activity) => getIdFromUrl(activity['@id'] ?? '') === params.activity
+          (activity) => getIdFromUrl(activity['@id'] ?? '') === params.activity,
         )
       : null
     : undefined;
@@ -49,33 +49,33 @@ export const useActivity = () => {
           params.counter,
           isNoActivity(activity)
             ? noActivity
-            : getIdFromUrl(activity['@id'] ?? '')
-        )
+            : getIdFromUrl(activity['@id'] ?? ''),
+        ),
       );
     },
     clearActivity: () => {
       router.push(clientRoutes.activities(params.counter));
     },
     navigateToIdentification: (
-      navigationType: 'replace' | 'push' = 'replace'
+      navigationType: 'replace' | 'push' = 'replace',
     ) => {
       router[navigationType](
-        clientRoutes.identification(params.counter, params.activity)
+        clientRoutes.identification(params.counter, params.activity),
       );
     },
     navigateToScanner: (
       navigationType: 'replace' | 'push' = 'replace',
-      firstCardEntry = true
+      firstCardEntry = true,
     ) => {
       router[navigationType](
-        clientRoutes.scan(params.counter, params.activity, firstCardEntry)
+        clientRoutes.scan(params.counter, params.activity, firstCardEntry),
       );
     },
     navigateToSaving: (
       code: string,
       firstCardEntry = true,
       cardType: 'insz' | 'uitpas' = 'uitpas',
-      navigationType: 'replace' | 'push' = 'replace'
+      navigationType: 'replace' | 'push' = 'replace',
     ) => {
       router[navigationType](
         clientRoutes.saving(
@@ -83,8 +83,8 @@ export const useActivity = () => {
           params.activity,
           code,
           cardType,
-          firstCardEntry
-        )
+          firstCardEntry,
+        ),
       );
     },
   };

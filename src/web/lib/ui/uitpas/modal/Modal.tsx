@@ -62,7 +62,7 @@ export const Modal = ({
                   backgroundColor: theme.palette.neutral[50],
                   boxShadow: `0px 5px 15px ${alpha(
                     theme.palette.neutral[900],
-                    0.5
+                    0.5,
                   )}`,
                   padding: 0,
                   transition: `top ${modalTransitionDuration}ms ease-out, opacity ${modalTransitionDuration}ms ease-out`,

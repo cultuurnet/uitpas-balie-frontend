@@ -14,7 +14,7 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
   const { navigateToSaving } = useActivity();
   const [cardNumber, setCardNumber] = useState<string>('');
   const [validationError, setValidationError] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const handleCardNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,7 @@ export const ManualCardInput = ({ firstCardEntry }: ManualCardInputProps) => {
     setValidationError(
       errorKey
         ? `identification.mobile.manualInput.validation.${errorKey}`
-        : undefined
+        : undefined,
     );
   };
 

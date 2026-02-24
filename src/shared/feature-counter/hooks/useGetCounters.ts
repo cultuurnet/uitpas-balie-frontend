@@ -6,20 +6,20 @@ export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
 
   const dataWithoutLastCounter =
     allData?.data?.filter(
-      (permission) => permission.organizer.id !== lastCounterUsed?.id
+      (permission) => permission.organizer.id !== lastCounterUsed?.id,
     ) ?? [];
 
   const filteredData = searchString
     ? dataWithoutLastCounter?.filter((organizer) =>
         organizer.organizer.name
           ?.toLowerCase()
-          .includes(searchString.toLowerCase())
+          .includes(searchString.toLowerCase()),
       )
     : dataWithoutLastCounter;
 
   const sortedData = filteredData
     ? filteredData.toSorted((a, b) =>
-        a.organizer.name!.localeCompare(b.organizer.name!)
+        a.organizer.name!.localeCompare(b.organizer.name!),
       )
     : [];
 

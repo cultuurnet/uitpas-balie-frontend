@@ -134,7 +134,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
       .then((blob) => {
         saveAs(
           blob,
-          `financialReport_${periodToDownload?.startDate}-${periodToDownload?.endDate}.zip`
+          `financialReport_${periodToDownload?.startDate}-${periodToDownload?.endDate}.zip`,
         );
         dispatch({ type: 'downloadComplete' });
       });

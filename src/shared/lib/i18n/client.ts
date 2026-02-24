@@ -18,8 +18,8 @@ i18next
   .use(
     resourcesToBackend(
       (language: string, namespace: string) =>
-        import(`./locales/${language}/${namespace}.json`)
-    )
+        import(`./locales/${language}/${namespace}.json`),
+    ),
   )
   .init({
     ...getOptions(),
@@ -33,7 +33,7 @@ i18next
 export function useTranslation(
   lng: string = fallbackLng,
   ns: string = defaultNS,
-  options?: UseTranslationOptions<any>
+  options?: UseTranslationOptions<any>,
 ) {
   const ret = useTranslationOrg(ns, options);
   const { i18n } = ret;
