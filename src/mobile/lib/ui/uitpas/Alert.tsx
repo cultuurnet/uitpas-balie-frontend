@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
+import { HTMLAttributes, PropsWithChildren, useEffect, useReducer } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { CheckCircle } from '@mui/icons-material';
 import { keyframes } from '@emotion/react';
@@ -13,11 +13,11 @@ type AlertProps = PropsWithChildren &
 
 export const Alert = ({ type, style, newAlert, ...props }: AlertProps) => {
   const theme = useTheme();
-  const [animate, setAnimate] = useState<boolean>(true);
+  const [animate, dispatch] = useReducer((_: boolean, action: 'start' | 'stop') => action === 'start', true);
 
   useEffect(() => {
-    setAnimate(true);
-    const timeout = setTimeout(() => setAnimate(false), 10000);
+    dispatch('start');
+    const timeout = setTimeout(() => dispatch('stop'), 10000);
     return () => clearTimeout(timeout);
   }, [type, props.children]);
 
