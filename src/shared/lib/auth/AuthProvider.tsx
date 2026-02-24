@@ -1,6 +1,12 @@
 'use client';
 
-import { FC, PropsWithChildren, useCallback, useEffect, useReducer } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useReducer,
+} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { AuthContext } from './AuthContext';
 import { useFetchToken } from './legacy/useFetchToken';
@@ -71,7 +77,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
         push(`${loginPath}?redirectTo=${asPath}`);
       }
     });
-  }, [asPath, push, logout]);
+  }, [asPath, push, loginPath, logout]);
 
   useEffect(() => {
     // This is an initialization hook, if the token is already loaded, we can exit
@@ -93,7 +99,16 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
           });
       }
     }
-  }, [authTokenLoaded, isCurrentPathPrivate, fetchToken, login, asPath, push]);
+  }, [
+    authTokenLoaded,
+    isCurrentPathPrivate,
+    fetchToken,
+    login,
+    loginPath,
+    publicRuntimeConfig?.devAuthToken,
+    asPath,
+    push,
+  ]);
 
   if (!authTokenLoaded && isCurrentPathPrivate) return null;
 

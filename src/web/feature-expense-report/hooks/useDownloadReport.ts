@@ -118,7 +118,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   useEffect(() => {
     if (reportStatus !== ReportStatus.AVAILABLE || reportZipData) return;
     getReportZip();
-  }, [reportStatus]);
+  }, [reportStatus, getReportZip, reportZipData]);
 
   //check on status and download zip
   useEffect(() => {
@@ -138,7 +138,13 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
         );
         dispatch({ type: 'downloadComplete' });
       });
-  }, [reportZipData, reportStatus, hasStarted]);
+  }, [
+    reportZipData,
+    reportStatus,
+    hasStarted,
+    periodToDownload?.startDate,
+    periodToDownload?.endDate,
+  ]);
 
   const isDownloading =
     hasStarted &&
