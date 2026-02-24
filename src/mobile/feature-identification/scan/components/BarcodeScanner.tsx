@@ -9,7 +9,7 @@ import {
 import { Typography, UitpasLoading } from '@/mobile/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { FlashlightOn, FlashlightOff, Close } from '@mui/icons-material';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { PermissionBox } from '@/mobile/feature-identification/scan/components/PermissionBox';
 import Quagga, { QuaggaJSResultObject } from '@ericblade/quagga2';
 import { useCamera } from '@/shared/lib/utils/hooks/useCamera';
@@ -27,8 +27,7 @@ export const BarcodeScanner: React.FC = () => {
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
-  const router = useRouter();
-  const scannerRef = useRef<HTMLDivElement>(null);
+const scannerRef = useRef<HTMLDivElement>(null);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
   const { navigateToIdentification, navigateToSaving } = useActivity();
@@ -80,7 +79,7 @@ export const BarcodeScanner: React.FC = () => {
         navigateToSaving(result.codeResult.code, firstCardEntry);
       }
     },
-    [firstCardEntry, router]
+    [firstCardEntry, navigateToSaving]
   );
 
   const handleCameraChange = (e: SelectChangeEvent<string>) => {
