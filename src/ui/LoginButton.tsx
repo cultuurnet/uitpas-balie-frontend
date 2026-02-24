@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/shadcn/button';
 import { FC, PropsWithChildren } from 'react';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
