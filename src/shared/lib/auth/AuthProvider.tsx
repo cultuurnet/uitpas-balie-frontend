@@ -47,7 +47,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
       setAuthTokenLoaded(false);
       removeToken();
     });
-  }, []);
+  }, [logoutFromSilex, removeToken]);
 
   const initAuth = useCallback(
     (token: string, redirectTo?: string) => {
