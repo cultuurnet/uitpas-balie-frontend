@@ -1,13 +1,7 @@
 import { CircularProgress, Stack } from '@mui/material';
 import { Search } from '@/shared/lib/dataAccess';
 import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
-import {
-  Dispatch,
-  SetStateAction,
-  UIEvent,
-  useEffect,
-  useRef,
-} from 'react';
+import { Dispatch, SetStateAction, UIEvent, useEffect, useRef } from 'react';
 import { ScrollableContainer, Typography } from '@/mobile/lib/ui';
 import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
 import { useActivity } from '@/mobile/feature-activities/useActivity';
@@ -40,7 +34,8 @@ export const ActivitiesPicker = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const { searchQuery } = useSearchQuery();
   const { setSelectedActivity } = useActivity();
-  const hasMoreItems = totalFetchedItems > 0 && totalFetchedItems > data.member.size;
+  const hasMoreItems =
+    totalFetchedItems > 0 && totalFetchedItems > data.member.size;
 
   useEffect(() => {
     if (scrollRef.current && data.member.size > fetchLimit) {
@@ -51,7 +46,6 @@ export const ActivitiesPicker = ({
       });
     }
   }, [data.member, fetchLimit, scrollPosition]);
-
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =

@@ -199,12 +199,16 @@ export const MobileSavingPage = () => {
   };
 
   const handleChooseTariffClick = () => {
-    setDrawerStartPosition(activityRef.current?.getBoundingClientRect().bottom ?? 0);
+    setDrawerStartPosition(
+      activityRef.current?.getBoundingClientRect().bottom ?? 0
+    );
     setShowTariffDrawer(true);
   };
 
   const handleChooseBenefitClick = () => {
-    setDrawerStartPosition(activityRef.current?.getBoundingClientRect().bottom ?? 0);
+    setDrawerStartPosition(
+      activityRef.current?.getBoundingClientRect().bottom ?? 0
+    );
     setShowRewardsDrawer(true);
   };
 
@@ -392,22 +396,21 @@ export const MobileSavingPage = () => {
           )}
 
         {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
-        {!isGroupPass &&
-          passHoldersData?.data?.member && (
-            <RewardsDrawer
-              isOpen={showRewardsDrawer}
-              setIsOpen={setShowRewardsDrawer}
-              startPosition={drawerStartPosition}
-              passHolderId={passHoldersData.data.member[0].id}
-              passHolderName={
-                passHoldersData.data.member
-                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                  : undefined
-              }
-              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
-              rewardRedemptionMutation={handleRewardRedemption}
-            />
-          )}
+        {!isGroupPass && passHoldersData?.data?.member && (
+          <RewardsDrawer
+            isOpen={showRewardsDrawer}
+            setIsOpen={setShowRewardsDrawer}
+            startPosition={drawerStartPosition}
+            passHolderId={passHoldersData.data.member[0].id}
+            passHolderName={
+              passHoldersData.data.member
+                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                : undefined
+            }
+            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+            rewardRedemptionMutation={handleRewardRedemption}
+          />
+        )}
       </MobileContentStack>
     </MobileNavBar>
   );

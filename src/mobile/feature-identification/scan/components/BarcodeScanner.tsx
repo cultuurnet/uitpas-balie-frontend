@@ -27,7 +27,7 @@ export const BarcodeScanner: React.FC = () => {
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
-const scannerRef = useRef<HTMLDivElement>(null);
+  const scannerRef = useRef<HTMLDivElement>(null);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
   const { navigateToIdentification, navigateToSaving } = useActivity();
