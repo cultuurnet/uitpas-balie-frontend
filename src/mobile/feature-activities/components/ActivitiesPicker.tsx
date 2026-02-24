@@ -7,7 +7,6 @@ import {
   UIEvent,
   useEffect,
   useRef,
-  useState,
 } from 'react';
 import { ScrollableContainer, Typography } from '@/mobile/lib/ui';
 import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
@@ -41,7 +40,7 @@ export const ActivitiesPicker = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const { searchQuery } = useSearchQuery();
   const { setSelectedActivity } = useActivity();
-  const [hasMoreItems, setHasMoreItems] = useState<boolean>(false);
+  const hasMoreItems = totalFetchedItems > 0 && totalFetchedItems > data.member.size;
 
   useEffect(() => {
     if (scrollRef.current && data.member.size > fetchLimit) {
@@ -51,12 +50,8 @@ export const ActivitiesPicker = ({
         behavior: 'smooth',
       });
     }
-  }, [data.member]);
+  }, [data.member, fetchLimit, scrollPosition]);
 
-  useEffect(() => {
-    if (totalFetchedItems === 0) return;
-    setHasMoreItems(totalFetchedItems > data.member.size);
-  }, [data.member.size, totalFetchedItems]);
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const bottom =
@@ -81,7 +76,7 @@ export const ActivitiesPicker = ({
         behavior: 'smooth',
       });
     }
-  }, [isFetching]);
+  }, [isFetching, scrollPosition]);
 
   const handleActivityClick = (activity: Search.Event) =>
     setSelectedActivity(activity);
