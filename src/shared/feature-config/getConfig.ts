@@ -38,6 +38,11 @@ export async function getConfig(): Promise<{
       blacklist: process.env.NEXT_PUBLIC_BLACKLIST ?? '',
       devAuthToken: process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN ?? '',
       gaTag: process.env.NEXT_PUBLIC_GA_TAG ?? '',
+      loginHowToLoginUrl:
+        process.env.NEXT_PUBLIC_LOGIN_HOW_TO_LOGIN_URL ?? '',
+      loginHowTo2faUrl:
+        process.env.NEXT_PUBLIC_LOGIN_HOW_TO_2FA_URL ?? '',
+      login2faUrl: process.env.NEXT_PUBLIC_LOGIN_2FA_URL ?? '',
     },
   };
 }

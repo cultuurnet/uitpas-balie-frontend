@@ -13,4 +13,7 @@ export type PublicRuntimeConfig = {
   blacklist: string;
   devAuthToken: string;
   gaTag: string;
+  loginHowToLoginUrl: string;
+  loginHowTo2faUrl: string;
+  login2faUrl: string;
 };
