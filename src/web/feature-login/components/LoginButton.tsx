@@ -4,7 +4,7 @@ import { FC, PropsWithChildren } from 'react';
 
 export const LoginButton: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Button size="lg" onClick={() => signIn()} variant="solid">
+    <Button size="lg" onClick={() => signIn('keycloak')} variant="solid">
       {children}
     </Button>
   );

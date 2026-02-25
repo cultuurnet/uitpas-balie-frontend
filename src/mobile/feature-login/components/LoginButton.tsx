@@ -4,7 +4,7 @@ import { ButtonProps } from '@mui/material';
 
 export const LoginButton = ({ ...props }: ButtonProps) => {
   return (
-    <Button onClick={() => signIn()} {...props}>
+    <Button onClick={() => signIn('keycloak')} {...props}>
       {props.children}
     </Button>
   );
