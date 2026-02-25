@@ -21,28 +21,28 @@ export const RedirectWhenNoCounter: FC<
     whiteListedPages === undefined
       ? Boolean(isLoggedIn && !counter && asPath !== counterPath)
       : Array.isArray(whiteListedPages)
-      ? Boolean(
-          isLoggedIn &&
+        ? Boolean(
+            isLoggedIn &&
             !counter &&
             asPath !== counterPath &&
-            !whiteListedPages.includes(asPath)
-        )
-      : Boolean(
-          isLoggedIn &&
+            !whiteListedPages.includes(asPath),
+          )
+        : Boolean(
+            isLoggedIn &&
             !counter &&
             asPath !== counterPath &&
-            asPath !== whiteListedPages
-        );
+            asPath !== whiteListedPages,
+          );
 
   const shouldRedirectToApp = Boolean(
-    isLoggedIn && counter && asPath === counterPath
+    isLoggedIn && counter && asPath === counterPath,
   );
 
   useEffect(() => {
     if (shouldRedirectToCounters) {
       push(counterPath);
     }
-  }, [shouldRedirectToCounters, push]);
+  }, [shouldRedirectToCounters, counterPath, push]);
 
   useEffect(() => {
     if (shouldRedirectToApp) {

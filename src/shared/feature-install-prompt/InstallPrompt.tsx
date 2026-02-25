@@ -1,18 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export function InstallPrompt() {
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isIOS] = useState(
+    () =>
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream,
+  );
+  const [isStandalone] = useState(
+    () => window.matchMedia('(display-mode: standalone)').matches,
+  );
   const { t } = useTranslation();
-  useEffect(() => {
-    setIsIOS(
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    );
-
-    setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
-  }, []);
 
   if (isStandalone || !isIOS) return null;
 

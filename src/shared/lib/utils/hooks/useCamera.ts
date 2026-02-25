@@ -51,7 +51,7 @@ export const useCamera = ({
       ((navigator.mediaDevices &&
         typeof navigator.mediaDevices.getUserMedia === 'function') ??
         false) &&
-        browser !== 'Opera'
+        browser !== 'Opera',
     );
     if (!initializeCamera) setIsLoading(false);
   }, [browser, initializeCamera]);
@@ -120,7 +120,7 @@ export const useCamera = ({
     try {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const videoDevices = devices.filter(
-        (device) => device.kind === 'videoinput'
+        (device) => device.kind === 'videoinput',
       );
 
       if (videoDevices.length === 0) {
@@ -165,11 +165,11 @@ export const useCamera = ({
           let cameraLabel = t(`camera.${cameraType}`);
           if (
             detectedCamerasLocal.findIndex((c) =>
-              c.label.includes(t(`camera.${cameraType}`))
+              c.label.includes(t(`camera.${cameraType}`)),
             ) !== -1
           ) {
             const amountOfCameras = detectedCamerasLocal.filter((c) =>
-              c.label.includes(t(`camera.${cameraType}`))
+              c.label.includes(t(`camera.${cameraType}`)),
             ).length;
             cameraLabel = `${t(`camera.${cameraType}`)} ${amountOfCameras + 1}`;
           }
@@ -218,7 +218,7 @@ export const useCamera = ({
         setSelectedCamera(
           detectedCameras.find((c) => c.canTorch) ||
             detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
-            detectedCameras[detectedCameras.length - 1]
+            detectedCameras[detectedCameras.length - 1],
         );
       }
     }

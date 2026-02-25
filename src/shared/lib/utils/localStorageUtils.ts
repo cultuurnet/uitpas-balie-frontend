@@ -10,7 +10,7 @@ export const storeData = <T>(key: string, data: T): void => {
 
 export const readData = <T>(
   key: string,
-  fallbackValue: T | null = null
+  fallbackValue: T | null = null,
 ): T | null => {
   try {
     const storedData = localStorage.getItem(key);

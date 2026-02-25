@@ -43,7 +43,7 @@ const DateInputWithRef = forwardRef(function DateInputComponent(
     fullWidth,
     ...props
   }: MUIStyledCommonProps<Theme> & { fullWidth?: boolean },
-  ref: ForwardedRef<HTMLInputElement>
+  ref: ForwardedRef<HTMLInputElement>,
 ) {
   const theme = useTheme();
   const openDatePicker = () => {

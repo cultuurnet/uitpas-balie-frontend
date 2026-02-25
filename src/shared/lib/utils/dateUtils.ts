@@ -17,7 +17,7 @@ export const TDateSelection = {
 
 export const getRangeDateFromSelection = (
   dateSelection: keyof typeof TDateSelection,
-  chooseDateRange?: { from: string; to: string }
+  chooseDateRange?: { from: string; to: string },
 ) => {
   const unlimited = {
     from: dayjs().subtract(100, 'year').format(RANGE_DATE_FORMAT),

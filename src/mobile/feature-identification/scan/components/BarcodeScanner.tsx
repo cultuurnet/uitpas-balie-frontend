@@ -1,3 +1,4 @@
+'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
@@ -9,9 +10,8 @@ import {
 import { Typography, UitpasLoading } from '@/mobile/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { FlashlightOn, FlashlightOff, Close } from '@mui/icons-material';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { PermissionBox } from '@/mobile/feature-identification/scan/components/PermissionBox';
-import Quagga, { QuaggaJSResultObject } from '@ericblade/quagga2';
 import { useCamera } from '@/shared/lib/utils/hooks/useCamera';
 import { useActivity } from '@/mobile/feature-activities/useActivity';
 
@@ -27,29 +27,40 @@ export const BarcodeScanner: React.FC = () => {
   } = useCamera();
   const params = useSearchParams();
   const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
-  const router = useRouter();
-  const scannerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const scanningRef = useRef(false);
+  const rafRef = useRef<number>(0);
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [codeFound, setCodeFound] = useState<boolean>(false);
   const { navigateToIdentification, navigateToSaving } = useActivity();
+  const navigateToSavingRef = useRef(navigateToSaving);
+  navigateToSavingRef.current = navigateToSaving;
   const firstCardEntry = Boolean(params.get('firstCardEntry')) ?? false;
-  const [scannerInitializationCount, setScannerInitializationCount] =
-    useState(1);
 
-  const SCANNER_MAX_INITIALIZATION_COUNT = 5;
   const scannerSupported =
     browserHasSupport &&
-    scannerInitializationCount <= SCANNER_MAX_INITIALIZATION_COUNT;
+    typeof window !== 'undefined' &&
+    'BarcodeDetector' in window;
+
+  const stopScanner = useCallback(() => {
+    scanningRef.current = false;
+    cancelAnimationFrame(rafRef.current);
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+  }, []);
 
   const handleFlashToggle = () => {
-    setIsFlashOn((flashWasOn) => {
-      if (flashWasOn) {
-        Quagga.CameraAccess.disableTorch();
-      } else {
-        Quagga.CameraAccess.enableTorch();
-      }
-      return !flashWasOn;
-    });
+    const track = streamRef.current?.getVideoTracks()[0];
+    if (track) {
+      const newFlashState = !isFlashOn;
+      track
+        .applyConstraints({
+          advanced: [{ torch: newFlashState }],
+        } as unknown as MediaTrackConstraints)
+        .catch(() => {});
+      setIsFlashOn(newFlashState);
+    }
   };
 
   const handleClose = () => {
@@ -57,117 +68,113 @@ export const BarcodeScanner: React.FC = () => {
     navigateToIdentification();
   };
 
-  const handleResultErrorCheck = useCallback(
-    (result: QuaggaJSResultObject) => {
-      const errors = result.codeResult.decodedCodes
-        .flatMap((x) => x.error)
-        .filter((x): x is number => x !== undefined)
-        .sort((a, b) => a - b);
-
-      const mid = Math.floor(errors.length / 2);
-      const err =
-        errors.length % 2 === 0
-          ? (errors[mid - 1] + errors[mid]) / 2
-          : errors[mid];
-
-      // 90% confidence that the scan is correct
-      if (
-        err < 0.1 &&
-        result.codeResult.code &&
-        result.codeResult.code.length === 13
-      ) {
-        setCodeFound(true);
-        navigateToSaving(result.codeResult.code, firstCardEntry);
-      }
-    },
-    [firstCardEntry, router]
-  );
-
   const handleCameraChange = (e: SelectChangeEvent<string>) => {
     const device = detectedCameras?.find((cam) => cam.id === e.target.value);
     if (device) {
       setSelectedCamera(device);
     } else if (detectedCameras) {
-      // Fallback to the first camera with torch support or back camera if no torch support, or the last camera if none of the aforementioned cameras are available
       setSelectedCamera(
         detectedCameras.find((c) => c.canTorch) ||
           detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
-          detectedCameras[detectedCameras.length - 1]
+          detectedCameras[detectedCameras.length - 1],
       );
     }
   };
 
   useEffect(() => {
     if (
-      permission === 'granted' &&
-      selectedCamera &&
-      scannerRef.current &&
-      !isLoading &&
-      scannerSupported
-    ) {
-      const initWithDelay = () => {
-        setScannerReady(false);
-        setTimeout(() => {
-          if (!scannerRef.current) return;
-          Quagga.init(
-            {
-              inputStream: {
-                constraints: {
-                  width: { ideal: 1280 },
-                  height: { ideal: 720 },
-                  deviceId: selectedCamera.id,
-                },
-                area: {
-                  top: '38%',
-                  right: '5%',
-                  left: '5%',
-                  bottom: '38%',
-                },
-                target: scannerRef.current,
-              },
-              locator: {
-                patchSize: 'medium',
-                halfSample: true,
-              },
-              numOfWorkers: 4,
-              decoder: {
-                readers: ['code_128_reader'],
-                multiple: false,
-              },
-              locate: false,
-              frequency: 15,
-            },
-            (err) => {
-              if (err) {
-                console.error(
-                  `(#${scannerInitializationCount}) Could not initialize barcode scanner:`,
-                  err
-                );
-                setScannerInitializationCount(scannerInitializationCount + 1);
-                Quagga.stop();
-                initWithDelay();
-                return;
-              }
-              Quagga.start();
-              setScannerReady(true);
+      permission !== 'granted' ||
+      !selectedCamera ||
+      !videoRef.current ||
+      isLoading ||
+      !scannerSupported
+    )
+      return;
+
+    let cancelled = false;
+
+    const startScanner = async () => {
+      setScannerReady(false);
+
+      // Polyfill: sets BarcodeDetector globally if not natively supported
+      await import('barcode-detector/polyfill');
+
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: { exact: selectedCamera.id },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+          },
+        });
+      } catch (err) {
+        console.error('Could not start camera:', err);
+        return;
+      }
+
+      if (cancelled) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
+
+      if (!videoRef.current) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
+
+      streamRef.current = stream;
+      videoRef.current.srcObject = stream;
+      await videoRef.current.play();
+
+      if (cancelled) return;
+
+      setScannerReady(true);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const detector = new (window as any).BarcodeDetector({
+        formats: ['code_128'],
+      });
+
+      scanningRef.current = true;
+      const scan = async () => {
+        if (!scanningRef.current || !videoRef.current) return;
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const barcodes: any[] = await detector.detect(videoRef.current);
+          for (const barcode of barcodes) {
+            if (barcode.rawValue?.length === 13) {
+              setCodeFound(true);
+              navigateToSavingRef.current(barcode.rawValue, firstCardEntry);
+              return;
             }
-          );
-          Quagga.onDetected(handleResultErrorCheck);
-        }, 1000);
+          }
+        } catch {
+          // Detection error on this frame, continue scanning
+        }
+        if (scanningRef.current) {
+          rafRef.current = requestAnimationFrame(scan);
+        }
       };
-      initWithDelay();
-      return () => {
-        Quagga.offDetected();
-        Quagga.stop();
-      };
-    }
+      rafRef.current = requestAnimationFrame(scan);
+    };
+
+    startScanner();
+    return () => {
+      cancelled = true;
+      stopScanner();
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.srcObject = null;
+      }
+    };
   }, [
-    handleResultErrorCheck,
-    isLoading,
     permission,
-    scannerInitializationCount,
-    scannerSupported,
     selectedCamera,
+    isLoading,
+    scannerSupported,
+    firstCardEntry,
+    stopScanner,
   ]);
 
   if (!scannerSupported && !isLoading)
@@ -179,15 +186,21 @@ export const BarcodeScanner: React.FC = () => {
 
   return (
     <>
-      <UitpasLoading
-        sx={{ ...(scannerReady && { display: 'none !important' }) }}
-      />
+      {!scannerReady && (
+        <UitpasLoading
+          sx={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: 'white',
+          }}
+        />
+      )}
       <Box
         sx={{
           position: 'relative',
           height: '100dvh',
           overflow: 'hidden',
-          ...(!scannerReady && { display: 'none' }),
         }}
       >
         <IconButton
@@ -259,20 +272,15 @@ export const BarcodeScanner: React.FC = () => {
             )}
           </IconButton>
         )}
-        <Box
-          ref={scannerRef}
-          sx={{
-            position: 'relative',
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
             width: '100%',
             height: '100%',
-            video: {
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            },
-            canvas: {
-              display: 'none',
-            },
+            objectFit: 'cover',
           }}
         />
         {/* bottom-right and top-left corner borders */}

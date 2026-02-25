@@ -72,7 +72,7 @@ export const RewardsDrawer = ({
       axios: {
         paramsSerializer: { indexes: null },
       },
-    }
+    },
   );
 
   const isInitialLoading = status === 'pending';
@@ -100,7 +100,7 @@ export const RewardsDrawer = ({
     if (searchQuery) {
       refetch();
     }
-  }, [searchQuery]);
+  }, [searchQuery, refetch]);
 
   const handleClose = () => {
     setIsOpen(false);

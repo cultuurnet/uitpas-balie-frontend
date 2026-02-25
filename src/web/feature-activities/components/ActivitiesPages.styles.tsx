@@ -35,7 +35,7 @@ export const StyledUserInputStack = styled(Stack)<{ customInput?: boolean }>(
         rowGap: '24px',
       },
     }),
-  })
+  }),
 );
 
 export const StyledActivityStack = styled(Stack)(({ theme }) => ({

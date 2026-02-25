@@ -20,7 +20,7 @@ export const SelectCounterPage = () => {
   const { setActiveCounter, lastCounterUsed } = useCounter();
   const { allData, data, isLoading } = useGetCounters(
     lastCounterUsed,
-    searchString
+    searchString,
   );
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {

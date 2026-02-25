@@ -46,10 +46,11 @@ export const MobileSavingPage = () => {
   const { activeCounter } = useCounter();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
+  const [drawerStartPosition, setDrawerStartPosition] = useState<number>(0);
   const activityRef = useRef<ElementRef<'div'>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>('');
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
-    Boolean(params.get('firstCardEntry')) ?? false
+    Boolean(params.get('firstCardEntry')) ?? false,
   );
   const [alertData, setAlertData] = useState<
     | Record<
@@ -87,13 +88,13 @@ export const MobileSavingPage = () => {
         query: {
           enabled: !!passholderId,
         },
-      }
+      },
     );
 
   // Filter for ACTIVE memberships and extract the association
   const activeAssociations = associationMembershipsData?.data
     ?.filter(
-      (membership: AssociationMembership) => membership.status === 'ACTIVE'
+      (membership: AssociationMembership) => membership.status === 'ACTIVE',
     )
     ?.map((membership: AssociationMembership) => membership.association);
 
@@ -107,7 +108,7 @@ export const MobileSavingPage = () => {
         query: {
           enabled: isGroupPass && !!uitpasNumber,
         },
-      }
+      },
     );
 
   const {
@@ -198,26 +199,32 @@ export const MobileSavingPage = () => {
   };
 
   const handleChooseTariffClick = () => {
+    setDrawerStartPosition(
+      activityRef.current?.getBoundingClientRect().bottom ?? 0,
+    );
     setShowTariffDrawer(true);
   };
 
   const handleChooseBenefitClick = () => {
+    setDrawerStartPosition(
+      activityRef.current?.getBoundingClientRect().bottom ?? 0,
+    );
     setShowRewardsDrawer(true);
   };
 
   const handleTicketSaleMutation = (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => {
     if ((!isGroupPass && !passHoldersData?.data?.member) || !selectedActivity)
       return;
 
     const uitpasNumber = isGroupPass
       ? groupPassHolder?.data.member?.[0]?.uitpasNumber
-      : passHoldersData?.data.member?.[0]?.uitpasNumber ??
+      : (passHoldersData?.data.member?.[0]?.uitpasNumber ??
         passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
-          ?.uitpasNumber;
+          ?.uitpasNumber);
 
     if (!uitpasNumber || !selectedActivity['@id']) return;
 
@@ -363,20 +370,19 @@ export const MobileSavingPage = () => {
 
         {selectedActivity &&
           selectedActivity['@id'] &&
-          passHoldersData?.data?.member &&
-          activityRef.current && (
+          passHoldersData?.data?.member && (
             <TariffDrawer
               eventId={selectedActivity['@id']}
               passHolderName={
                 isGroupPass
-                  ? groupPassHolder?.data.member?.[0]?.name ?? undefined
+                  ? (groupPassHolder?.data.member?.[0]?.name ?? undefined)
                   : passHoldersData.data.member
-                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                  : undefined
+                    ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                    : undefined
               }
               isOpen={showTariffDrawer}
               setIsOpen={setShowTariffDrawer}
-              startPosition={activityRef.current.getBoundingClientRect().bottom}
+              startPosition={drawerStartPosition}
               uitpasNumber={
                 isGroupPass
                   ? groupPassHolder?.data.member?.at(0)?.uitpasNumber!
@@ -390,23 +396,21 @@ export const MobileSavingPage = () => {
           )}
 
         {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
-        {!isGroupPass &&
-          activityRef.current &&
-          passHoldersData?.data?.member && (
-            <RewardsDrawer
-              isOpen={showRewardsDrawer}
-              setIsOpen={setShowRewardsDrawer}
-              startPosition={activityRef.current.getBoundingClientRect().bottom}
-              passHolderId={passHoldersData.data.member[0].id}
-              passHolderName={
-                passHoldersData.data.member
-                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                  : undefined
-              }
-              passHolderPoints={passHoldersData.data.member[0].points ?? 0}
-              rewardRedemptionMutation={handleRewardRedemption}
-            />
-          )}
+        {!isGroupPass && passHoldersData?.data?.member && (
+          <RewardsDrawer
+            isOpen={showRewardsDrawer}
+            setIsOpen={setShowRewardsDrawer}
+            startPosition={drawerStartPosition}
+            passHolderId={passHoldersData.data.member[0].id}
+            passHolderName={
+              passHoldersData.data.member
+                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                : undefined
+            }
+            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+            rewardRedemptionMutation={handleRewardRedemption}
+          />
+        )}
       </MobileContentStack>
     </MobileNavBar>
   );

@@ -20,7 +20,7 @@ export const StyledListbox = styled('ul')(
     border-radius: 0;
     box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
     background-clip: padding-box;
-  `
+  `,
 );
 
 export const TriggerButton = styled(
@@ -30,7 +30,7 @@ export const TriggerButton = styled(
       disabled,
       ...buttonProps
     }: HTMLProps<HTMLButtonElement> & { active: boolean; disabled?: boolean },
-    ref: ForwardedRef<HTMLButtonElement>
+    ref: ForwardedRef<HTMLButtonElement>,
   ) {
     return (
       <button
@@ -40,7 +40,7 @@ export const TriggerButton = styled(
         ref={ref}
       />
     );
-  })
+  }),
 )(({ theme, active, disabled = false }) => ({
   display: 'inline-block',
   cursor: 'pointer',
@@ -92,7 +92,7 @@ export const StyledDateItem = styled('a')(
       color: ${theme.vars.palette.neutral[800]};
       background-color: ${theme.vars.palette.neutral[300]};
     }
-  `
+  `,
 );
 
 export const StyledDivider = styled('li')(({ theme }) => ({

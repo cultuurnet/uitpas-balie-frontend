@@ -68,5 +68,5 @@ export const StyledSearchForm = styled('form')<{ customInput?: boolean }>(
         maxWidth: 'none',
       },
     }),
-  })
+  }),
 );

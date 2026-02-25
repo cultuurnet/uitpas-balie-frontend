@@ -31,7 +31,7 @@ export const useGetUserInfo = ({ token, enabled = true }: Props) => {
       queryKey,
       queryFn: () => {
         return axios.get<UserInfo>(
-          publicRuntimeConfig?.oauthUserInfoPath ?? ''
+          publicRuntimeConfig?.oauthUserInfoPath ?? '',
         );
       },
       enabled,
