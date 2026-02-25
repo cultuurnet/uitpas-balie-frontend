@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { AuthProvider } from '@/shared/lib/auth';
+import { SessionProvider } from 'next-auth/react';
 import { UserProvider } from '@/shared/lib/user';
 import { CounterProvider } from '@/mobile/feature-counter';
 import { theme } from '@/mobile/lib/ui';
@@ -29,13 +29,13 @@ export function MobileProviders({ children }: PropsWithChildren) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <AuthProvider loginPath={clientRoutes.login()}>
+          <SessionProvider>
             <UserProvider>
               <CounterProvider counterPath={clientRoutes.counters()}>
                 {children}
               </CounterProvider>
             </UserProvider>
-          </AuthProvider>
+          </SessionProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </AppRouterCacheProvider>
