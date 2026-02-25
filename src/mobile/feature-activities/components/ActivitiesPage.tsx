@@ -53,15 +53,15 @@ const INITIAL_STATE: ActivitiesState = {
 
 function activitiesReducer(
   state: ActivitiesState,
-  action: ActivitiesAction
+  action: ActivitiesAction,
 ): ActivitiesState {
   switch (action.type) {
     case 'fetchSuccess': {
       const updatedMembers = new Set<ExtendedEvent>(
-        [...state.data.member].map((member) => ({ ...member, isNew: false }))
+        [...state.data.member].map((member) => ({ ...member, isNew: false })),
       );
       const updatedIndex = new Map<string, ExtendedEvent>(
-        state.data.memberIndex
+        state.data.memberIndex,
       );
 
       action.fetchedData.data.member.forEach((member) => {
@@ -104,7 +104,7 @@ export const ActivitiesPage = () => {
   const [offset, setOffset] = useState<number>(0);
   const [{ data, isInitialLoading, showSearchInput }, dispatch] = useReducer(
     activitiesReducer,
-    INITIAL_STATE
+    INITIAL_STATE,
   );
 
   const {

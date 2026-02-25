@@ -32,7 +32,7 @@ export const PassHolder = ({
         <Typography variant="h1">{t('saving.mobile.passholder')}</Typography>
         <Typography color={theme.palette.brand[800]} variant="body2">
           {formatUitpasNumber(
-            passholder.cardSystemMemberships?.at(0)?.uitpasNumber
+            passholder.cardSystemMemberships?.at(0)?.uitpasNumber,
           )}
         </Typography>
       </Stack>

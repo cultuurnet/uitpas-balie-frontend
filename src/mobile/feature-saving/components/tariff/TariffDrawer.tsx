@@ -24,7 +24,7 @@ type TariffModalProps = {
   ticketSaleMutation: (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => void;
   isGroupPass?: boolean;
 };
@@ -56,7 +56,7 @@ export const TariffDrawer = ({
   const handleTicketSaleMutation = (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => {
     ticketSaleMutation(tariffId, regularPrice, count);
     refetch();

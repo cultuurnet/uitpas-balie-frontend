@@ -76,7 +76,7 @@ export const BarcodeScanner: React.FC = () => {
       setSelectedCamera(
         detectedCameras.find((c) => c.canTorch) ||
           detectedCameras.find((c) => c.label.includes(t(`camera.back`))) ||
-          detectedCameras[detectedCameras.length - 1]
+          detectedCameras[detectedCameras.length - 1],
       );
     }
   };

@@ -15,7 +15,7 @@ export const useFetchToken = () => {
       const tokenEndpoint = publicRuntimeConfig?.legacyTokenEndpoint;
       if (!tokenEndpoint)
         throw new Error(
-          'Required env variable "NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT" not set.'
+          'Required env variable "NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT" not set.',
         );
 
       return axios.get(tokenEndpoint, { withCredentials: true });

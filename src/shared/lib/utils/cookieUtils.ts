@@ -2,7 +2,7 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 export const readCookie = <T>(
   cookie: string,
-  fallbackValue: T | null = null
+  fallbackValue: T | null = null,
 ): T | null => {
   try {
     const storedData = getCookie(cookie);

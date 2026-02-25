@@ -30,7 +30,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
   const asPath = usePathname();
   const [authTokenLoaded, dispatch] = useReducer(
     (_: boolean, action: 'load' | 'unload') => action === 'load',
-    false
+    false,
   );
   const { fetchToken, removeToken, isFetching } = useFetchToken();
   const logoutFromSilex = useSilexLogout();
@@ -66,7 +66,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
         push(redirectTo);
       }
     },
-    [login, push]
+    [login, push],
   );
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const TRANSLATIONSTEPS_PATH =
 const getStepTranslation = (
   variant: string,
   stepIndex: number,
-  subStepIndex?: number
+  subStepIndex?: number,
 ) =>
   `${TRANSLATIONSTEPS_PATH}.${variant}.step${stepIndex}${
     subStepIndex !== undefined ? `.${subStepIndex}` : ''

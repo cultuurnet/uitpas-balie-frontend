@@ -19,7 +19,7 @@ const StyledPaginationButton = styled(
       active,
       ...buttonProps
     }: HTMLProps<HTMLButtonElement> & { active: boolean },
-    ref: ForwardedRef<HTMLButtonElement>
+    ref: ForwardedRef<HTMLButtonElement>,
   ) {
     return (
       <button
@@ -28,7 +28,7 @@ const StyledPaginationButton = styled(
         ref={ref}
       />
     );
-  })
+  }),
 )(({ theme, active }) => ({
   display: 'flex',
   alignItems: 'center',

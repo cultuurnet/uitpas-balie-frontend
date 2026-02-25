@@ -127,7 +127,7 @@ export const TriggerButton = styled(
       active,
       ...buttonProps
     }: HTMLProps<HTMLButtonElement> & { active: boolean },
-    ref: ForwardedRef<HTMLButtonElement>
+    ref: ForwardedRef<HTMLButtonElement>,
   ) {
     return (
       <button
@@ -136,7 +136,7 @@ export const TriggerButton = styled(
         ref={ref}
       />
     );
-  })
+  }),
 )(({ theme, active }) => ({
   ...navItemStyles({ theme }),
   background: 'none',
@@ -169,7 +169,7 @@ export const StyledListbox = styled('ul')(
     border-radius: 0;
     box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
     background-clip: padding-box;
-  `
+  `,
 );
 
 export const StyledMenuItem = styled(MenuItemUnstyled)(
@@ -185,7 +185,7 @@ export const StyledMenuItem = styled(MenuItemUnstyled)(
         color: ${theme.vars.palette.neutral[800]};
         background-color: ${theme.vars.palette.neutral[300]};
       }
-  `
+  `,
 );
 export const StyledLink = styled(Link)(
   ({ theme }) => `
@@ -203,7 +203,7 @@ export const StyledLink = styled(Link)(
       color: ${theme.vars.palette.neutral[800]};
       background-color: ${theme.vars.palette.neutral[300]};
     }
-`
+`,
 );
 
 export const Popper = styled(PopperUnstyled)`

@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "prettify": "yarn prettier --write src",
-    "format:check": "yarn prettier src --check --ignore-path ./.gitignore",
+    "format:check": "yarn prettier --check src",
     "types:check": "tsc -v && tsc && echo '\n✅ Type check passed!'",
     "e2e": "yarn playwright test",
     "routes": "npx next-list",
@@ -72,7 +72,7 @@
     "dependency-cruiser": "^12.11.0",
     "dotenv-cli": "^7.3.0",
     "orval": "^6.30.2",
-    "prettier": "^2.8.4",
+    "prettier": "^3.8.1",
     "typescript": "^5.4.5"
   },
   "packageManager": "yarn@4.2.1",
