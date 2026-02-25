@@ -100,7 +100,7 @@ export const RewardsDrawer = ({
     if (searchQuery) {
       refetch();
     }
-  }, [searchQuery]);
+  }, [searchQuery, refetch]);
 
   const handleClose = () => {
     setIsOpen(false);

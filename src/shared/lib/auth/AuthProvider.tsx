@@ -1,6 +1,12 @@
 'use client';
 
-import { FC, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useReducer,
+} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { AuthContext } from './AuthContext';
 import { useFetchToken } from './legacy/useFetchToken';
@@ -22,7 +28,10 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
   const { push } = useRouter();
   const { publicRuntimeConfig } = useConfig();
   const asPath = usePathname();
-  const [authTokenLoaded, setAuthTokenLoaded] = useState(false);
+  const [authTokenLoaded, dispatch] = useReducer(
+    (_: boolean, action: 'load' | 'unload') => action === 'load',
+    false
+  );
   const { fetchToken, removeToken, isFetching } = useFetchToken();
   const logoutFromSilex = useSilexLogout();
 
@@ -34,7 +43,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
     // Store token, so we're still logged in after refresh
     // localStorage.setItem(LS_KEY, token);
     // Let the app know we're ready to render
-    setAuthTokenLoaded(true);
+    dispatch('load');
   }, []);
 
   const logout = useCallback(() => {
@@ -44,10 +53,10 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
       // Remove from local storage
       // localStorage.removeItem(LS_KEY);
       // Auth token is not available
-      setAuthTokenLoaded(false);
+      dispatch('unload');
       removeToken();
     });
-  }, []);
+  }, [logoutFromSilex, removeToken]);
 
   const initAuth = useCallback(
     (token: string, redirectTo?: string) => {
@@ -68,7 +77,7 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
         push(`${loginPath}?redirectTo=${asPath}`);
       }
     });
-  }, [asPath, push, logout]);
+  }, [asPath, push, loginPath, logout]);
 
   useEffect(() => {
     // This is an initialization hook, if the token is already loaded, we can exit
@@ -90,7 +99,16 @@ export const AuthProvider: FC<PropsWithChildren<{ loginPath: string }>> = ({
           });
       }
     }
-  }, [authTokenLoaded, isCurrentPathPrivate, fetchToken, login, asPath, push]);
+  }, [
+    authTokenLoaded,
+    isCurrentPathPrivate,
+    fetchToken,
+    login,
+    loginPath,
+    publicRuntimeConfig?.devAuthToken,
+    asPath,
+    push,
+  ]);
 
   if (!authTokenLoaded && isCurrentPathPrivate) return null;
 

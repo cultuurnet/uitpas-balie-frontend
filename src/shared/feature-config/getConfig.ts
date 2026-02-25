@@ -6,7 +6,7 @@ export async function getConfig(): Promise<{
   publicRuntimeConfig: PublicRuntimeConfig;
 }> {
   const publicRuntimeConfig = JSON.parse(
-    process.env.NEXT_PUBLIC_RUNTIME_CONFIG || ''
+    process.env.NEXT_PUBLIC_RUNTIME_CONFIG || '{}'
   );
 
   if (process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN) {
