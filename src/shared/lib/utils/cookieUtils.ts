@@ -6,7 +6,9 @@ export const readCookie = <T>(
 ): T | null => {
   try {
     const storedData = getCookie(cookie);
-    return typeof storedData === 'string' ? (JSON.parse(storedData) as T) : fallbackValue;
+    return typeof storedData === 'string'
+      ? (JSON.parse(storedData) as T)
+      : fallbackValue;
   } catch (e) {
     console.debug(`Could not parse cookie (${cookie})`, e);
     return fallbackValue;
