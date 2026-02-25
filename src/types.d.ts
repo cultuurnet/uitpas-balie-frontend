@@ -1,5 +1,7 @@
 // Type declarations for static asset imports
 
+declare module '*.css';
+
 declare module '*.svg' {
   const content: any;
   export default content;

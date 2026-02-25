@@ -1,3 +1,4 @@
+import './globals.css';
 import { ReactNode } from 'react';
 import { Metadata, Viewport } from 'next';
 import { Providers } from '@/app/Providers';
