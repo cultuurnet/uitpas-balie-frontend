@@ -22,7 +22,7 @@ export const AnalyticsProvider = ({ children }: { children: ReactNode }) => {
 
   const trackEvent = (
     event: UaEventOptions | string,
-    params?: Record<string, any>
+    params?: Record<string, any>,
   ) => {
     if (GA_MEASUREMENT_ID) {
       ReactGA.event(event, params);

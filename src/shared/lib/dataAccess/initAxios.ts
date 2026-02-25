@@ -14,10 +14,10 @@ export function initAxios({
       (newUrl = '', apiPathKey) => {
         return newUrl.replace(
           apiPathKey,
-          publicRuntimeConfig.apiPaths[apiPathKey]
+          publicRuntimeConfig.apiPaths[apiPathKey],
         );
       },
-      config.url
+      config.url,
     );
 
     return {
@@ -44,6 +44,6 @@ export const addInterceptor = (callback: (status: number) => void) => {
     (error) => {
       callback(error.response.status);
       throw error;
-    }
+    },
   );
 };

@@ -25,7 +25,7 @@ export const getAssetUrl = (url: string): string => {
 
 export const getUitInVlaanderenUrl = (
   eventName: string,
-  eventId: string
+  eventId: string,
 ): string => {
   return `${baseUrls.uitInVlaanderenUrl}/agenda/e/e/${getUuid(eventId)}`;
 };
@@ -36,7 +36,7 @@ export const getUitInDatabankurl = (eventId: string): string => {
 
 export const getQrCodeUrl = (eventId: string): string => {
   return `${baseUrls.legacyApiPath}/checkincodes/${getUuid(
-    eventId
+    eventId,
   )}/qr-spaarcode.zip`;
 };
 

@@ -18,8 +18,8 @@ export default function ActivityPage() {
       router.push(
         clientRoutes.identification(
           activeCounter.id,
-          getIdFromUrl(selectedActivityId)
-        )
+          getIdFromUrl(selectedActivityId),
+        ),
       );
   });
 

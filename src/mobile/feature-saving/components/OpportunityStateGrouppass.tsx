@@ -18,7 +18,7 @@ export const OpportunityStateGrouppass = ({
     <OpportunityStateCard
       status={groupPass.socialTariff?.status}
       title={t(
-        `saving.mobile.opportunityState.passholder.${groupPass.socialTariff?.status?.toLowerCase()}.title`
+        `saving.mobile.opportunityState.passholder.${groupPass.socialTariff?.status?.toLowerCase()}.title`,
       )}
     >
       <p style={{ fontWeight: 700, fontSize: '11px', margin: 0 }}>
@@ -28,7 +28,7 @@ export const OpportunityStateGrouppass = ({
             endDate: dayjs(groupPass.socialTariff.endDate).format('DD/MM/YYYY'),
             availableTickets: groupPass.socialTariff.availableTickets,
             interpolation: { escapeValue: false },
-          }
+          },
         )}
       </p>
     </OpportunityStateCard>

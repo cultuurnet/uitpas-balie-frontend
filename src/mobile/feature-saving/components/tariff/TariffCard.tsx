@@ -13,7 +13,7 @@ type TariffCardProps = {
   ticketSaleMutation: (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => void;
   isGroupPass?: boolean;
   remainingDiscounts?: number;
@@ -43,8 +43,8 @@ export const TariffCard = ({
   const calculatedRemainingDiscounts = isNaN(stepperCount)
     ? remainingDiscounts
     : remainingDiscounts
-    ? remainingDiscounts - stepperCount
-    : 0;
+      ? remainingDiscounts - stepperCount
+      : 0;
 
   if (!tariffName) {
     return null;

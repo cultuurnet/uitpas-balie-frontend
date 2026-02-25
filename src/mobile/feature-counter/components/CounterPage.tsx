@@ -14,7 +14,7 @@ export const CounterPage = () => {
   const { setSelectedActivity } = useActivity();
   const { allData, data, isSuccess, isLoading } = useGetCounters(
     lastCounterUsed,
-    searchString
+    searchString,
   );
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {

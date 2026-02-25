@@ -78,7 +78,7 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
   const { handleQuery } = usePaginationQuery();
   const [currentItem, setCurrentItem] = useState<rangeMenuItem>(
     rangeMenuItems.find((item) => item.value === defaultRange) ??
-      rangeMenuItems[3]
+      rangeMenuItems[3],
   );
   const [customDateRanges, setCustomDateRanges] = useState<{
     from: string;
@@ -173,7 +173,7 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
                 <StyledDateItem>{t(item.display)}</StyledDateItem>
               </StyledMenuItem>
             )
-          )
+          ),
         )}
       </MenuUnstyled>
     </Stack>
