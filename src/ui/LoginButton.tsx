@@ -4,6 +4,8 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/ui/shadcn/button';
 import { FC, PropsWithChildren } from 'react';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export const LoginButton: FC<PropsWithChildren> = ({ children }) => {
   const search = useSearchParams();
@@ -14,8 +16,11 @@ export const LoginButton: FC<PropsWithChildren> = ({ children }) => {
   }?destination=${destination}`;
 
   return (
-    <Button asChild className="h-12 !text-white text-base hover:bg-[#1A2F60]">
-      <a href={href}>{children}</a>
+    <Button asChild className="h-12 !text-white text-base">
+      <a href={href}>
+        <FontAwesomeIcon icon={faArrowRightFromBracket} />
+        {children}
+      </a>
     </Button>
   );
 };
