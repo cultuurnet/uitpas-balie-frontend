@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import { getSession, signOut } from 'next-auth/react';
 import { PublicRuntimeConfig } from '@/shared/feature-config/types';
 
 export function initAxios({
@@ -8,8 +9,12 @@ export function initAxios({
 }: {
   publicRuntimeConfig: PublicRuntimeConfig;
 }) {
-  // Replace generated endpoints with runtime api endpoints
-  axios.interceptors.request.use((config) => {
+  axios.interceptors.request.use(async (config) => {
+    const session = await getSession();
+    if (session?.accessToken) {
+      config.headers.Authorization = `Bearer ${session.accessToken}`;
+    }
+
     const url = Object.keys(publicRuntimeConfig.apiPaths).reduce(
       (newUrl = '', apiPathKey) => {
         return newUrl.replace(
@@ -20,30 +25,16 @@ export function initAxios({
       config.url,
     );
 
-    return {
-      ...config,
-      url,
-    };
+    return { ...config, url };
   });
-}
 
-export const removeHeader = (headerKey: string) => {
-  delete axios.defaults.headers[headerKey];
-};
-
-export const setHeaders = (headers: Record<string, string>) => {
-  axios.defaults.headers = {
-    ...axios.defaults.headers,
-    ...headers,
-  };
-};
-
-export const addInterceptor = (callback: (status: number) => void) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      callback(error.response.status);
+      if (error.response?.status === 401) {
+        signOut({ callbackUrl: '/' });
+      }
       throw error;
     },
   );
-};
+}
