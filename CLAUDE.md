@@ -6,7 +6,7 @@ Next.js web application for managing UiTPAS cultural passes and activities. Serv
 
 ## Tech stack
 
-- **Next.js 15.2.6** — app router, base path `/app`, strict mode
+- **Next.js 16.1** — app router, strict mode
 - **React 19**, **TypeScript 5.4.5** (strict mode)
 - **Web UI:** shadcn/ui + Tailwind v4; **Mobile UI:** Material-UI (`@mui/material`) + Emotion
 - **React Query** (`@tanstack/react-query`) — server state, 5 min stale time, no refetch on focus/reconnect
@@ -18,11 +18,11 @@ Next.js web application for managing UiTPAS cultural passes and activities. Serv
 ## Local development
 
 ```bash
-nvm use 18.16.1        # Required Node version
-cp .env.example .env.local
+nvm use        # Version defined in .nvmrc
+cp .env.example .env
 yarn install
 yarn dev               # Turbopack enabled by default
-# App runs at http://localhost:3000/app
+# App runs at http://localhost:3000
 ```
 
 After login: manually set the `PHPSESSID` cookie to `Secure` + `SameSite=None` in DevTools (cross-host cookie limitation in local dev).
