@@ -4,7 +4,7 @@ const CARD_NUMBER = '0900004518206';
 const CARD_NUMBER_WITH_SOCIAL_TARIFF = '0900011354819';
 
 test('Go to landingpage', async ({ page, context, baseURL }) => {
-  await page.goto(`${baseURL}/app`);
+  await page.goto(`${baseURL}`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 

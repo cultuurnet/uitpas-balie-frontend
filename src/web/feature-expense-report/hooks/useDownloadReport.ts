@@ -4,7 +4,7 @@ import {
   useGetOrganizersFinancialReportsReportIdZip,
   usePostOrganizersFinancialReports,
 } from '@/shared/lib/dataAccess';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { saveAs } from 'file-saver';
 import JsZip from 'jszip';
 import { PeriodType, isSamePeriod } from '@/shared/lib/utils';
@@ -17,13 +17,50 @@ type ReturnType = {
   period: PeriodType | null;
 };
 
+type State = {
+  hasStarted: boolean;
+  reportId: number;
+  reportStatus: ReportStatus;
+  periodToDownload: PeriodType | null;
+};
+
+type Action =
+  | { type: 'start'; period: PeriodType }
+  | { type: 'startSamePeriod' }
+  | { type: 'reportCreated'; id: number }
+  | { type: 'statusUpdate'; status: ReportStatus }
+  | { type: 'downloadComplete' };
+
+const INITIAL_STATE: State = {
+  hasStarted: false,
+  reportId: 0,
+  reportStatus: 'STARTED',
+  periodToDownload: null,
+};
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'start':
+      return {
+        hasStarted: true,
+        reportId: 0,
+        reportStatus: 'STARTED',
+        periodToDownload: action.period,
+      };
+    case 'startSamePeriod':
+      return { ...state, hasStarted: true };
+    case 'reportCreated':
+      return { ...state, reportId: action.id };
+    case 'statusUpdate':
+      return { ...state, reportStatus: action.status };
+    case 'downloadComplete':
+      return { ...state, hasStarted: false };
+  }
+}
+
 export const useDownloadReport = (organizerId: string): ReturnType => {
-  const [hasStarted, setHasStarted] = useState(false);
-  const [reportId, setReportId] = useState(0);
-  const [reportStatus, setReportStatus] = useState<ReportStatus>('STARTED');
-  const [periodToDownload, setPeriodToDownload] = useState<PeriodType | null>(
-    null
-  );
+  const [{ hasStarted, reportId, reportStatus, periodToDownload }, dispatch] =
+    useReducer(reducer, INITIAL_STATE);
 
   const {
     mutate: postReports,
@@ -49,16 +86,11 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   const isZipLoading = zipStatus === 'pending';
 
   const startReportRequest = (organizerId: string, period: PeriodType) => {
-    //if downloading same period as last time, skip creation
     if (isSamePeriod(period, periodToDownload)) {
-      setHasStarted(true);
+      dispatch({ type: 'startSamePeriod' });
       return;
     }
-    setReportId(0);
-    setReportStatus('STARTED');
-    setHasStarted(true);
-
-    setPeriodToDownload(period);
+    dispatch({ type: 'start', period });
     postReports({
       organizerId,
       data: period,
@@ -68,28 +100,26 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   //initiate and loop over status check
   useEffect(() => {
     if (!createReportData) return;
-    const id = createReportData?.data.id;
-
-    setReportId(id);
+    dispatch({ type: 'reportCreated', id: createReportData.data.id });
     const interval = setInterval(() => {
       if (reportStatus === ReportStatus.STARTED) getReportStatus();
       else clearInterval(interval);
     }, 1000);
     return () => clearInterval(interval);
-  }, [createReportData, reportStatus]);
+  }, [createReportData, reportStatus, getReportStatus]);
 
-  //check on statusCheck response and set reportStatus
+  //check on statusCheck response and update reportStatus
   useEffect(() => {
     if (!reportStatusData) return;
-    const status = reportStatusData?.data.status;
-    setReportStatus(status);
+    dispatch({ type: 'statusUpdate', status: reportStatusData.data.status });
   }, [reportStatusData]);
 
   //check on status and get ready to downloadZip
   useEffect(() => {
     if (reportStatus !== ReportStatus.AVAILABLE || reportZipData) return;
     getReportZip();
-  }, [reportStatus]);
+  }, [reportStatus, getReportZip, reportZipData]);
+
   //check on status and download zip
   useEffect(() => {
     if (
@@ -101,15 +131,20 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
 
     JsZip.loadAsync(reportZipData.data)
       .then((zip) => zip.generateAsync({ type: 'blob' }))
-      .then((blob) =>
+      .then((blob) => {
         saveAs(
           blob,
           `financialReport_${periodToDownload?.startDate}-${periodToDownload?.endDate}.zip`
-        )
-      );
-
-    setHasStarted(false);
-  }, [reportZipData, reportStatus, hasStarted]);
+        );
+        dispatch({ type: 'downloadComplete' });
+      });
+  }, [
+    reportZipData,
+    reportStatus,
+    hasStarted,
+    periodToDownload?.startDate,
+    periodToDownload?.endDate,
+  ]);
 
   const isDownloading =
     hasStarted &&
