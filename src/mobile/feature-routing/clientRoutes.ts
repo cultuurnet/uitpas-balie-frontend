@@ -13,7 +13,7 @@ export const clientRoutes = {
     activityId: string,
     code: string,
     cardType: 'insz' | 'uitpas' = 'uitpas',
-    firstCardEntry = true
+    firstCardEntry = true,
   ) =>
     `/mobile/counters/${counterId}/activities/${activityId}/saving?${cardType}=${code}${
       firstCardEntry ? '&firstCardEntry=true' : ''

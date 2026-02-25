@@ -21,7 +21,7 @@ type TariffProps = {
   ticketSaleMutation: (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => void;
   isDrawerOpen: boolean;
   isGroupPass?: boolean;
@@ -125,7 +125,7 @@ export const Tariff = ({
             tariffType={
               tariff.tariff
                 ? t(
-                    `saving.mobile.tariff.card.${tariff.tariff?.type?.toLowerCase()}`
+                    `saving.mobile.tariff.card.${tariff.tariff?.type?.toLowerCase()}`,
                   )
                 : undefined
             }

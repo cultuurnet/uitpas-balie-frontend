@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 export function InstallPrompt() {
   const [isIOS] = useState(
     () =>
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream,
   );
   const [isStandalone] = useState(
-    () => window.matchMedia('(display-mode: standalone)').matches
+    () => window.matchMedia('(display-mode: standalone)').matches,
   );
   const { t } = useTranslation();
 

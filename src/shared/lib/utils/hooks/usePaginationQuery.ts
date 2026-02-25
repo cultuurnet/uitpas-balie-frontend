@@ -13,7 +13,7 @@ export const usePaginationQuery = () => {
 
   const handleQuery = (queryKey: string, queryValue: string) => {
     const query: Record<string, string> = Array.from(
-      searchParams.entries()
+      searchParams.entries(),
     ).reduce((prev, [key, value]) => ({ ...prev, [key]: value }), {});
 
     if (queryValue === '') {

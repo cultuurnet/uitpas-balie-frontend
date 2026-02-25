@@ -50,7 +50,7 @@ export const MobileSavingPage = () => {
   const activityRef = useRef<ElementRef<'div'>>(null);
   const [prevUitpasNumber, setPrevUitpasNumber] = useState<string>('');
   const [firstCardEntry, setFirstCardEntry] = useState<boolean>(
-    Boolean(params.get('firstCardEntry')) ?? false
+    Boolean(params.get('firstCardEntry')) ?? false,
   );
   const [alertData, setAlertData] = useState<
     | Record<
@@ -88,13 +88,13 @@ export const MobileSavingPage = () => {
         query: {
           enabled: !!passholderId,
         },
-      }
+      },
     );
 
   // Filter for ACTIVE memberships and extract the association
   const activeAssociations = associationMembershipsData?.data
     ?.filter(
-      (membership: AssociationMembership) => membership.status === 'ACTIVE'
+      (membership: AssociationMembership) => membership.status === 'ACTIVE',
     )
     ?.map((membership: AssociationMembership) => membership.association);
 
@@ -108,7 +108,7 @@ export const MobileSavingPage = () => {
         query: {
           enabled: isGroupPass && !!uitpasNumber,
         },
-      }
+      },
     );
 
   const {
@@ -200,14 +200,14 @@ export const MobileSavingPage = () => {
 
   const handleChooseTariffClick = () => {
     setDrawerStartPosition(
-      activityRef.current?.getBoundingClientRect().bottom ?? 0
+      activityRef.current?.getBoundingClientRect().bottom ?? 0,
     );
     setShowTariffDrawer(true);
   };
 
   const handleChooseBenefitClick = () => {
     setDrawerStartPosition(
-      activityRef.current?.getBoundingClientRect().bottom ?? 0
+      activityRef.current?.getBoundingClientRect().bottom ?? 0,
     );
     setShowRewardsDrawer(true);
   };
@@ -215,16 +215,16 @@ export const MobileSavingPage = () => {
   const handleTicketSaleMutation = (
     tariffId: string,
     regularPrice: number,
-    count?: number
+    count?: number,
   ) => {
     if ((!isGroupPass && !passHoldersData?.data?.member) || !selectedActivity)
       return;
 
     const uitpasNumber = isGroupPass
       ? groupPassHolder?.data.member?.[0]?.uitpasNumber
-      : passHoldersData?.data.member?.[0]?.uitpasNumber ??
+      : (passHoldersData?.data.member?.[0]?.uitpasNumber ??
         passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
-          ?.uitpasNumber;
+          ?.uitpasNumber);
 
     if (!uitpasNumber || !selectedActivity['@id']) return;
 
@@ -375,10 +375,10 @@ export const MobileSavingPage = () => {
               eventId={selectedActivity['@id']}
               passHolderName={
                 isGroupPass
-                  ? groupPassHolder?.data.member?.[0]?.name ?? undefined
+                  ? (groupPassHolder?.data.member?.[0]?.name ?? undefined)
                   : passHoldersData.data.member
-                  ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                  : undefined
+                    ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+                    : undefined
               }
               isOpen={showTariffDrawer}
               setIsOpen={setShowTariffDrawer}

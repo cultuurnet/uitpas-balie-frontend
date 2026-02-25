@@ -33,7 +33,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
   const logout = useLogout();
   const [open, setOpen] = useState<boolean>(false);
   const [mobile, setMobile] = useState<boolean>(
-    window.matchMedia('(max-width: 768px)').matches
+    window.matchMedia('(max-width: 768px)').matches,
   );
 
   const handleWindowResize = useCallback(() => {

@@ -24,11 +24,11 @@ export const OpportunityStatePassholder = ({
 
   // 1. Prepare filtered sets of memberships
   const blockedMemberships = passholder.cardSystemMemberships.filter(
-    (csm) => csm.status === 'BLOCKED'
+    (csm) => csm.status === 'BLOCKED',
   );
 
   const hasActiveMemberships = passholder.cardSystemMemberships.some(
-    (csm) => csm.status === 'ACTIVE'
+    (csm) => csm.status === 'ACTIVE',
   );
 
   // 2. Show blocked memberships *only* when there are no active memberships
@@ -54,14 +54,14 @@ export const OpportunityStatePassholder = ({
 
   // 3. Filter memberships that have a social tariff.
   const memberships = passholder.cardSystemMemberships.filter(
-    (csm) => csm.socialTariff
+    (csm) => csm.socialTariff,
   ) as Require<CardSystemMembership, 'socialTariff'>[];
   if (!memberships.length) return null;
 
   // 4. Determine the main membership to use for the card header.
   const mainMembership =
     memberships.find(
-      (csm) => csm.status === 'ACTIVE' && csm.socialTariff?.status === 'ACTIVE'
+      (csm) => csm.status === 'ACTIVE' && csm.socialTariff?.status === 'ACTIVE',
     ) ||
     memberships.find((csm) => csm.status === 'ACTIVE') ||
     memberships[0];
@@ -69,7 +69,7 @@ export const OpportunityStatePassholder = ({
   const headerStatus = mainMembership.socialTariff.status;
   const headerKey = headerStatus.toLowerCase();
   const cardTitle = t(
-    `saving.mobile.opportunityState.passholder.${headerKey}.title`
+    `saving.mobile.opportunityState.passholder.${headerKey}.title`,
   );
 
   // 5. Render the card with content for each membership.
@@ -97,14 +97,14 @@ export const OpportunityStatePassholder = ({
             <p style={paragraphStyle}>
               {t(
                 `saving.mobile.opportunityState.passholder.${statusKey}.content`,
-                translationData
+                translationData,
               )}
             </p>
             {socialTariff.inGracePeriod && (
               <p style={paragraphStyle}>
                 {t(
                   `saving.mobile.opportunityState.passholder.${statusKey}.gracePeriod`,
-                  translationData
+                  translationData,
                 )}
               </p>
             )}

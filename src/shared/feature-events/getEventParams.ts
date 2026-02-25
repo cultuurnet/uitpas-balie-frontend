@@ -5,7 +5,7 @@ import { GetEventsParams } from '@/shared/lib/dataAccess/search/generated/model'
 export const getEventParams = (): GetEventsParams => {
   const dateFrom = dateToISODateTimeString(dayjs().startOf('day').toDate());
   const dateTo = dateToISODateTimeString(
-    dayjs().add(30, 'days').startOf('day').toDate()
+    dayjs().add(30, 'days').startOf('day').toDate(),
   );
 
   return {

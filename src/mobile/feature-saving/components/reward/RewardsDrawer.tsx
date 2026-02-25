@@ -72,7 +72,7 @@ export const RewardsDrawer = ({
       axios: {
         paramsSerializer: { indexes: null },
       },
-    }
+    },
   );
 
   const isInitialLoading = status === 'pending';

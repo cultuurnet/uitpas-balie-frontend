@@ -11,7 +11,7 @@ export const useSilexLogout = () => {
       const tokenEndpoint = publicRuntimeConfig?.legacyLogoutEndpoint;
       if (!tokenEndpoint)
         throw new Error(
-          'Required env variable "NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT" not set.'
+          'Required env variable "NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT" not set.',
         );
 
       return axios.get(tokenEndpoint, {

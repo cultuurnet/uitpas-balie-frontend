@@ -20,7 +20,7 @@ export const Alert = ({ type, style, newAlert, ...props }: AlertProps) => {
   const theme = useTheme();
   const [animate, dispatch] = useReducer(
     (_: boolean, action: 'start' | 'stop') => action === 'start',
-    true
+    true,
   );
 
   useEffect(() => {
