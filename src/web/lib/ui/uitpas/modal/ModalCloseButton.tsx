@@ -28,7 +28,7 @@ const ForwardedIconButton = forwardRef(
     >
       <Icon path={mdiCloseThick} size={0.7} />
     </IconButton>
-  )
+  ),
 );
 
 // https://stackoverflow.com/questions/67992894/component-definition-is-missing-display-name-for-forwardref

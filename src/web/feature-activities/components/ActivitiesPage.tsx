@@ -94,7 +94,7 @@ export const ActivitiesPage = () => {
                         <StyledEventDate level="body2">
                           {t('activities.fromStartToEndDate', {
                             startDate: dayjs(member.startDate).format(
-                              DATE_FORMAT
+                              DATE_FORMAT,
                             ),
                             endDate: dayjs(member.endDate).format(DATE_FORMAT),
                           })}
@@ -110,7 +110,7 @@ export const ActivitiesPage = () => {
                       <ActionLink
                         href={getUitInVlaanderenUrl(
                           member.name.nl!,
-                          member['@id']!
+                          member['@id']!,
                         )}
                         target="_blank"
                       >
@@ -169,10 +169,10 @@ export const ActivitiesPage = () => {
                 <Typography level="body2">
                   {t('activities.fromStartToEndDate', {
                     startDate: dayjs(selectedActivity.startDate).format(
-                      DATE_FORMAT
+                      DATE_FORMAT,
                     ),
                     endDate: dayjs(selectedActivity.endDate).format(
-                      DATE_FORMAT
+                      DATE_FORMAT,
                     ),
                   })}
                 </Typography>

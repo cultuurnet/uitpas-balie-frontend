@@ -43,7 +43,7 @@ export const ExpenseReportPage = () => {
 
   const createReport = (
     selectedStartDate?: string,
-    selectedEndDate?: string
+    selectedEndDate?: string,
   ) => {
     const startDateForReport = selectedStartDate || startDate;
     const endDateForReport = selectedEndDate || endDate;

@@ -17,7 +17,7 @@ export const PermissionDeniedInstructions = () => {
     const browserName = userAgentInfo.browser.name.toLowerCase();
     const osName = userAgentInfo.os.name?.toLowerCase() || '';
     const isMobile = /iphone|ipad|android/.test(
-      navigator.userAgent.toLowerCase()
+      navigator.userAgent.toLowerCase(),
     );
 
     if (
