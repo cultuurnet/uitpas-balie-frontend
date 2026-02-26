@@ -65,7 +65,7 @@ export const RewardsDrawer = ({
       query: {
         enabled: false,
         initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => {
+        getNextPageParam: (lastPage: any, pages: any) => {
           return (lastPage.config.params['start'] || 0) + FETCH_LIMIT;
         },
       },
