@@ -278,6 +278,7 @@ export const MobileSavingPage = () => {
     }
   }, [
     passHoldersData,
+    passHolders?.member,
     postCheckin,
     prevUitpasNumber,
     refetchPassholders,

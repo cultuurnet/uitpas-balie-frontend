@@ -131,7 +131,6 @@ export const BarcodeScanner: React.FC = () => {
 
       setScannerReady(true);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const detector = new (window as any).BarcodeDetector({
         formats: ['code_128'],
       });
@@ -140,7 +139,6 @@ export const BarcodeScanner: React.FC = () => {
       const scan = async () => {
         if (!scanningRef.current || !videoRef.current) return;
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const barcodes: any[] = await detector.detect(videoRef.current);
           for (const barcode of barcodes) {
             if (barcode.rawValue?.length === 13) {
@@ -160,12 +158,13 @@ export const BarcodeScanner: React.FC = () => {
     };
 
     startScanner();
+    const videoEl = videoRef.current;
     return () => {
       cancelled = true;
       stopScanner();
-      if (videoRef.current) {
-        videoRef.current.pause();
-        videoRef.current.srcObject = null;
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.srcObject = null;
       }
     };
   }, [
