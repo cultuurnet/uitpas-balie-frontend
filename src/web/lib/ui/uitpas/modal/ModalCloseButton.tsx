@@ -6,6 +6,7 @@ import {
   ModalClose,
   ModalCloseProps,
 } from '@mui/joy';
+import type { Theme } from '@mui/joy/styles';
 import { mdiCloseThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import React, { forwardRef, Ref } from 'react';
@@ -16,7 +17,7 @@ const ForwardedIconButton = forwardRef(
       ref={ref}
       variant="plain"
       size="sm"
-      sx={(theme) => ({
+      sx={(theme: Theme) => ({
         color: theme.palette.neutral[900],
         opacity: 0.2,
         '&:hover': {

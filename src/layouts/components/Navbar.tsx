@@ -21,6 +21,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import type { Theme } from '@mui/joy/styles';
 
 type NavbarProps = {
   userInfo: UserInfo;
@@ -72,7 +73,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
           </LogoLink>
           {mobile && (
             <HamburgerButton
-              sx={(theme) => ({
+              sx={(theme: Theme) => ({
                 backgroundColor: open
                   ? theme.palette.text.primary
                   : 'transparent',
@@ -107,7 +108,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
             <UserStack>
               <Typography
                 level="body2"
-                sx={(theme) => ({
+                sx={(theme: Theme) => ({
                   color: theme.vars.palette.neutral[200],
                   width: 'max-content',
                 })}
