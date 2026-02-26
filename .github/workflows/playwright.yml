@@ -35,6 +35,9 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          KEYCLOAK_ID: ${{ secrets.KEYCLOAK_ID }}
+          KEYCLOAK_SECRET: ${{ secrets.KEYCLOAK_SECRET }}
+          KEYCLOAK_ISSUER: ${{ secrets.KEYCLOAK_ISSUER }}
         run: yarn playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
