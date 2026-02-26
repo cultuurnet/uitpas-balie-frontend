@@ -1,6 +1,5 @@
-import { useAuth } from './useAuth';
+import { signOut } from 'next-auth/react';
 
 export const useLogout = () => {
-  const { logout } = useAuth();
-  return logout;
+  return signOut;
 };
