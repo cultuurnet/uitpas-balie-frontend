@@ -29,7 +29,7 @@ export const SelectCounterPage = () => {
   };
 
   useEffect(() => {
-    const data = allData?.data || [];
+    const data = Array.isArray(allData?.data) ? allData.data : [];
     if (data.length === 1) {
       setActiveCounter(data[0].organizer);
     }
@@ -62,7 +62,7 @@ export const SelectCounterPage = () => {
             {t('counter.welcome', { name: userInfo?.given_name ?? '' })}
           </Typography>
 
-          {(allData?.data ?? []).length > 0 && (
+          {Array.isArray(allData?.data) && allData.data.length > 0 && (
             <Box
               sx={{
                 display: 'flex',

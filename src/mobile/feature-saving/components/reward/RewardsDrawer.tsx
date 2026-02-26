@@ -1,6 +1,10 @@
 import { OutlinedButton, SearchInput } from '@/mobile/lib/ui';
 import { useCounter } from '@/mobile/feature-counter/context/useCounter';
-import { Reward, useGetRewardsInfinite } from '@/shared/lib/dataAccess';
+import {
+  Reward,
+  RewardsPaginatedResponse,
+  useGetRewardsInfinite,
+} from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { Close } from '@mui/icons-material';
 import {
@@ -48,7 +52,6 @@ export const RewardsDrawer = ({
 
   const {
     data: fetchedData,
-    status,
     isFetching,
     isFetchingNextPage,
     refetch,
@@ -66,23 +69,29 @@ export const RewardsDrawer = ({
         enabled: false,
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
-          return (lastPage.config.params['start'] || 0) + FETCH_LIMIT;
+          const nextStart = pages.length * FETCH_LIMIT;
+          const totalItems =
+            (lastPage.data as RewardsPaginatedResponse).totalItems ?? 0;
+          return nextStart < totalItems ? nextStart : undefined;
         },
-      },
-      axios: {
-        paramsSerializer: { indexes: null },
       },
     },
   );
 
-  const isInitialLoading = status === 'pending';
+  const isInitialLoading = !fetchedData && isFetching;
 
   const data: Reward[] =
     fetchedData?.pages.reduce((prev: Reward[], group) => {
-      return [...prev, ...((group.data.member as Reward[]) || [])];
+      return [
+        ...prev,
+        ...(((group.data as RewardsPaginatedResponse).member as Reward[]) ||
+          []),
+      ];
     }, []) || [];
 
-  const totalItems = fetchedData?.pages[0]?.data.totalItems;
+  const totalItems = (
+    fetchedData?.pages[0]?.data as RewardsPaginatedResponse | undefined
+  )?.totalItems;
 
   const noRewards = !searchQuery && !isFetching && totalItems === 0;
   const showSearchInput =

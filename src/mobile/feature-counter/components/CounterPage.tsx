@@ -1,6 +1,6 @@
 'use client';
 
-import { Organizer, useGetPermissions } from '@/shared/lib/dataAccess';
+import { Organizer } from '@/shared/lib/dataAccess';
 import { CounterNoData, CounterPicker } from '@/mobile/feature-counter';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useCounter } from '@/mobile/feature-counter/context/useCounter';
@@ -28,7 +28,7 @@ export const CounterPage = () => {
   useEffect(() => setSelectedActivity(null), [setSelectedActivity]);
 
   useEffect(() => {
-    const data = allData?.data || [];
+    const data = Array.isArray(allData?.data) ? allData.data : [];
     if (data.length === 1) {
       setActiveCounter(data[0].organizer);
     }
@@ -36,7 +36,7 @@ export const CounterPage = () => {
 
   if (isLoading) return <UitpasLoading />;
 
-  if (isSuccess && allData && allData.data.length > 0)
+  if (isSuccess && Array.isArray(allData?.data) && allData.data.length > 0)
     return (
       <CounterPicker
         totalCounters={allData.data.length}

@@ -1,4 +1,5 @@
 import {
+  Report,
   ReportStatus,
   useGetOrganizersFinancialReportsReportId,
   useGetOrganizersFinancialReportsReportIdZip,
@@ -100,7 +101,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   //initiate and loop over status check
   useEffect(() => {
     if (!createReportData) return;
-    dispatch({ type: 'reportCreated', id: createReportData.data.id });
+    dispatch({ type: 'reportCreated', id: (createReportData.data as Report).id });
     const interval = setInterval(() => {
       if (reportStatus === ReportStatus.STARTED) getReportStatus();
       else clearInterval(interval);
@@ -111,7 +112,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
   //check on statusCheck response and update reportStatus
   useEffect(() => {
     if (!reportStatusData) return;
-    dispatch({ type: 'statusUpdate', status: reportStatusData.data.status });
+    dispatch({ type: 'statusUpdate', status: (reportStatusData.data as Report).status });
   }, [reportStatusData]);
 
   //check on status and get ready to downloadZip
@@ -129,7 +130,7 @@ export const useDownloadReport = (organizerId: string): ReturnType => {
     )
       return;
 
-    JsZip.loadAsync(reportZipData.data)
+    JsZip.loadAsync(reportZipData.data as Blob)
       .then((zip) => zip.generateAsync({ type: 'blob' }))
       .then((blob) => {
         saveAs(
