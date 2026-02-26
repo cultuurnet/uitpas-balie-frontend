@@ -24,3 +24,11 @@ jobs:
 
       - name: Lost Pixel
         uses: lost-pixel/lost-pixel@v3.22.0
+
+      - name: Upload difference images
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vrt-differences
+          path: .lostpixel/difference/
+          retention-days: 7
