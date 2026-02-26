@@ -18,7 +18,9 @@
     "expose": "loclx tunnel http --to 127.0.0.1:3000 --region eu",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "vrt": "npx lost-pixel docker update"
+    "vrt": "npx lost-pixel docker",
+    "vrt:update": "npx lost-pixel docker update",
+    "ci": "yarn lint && echo '\n✅ Linting check passed!\n' && yarn prettify  && echo '\n✅ Prettify done!\n' && yarn types:check && yarn e2e  && echo '\n✅ e2e tests passed!\n' && yarn vrt && echo '\n✅ Lost Pixel check passed!' "
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
