@@ -10,3 +10,5 @@ export {
   CardContent,
 } from './Card';
 export type { CardProps } from './Card';
+export { Link } from './Link';
+export type { LinkProps } from './Link';
