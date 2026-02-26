@@ -174,12 +174,12 @@ export const getGetRewardsQueryKey = (params?: GetRewardsParams,) => {
     }
 
     
-export const getGetRewardsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
+export const getGetRewardsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetRewardsInfiniteQueryKey(params);
+  const queryKey =  (queryOptions as unknown as { queryKey?: QueryKey })?.queryKey ?? getGetRewardsInfiniteQueryKey(params);
 
   
 
@@ -189,7 +189,7 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRewardsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getRewards>>>
@@ -197,7 +197,7 @@ export type GetRewardsInfiniteQueryError = Error | UnauthorizedResponse | Forbid
 
 
 export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
- params: undefined |  GetRewardsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']>> & Pick<
+ params: undefined |  GetRewardsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRewards>>,
           TError,
@@ -207,7 +207,7 @@ export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<ty
  , queryClient?: QueryClient
   ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
- params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']>> & Pick<
+ params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRewards>>,
           TError,
@@ -217,7 +217,7 @@ export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<ty
  , queryClient?: QueryClient
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
- params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
+ params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -225,7 +225,7 @@ export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<ty
  */
 
 export function useGetRewardsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getRewards>>, GetRewardsParams['start']>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
- params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, Awaited<ReturnType<typeof getRewards>>, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
+ params?: GetRewardsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getRewards>>, TError, TData, QueryKey, GetRewardsParams['start']>>, fetch?: RequestInit}
  , queryClient?: QueryClient 
  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
