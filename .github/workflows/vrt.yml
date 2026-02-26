@@ -19,4 +19,4 @@ jobs:
         run: yarn storybook:build
 
       - name: Lost Pixel
-        uses: lost-pixel/lost-pixel@v3
+        uses: lost-pixel/lost-pixel@v3.22.0
