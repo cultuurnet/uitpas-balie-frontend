@@ -54,7 +54,10 @@ export const LoginPage = () => {
           <div className="relative bg-[linear-gradient(135deg,#fafafa,#f5f5f5)] border border-neutral-400 rounded-lg overflow-hidden p-6 mb-4">
             <div className="absolute top-0 left-0 w-1 h-full bg-[#3f2675]" />
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg shadow-md bg-white mb-4">
-              <FontAwesomeIcon icon={faShieldHalved} className="text-primary text-2xl" />
+              <FontAwesomeIcon
+                icon={faShieldHalved}
+                className="text-primary text-2xl"
+              />
             </div>
             <h2 className="font-bold text-xl mb-4">{t('login.twoFa.title')}</h2>
             <p className="mb-3">{t('login.twoFa.text1')}</p>
