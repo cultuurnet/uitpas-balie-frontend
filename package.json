@@ -15,7 +15,9 @@
     "routes": "npx next-list",
     "orval": "dotenv -e .env -- orval --config .config/orval.config.ts",
     "depcruise:archi": "depcruise --include-only \"^src|^@/\" --config ./.config/.dependency-cruiser.js -T archi src | dot -T svg | tee depgraphs/dependencygraph.svg | depcruise-wrap-stream-in-html > depgraphs/dependencygraph.html",
-    "expose": "loclx tunnel http --to 127.0.0.1:3000 --region eu"
+    "expose": "loclx tunnel http --to 127.0.0.1:3000 --region eu",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -62,7 +64,12 @@
     "webrtc-adapter": "^9.0.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.0.1",
     "@playwright/test": "^1.58.2",
+    "@storybook/addon-a11y": "^10.2.12",
+    "@storybook/addon-docs": "^10.2.12",
+    "@storybook/addon-vitest": "^10.2.12",
+    "@storybook/nextjs-vite": "^10.2.12",
     "@tailwindcss/postcss": "^4.2.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/file-saver": "^2.0.5",
@@ -73,18 +80,25 @@
     "@types/react-dom": "19.0.4",
     "@types/react-transition-group": "^4.4.10",
     "@types/ua-parser-js": "^0.7.39",
+    "@vitest/browser-playwright": "^4.0.18",
+    "@vitest/coverage-v8": "^4.0.18",
     "autoprefixer": "^10.4.24",
     "clsx": "^2.1.1",
     "dependency-cruiser": "^12.11.0",
     "dotenv-cli": "^11.0.0",
+    "eslint-plugin-storybook": "^10.2.12",
     "orval": "^6.30.2",
+    "playwright": "^1.58.2",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
     "shadcn": "^3.8.5",
+    "storybook": "^10.2.12",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.0",
     "tw-animate-css": "^1.4.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   },
   "packageManager": "yarn@4.2.1",
   "overrides": {
