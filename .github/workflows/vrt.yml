@@ -1,0 +1,22 @@
+name: Visual Regression Tests
+
+on: push
+
+jobs:
+  vrt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Storybook
+        run: yarn storybook:build
+
+      - name: Lost Pixel
+        uses: lost-pixel/lost-pixel@v3

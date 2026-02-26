@@ -17,7 +17,8 @@
     "depcruise:archi": "depcruise --include-only \"^src|^@/\" --config ./.config/.dependency-cruiser.js -T archi src | dot -T svg | tee depgraphs/dependencygraph.svg | depcruise-wrap-stream-in-html > depgraphs/dependencygraph.html",
     "expose": "loclx tunnel http --to 127.0.0.1:3000 --region eu",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "vrt": "npx lost-pixel docker update"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -87,6 +88,7 @@
     "dependency-cruiser": "^12.11.0",
     "dotenv-cli": "^11.0.0",
     "eslint-plugin-storybook": "^10.2.12",
+    "lost-pixel": "^3.22.0",
     "orval": "^6.30.2",
     "playwright": "^1.58.2",
     "postcss": "^8.5.6",
