@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-primary: #2a4b9c;
-  --color-primary-dark: #1a2e60;
+  --color-primary: #26a769;
+  --color-primary-dark: #1e8a56;
+  --color-secondary: #3f2675;
   --color-neutral-50: #ffffff;
   --color-neutral-200: #f3f3f3;
   --color-neutral-300: #f5f5f5;
@@ -81,10 +82,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #26a769;
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary: #3f2675;
+  --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
