@@ -33,6 +33,8 @@ jobs:
           NEXT_PUBLIC_UITDATABANK_URL: ${{ secrets.NEXT_PUBLIC_UITDATABANK_URL }}
           NEXT_PUBLIC_OAUTH_USERINFO_PATH: ${{ secrets.NEXT_PUBLIC_OAUTH_USERINFO_PATH }}
           NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
         run: yarn playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
