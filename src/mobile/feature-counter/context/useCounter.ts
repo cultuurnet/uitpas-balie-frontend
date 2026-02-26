@@ -14,7 +14,7 @@ export const useCounter = () => {
       gcTime: 60 * 60 * 1000,
     },
   });
-  const allCounters = data?.data || [];
+  const allCounters = Array.isArray(data?.data) ? data.data : [];
 
   const counter = params.counter
     ? allCounters.find((counter) => counter.organizer.id === params.counter)
