@@ -68,7 +68,7 @@ export const RewardsDrawer = ({
       query: {
         enabled: false,
         initialPageParam: 0,
-        getNextPageParam: (lastPage, pages) => {
+        getNextPageParam: (lastPage: any, pages: any) => {
           const nextStart = pages.length * FETCH_LIMIT;
           const totalItems =
             (lastPage.data as RewardsPaginatedResponse).totalItems ?? 0;
@@ -81,7 +81,7 @@ export const RewardsDrawer = ({
   const isInitialLoading = !fetchedData && isFetching;
 
   const data: Reward[] =
-    fetchedData?.pages.reduce((prev: Reward[], group) => {
+    fetchedData?.pages.reduce((prev: Reward[], group: any) => {
       return [
         ...prev,
         ...(((group.data as RewardsPaginatedResponse).member as Reward[]) ||

@@ -57,7 +57,7 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
           </NavBarItemContainer>
         ) : (
           <NavBarItemContainer
-            onClick={logout}
+            onClick={() => logout()}
             sx={{ columnGap: '4px', mr: '10px', cursor: 'pointer' }}
           >
             <NavBarTypography>{t('counter.mobile.logoutBtn')}</NavBarTypography>

@@ -1,28 +1,41 @@
 'use client';
 
 import axios from 'axios';
+import { getSession, signOut } from 'next-auth/react';
 import { PublicRuntimeConfig } from '@/shared/feature-config/types';
 
-const fetchDefaultHeaders: Record<string, string> = {};
+let initialized = false;
 
 export function initAxios({
   publicRuntimeConfig,
 }: {
   publicRuntimeConfig: PublicRuntimeConfig;
 }) {
+  if (initialized) return;
+  initialized = true;
+
   const replaceUrl = (url: string) =>
     Object.keys(publicRuntimeConfig.apiPaths).reduce(
       (newUrl, key) => newUrl.replace(key, publicRuntimeConfig.apiPaths[key]),
       url,
     );
 
-  // Replace generated endpoints with runtime api endpoints (axios)
-  axios.interceptors.request.use((config) => ({
-    ...config,
-    url: config.url ? replaceUrl(config.url) : config.url,
-  }));
+  // Axios: add auth token + replace URL
+  axios.interceptors.request.use(async (config) => {
+    const session = await getSession();
+    if (session?.accessToken) {
+      config.headers.Authorization = `Bearer ${session.accessToken}`;
+    }
+    return {
+      ...config,
+      url: config.url ? replaceUrl(config.url) : config.url,
+    };
+  });
 
-  // Replace generated endpoints with runtime api endpoints (fetch - Orval v8)
+  // Fetch (Orval v8): replace URL + add auth token.
+  // Only intercepts requests to our own API paths — getSession() internally
+  // calls fetch('/api/auth/session') which must pass through unchanged to
+  // avoid infinite recursion.
   const nativeFetch = globalThis.fetch;
   globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
     const url =
@@ -33,27 +46,27 @@ export function initAxios({
           : input.url;
 
     const resolvedUrl = replaceUrl(url);
-    const mergedInit: RequestInit = {
-      ...init,
-      headers: {
-        ...fetchDefaultHeaders,
-        ...(init?.headers as Record<string, string>),
-      },
-    };
 
-    if (typeof input === 'string') {
-      return nativeFetch(resolvedUrl, mergedInit);
-    } else if (input instanceof URL) {
-      return nativeFetch(new URL(resolvedUrl), mergedInit);
-    } else {
-      return nativeFetch(new Request(resolvedUrl, input), mergedInit);
+    if (resolvedUrl === url) {
+      return nativeFetch(input, init);
     }
+
+    return getSession().then(
+      (session: Awaited<ReturnType<typeof getSession>>) => {
+        const mergedHeaders: Record<string, string> = {
+          ...(init?.headers as Record<string, string>),
+        };
+        if (session?.accessToken) {
+          mergedHeaders.Authorization = `Bearer ${session.accessToken}`;
+        }
+        return nativeFetch(resolvedUrl, { ...init, headers: mergedHeaders });
+      },
+    );
   };
 }
 
 export const removeHeader = (headerKey: string) => {
   delete axios.defaults.headers[headerKey];
-  delete fetchDefaultHeaders[headerKey];
 };
 
 export const setHeaders = (headers: Record<string, string>) => {
@@ -61,14 +74,15 @@ export const setHeaders = (headers: Record<string, string>) => {
     ...axios.defaults.headers,
     ...headers,
   };
-  Object.assign(fetchDefaultHeaders, headers);
 };
 
 export const addInterceptor = (callback: (status: number) => void) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      callback(error.response.status);
+      if (error.response?.status === 401) {
+        signOut({ callbackUrl: '/' });
+      }
       throw error;
     },
   );
