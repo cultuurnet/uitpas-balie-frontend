@@ -42,8 +42,8 @@ export function initAxios({
       typeof input === 'string'
         ? input
         : input instanceof URL
-        ? input.href
-        : input.url;
+          ? input.href
+          : input.url;
 
     const resolvedUrl = replaceUrl(url);
 
@@ -51,15 +51,17 @@ export function initAxios({
       return nativeFetch(input, init);
     }
 
-    return getSession().then((session: Awaited<ReturnType<typeof getSession>>) => {
-      const mergedHeaders: Record<string, string> = {
-        ...(init?.headers as Record<string, string>),
-      };
-      if (session?.accessToken) {
-        mergedHeaders.Authorization = `Bearer ${session.accessToken}`;
-      }
-      return nativeFetch(resolvedUrl, { ...init, headers: mergedHeaders });
-    });
+    return getSession().then(
+      (session: Awaited<ReturnType<typeof getSession>>) => {
+        const mergedHeaders: Record<string, string> = {
+          ...(init?.headers as Record<string, string>),
+        };
+        if (session?.accessToken) {
+          mergedHeaders.Authorization = `Bearer ${session.accessToken}`;
+        }
+        return nativeFetch(resolvedUrl, { ...init, headers: mergedHeaders });
+      },
+    );
   };
 }
 
