@@ -3,6 +3,7 @@
 import { Link, Typography } from '@/web/lib/ui';
 import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import type { Theme } from '@mui/joy/styles';
 
 type LastCounterDataProps = {
   lastCounter: Organizer;
@@ -19,7 +20,7 @@ export const LastCounterData = ({
     <>
       <Typography
         level="h3"
-        sx={(theme) => ({
+        sx={(theme: Theme) => ({
           borderBottom: `1px solid ${theme.vars.palette.neutral['500']}`,
           pb: '0.5em',
           mb: '1em',

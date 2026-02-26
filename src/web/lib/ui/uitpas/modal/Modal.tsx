@@ -9,6 +9,7 @@ import {
 import React, { useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { alpha } from '@mui/system';
+import type { Theme } from '@mui/joy/styles';
 
 type ModalProps = {
   open: boolean;
@@ -35,7 +36,7 @@ export const Modal = ({
         <MuiModal
           slotProps={{
             backdrop: {
-              sx: (theme) => ({
+              sx: (theme: Theme) => ({
                 backdropFilter: 'none',
                 transition: `opacity ${backdropTransitionDuration}ms linear`,
                 backgroundColor: theme.palette.neutral[900],
@@ -54,7 +55,7 @@ export const Modal = ({
             variant="soft"
             slotProps={{
               root: {
-                sx: (theme) => ({
+                sx: (theme: Theme) => ({
                   maxWidth: '600px',
                   width: '100%',
                   borderRadius: 0,

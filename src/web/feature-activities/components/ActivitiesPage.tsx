@@ -1,6 +1,7 @@
 'use client';
 
 import { useGetEvents } from '@/shared/lib/dataAccess';
+import type { Theme } from '@mui/joy/styles';
 import { SidebarContent } from './SidebarContent';
 import {
   Grid,
@@ -81,7 +82,7 @@ export const ActivitiesPage = () => {
                 data.data.member.map((member, i) => (
                   <StyledActivityStack
                     key={`activity-${member.name[LANG_KEY]?.substring(0, 10)}}`}
-                    sx={(theme) => ({
+                    sx={(theme: Theme) => ({
                       borderTop:
                         i === 0
                           ? `1px solid ${theme.palette.neutral[400]}`
