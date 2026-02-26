@@ -13,6 +13,7 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     '.yarn',
+    'storybook-static/**',
   ]),
   {
     ignores: ['**/generated/**/*.ts'],
