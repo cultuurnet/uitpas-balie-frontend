@@ -2,6 +2,7 @@
 
 import { Typography } from '@/web/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import type { Theme } from '@mui/joy/styles';
 
 export const CounterNoData = () => {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ export const CounterNoData = () => {
   return (
     <>
       <Typography
-        sx={(theme) => ({
+        sx={(theme: Theme) => ({
           fontStyle: 'italic',
           color: theme.vars.palette.neutral[500],
         })}
@@ -23,7 +24,7 @@ export const CounterNoData = () => {
         {t('counter.noCounterP1')}
       </Typography>
       <Typography
-        sx={(theme) => ({
+        sx={(theme: Theme) => ({
           fontStyle: 'italic',
           color: theme.vars.palette.neutral[500],
           pb: '1em',

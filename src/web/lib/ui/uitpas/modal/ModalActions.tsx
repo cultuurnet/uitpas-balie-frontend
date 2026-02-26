@@ -1,12 +1,13 @@
 'use client';
 
 import { StackProps } from '@mui/joy';
+import type { Theme } from '@mui/joy/styles';
 import { Stack } from '@/web/lib/ui';
 
 export const ModalActions = ({ ...props }: StackProps) => {
   return (
     <Stack
-      sx={(theme) => ({
+      sx={(theme: Theme) => ({
         flexDirection: 'row',
         padding: '15px',
         borderTop: `1px solid ${theme.palette.neutral[400]}`,
