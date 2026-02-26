@@ -4,6 +4,7 @@ import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { Link, Typography } from '@/web/lib/ui';
 import { CounterNoData } from './CounterNoData';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import type { Theme } from '@mui/joy/styles';
 
 type CounterPickerDataProps = {
   data: OrganizerPermissions[];
@@ -24,7 +25,7 @@ export const CounterPickerData = ({
         <>
           <Typography
             level="h3"
-            sx={(theme) => ({
+            sx={(theme: Theme) => ({
               borderBottom: `1px solid ${theme.vars.palette.neutral['500']}`,
               pb: '0.5em',
               mt: '24px',
@@ -52,7 +53,7 @@ export const CounterPickerData = ({
       ) : filterString ? (
         <>
           <Typography
-            sx={(theme) => ({
+            sx={(theme: Theme) => ({
               fontStyle: 'italic',
               color: theme.vars.palette.neutral[500],
             })}

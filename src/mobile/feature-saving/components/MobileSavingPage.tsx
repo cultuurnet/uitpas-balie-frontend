@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import {
   type TicketSale,
+  type PassholdersPaginatedResponse,
+  type GrouppassesPaginatedResponse,
   useGetPassholders,
   usePostTicketSales,
   usePostRewardsRedeemed,
@@ -74,7 +76,10 @@ export const MobileSavingPage = () => {
     ...(inszNumber && { inszNumber }),
   });
 
-  const passholderId = passHoldersData?.data.member?.[0]?.id;
+  const passHolders = passHoldersData?.data as
+    | PassholdersPaginatedResponse
+    | undefined;
+  const passholderId = passHolders?.member?.[0]?.id;
 
   const { data: associationMembershipsData } =
     useGetPassholdersPassholderIdAssociationMemberships(
@@ -92,14 +97,15 @@ export const MobileSavingPage = () => {
     );
 
   // Filter for ACTIVE memberships and extract the association
-  const activeAssociations = associationMembershipsData?.data
+  const activeAssociations = (
+    associationMembershipsData?.data as AssociationMembership[] | undefined
+  )
     ?.filter(
       (membership: AssociationMembership) => membership.status === 'ACTIVE',
     )
     ?.map((membership: AssociationMembership) => membership.association);
 
-  const isGroupPass =
-    passHoldersData?.data.member && passHoldersData.data.member.length === 0;
+  const isGroupPass = passHolders?.member && passHolders.member.length === 0;
 
   const { data: groupPassHolder, isLoading: isGroupPassLoading } =
     useGetGrouppasses(
@@ -111,12 +117,11 @@ export const MobileSavingPage = () => {
       },
     );
 
-  const {
-    mutateAsync: postCheckin,
-    status: checkinStatus,
-    data: checkinData,
-    error: checkinError,
-  } = usePostCheckins({
+  const groupPassHolderPaginated = groupPassHolder?.data as
+    | GrouppassesPaginatedResponse
+    | undefined;
+
+  const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
       onSuccess: () => {
         setAlertData({
@@ -127,13 +132,11 @@ export const MobileSavingPage = () => {
         });
         refetchPassholders().catch(() => null);
       },
-      onError: (error) =>
+      onError: (error: any) =>
         setAlertData({
           [uitpasNumber]: {
             alertType: 'error',
-            message:
-              error.response?.data.endUserMessage &&
-              error.response.data.endUserMessage[LANG_KEY],
+            message: error?.response?.data?.endUserMessage?.[LANG_KEY],
           },
         }),
     },
@@ -146,22 +149,21 @@ export const MobileSavingPage = () => {
         onSuccess: (data) => {
           setFirstCardEntry(false);
           refetchPassholders().catch(() => null);
+          const sales = data.data as TicketSale[];
           setAlertData({
             [uitpasNumber]: {
               alertType: 'success',
               message: t('saving.mobile.tariff.discountRegistered', {
-                price: (data.data.at(0)?.tariff?.price ?? 0) * data.data.length,
+                price: (sales.at(0)?.tariff?.price ?? 0) * sales.length,
               }),
             },
           });
         },
-        onError: (error) =>
+        onError: (error: any) =>
           setAlertData({
             [uitpasNumber]: {
               alertType: 'error',
-              message:
-                error.response?.data.endUserMessage &&
-                error.response.data.endUserMessage[LANG_KEY],
+              message: error?.response?.data?.endUserMessage?.[LANG_KEY],
             },
           }),
       },
@@ -181,13 +183,11 @@ export const MobileSavingPage = () => {
           });
           refetchPassholders().catch(() => null);
         },
-        onError: (error) =>
+        onError: (error: any) =>
           setAlertData({
             [uitpasNumber]: {
               alertType: 'error',
-              message:
-                error.response?.data.endUserMessage &&
-                error.response.data.endUserMessage[LANG_KEY],
+              message: error?.response?.data?.endUserMessage?.[LANG_KEY],
             },
           }),
       },
@@ -217,14 +217,12 @@ export const MobileSavingPage = () => {
     regularPrice: number,
     count?: number,
   ) => {
-    if ((!isGroupPass && !passHoldersData?.data?.member) || !selectedActivity)
-      return;
+    if ((!isGroupPass && !passHolders?.member) || !selectedActivity) return;
 
     const uitpasNumber = isGroupPass
-      ? groupPassHolder?.data.member?.[0]?.uitpasNumber
-      : (passHoldersData?.data.member?.[0]?.uitpasNumber ??
-        passHoldersData?.data.member?.[0]?.cardSystemMemberships?.[0]
-          ?.uitpasNumber);
+      ? groupPassHolderPaginated?.member?.[0]?.uitpasNumber
+      : (passHolders?.member?.[0]?.uitpasNumber ??
+        passHolders?.member?.[0]?.cardSystemMemberships?.[0]?.uitpasNumber);
 
     if (!uitpasNumber || !selectedActivity['@id']) return;
 
@@ -243,11 +241,10 @@ export const MobileSavingPage = () => {
   };
 
   const handleRewardRedemption = (rewardId: string) => {
-    if (passHoldersData?.data.member) {
+    if (passHolders?.member) {
       const uitpasNumber =
-        passHoldersData.data.member[0].uitpasNumber ??
-        passHoldersData.data.member[0].cardSystemMemberships?.at(0)
-          ?.uitpasNumber;
+        passHolders.member[0].uitpasNumber ??
+        passHolders.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
 
       if (!uitpasNumber) return;
 
@@ -261,14 +258,10 @@ export const MobileSavingPage = () => {
   };
 
   useEffect(() => {
-    if (
-      passHoldersData?.data?.member &&
-      passHoldersData.data.member.length > 0
-    ) {
+    if (passHolders?.member && passHolders.member.length > 0) {
       const uitpasNumber =
-        passHoldersData.data.member[0].uitpasNumber ??
-        passHoldersData.data.member[0].cardSystemMemberships?.at(0)
-          ?.uitpasNumber;
+        passHolders.member[0].uitpasNumber ??
+        passHolders.member[0].cardSystemMemberships?.at(0)?.uitpasNumber;
       const eventId = getUuid(selectedActivity?.['@id'] ?? '');
 
       if (!uitpasNumber || !eventId || uitpasNumber === prevUitpasNumber)
@@ -305,7 +298,7 @@ export const MobileSavingPage = () => {
     );
 
   if (isPassholdersError) {
-    const { data } = passHoldersError?.response || {};
+    const { data } = (passHoldersError as any)?.response || {};
     const endUserMessage = data?.endUserMessage;
 
     if (endUserMessage) {
@@ -321,17 +314,17 @@ export const MobileSavingPage = () => {
         </Typography>
         <ActivitySwitcher ref={activityRef} />
 
-        {passHoldersData?.data.member?.[0] ? (
+        {passHolders?.member?.[0] ? (
           <PassHolder
-            passholder={passHoldersData?.data.member?.[0]}
+            passholder={passHolders.member[0]}
             firstCardEntry={firstCardEntry}
             associations={activeAssociations}
             alertData={alertData?.[uitpasNumber]}
           />
         ) : (
-          groupPassHolder?.data.member?.[0] && (
+          groupPassHolderPaginated?.member?.[0] && (
             <GroupPass
-              groupPass={groupPassHolder?.data.member?.[0]}
+              groupPass={groupPassHolderPaginated.member[0]}
               firstCardEntry={firstCardEntry}
               alertData={alertData?.[uitpasNumber]}
             />
@@ -368,46 +361,43 @@ export const MobileSavingPage = () => {
 
         <ManualCardInput firstCardEntry={false} />
 
-        {selectedActivity &&
-          selectedActivity['@id'] &&
-          passHoldersData?.data?.member && (
-            <TariffDrawer
-              eventId={selectedActivity['@id']}
-              passHolderName={
-                isGroupPass
-                  ? (groupPassHolder?.data.member?.[0]?.name ?? undefined)
-                  : passHoldersData.data.member
-                    ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
-                    : undefined
-              }
-              isOpen={showTariffDrawer}
-              setIsOpen={setShowTariffDrawer}
-              startPosition={drawerStartPosition}
-              uitpasNumber={
-                isGroupPass
-                  ? groupPassHolder?.data.member?.at(0)?.uitpasNumber!
-                  : passHoldersData.data.member
-                      ?.at(0)
-                      ?.cardSystemMemberships?.at(0)?.uitpasNumber!
-              }
-              ticketSaleMutation={handleTicketSaleMutation}
-              isGroupPass={isGroupPass}
-            />
-          )}
+        {selectedActivity && selectedActivity['@id'] && passHolders?.member && (
+          <TariffDrawer
+            eventId={selectedActivity['@id']}
+            passHolderName={
+              isGroupPass
+                ? (groupPassHolderPaginated?.member?.[0]?.name ?? undefined)
+                : passHolders.member
+                  ? `${passHolders.member[0].firstName} ${passHolders.member[0].name}`
+                  : undefined
+            }
+            isOpen={showTariffDrawer}
+            setIsOpen={setShowTariffDrawer}
+            startPosition={drawerStartPosition}
+            uitpasNumber={
+              isGroupPass
+                ? groupPassHolderPaginated?.member?.at(0)?.uitpasNumber!
+                : passHolders.member?.at(0)?.cardSystemMemberships?.at(0)
+                    ?.uitpasNumber!
+            }
+            ticketSaleMutation={handleTicketSaleMutation}
+            isGroupPass={isGroupPass}
+          />
+        )}
 
         {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
-        {!isGroupPass && passHoldersData?.data?.member && (
+        {!isGroupPass && passHolders?.member && (
           <RewardsDrawer
             isOpen={showRewardsDrawer}
             setIsOpen={setShowRewardsDrawer}
             startPosition={drawerStartPosition}
-            passHolderId={passHoldersData.data.member[0].id}
+            passHolderId={passHolders.member[0].id}
             passHolderName={
-              passHoldersData.data.member
-                ? `${passHoldersData.data.member[0].firstName} ${passHoldersData.data.member[0].name}`
+              passHolders.member
+                ? `${passHolders.member[0].firstName} ${passHolders.member[0].name}`
                 : undefined
             }
-            passHolderPoints={passHoldersData.data.member[0].points ?? 0}
+            passHolderPoints={passHolders.member[0].points ?? 0}
             rewardRedemptionMutation={handleRewardRedemption}
           />
         )}

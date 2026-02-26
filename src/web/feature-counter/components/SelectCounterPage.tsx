@@ -6,6 +6,7 @@ import { CounterPicker } from './CounterPicker';
 import { useUserInfo } from '@/shared/lib/user';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { Input } from '@mui/joy';
+import type { Theme } from '@mui/joy/styles';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ export const SelectCounterPage = () => {
   };
 
   useEffect(() => {
-    const data = allData?.data || [];
+    const data = Array.isArray(allData?.data) ? allData.data : [];
     if (data.length === 1) {
       setActiveCounter(data[0].organizer);
     }
@@ -61,7 +62,7 @@ export const SelectCounterPage = () => {
             {t('counter.welcome', { name: userInfo?.given_name ?? '' })}
           </Typography>
 
-          {(allData?.data ?? []).length > 0 && (
+          {Array.isArray(allData?.data) && allData.data.length > 0 && (
             <Box
               sx={{
                 display: 'flex',
@@ -78,7 +79,7 @@ export const SelectCounterPage = () => {
                 placeholder={`${t('counter.searchCounter')}`}
                 variant="plain"
                 startDecorator={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-                sx={(theme) => ({
+                sx={(theme: Theme) => ({
                   ml: 'auto',
                   border: `1px ${theme.vars.palette.neutral.solidBorder} solid`,
                   '--Input-focusedHighlight':

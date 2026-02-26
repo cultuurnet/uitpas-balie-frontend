@@ -1,6 +1,7 @@
 import {
   getGetTariffsQueryOptions,
   TariffAvailibility,
+  TariffsResponse,
 } from '@/shared/lib/dataAccess';
 import { getUuid } from '@/shared/lib/utils';
 import { useQueries } from '@tanstack/react-query';
@@ -80,7 +81,7 @@ export const Tariff = ({
   const invalidTariffs = [] as SortedType[];
 
   priceInfoFiltered.forEach((priceInfo, index) => {
-    const tariffResponse = data[index]?.data;
+    const tariffResponse = data[index]?.data as TariffsResponse | undefined;
 
     if (
       tariffResponse?.available?.findIndex((t) => t.type === 'SOCIALTARIFF') ===

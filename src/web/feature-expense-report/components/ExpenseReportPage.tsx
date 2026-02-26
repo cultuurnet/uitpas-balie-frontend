@@ -21,6 +21,7 @@ import {
   isSamePeriod,
   dateToISODateString,
 } from '@/shared/lib/utils';
+import { ReportPeriod } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 
 export const ExpenseReportPage = () => {
@@ -39,7 +40,7 @@ export const ExpenseReportPage = () => {
     period: isDownloadingPeriod,
   } = useDownloadReport(activeCounter?.id || '');
 
-  const periods = reportsPeriodFetchData?.data;
+  const periods = reportsPeriodFetchData?.data as ReportPeriod[] | undefined;
 
   const createReport = (
     selectedStartDate?: string,
