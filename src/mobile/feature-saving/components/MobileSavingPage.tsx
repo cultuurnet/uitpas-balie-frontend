@@ -105,8 +105,7 @@ export const MobileSavingPage = () => {
     )
     ?.map((membership: AssociationMembership) => membership.association);
 
-  const isGroupPass =
-    passHolders?.member && passHolders.member.length === 0;
+  const isGroupPass = passHolders?.member && passHolders.member.length === 0;
 
   const { data: groupPassHolder, isLoading: isGroupPassLoading } =
     useGetGrouppasses(
@@ -122,10 +121,7 @@ export const MobileSavingPage = () => {
     | GrouppassesPaginatedResponse
     | undefined;
 
-  const {
-    mutateAsync: postCheckin,
-    status: checkinStatus,
-  } = usePostCheckins({
+  const { mutateAsync: postCheckin, status: checkinStatus } = usePostCheckins({
     mutation: {
       onSuccess: () => {
         setAlertData({
@@ -365,32 +361,29 @@ export const MobileSavingPage = () => {
 
         <ManualCardInput firstCardEntry={false} />
 
-        {selectedActivity &&
-          selectedActivity['@id'] &&
-          passHolders?.member && (
-            <TariffDrawer
-              eventId={selectedActivity['@id']}
-              passHolderName={
-                isGroupPass
-                  ? (groupPassHolderPaginated?.member?.[0]?.name ?? undefined)
-                  : passHolders.member
-                    ? `${passHolders.member[0].firstName} ${passHolders.member[0].name}`
-                    : undefined
-              }
-              isOpen={showTariffDrawer}
-              setIsOpen={setShowTariffDrawer}
-              startPosition={drawerStartPosition}
-              uitpasNumber={
-                isGroupPass
-                  ? groupPassHolderPaginated?.member?.at(0)?.uitpasNumber!
-                  : passHolders.member
-                      ?.at(0)
-                      ?.cardSystemMemberships?.at(0)?.uitpasNumber!
-              }
-              ticketSaleMutation={handleTicketSaleMutation}
-              isGroupPass={isGroupPass}
-            />
-          )}
+        {selectedActivity && selectedActivity['@id'] && passHolders?.member && (
+          <TariffDrawer
+            eventId={selectedActivity['@id']}
+            passHolderName={
+              isGroupPass
+                ? (groupPassHolderPaginated?.member?.[0]?.name ?? undefined)
+                : passHolders.member
+                  ? `${passHolders.member[0].firstName} ${passHolders.member[0].name}`
+                  : undefined
+            }
+            isOpen={showTariffDrawer}
+            setIsOpen={setShowTariffDrawer}
+            startPosition={drawerStartPosition}
+            uitpasNumber={
+              isGroupPass
+                ? groupPassHolderPaginated?.member?.at(0)?.uitpasNumber!
+                : passHolders.member?.at(0)?.cardSystemMemberships?.at(0)
+                    ?.uitpasNumber!
+            }
+            ticketSaleMutation={handleTicketSaleMutation}
+            isGroupPass={isGroupPass}
+          />
+        )}
 
         {/* Grouppass holders can't claim rewards, so this drawer will not render with grouppasses */}
         {!isGroupPass && passHolders?.member && (

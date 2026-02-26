@@ -29,13 +29,16 @@ export function initAxios({
       typeof input === 'string'
         ? input
         : input instanceof URL
-        ? input.href
-        : input.url;
+          ? input.href
+          : input.url;
 
     const resolvedUrl = replaceUrl(url);
     const mergedInit: RequestInit = {
       ...init,
-      headers: { ...fetchDefaultHeaders, ...(init?.headers as Record<string, string>) },
+      headers: {
+        ...fetchDefaultHeaders,
+        ...(init?.headers as Record<string, string>),
+      },
     };
 
     if (typeof input === 'string') {
