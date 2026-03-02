@@ -11,7 +11,11 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const renderNavBar = userInfo && counter;
 
   return (
-    <Box height="100vh" width="100vw" overflow="hidden">
+    <Box
+      height="100vh"
+      width="100vw"
+      overflow={renderNavBar ? 'hidden' : 'auto'}
+    >
       {renderNavBar && <Navbar userInfo={userInfo} counter={counter} />}
       {children}
     </Box>
