@@ -59,7 +59,7 @@ export const LoginPage = () => {
           </Link>
 
           <Card
-            accentColor="#3f2675"
+            accentColor="var(--color-secondary)"
             background="gradient"
             className="border-neutral-400 mb-4"
           >
