@@ -6,7 +6,7 @@ import { Divider, styled } from '@mui/joy';
 import { PropsWithChildren, ReactNode } from 'react';
 
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Box,Grid, Link, Stack } from '@/web/lib/ui';
+import { Box, Grid, Link, Stack } from '@/web/lib/ui';
 
 import { Footer } from './Footer';
 

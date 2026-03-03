@@ -6,14 +6,14 @@ import { getEventParams } from '@/shared/feature-events/getEventParams';
 import { Search, useGetEvents } from '@/shared/lib/dataAccess';
 import { getIdFromUrl } from '@/shared/lib/utils';
 
-export const noActivity = '-';
-export type NoActivity = typeof noActivity;
+const noActivity = '-';
+type NoActivity = typeof noActivity;
 
 function isNoActivity(activity: unknown | NoActivity): activity is NoActivity {
   return activity === '-';
 }
 
-export const useActivity = () => {
+const useActivity = () => {
   const router = useRouter();
   const params = useParams<{ counter: string; activity: string }>();
 
@@ -90,3 +90,6 @@ export const useActivity = () => {
     },
   };
 };
+
+export type { NoActivity };
+export { noActivity, useActivity };

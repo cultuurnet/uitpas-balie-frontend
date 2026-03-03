@@ -1,10 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import {
-  UIEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { UIEvent, useEffect, useRef, useState } from 'react';
 
 import { RewardCard } from '@/mobile/feature-saving';
 import { ScrollableContainer } from '@/mobile/lib/ui';

@@ -12,9 +12,9 @@ const meta = {
     title: 'Link label',
   },
 } satisfies Meta<typeof Link>;
+type Story = StoryObj<typeof meta>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 

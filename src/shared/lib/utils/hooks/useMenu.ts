@@ -1,7 +1,7 @@
 'use client';
 
 import { MenuUnstyledActions } from '@mui/base/MenuUnstyled';
-import { KeyboardEvent,MouseEvent, useRef, useState } from 'react';
+import { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
 
 export const useMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);

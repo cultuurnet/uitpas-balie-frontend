@@ -1,4 +1,4 @@
-import { ExpandLess,ExpandMore } from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Box, BoxProps, IconButton, useTheme } from '@mui/material';
 import { PropsWithChildren, useState } from 'react';
 

@@ -9,7 +9,7 @@ import {
   useGetOrganizersFinancialReportsReportIdZip,
   usePostOrganizersFinancialReports,
 } from '@/shared/lib/dataAccess';
-import { isSamePeriod,PeriodType } from '@/shared/lib/utils';
+import { isSamePeriod, PeriodType } from '@/shared/lib/utils';
 
 type ReturnType = {
   startReportRequest: (organizerId: string, period: PeriodType) => void;

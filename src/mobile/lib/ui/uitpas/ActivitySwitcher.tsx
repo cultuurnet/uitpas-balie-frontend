@@ -14,7 +14,7 @@ import { forwardRef } from 'react';
 import { useActivity } from '@/mobile/feature-activities/useActivity';
 import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
 
-export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
+const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
   const { t, LANG_KEY } = useTranslation();
   const { selectedActivity, clearActivity } = useActivity();
   const theme = useTheme();
@@ -56,3 +56,5 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
 });
 
 ActivitySwitcher.displayName = 'ActivitySwitcher';
+
+export { ActivitySwitcher };

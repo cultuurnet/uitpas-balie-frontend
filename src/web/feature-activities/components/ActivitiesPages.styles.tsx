@@ -3,109 +3,6 @@ import { AnchorHTMLAttributes, DetailedHTMLProps } from 'react';
 
 import { Link, Stack, Typography } from '@/web/lib/ui';
 
-export const StyledPageContainerStack = styled(Stack)({
-  margin: '24px 16px',
-  alignContent: 'flex-start',
-});
-
-export const StyledPageTitle = styled(Typography)({
-  fontSize: '18px',
-  textTransform: 'uppercase',
-  borderBottom: '1px solid',
-  marginBottom: '12px',
-  paddingBottom: '12px',
-});
-
-export const StyledUserInputStack = styled(Stack)<{ customInput?: boolean }>(
-  ({ theme, customInput = false }) => ({
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: '15px',
-    columnGap: '24px',
-
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-      rowGap: '24px',
-    },
-
-    ...(customInput && {
-      [theme.breakpoints.down('lg')]: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        rowGap: '24px',
-      },
-    }),
-  }),
-);
-
-export const StyledActivityStack = styled(Stack)(({ theme }) => ({
-  borderBottom: `1px solid ${theme.palette.neutral[400]}`,
-  justifyContent: 'space-between',
-  minHeight: '90px',
-  '&:hover': {
-    cursor: 'pointer',
-    backgroundColor: theme.palette.info.softBg,
-    transition: 'background 150ms ease-in-out',
-  },
-
-  [theme.breakpoints.up('md')]: {
-    flexDirection: 'row',
-    '> :last-child': {
-      backgroundColor: theme.palette.neutral[200],
-    },
-    '&:hover > :last-child': {
-      backgroundColor: theme.palette.info.softBorder,
-      transition: 'background 150ms ease-in-out',
-    },
-  },
-  [theme.breakpoints.down('md')]: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}));
-
-export const StyledItemStack = styled(Stack)(({ theme }) => ({
-  flexGrow: 100,
-  padding: '6px 10px',
-  justifyContent: 'center',
-  alignItems: 'flex-start',
-
-  [theme.breakpoints.down('md')]: {
-    alignItems: 'center',
-  },
-}));
-
-export const StyledEventDate = styled(Typography)(({ theme }) => ({
-  color: theme.palette.neutral[500],
-}));
-
-export const StyledEventName = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.mainChannel,
-  fontSize: '16px',
-  fontWeight: 700,
-  lineHeight: '1.1',
-}));
-
-export const StyledActionsStack = styled(Stack)(({ theme }) => ({
-  flexDirection: 'row',
-  minWidth: '500px',
-  width: 1 / 2,
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  padding: '0 16px',
-  gap: '16px',
-
-  [theme.breakpoints.down('md')]: {
-    flexDirection: 'column',
-    minWidth: '0',
-    width: 'max-content',
-    '& > a:last-child': {
-      marginBottom: '12px',
-    },
-  },
-}));
-
 const StyledActionLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   display: 'flex',
@@ -137,7 +34,110 @@ const StyledActionLink = styled(Link)(({ theme }) => ({
   },
 }));
 
-export const ActionLink = ({
+const StyledPageContainerStack = styled(Stack)({
+  margin: '24px 16px',
+  alignContent: 'flex-start',
+});
+
+const StyledPageTitle = styled(Typography)({
+  fontSize: '18px',
+  textTransform: 'uppercase',
+  borderBottom: '1px solid',
+  marginBottom: '12px',
+  paddingBottom: '12px',
+});
+
+const StyledUserInputStack = styled(Stack)<{ customInput?: boolean }>(
+  ({ theme, customInput = false }) => ({
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: '15px',
+    columnGap: '24px',
+
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+      rowGap: '24px',
+    },
+
+    ...(customInput && {
+      [theme.breakpoints.down('lg')]: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        rowGap: '24px',
+      },
+    }),
+  }),
+);
+
+const StyledActivityStack = styled(Stack)(({ theme }) => ({
+  borderBottom: `1px solid ${theme.palette.neutral[400]}`,
+  justifyContent: 'space-between',
+  minHeight: '90px',
+  '&:hover': {
+    cursor: 'pointer',
+    backgroundColor: theme.palette.info.softBg,
+    transition: 'background 150ms ease-in-out',
+  },
+
+  [theme.breakpoints.up('md')]: {
+    flexDirection: 'row',
+    '> :last-child': {
+      backgroundColor: theme.palette.neutral[200],
+    },
+    '&:hover > :last-child': {
+      backgroundColor: theme.palette.info.softBorder,
+      transition: 'background 150ms ease-in-out',
+    },
+  },
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+}));
+
+const StyledItemStack = styled(Stack)(({ theme }) => ({
+  flexGrow: 100,
+  padding: '6px 10px',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+
+  [theme.breakpoints.down('md')]: {
+    alignItems: 'center',
+  },
+}));
+
+const StyledEventDate = styled(Typography)(({ theme }) => ({
+  color: theme.palette.neutral[500],
+}));
+
+const StyledEventName = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.mainChannel,
+  fontSize: '16px',
+  fontWeight: 700,
+  lineHeight: '1.1',
+}));
+
+const StyledActionsStack = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  minWidth: '500px',
+  width: 1 / 2,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  padding: '0 16px',
+  gap: '16px',
+
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    minWidth: '0',
+    width: 'max-content',
+    '& > a:last-child': {
+      marginBottom: '12px',
+    },
+  },
+}));
+
+const ActionLink = ({
   allowPropagation = false,
   ...props
 }: { allowPropagation?: boolean } & DetailedHTMLProps<
@@ -157,4 +157,16 @@ export const ActionLink = ({
       {props.children}
     </StyledActionLink>
   );
+};
+
+export {
+  ActionLink,
+  StyledActionsStack,
+  StyledActivityStack,
+  StyledEventDate,
+  StyledEventName,
+  StyledItemStack,
+  StyledPageContainerStack,
+  StyledPageTitle,
+  StyledUserInputStack,
 };

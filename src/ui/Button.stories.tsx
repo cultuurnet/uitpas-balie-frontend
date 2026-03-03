@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ChevronRight, Loader2,Mail } from 'lucide-react';
+import { ChevronRight, Loader2, Mail } from 'lucide-react';
 
 import { Button } from './Button';
 
@@ -9,9 +9,9 @@ const meta = {
   parameters: { layout: 'centered' },
   args: { children: 'Button' },
 } satisfies Meta<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 

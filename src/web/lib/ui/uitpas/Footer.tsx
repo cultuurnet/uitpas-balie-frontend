@@ -1,7 +1,7 @@
 'use client';
 
 import styled from '@emotion/styled';
-import { faFacebook,faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Divider, Stack, Typography } from '@mui/joy';

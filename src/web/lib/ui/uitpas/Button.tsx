@@ -1,7 +1,5 @@
 'use client';
 
-
-
 import { Button as JoyButton } from '@mui/joy';
 
 type ButtonOwnProps = {

@@ -1,7 +1,7 @@
 'use client';
 
 import { debounce } from '@mui/material';
-import { ChangeEvent, useEffect, useReducer,useState } from 'react';
+import { ChangeEvent, useEffect, useReducer, useState } from 'react';
 
 import { ActivitiesPicker } from '@/mobile/feature-activities';
 import { noActivity } from '@/mobile/feature-activities/useActivity';
@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@/mobile/lib/ui';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
-import { Search,useGetEvents } from '@/shared/lib/dataAccess';
+import { Search, useGetEvents } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
 

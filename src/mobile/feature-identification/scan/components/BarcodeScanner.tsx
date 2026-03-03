@@ -1,5 +1,5 @@
 'use client';
-import { Close,FlashlightOff, FlashlightOn } from '@mui/icons-material';
+import { Close, FlashlightOff, FlashlightOn } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -110,6 +110,7 @@ export const BarcodeScanner: React.FC = () => {
           },
         });
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error('Could not start camera:', err);
         return;
       }

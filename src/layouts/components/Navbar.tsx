@@ -11,7 +11,7 @@ import { useLogout } from '@/shared/lib/auth';
 import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { getAssetUrl } from '@/shared/lib/utils';
-import { Button,Typography } from '@/web/lib/ui';
+import { Button, Typography } from '@/web/lib/ui';
 
 import { CounterMenu } from './CounterMenu';
 import {

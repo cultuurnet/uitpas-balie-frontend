@@ -1,6 +1,6 @@
 import { MenuUnstyled } from '@mui/base';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Fragment, isValidElement, type JSX,useState } from 'react';
+import { Fragment, isValidElement, type JSX, useState } from 'react';
 
 import { StyledMenuItem } from '@/layouts/components/Navbar.styles';
 import { useTranslation } from '@/shared/lib/i18n/client';
@@ -21,7 +21,7 @@ import {
   StyledListbox,
 } from './DateMenu.styles';
 
-export type rangeMenuItem = {
+type rangeMenuItem = {
   display: string | JSX.Element;
   value?: keyof typeof TDateSelection;
 };
@@ -65,7 +65,7 @@ type RangeMenuProps = {
   disabled: boolean;
 };
 
-export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
+const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -181,3 +181,6 @@ export const RangeMenu = ({ defaultRange, disabled }: RangeMenuProps) => {
     </Stack>
   );
 };
+
+export type { rangeMenuItem };
+export { RangeMenu };

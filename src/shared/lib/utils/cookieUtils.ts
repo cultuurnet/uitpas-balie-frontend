@@ -1,4 +1,4 @@
-import { deleteCookie,getCookie, setCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 export const readCookie = <T>(
   cookie: string,
@@ -10,6 +10,7 @@ export const readCookie = <T>(
       ? (JSON.parse(storedData) as T)
       : fallbackValue;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.debug(`Could not parse cookie (${cookie})`, e);
     return fallbackValue;
   }
@@ -23,6 +24,7 @@ export const storeCookie = <T>(cookie: string, data: T): void => {
     }
     setCookie(cookie, JSON.stringify(data));
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.debug(`Could not set cookie (${cookie})`, e);
   }
 };

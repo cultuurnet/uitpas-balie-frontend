@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
-export type UserInfo = {
+type UserInfo = {
   email: string;
   email_verified: boolean;
   given_name: string;
@@ -22,7 +22,7 @@ type Props = {
 };
 
 const queryKey = ['auth0', 'userInfo'];
-export const useGetUserInfo = ({ token, enabled = true }: Props) => {
+const useGetUserInfo = ({ token, enabled = true }: Props) => {
   const { publicRuntimeConfig } = useConfig();
   const queryClient = useQueryClient();
 
@@ -39,3 +39,6 @@ export const useGetUserInfo = ({ token, enabled = true }: Props) => {
     }),
   };
 };
+
+export type { UserInfo };
+export { useGetUserInfo };
