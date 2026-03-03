@@ -124,7 +124,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
                   fontSize: '13px',
                   width: '100px',
                 }}
-                onClick={logout}
+                onClick={() => logout()}
               >
                 {t('login.logoutBtn')}
               </Button>

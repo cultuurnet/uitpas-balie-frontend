@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn info orval version)",
+      "Bash(npm view orval version)"
+    ]
+  }
+}
