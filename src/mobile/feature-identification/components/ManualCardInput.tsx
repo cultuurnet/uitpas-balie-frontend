@@ -1,9 +1,9 @@
-import { OutlinedButton, TextField } from '@/mobile/lib/ui';
-import { useTranslation } from '@/shared/lib/i18n/client';
 import { Typography } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { OutlinedButton, TextField } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type ManualCardInputProps = {
   firstCardEntry: boolean;

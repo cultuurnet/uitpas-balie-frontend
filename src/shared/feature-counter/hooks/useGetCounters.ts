@@ -1,5 +1,5 @@
-import { useGetPermissions } from '@/shared/lib/dataAccess';
 import { Counter } from '@/shared/feature-counter/context/CounterContext';
+import { useGetPermissions } from '@/shared/lib/dataAccess';
 
 export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();

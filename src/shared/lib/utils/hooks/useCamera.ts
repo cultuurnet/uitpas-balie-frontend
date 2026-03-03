@@ -1,9 +1,10 @@
 import MediaDevices from 'media-devices';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
-import { readData, storeData } from '../localStorageUtils';
+
 import { useTranslation } from '@/shared/lib/i18n/client';
-import adapter from 'webrtc-adapter';
+
+import { readData, storeData } from '../localStorageUtils';
 
 type Permission = 'denied' | 'granted' | 'unknown' | 'prompt';
 

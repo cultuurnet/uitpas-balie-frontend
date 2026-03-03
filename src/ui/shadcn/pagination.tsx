@@ -1,12 +1,12 @@
-import * as React from 'react';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from 'lucide-react';
+import * as React from 'react';
 
+import { type Button,buttonVariants } from '@/ui/shadcn/button';
 import { cn } from '@/utils/shadcn';
-import { buttonVariants, type Button } from '@/ui/shadcn/button';
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
@@ -119,9 +119,9 @@ function PaginationEllipsis({
 export {
   Pagination,
   PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
   PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 };

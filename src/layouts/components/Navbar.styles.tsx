@@ -1,3 +1,7 @@
+import MenuItemUnstyled, {
+  menuItemUnstyledClasses,
+} from '@mui/base/MenuItemUnstyled';
+import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { IconButton, Stack, styled, Theme } from '@mui/joy';
 import Link from 'next/link';
 import {
@@ -6,10 +10,6 @@ import {
   forwardRef,
   HTMLProps,
 } from 'react';
-import MenuItemUnstyled, {
-  menuItemUnstyledClasses,
-} from '@mui/base/MenuItemUnstyled';
-import PopperUnstyled from '@mui/base/PopperUnstyled';
 
 export const Header = styled('header')(({ theme }) => ({
   display: 'flex',

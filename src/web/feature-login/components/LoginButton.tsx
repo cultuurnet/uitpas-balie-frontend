@@ -1,6 +1,7 @@
 import { signIn } from 'next-auth/react';
-import { Button } from '@/web/lib/ui';
 import { FC, PropsWithChildren } from 'react';
+
+import { Button } from '@/web/lib/ui';
 
 export const LoginButton: FC<PropsWithChildren> = ({ children }) => {
   return (

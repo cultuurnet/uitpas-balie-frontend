@@ -1,5 +1,12 @@
 'use client';
 
+import { debounce } from '@mui/material';
+import { ChangeEvent, useEffect, useReducer,useState } from 'react';
+
+import { ActivitiesPicker } from '@/mobile/feature-activities';
+import { noActivity } from '@/mobile/feature-activities/useActivity';
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { clientRoutes } from '@/mobile/feature-routing';
 import { MobileNavBar } from '@/mobile/layouts';
 import {
   Link,
@@ -7,16 +14,10 @@ import {
   SearchInput,
   Typography,
 } from '@/mobile/lib/ui';
-import { useTranslation } from '@/shared/lib/i18n/client';
-import { debounce } from '@mui/material';
-import { useGetEvents, Search } from '@/shared/lib/dataAccess';
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
-import { ChangeEvent, useState, useEffect, useReducer } from 'react';
-import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
-import { ActivitiesPicker } from '@/mobile/feature-activities';
-import { noActivity } from '@/mobile/feature-activities/useActivity';
-import { clientRoutes } from '@/mobile/feature-routing';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
+import { Search,useGetEvents } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
 
 type ExtendedEvent = Search.Event & { isNew: boolean };
 

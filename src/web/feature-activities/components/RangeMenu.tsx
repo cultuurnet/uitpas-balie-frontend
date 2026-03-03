@@ -1,23 +1,25 @@
 import { MenuUnstyled } from '@mui/base';
-import {
-  Popper,
-  StyledDateItem,
-  StyledListbox,
-  StyledDivider,
-} from './DateMenu.styles';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Fragment, isValidElement, type JSX,useState } from 'react';
+
+import { StyledMenuItem } from '@/layouts/components/Navbar.styles';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import {
   DATE_FORMAT_SEPARATED_FNS,
   dateToISODateString,
   useMenu,
 } from '@/shared/lib/utils';
-import { useState, isValidElement, Fragment, type JSX } from 'react';
-import { StyledMenuItem } from '@/layouts/components/Navbar.styles';
-import { DateInput, Stack, Typography } from '@/web/lib/ui';
-import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
 import { TDateSelection } from '@/shared/lib/utils/dateUtils';
+import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
 import { RangeMenuButton } from '@/web/feature-activities/components/RangeMenuButton';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { DateInput, Stack, Typography } from '@/web/lib/ui';
+
+import {
+  Popper,
+  StyledDateItem,
+  StyledDivider,
+  StyledListbox,
+} from './DateMenu.styles';
 
 export type rangeMenuItem = {
   display: string | JSX.Element;

@@ -1,8 +1,9 @@
 import { FC, PropsWithChildren } from 'react';
-import { Box } from '@/web/lib/ui';
+
 import { Navbar } from '@/layouts/components/Navbar';
-import { useUserInfo } from '@/shared/lib/user';
 import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useUserInfo } from '@/shared/lib/user';
+import { Box } from '@/web/lib/ui';
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const userInfo = useUserInfo();

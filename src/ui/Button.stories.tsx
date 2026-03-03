@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Mail, ChevronRight, Loader2 } from 'lucide-react';
+import { ChevronRight, Loader2,Mail } from 'lucide-react';
+
 import { Button } from './Button';
 
 const meta = {

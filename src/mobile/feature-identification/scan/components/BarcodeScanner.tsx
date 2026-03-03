@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Close,FlashlightOff, FlashlightOn } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -7,13 +7,14 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { PermissionBox } from '@/mobile/feature-identification/scan/components/PermissionBox';
 import { Typography, UitpasLoading } from '@/mobile/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { FlashlightOn, FlashlightOff, Close } from '@mui/icons-material';
-import { useSearchParams } from 'next/navigation';
-import { PermissionBox } from '@/mobile/feature-identification/scan/components/PermissionBox';
 import { useCamera } from '@/shared/lib/utils/hooks/useCamera';
-import { useActivity } from '@/mobile/feature-activities/useActivity';
 
 export const BarcodeScanner: React.FC = () => {
   const { t } = useTranslation();

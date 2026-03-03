@@ -1,16 +1,17 @@
 'use client';
 
-import { MobileNavBar } from '@/mobile/layouts';
 import { WarningAmber } from '@mui/icons-material';
+import { Stack } from '@mui/material';
+
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { MobileNavBar } from '@/mobile/layouts';
 import {
   Button,
-  OutlinedButton,
   MobileContentStack,
+  OutlinedButton,
   Typography,
 } from '@/mobile/lib/ui';
-import { Stack } from '@mui/material';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { useActivity } from '@/mobile/feature-activities/useActivity';
 
 type ScanFailedProps = {
   errorMessage?: string;

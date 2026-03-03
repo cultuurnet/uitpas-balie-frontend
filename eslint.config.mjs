@@ -1,9 +1,8 @@
-import storybook from "eslint-plugin-storybook";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import unusedImports from "eslint-plugin-unused-imports";
-
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import storybook from "eslint-plugin-storybook";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const eslintConfig = defineConfig([
   ...nextVitals,

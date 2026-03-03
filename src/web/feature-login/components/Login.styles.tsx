@@ -1,6 +1,7 @@
 'use client';
 
 import { styled } from '@mui/joy';
+
 import { Typography } from '@/web/lib/ui';
 
 export const SiteLoginIntro = styled(Typography)(({ theme }) => ({

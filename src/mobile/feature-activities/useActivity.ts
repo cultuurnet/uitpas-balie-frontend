@@ -1,9 +1,10 @@
 import { useParams, useRouter } from 'next/navigation';
-import { Search, useGetEvents } from '@/shared/lib/dataAccess';
-import { clientRoutes } from '@/mobile/feature-routing';
-import { getIdFromUrl } from '@/shared/lib/utils';
 import { useEffect } from 'react';
+
+import { clientRoutes } from '@/mobile/feature-routing';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
+import { Search, useGetEvents } from '@/shared/lib/dataAccess';
+import { getIdFromUrl } from '@/shared/lib/utils';
 
 export const noActivity = '-';
 export type NoActivity = typeof noActivity;

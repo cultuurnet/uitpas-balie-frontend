@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 export type UserInfo = {

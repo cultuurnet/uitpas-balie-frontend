@@ -1,14 +1,15 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PropsWithChildren } from 'react';
+import { CssBaseline,ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
-import { UserProvider } from '@/shared/lib/user';
+import { PropsWithChildren } from 'react';
+
 import { CounterProvider } from '@/mobile/feature-counter';
-import { theme } from '@/mobile/lib/ui';
 import { clientRoutes } from '@/mobile/feature-routing';
+import { theme } from '@/mobile/lib/ui';
+import { UserProvider } from '@/shared/lib/user';
 
 const queryClient = new QueryClient({
   defaultOptions: {

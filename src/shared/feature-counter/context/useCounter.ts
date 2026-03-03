@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { CounterContext } from '@/shared/feature-counter/context/CounterContext';
 
 export const useCounter = () => {

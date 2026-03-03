@@ -1,11 +1,11 @@
+import { Search } from '@mui/icons-material';
 import {
-  TextField,
   InputAdornment,
-  TextFieldProps,
   SxProps,
+  TextField,
+  TextFieldProps,
   Theme,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
 
 export const SearchInput = ({ ...props }: TextFieldProps) => {
   return (

@@ -1,6 +1,7 @@
 'use client';
 
 import { createTheme } from '@mui/material/styles';
+
 import { poppinsFont } from './fonts';
 
 declare module '@mui/material/styles' {

@@ -1,13 +1,14 @@
 'use client';
 
-import { MobileNavBar } from '@/mobile/layouts';
 import { Stack } from '@mui/material';
+import { ChangeEvent, Fragment } from 'react';
+
+import { MobileNavBar } from '@/mobile/layouts';
 import { MobileContentStack, SearchInput, Typography } from '@/mobile/lib/ui';
-import { useTranslation } from '@/shared/lib/i18n/client';
-import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
 import { Counter } from '@/shared/feature-counter/context/CounterContext';
-import { ChangeEvent, Fragment } from 'react';
+import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 type CounterPickerProps = {
   totalCounters: number;

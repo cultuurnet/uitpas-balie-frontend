@@ -1,11 +1,12 @@
+import dayjs from 'dayjs';
+import { useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
+
 import {
   DATE_FORMAT,
   getRangeDateFromSelection,
   TDateSelection,
 } from '@/shared/lib/utils';
-import { useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
-import dayjs from 'dayjs';
 
 export function useRangeQuery() {
   const searchParams = useSearchParams();

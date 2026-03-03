@@ -1,8 +1,9 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 export const DEVICE = {

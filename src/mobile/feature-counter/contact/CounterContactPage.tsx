@@ -1,5 +1,6 @@
-import { Link, Typography } from '@/mobile/lib/ui';
 import { Box } from '@mui/material';
+
+import { Link, Typography } from '@/mobile/lib/ui';
 
 export const CounterContactsPage = () => {
   return (

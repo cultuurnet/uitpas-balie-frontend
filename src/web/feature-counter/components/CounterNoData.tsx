@@ -1,8 +1,9 @@
 'use client';
 
-import { Typography } from '@/web/lib/ui';
-import { useTranslation } from '@/shared/lib/i18n/client';
 import type { Theme } from '@mui/joy/styles';
+
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { Typography } from '@/web/lib/ui';
 
 export const CounterNoData = () => {
   const { t } = useTranslation();

@@ -1,5 +1,7 @@
 'use client';
 
+import { mdiCloseThick } from '@mdi/js';
+import Icon from '@mdi/react';
 import {
   IconButton,
   IconButtonProps,
@@ -7,8 +9,6 @@ import {
   ModalCloseProps,
 } from '@mui/joy';
 import type { Theme } from '@mui/joy/styles';
-import { mdiCloseThick } from '@mdi/js';
-import Icon from '@mdi/react';
 import React, { forwardRef, Ref } from 'react';
 
 const ForwardedIconButton = forwardRef(

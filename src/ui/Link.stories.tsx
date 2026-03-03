@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+
 import { Link } from './Link';
 
 const meta = {
