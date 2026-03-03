@@ -1,18 +1,18 @@
 'use client';
 
-import Image from 'next/image';
-import { signIn } from 'next-auth/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faArrowRightFromBracket,
   faShieldHalved,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 
-import { Button, Card, CardContent, CardTitle, Link } from '@/ui';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
-import { getAssetUrl } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { getAssetUrl } from '@/shared/lib/utils';
+import { Button, Card, CardContent, CardTitle, Link } from '@/ui';
 
 export const LoginPage = () => {
   const { t } = useTranslation();
