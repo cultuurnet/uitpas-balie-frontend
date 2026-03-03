@@ -9,9 +9,7 @@ const COOKIE_PREFIX = 'ff_';
 const createCookieName = (flag: FeatureFlagName): string =>
   `${COOKIE_PREFIX}${flag}`;
 
-const getFeatureFlagCookieValue = (
-  flag: FeatureFlagName,
-): boolean | null => {
+const getFeatureFlagCookieValue = (flag: FeatureFlagName): boolean | null => {
   if (typeof document === 'undefined') return null;
   const name = createCookieName(flag);
   const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
@@ -22,10 +20,7 @@ const getFeatureFlagCookieValue = (
   return null;
 };
 
-const setFeatureFlagCookie = (
-  flag: FeatureFlagName,
-  value: boolean,
-): void => {
+const setFeatureFlagCookie = (flag: FeatureFlagName, value: boolean): void => {
   const name = createCookieName(flag);
   document.cookie = `${name}=${value}; path=/; SameSite=Lax`;
   window.dispatchEvent(new Event('featureflag:change'));
