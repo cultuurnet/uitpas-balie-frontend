@@ -4,8 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
-import { useFeatureFlag } from '@/hooks/useFeatureFlag';
-import { FeatureFlags } from '@/utils/featureFlags';
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 
 const DEVICE = {
   mobile: 'mobile',
