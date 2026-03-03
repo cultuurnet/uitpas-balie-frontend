@@ -1,8 +1,17 @@
 {
   "appName": "BALIE",
   "login": {
+    "title": "Welkom bij de UiTPAS Balie",
     "intro": "Deze beheerapplicatie is gemaakt voor organisaties, verenigingen en balies om UiTPAS- en Paspartoe-leden te verwelkomen en te beheren.",
     "loginBtn": "Aanmelden",
+    "howToLogin": "Hoe kan ik aanmelden op de UiTPAS-balie?",
+    "twoFa": {
+      "title": "Beveilig nu al je account met 2-staps verificatie",
+      "text1": "Als extra beveiliging zal je binnenkort aanmelden in de balie met 2-staps verificatie. Dat betekent dat je naast je wachtwoord ook een extra code zal invoeren om veilig aan te melden.",
+      "text2": "Je kan kiezen om die code te ontvangen via een app of via SMS. Je kan dit nu reeds instellen door te klikken op de link hieronder.",
+      "link": "Beveilig je account met 2-staps verificatie",
+      "helpLink": "Hoe stel ik 2-staps verificatie in?"
+    },
     "loginOtherAccountBtn": "Aanmelden met een ander e-mailadres",
     "moreInfoBtn": "Meer info",
     "other": "Andere UiTPAS-tools",

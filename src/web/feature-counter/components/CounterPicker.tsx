@@ -6,7 +6,6 @@ import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import { CounterPickerData } from './CounterPickerData';
 import { LastCounterData } from './LastCounterData';
 import { CircularProgress } from '@mui/joy';
-import { LoginButton } from '@/web/feature-login/components/LoginButton';
 import { useTranslation } from '@/shared/lib/i18n/client';
 
 type CounterPickerProps = {
@@ -72,9 +71,6 @@ export const CounterPicker = ({
           </ul>
         </CardContent>
       </Card>
-      {!isLoading && data.length === 0 && !filterString ? (
-        <LoginButton>{t('login.loginOtherAccountBtn')}</LoginButton>
-      ) : null}
     </>
   );
 };
