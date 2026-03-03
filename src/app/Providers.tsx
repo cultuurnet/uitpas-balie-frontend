@@ -6,8 +6,10 @@ import { MobileProviders } from '@/app/MobileProviders';
 import { WebProviders } from '@/app/WebProviders';
 import { openSansFont } from '@/web/lib/ui';
 import { poppinsFont } from '@/mobile/lib/ui';
+import { useFeatureFlagDevTools } from '@/hooks/useFeatureFlagDevTools';
 
-export function Providers({ children }: PropsWithChildren) {
+function Providers({ children }: PropsWithChildren) {
+  useFeatureFlagDevTools();
   const device = useDetectMobile();
 
   useEffect(() => {
@@ -23,3 +25,5 @@ export function Providers({ children }: PropsWithChildren) {
 
   return null;
 }
+
+export { Providers };
