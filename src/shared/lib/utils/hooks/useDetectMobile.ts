@@ -33,7 +33,7 @@ const useDetectMobile = () => {
     }
   }, [path, shouldRedirectToMobile, disabledMobileRoute, replace]);
 
-  if (shouldRedirectToMobile) {
+  if (shouldRedirectToMobile && !disabledMobileRoute) {
     return DEVICE.pending;
   }
 
