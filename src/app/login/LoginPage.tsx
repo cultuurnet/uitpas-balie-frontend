@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
@@ -17,9 +17,6 @@ import { useTranslation } from '@/shared/lib/i18n/client';
 export const LoginPage = () => {
   const { t } = useTranslation();
   const { publicRuntimeConfig } = useConfig();
-  const search = useSearchParams();
-  const destination = search.get('redirectTo') ?? '/';
-  const loginHref = `${publicRuntimeConfig?.oauthPath ?? '/'}?destination=${destination}`;
 
   return (
     <div className="flex min-h-screen">
@@ -48,11 +45,9 @@ export const LoginPage = () => {
           <p className="mb-6">{t('login.intro')}</p>
 
           <div className="mb-3">
-            <Button asChild className="h-12 text-xl">
-              <a href={loginHref}>
-                <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                {t('login.loginBtn')}
-              </a>
+            <Button className="h-12 text-xl" onClick={() => signIn('keycloak')}>
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              {t('login.loginBtn')}
             </Button>
           </div>
 

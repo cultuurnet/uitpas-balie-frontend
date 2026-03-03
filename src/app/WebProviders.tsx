@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
-import { AuthProvider } from '@/shared/lib/auth';
+import { SessionProvider } from 'next-auth/react';
 import { UserProvider } from '@/shared/lib/user';
 import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
 import { Layout } from '@/layouts';
@@ -25,13 +25,13 @@ export function WebProviders({ children }: PropsWithChildren) {
   return (
     <ThemeRegistry options={{ key: 'joy' }}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider loginPath={'/login'}>
+        <SessionProvider>
           <UserProvider>
             <CounterProvider counterPath={'/counters'}>
               <Layout>{children}</Layout>
             </CounterProvider>
           </UserProvider>
-        </AuthProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </ThemeRegistry>
   );

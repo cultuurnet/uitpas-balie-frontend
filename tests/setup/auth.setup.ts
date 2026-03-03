@@ -10,10 +10,10 @@ setup('authenticate', async ({ baseURL, page }) => {
   await page.waitForLoadState('domcontentloaded');
 
   await expect(
-    page.getByRole('heading', { name: 'mobiele balie' })
+    page.getByRole('heading', { name: 'mobiele balie' }),
   ).toBeVisible();
 
-  await page.getByRole('link', { name: 'aanmelden' }).click();
+  await page.getByRole('button', { name: 'aanmelden' }).click();
 
   await page.waitForURL(/account-test.uitid.be\/*/);
 
