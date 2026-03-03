@@ -4,17 +4,22 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
-export const DEVICE = {
+const DEVICE = {
   mobile: 'mobile',
   web: 'web',
   pending: 'pending',
 } as const;
 
-export const useDetectMobile = () => {
+const useDetectMobile = () => {
   const { publicRuntimeConfig } = useConfig();
   const disableMobile = publicRuntimeConfig?.blacklist.includes('mobile');
+  const [cookieDisableMobile] = useFeatureFlag(
+    FeatureFlags.DISABLE_MOBILE_REDIRECT,
+  );
+  const disabledMobileRoute = disableMobile || cookieDisableMobile;
   const path = usePathname();
   const { replace } = useRouter();
   const theme = useTheme();
@@ -24,27 +29,22 @@ export const useDetectMobile = () => {
   const shouldRedirectToMobile = !isMobilePath && isMobileScreen;
 
   useEffect(() => {
-    if (shouldRedirectToMobile && !disableMobile) {
+    if (shouldRedirectToMobile && !disabledMobileRoute) {
       replace(`/mobile${path}`);
     }
-  }, [
-    path,
-    isMobilePath,
-    isMobileScreen,
-    shouldRedirectToMobile,
-    disableMobile,
-    replace,
-  ]);
+  }, [path, shouldRedirectToMobile, disabledMobileRoute, replace]);
 
   if (shouldRedirectToMobile) {
     return DEVICE.pending;
   }
 
   if (isMobilePath) {
-    if (disableMobile) {
+    if (disabledMobileRoute) {
       return DEVICE.web;
     }
     return DEVICE.mobile;
   }
   return DEVICE.web;
 };
+
+export { DEVICE, useDetectMobile };
