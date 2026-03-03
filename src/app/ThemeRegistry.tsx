@@ -71,9 +71,6 @@ export default function ThemeRegistry(props: any) {
             iframe: {
               border: 0,
             },
-            a: {
-              color: theme.palette.neutral[500],
-            },
           }}
         />
         {children}
