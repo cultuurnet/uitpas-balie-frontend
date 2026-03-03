@@ -16,7 +16,7 @@ const useDetectMobile = () => {
   const { publicRuntimeConfig } = useConfig();
   const disableMobile = publicRuntimeConfig?.blacklist.includes('mobile');
   const [cookieDisableMobile] = useFeatureFlag(
-    FeatureFlags.NEXT_DISABLE_MOBILE_REDIRECT,
+    FeatureFlags.DISABLE_MOBILE_REDIRECT,
   );
   const disabledMobileRoute = disableMobile || cookieDisableMobile;
   const path = usePathname();

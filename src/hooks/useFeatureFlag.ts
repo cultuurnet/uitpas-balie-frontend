@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 
 const FeatureFlags = {
-  NEXT_DISABLE_MOBILE_REDIRECT: 'disable_mobile_redirect',
+  DISABLE_MOBILE_REDIRECT: 'disable_mobile_redirect',
 } as const;
 
 type FeatureFlagName = (typeof FeatureFlags)[keyof typeof FeatureFlags];
