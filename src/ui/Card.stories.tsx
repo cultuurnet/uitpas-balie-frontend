@@ -13,7 +13,16 @@ import {
 const meta = {
   title: 'UI/Card',
   component: Card,
-  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          '<a href="https://ui.shadcn.com/docs/components/card" target="_blank" rel="noopener noreferrer">See the full shadcn component documentation</a>',
+      },
+    },
+  },
   args: {
     className: 'w-80',
     children: (

@@ -10,5 +10,16 @@ export {
   CardHeader,
   CardTitle,
 } from './Card';
+export type { InputGroupProps } from './InputGroup';
+export {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from './InputGroup';
 export type { LinkProps } from './Link';
 export { Link } from './Link';
+export type { SpinnerProps } from './Spinner';
+export { Spinner } from './Spinner';

@@ -6,7 +6,16 @@ import { Link } from './Link';
 const meta = {
   title: 'UI/Link',
   component: Link,
-  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          '<a href="https://nextjs.org/docs/app/api-reference/components/link" target="_blank" rel="noopener noreferrer">See the full Next.js Link documentation</a>',
+      },
+    },
+  },
   args: {
     href: '/example',
     title: 'Link label',

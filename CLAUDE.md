@@ -178,6 +178,8 @@ Every finished web component gets a Storybook story and a Lost Pixel visual base
 
 Stories live next to the component they test. Only write stories for components in `src/web/lib/ui/` and `src/web/feature-*/` — not for shadcn primitives in `src/components/ui/`.
 
+If the component directly wraps a third-party primitive (shadcn, Next.js, etc.), add a link to its online documentation via `parameters.docs.description.component` in the story meta (HTML `<a>` with `target="_blank" rel="noopener noreferrer"`).
+
 > **Legacy paths.** In the target architecture, stories live in `src/ui/` alongside
 > their components. Shadcn primitives in `src/ui/shadcn/` are still excluded.
 

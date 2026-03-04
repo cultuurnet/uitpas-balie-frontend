@@ -6,7 +6,16 @@ import { Button } from './Button';
 const meta = {
   title: 'UI/Button',
   component: Button,
-  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          '<a href="https://ui.shadcn.com/docs/components/button" target="_blank" rel="noopener noreferrer">See the full shadcn component documentation</a>',
+      },
+    },
+  },
   args: { children: 'Button' },
 } satisfies Meta<typeof Button>;
 type Story = StoryObj<typeof meta>;
