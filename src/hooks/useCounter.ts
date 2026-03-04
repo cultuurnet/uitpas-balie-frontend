@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { CounterContext } from '@/shared/feature-counter/context/CounterContext';
+import { CounterContext } from '@/app/CounterProvider';
 
 export const useCounter = () => {
   const {

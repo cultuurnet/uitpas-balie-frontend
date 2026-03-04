@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { useCounter } from '@/hooks/useCounter';
 import { clientRoutes } from '@/mobile/feature-routing';
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
 
 export default function CounterPage() {
   const { activeCounter } = useCounter();

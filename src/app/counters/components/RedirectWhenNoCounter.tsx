@@ -1,8 +1,8 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
-import { useIsLoggedIn } from '../../lib/auth';
-import { Counter } from './CounterContext';
+import { useIsLoggedIn } from '@/shared/lib/auth';
+import { Counter } from '@/utils/counterStore';
 
 const APP_PATH = '/';
 

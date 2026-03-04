@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { useCounter } from '@/hooks/useCounter';
 import { useActivity } from '@/mobile/feature-activities/useActivity';
 import { clientRoutes } from '@/mobile/feature-routing';
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import { getIdFromUrl } from '@/shared/lib/utils';
 
 export default function ActivityPage() {
