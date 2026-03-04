@@ -6,7 +6,8 @@
       "Bash(yarn lint)",
       "Bash(yarn prettify)",
       "Bash(yarn format:check:*)",
-      "Bash(yarn types:check:*)"
+      "Bash(yarn types:check:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

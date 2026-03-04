@@ -1,11 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
-import ButtonUnstyled, {
-  buttonUnstyledClasses,
-  ButtonUnstyledProps,
-} from '@mui/base/ButtonUnstyled';
-import { styled, Button as JoyButton } from '@mui/joy';
+import { Button as JoyButton } from '@mui/joy';
 
 type ButtonOwnProps = {
   variant?: 'contained' | 'outlined';

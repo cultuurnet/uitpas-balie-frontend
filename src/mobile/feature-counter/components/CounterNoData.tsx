@@ -1,12 +1,13 @@
 'use client';
 
-import { Stack } from '@mui/material';
-import { Link, Typography } from '@/mobile/lib/ui';
 import { WarningAmber } from '@mui/icons-material';
-import { useTranslation } from '@/shared/lib/i18n/client';
-import { LoginButton } from '@/mobile/feature-login';
-import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
+import { Stack } from '@mui/material';
 import Image from 'next/image';
+import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
+
+import { LoginButton } from '@/mobile/feature-login';
+import { Link, Typography } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 export const CounterNoData = () => {
   const { t } = useTranslation();

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Search as SearchIcon, X } from 'lucide-react';
+
 import {
   InputGroup,
   InputGroupAddon,
@@ -15,8 +16,9 @@ const meta = {
   args: { className: 'w-80' },
 } satisfies Meta<typeof InputGroup>;
 
-export default meta;
 type Story = StoryObj<typeof meta>;
+
+export default meta;
 
 export const Default: Story = {
   render: (args) => (

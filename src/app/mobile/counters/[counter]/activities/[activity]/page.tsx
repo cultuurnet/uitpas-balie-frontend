@@ -1,10 +1,11 @@
 'use client';
 
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
-import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { clientRoutes } from '@/mobile/feature-routing';
+import { useEffect } from 'react';
+
 import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { clientRoutes } from '@/mobile/feature-routing';
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import { getIdFromUrl } from '@/shared/lib/utils';
 
 export default function ActivityPage() {

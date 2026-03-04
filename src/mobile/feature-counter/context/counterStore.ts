@@ -1,6 +1,6 @@
+import { Counter } from '@/shared/feature-counter/context/CounterContext';
 import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 import { readData, storeData } from '@/shared/lib/utils/localStorageUtils';
-import { Counter } from '@/shared/feature-counter/context/CounterContext';
 
 const localstorageSupport = typeof localStorage !== 'undefined';
 

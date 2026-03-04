@@ -1,9 +1,10 @@
 import MediaDevices from 'media-devices';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
-import { readData, storeData } from '../localStorageUtils';
+
 import { useTranslation } from '@/shared/lib/i18n/client';
-import adapter from 'webrtc-adapter';
+
+import { readData, storeData } from '../localStorageUtils';
 
 type Permission = 'denied' | 'granted' | 'unknown' | 'prompt';
 
@@ -83,6 +84,7 @@ export const useCamera = ({
 
   const checkPermissions = () => {
     if (!navigator.permissions) {
+      // eslint-disable-next-line no-console
       console.warn('Browser does not support querying permissions');
       return;
     }
@@ -101,6 +103,7 @@ export const useCamera = ({
           });
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.error('Could not read camera permissions:', err);
         });
     } else {
@@ -131,6 +134,7 @@ export const useCamera = ({
 
       for (const device of videoDevices) {
         if (!device.deviceId) {
+          // eslint-disable-next-line no-console
           console.warn('Device without deviceId found, skipping');
           continue;
         }
@@ -157,6 +161,7 @@ export const useCamera = ({
             try {
               canTorch = 'torch' in capabilities;
             } catch (e) {
+              // eslint-disable-next-line no-console
               console.warn(`Error checking torch capability:`, e);
               canTorch = false;
             }
@@ -188,10 +193,12 @@ export const useCamera = ({
           storeData<DetectedDevice[]>('camerasRaw', detectedCamerasLocal);
           setDetectedCameras(detectedCamerasLocal);
         } catch (err) {
+          // eslint-disable-next-line no-console
           console.error(`Failed to access device: ${device.deviceId}`, err);
         }
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Could not enumerate devices:', err);
     } finally {
       setIsLoading(false);

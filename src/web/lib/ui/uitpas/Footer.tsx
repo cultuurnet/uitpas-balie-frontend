@@ -1,12 +1,13 @@
 'use client';
 
-import { Box, Divider, Stack, Typography } from '@mui/joy';
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import { faTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from '@emotion/styled';
-import { useTranslation } from '@/shared/lib/i18n/client';
+import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Box, Divider, Stack, Typography } from '@mui/joy';
 import Link from 'next/link';
+
+import { useTranslation } from '@/shared/lib/i18n/client';
 const footerLinks = [
   {
     label: 'Facebook',

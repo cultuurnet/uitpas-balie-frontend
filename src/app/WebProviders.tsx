@@ -1,12 +1,13 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PropsWithChildren } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import { UserProvider } from '@/shared/lib/user';
-import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
-import { Layout } from '@/layouts';
+import { PropsWithChildren } from 'react';
+
 import ThemeRegistry from '@/app/ThemeRegistry';
+import { Layout } from '@/layouts';
+import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
+import { UserProvider } from '@/shared/lib/user';
 
 const queryClient = new QueryClient({
   defaultOptions: {

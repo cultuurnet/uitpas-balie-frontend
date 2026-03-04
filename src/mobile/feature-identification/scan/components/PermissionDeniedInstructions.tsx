@@ -1,8 +1,10 @@
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { useMemo } from 'react';
+
 import { BoldFormattedText } from '@/mobile/lib/ui/uitpas/BoldFormattedText';
 import { useTranslation } from '@/shared/lib/utils/hooks';
 import { useUserAgentInfo } from '@/shared/lib/utils/hooks/useUserAgentInfo';
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { useMemo } from 'react';
+
 import { useMapTranslationsToSteps } from './permissionDeniedInstructionsMapper';
 
 export const PermissionDeniedInstructions = () => {

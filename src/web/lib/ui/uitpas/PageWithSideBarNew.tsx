@@ -1,12 +1,14 @@
 'use client';
 
-import { Grid, Stack, Link, Box } from '@/web/lib/ui';
-import { Divider, styled } from '@mui/joy';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Divider, styled } from '@mui/joy';
 import { PropsWithChildren, ReactNode } from 'react';
-import { Footer } from './Footer';
+
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { Box, Grid, Link, Stack } from '@/web/lib/ui';
+
+import { Footer } from './Footer';
 
 const SideBarContainer = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),

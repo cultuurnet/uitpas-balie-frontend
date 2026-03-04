@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+
 import { Spinner } from './Spinner';
 
 const meta = {
@@ -7,8 +8,9 @@ const meta = {
   parameters: { layout: 'centered' },
 } satisfies Meta<typeof Spinner>;
 
-export default meta;
 type Story = StoryObj<typeof meta>;
+
+export default meta;
 
 export const Default: Story = {};
 

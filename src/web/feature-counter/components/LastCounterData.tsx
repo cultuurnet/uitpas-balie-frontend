@@ -1,9 +1,10 @@
 'use client';
 
-import { Link, Typography } from '@/web/lib/ui';
+import type { Theme } from '@mui/joy/styles';
+
 import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import type { Theme } from '@mui/joy/styles';
+import { Link, Typography } from '@/web/lib/ui';
 
 type LastCounterDataProps = {
   lastCounter: Organizer;

@@ -1,10 +1,11 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useConfig } from '@/shared/feature-config/context/useConfig';
+
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
+import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 const DEVICE = {
   mobile: 'mobile',
@@ -33,7 +34,7 @@ const useDetectMobile = () => {
     }
   }, [path, shouldRedirectToMobile, disabledMobileRoute, replace]);
 
-  if (shouldRedirectToMobile) {
+  if (shouldRedirectToMobile && !disabledMobileRoute) {
     return DEVICE.pending;
   }
 

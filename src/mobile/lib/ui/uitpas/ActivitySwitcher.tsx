@@ -1,20 +1,20 @@
 'use client';
 
-import { useActivity } from '@/mobile/feature-activities/useActivity';
-import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Box,
-  Typography,
-  IconButton,
-  useTheme,
   type BoxProps,
+  IconButton,
+  Typography,
+  useTheme,
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
 import { forwardRef } from 'react';
 
-export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
+
+const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
   const { t, LANG_KEY } = useTranslation();
   const { selectedActivity, clearActivity } = useActivity();
   const theme = useTheme();
@@ -56,3 +56,5 @@ export const ActivitySwitcher = forwardRef(({ ...props }: BoxProps, ref) => {
 });
 
 ActivitySwitcher.displayName = 'ActivitySwitcher';
+
+export { ActivitySwitcher };

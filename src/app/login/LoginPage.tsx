@@ -1,18 +1,18 @@
 'use client';
 
-import Image from 'next/image';
-import { signIn } from 'next-auth/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faArrowRightFromBracket,
   faShieldHalved,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 
-import { Button, Card, CardContent, CardTitle, Link } from '@/ui';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
-import { getAssetUrl } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { getAssetUrl } from '@/shared/lib/utils';
+import { Button, Card, CardContent, CardTitle, Link } from '@/ui';
 
 export const LoginPage = () => {
   const { t } = useTranslation();
@@ -31,32 +31,37 @@ export const LoginPage = () => {
       </div>
 
       <div className="w-full md:w-1/2 flex items-end">
-        <div className="w-full max-w-2xl px-16 py-16 flex flex-col">
-          <Image
-            src={getAssetUrl('/images/svg/logo-uitpas-green.svg')}
-            alt="UiTPAS Logo"
-            width={200}
-            height={60}
-            priority
-          />
+        <div className="w-full max-w-2xl mx-auto px-16 py-16 flex flex-col">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <Image
+              src={getAssetUrl('/images/svg/logo-uitpas-green.svg')}
+              alt="UiTPAS Logo"
+              width={200}
+              height={60}
+              priority
+            />
 
-          <h1 className="text-2xl mt-8 mb-4">{t('login.title')}</h1>
+            <h1 className="text-2xl mt-8 mb-4">{t('login.title')}</h1>
 
-          <p className="mb-6">{t('login.intro')}</p>
+            <p className="mb-6">{t('login.intro')}</p>
 
-          <div className="mb-3">
-            <Button className="h-12 text-xl" onClick={() => signIn('keycloak')}>
-              <FontAwesomeIcon icon={faArrowRightFromBracket} />
-              {t('login.loginBtn')}
-            </Button>
+            <div className="mb-3">
+              <Button
+                className="h-12 text-xl"
+                onClick={() => signIn('keycloak')}
+              >
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                {t('login.loginBtn')}
+              </Button>
+            </div>
+
+            <Link
+              href={publicRuntimeConfig?.loginHowToLoginUrl || '#'}
+              className="mb-10"
+            >
+              {t('login.howToLogin')}
+            </Link>
           </div>
-
-          <Link
-            href={publicRuntimeConfig?.loginHowToLoginUrl || '#'}
-            className="mb-10"
-          >
-            {t('login.howToLogin')}
-          </Link>
 
           <Card
             accentColor="var(--color-secondary)"

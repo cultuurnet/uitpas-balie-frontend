@@ -1,8 +1,8 @@
 'use client';
 
+import { Add, Remove } from '@mui/icons-material';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Add, Remove } from '@mui/icons-material';
 
 type StepperFieldProps = {
   value: number;

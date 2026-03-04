@@ -1,10 +1,12 @@
 'use client';
 
-import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
-import { Link, Typography } from '@/web/lib/ui';
-import { CounterNoData } from './CounterNoData';
-import { useTranslation } from '@/shared/lib/i18n/client';
 import type { Theme } from '@mui/joy/styles';
+
+import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { Link, Typography } from '@/web/lib/ui';
+
+import { CounterNoData } from './CounterNoData';
 
 type CounterPickerDataProps = {
   data: OrganizerPermissions[];

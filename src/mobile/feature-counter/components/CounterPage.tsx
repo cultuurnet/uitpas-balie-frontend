@@ -1,12 +1,13 @@
 'use client';
 
-import { Organizer } from '@/shared/lib/dataAccess';
-import { CounterNoData, CounterPicker } from '@/mobile/feature-counter';
 import { ChangeEvent, useEffect, useState } from 'react';
+
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { CounterNoData, CounterPicker } from '@/mobile/feature-counter';
 import { useCounter } from '@/mobile/feature-counter/context/useCounter';
 import { UitpasLoading } from '@/mobile/lib/ui';
-import { useActivity } from '@/mobile/feature-activities/useActivity';
 import { useGetCounters } from '@/shared/feature-counter/hooks/useGetCounters';
+import { Organizer } from '@/shared/lib/dataAccess';
 
 export const CounterPage = () => {
   const [searchString, setSearchString] = useState<string>('');

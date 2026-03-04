@@ -1,9 +1,19 @@
 'use client';
 
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { Theme } from '@mui/joy/styles';
 import Image from 'next/image';
-import { Typography, Button } from '@/web/lib/ui';
-import { useLogout } from '@/shared/lib/auth';
+import { useCallback, useEffect, useState } from 'react';
+
 import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useLogout } from '@/shared/lib/auth';
+import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { getAssetUrl } from '@/shared/lib/utils';
+import { Button, Typography } from '@/web/lib/ui';
+
+import { CounterMenu } from './CounterMenu';
 import {
   HamburgerButton,
   Header,
@@ -14,14 +24,6 @@ import {
   NavLink,
   UserStack,
 } from './Navbar.styles';
-import { CounterMenu } from './CounterMenu';
-import { getAssetUrl } from '@/shared/lib/utils';
-import { useCallback, useEffect, useState } from 'react';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
-import { useTranslation } from '@/shared/lib/i18n/client';
-import type { Theme } from '@mui/joy/styles';
 
 type NavbarProps = {
   userInfo: UserInfo;

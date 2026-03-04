@@ -1,12 +1,13 @@
+import type { ComponentProps } from 'react';
+
 import {
   InputGroup as ShadcnInputGroup,
   InputGroupAddon,
   InputGroupButton,
-  InputGroupText,
   InputGroupInput,
+  InputGroupText,
   InputGroupTextarea,
 } from '@/ui/shadcn/input-group';
-import type { ComponentProps } from 'react';
 
 export type InputGroupProps = ComponentProps<typeof ShadcnInputGroup>;
 
@@ -17,7 +18,7 @@ export const InputGroup = (props: InputGroupProps) => (
 export {
   InputGroupAddon,
   InputGroupButton,
-  InputGroupText,
   InputGroupInput,
+  InputGroupText,
   InputGroupTextarea,
 };

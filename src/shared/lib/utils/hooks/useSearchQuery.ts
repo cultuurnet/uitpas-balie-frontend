@@ -1,4 +1,5 @@
 import { useSearchParams } from 'next/navigation';
+
 import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
 
 export function useSearchQuery() {

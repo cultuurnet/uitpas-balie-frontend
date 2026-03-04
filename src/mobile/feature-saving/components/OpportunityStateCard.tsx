@@ -1,6 +1,6 @@
-import { PropsWithChildren, useState } from 'react';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Box, BoxProps, IconButton, useTheme } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
+import { PropsWithChildren, useState } from 'react';
 
 type OpportunityStateCardProps = PropsWithChildren &
   BoxProps & {

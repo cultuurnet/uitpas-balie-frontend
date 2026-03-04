@@ -1,17 +1,18 @@
+import { CircularProgress, Typography, useTheme } from '@mui/material';
+import { useQueries } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+import { TariffCard } from '@/mobile/feature-saving';
 import {
   getGetTariffsQueryOptions,
   TariffAvailibility,
   TariffsResponse,
 } from '@/shared/lib/dataAccess';
-import { getUuid } from '@/shared/lib/utils';
-import { useQueries } from '@tanstack/react-query';
 import {
   CommonName,
   EventPriceInfo,
 } from '@/shared/lib/dataAccess/entry/generated/model';
-import { TariffCard } from '@/mobile/feature-saving';
-import { CircularProgress, Typography, useTheme } from '@mui/material';
-import { useEffect } from 'react';
+import { getUuid } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/utils/hooks';
 
 type TariffProps = {

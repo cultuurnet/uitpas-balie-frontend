@@ -1,11 +1,12 @@
 import './globals.css';
-import { ReactNode } from 'react';
+
 import { Metadata, Viewport } from 'next';
+import { ReactNode } from 'react';
+
 import { Providers } from '@/app/Providers';
 import { palette } from '@/mobile/lib/ui';
 import { ConfigProvider } from '@/shared/feature-config/context/ConfigProvider';
 import { AnalyticsProvider } from '@/shared/feature-google-analytics/AnalyticsProvider';
-import { InstallPrompt } from '@/shared/feature-install-prompt/InstallPrompt';
 
 const APP_NAME = 'UiTPAS Beheer';
 const APP_DEFAULT_TITLE = 'UiTPAS Beheer';

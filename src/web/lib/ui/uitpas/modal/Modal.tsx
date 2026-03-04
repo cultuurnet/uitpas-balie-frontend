@@ -2,14 +2,14 @@
 
 import {
   Modal as MuiModal,
-  ModalProps as MuiModalProps,
   ModalDialog as ModalDialogMui,
   ModalDialogProps,
+  ModalProps as MuiModalProps,
 } from '@mui/joy';
+import type { Theme } from '@mui/joy/styles';
+import { alpha } from '@mui/system';
 import React, { useRef } from 'react';
 import { Transition } from 'react-transition-group';
-import { alpha } from '@mui/system';
-import type { Theme } from '@mui/joy/styles';
 
 type ModalProps = {
   open: boolean;

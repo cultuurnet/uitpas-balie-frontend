@@ -1,18 +1,20 @@
 'use client';
 
-import { Box, Stack, Typography } from '@/web/lib/ui';
-import Image from 'next/image';
-import { CounterPicker } from './CounterPicker';
-import { useUserInfo } from '@/shared/lib/user';
-import { getAssetUrl } from '@/shared/lib/utils';
-import { Input } from '@mui/joy';
-import type { Theme } from '@mui/joy/styles';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Input } from '@mui/joy';
+import type { Theme } from '@mui/joy/styles';
+import Image from 'next/image';
 import { ChangeEvent, useEffect, useState } from 'react';
+
 import { useCounter } from '@/shared/feature-counter/context/useCounter';
-import { useTranslation } from '@/shared/lib/i18n/client';
 import { useGetCounters } from '@/shared/feature-counter/hooks/useGetCounters';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { useUserInfo } from '@/shared/lib/user';
+import { getAssetUrl } from '@/shared/lib/utils';
+import { Box, Stack, Typography } from '@/web/lib/ui';
+
+import { CounterPicker } from './CounterPicker';
 
 export const SelectCounterPage = () => {
   const { t } = useTranslation();

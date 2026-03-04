@@ -70,6 +70,7 @@ const useFeatureFlagDevTools = () => {
     };
 
     window.getCurrentFeatureFlagConfiguration = () => {
+      // eslint-disable-next-line no-console
       console.table(
         Object.entries(FeatureFlags).reduce(
           (acc, [constant, flag]) => {

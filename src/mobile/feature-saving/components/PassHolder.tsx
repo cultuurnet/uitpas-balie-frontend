@@ -1,11 +1,13 @@
 'use client';
 
-import { Association, Passholder } from '@/shared/lib/dataAccess';
-import { formatUitpasNumber } from '@/shared/lib/utils/stringUtils';
-import { Alert } from '@/mobile/lib/ui';
-import { OpportunityStatePassholder } from './OpportunityStatePassholder';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
+
+import { Alert } from '@/mobile/lib/ui';
+import { Association, Passholder } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/utils/hooks';
+import { formatUitpasNumber } from '@/shared/lib/utils/stringUtils';
+
+import { OpportunityStatePassholder } from './OpportunityStatePassholder';
 
 type PassHolderProps = {
   passholder: Passholder;

@@ -1,7 +1,8 @@
 'use client';
 
-import { Stack } from '@/web/lib/ui';
 import { StackProps } from '@mui/joy';
+
+import { Stack } from '@/web/lib/ui';
 
 export const ModalContent = ({ ...props }: StackProps) => {
   return (

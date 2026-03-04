@@ -1,5 +1,6 @@
-import { usePaginationQuery } from './usePaginationQuery';
 import useMuiPagination from '@mui/material/usePagination';
+
+import { usePaginationQuery } from './usePaginationQuery';
 
 type usePaginationSettings = {
   totalItems: number;
