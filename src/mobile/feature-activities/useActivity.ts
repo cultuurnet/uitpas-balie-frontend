@@ -25,8 +25,8 @@ export const useActivity = () => {
 
   const selectedActivity = idIsActivityId
     ? data
-      ? data.data.member.find(
-          (activity) => getIdFromUrl(activity['@id'] ?? '') === params.activity,
+      ? (data.data as Search.GetEvents200 | undefined)?.member?.find(
+          (activity: Search.EventAllOf) => getIdFromUrl(activity['@id'] ?? '') === params.activity,
         )
       : null
     : undefined;
