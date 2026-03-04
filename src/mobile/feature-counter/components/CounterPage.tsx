@@ -2,11 +2,11 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import { useGetCounters } from '@/hooks/useGetCounters';
 import { useActivity } from '@/mobile/feature-activities/useActivity';
 import { CounterNoData, CounterPicker } from '@/mobile/feature-counter';
 import { useCounter } from '@/mobile/feature-counter/context/useCounter';
 import { UitpasLoading } from '@/mobile/lib/ui';
-import { useGetCounters } from '@/shared/feature-counter/hooks/useGetCounters';
 import { Organizer } from '@/shared/lib/dataAccess';
 
 export const CounterPage = () => {
