@@ -19,7 +19,7 @@ import {
   storePrevCounter,
 } from '@/utils/counterStore';
 
-import { RedirectWhenNoCounter } from './counters/RedirectWhenNoCounter';
+import { RedirectWhenNoCounter } from './counters/components/RedirectWhenNoCounter';
 
 export type Counter = Organizer | null;
 

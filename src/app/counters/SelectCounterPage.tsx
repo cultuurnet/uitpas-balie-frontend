@@ -14,7 +14,7 @@ import { useUserInfo } from '@/shared/lib/user';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { Box, Stack, Typography } from '@/web/lib/ui';
 
-import { CounterPicker } from './CounterPicker';
+import { CounterPicker } from './components/CounterPicker';
 
 export const SelectCounterPage = () => {
   const { t } = useTranslation();

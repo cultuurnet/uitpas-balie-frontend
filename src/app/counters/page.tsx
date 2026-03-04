@@ -1,4 +1,4 @@
-import { SelectCounterPage } from '@/web/feature-counter';
+import { SelectCounterPage } from './SelectCounterPage';
 
 const Counters = () => {
   return <SelectCounterPage />;

@@ -1,4 +1,4 @@
-import { Counter } from '@/shared/feature-counter/context/CounterContext';
+import { Counter } from '@/app/CounterProvider';
 import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 import { readData, storeData } from '@/shared/lib/utils/localStorageUtils';
 

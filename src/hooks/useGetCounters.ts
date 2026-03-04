@@ -1,5 +1,8 @@
-import { Counter } from '@/shared/feature-counter/context/CounterContext';
-import { OrganizerPermissions, useGetPermissions } from '@/shared/lib/dataAccess';
+import { Counter } from '@/app/CounterProvider';
+import {
+  OrganizerPermissions,
+  useGetPermissions,
+} from '@/shared/lib/dataAccess';
 
 export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
@@ -7,7 +10,8 @@ export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
   const permissions = Array.isArray(allData?.data) ? allData.data : [];
 
   const dataWithoutLastCounter = permissions.filter(
-    (permission: OrganizerPermissions) => permission.organizer.id !== lastCounterUsed?.id,
+    (permission: OrganizerPermissions) =>
+      permission.organizer.id !== lastCounterUsed?.id,
   );
 
   const filteredData = searchString
