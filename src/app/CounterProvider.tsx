@@ -11,8 +11,8 @@ import {
   useState,
 } from 'react';
 
-import { Organizer } from '@/shared/lib/dataAccess';
 import {
+  Counter,
   readCounter,
   readPrevCounter,
   storeCounter,
@@ -20,8 +20,6 @@ import {
 } from '@/utils/counterStore';
 
 import { RedirectWhenNoCounter } from './counters/components/RedirectWhenNoCounter';
-
-export type Counter = Organizer | null;
 
 export const CounterContext = createContext<{
   activeCounter: Counter;

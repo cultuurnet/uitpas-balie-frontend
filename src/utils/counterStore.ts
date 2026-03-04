@@ -1,6 +1,8 @@
-import { Counter } from '@/app/CounterProvider';
+import { Organizer } from '@/shared/lib/dataAccess';
 import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 import { readData, storeData } from '@/shared/lib/utils/localStorageUtils';
+
+type Counter = Organizer | null;
 
 const localstorageSupport = typeof localStorage !== 'undefined';
 
@@ -30,3 +32,5 @@ export const readPrevCounter = (): Counter => {
     ? readData(PREV_COUNTER_STORAGE_KEY)
     : readCookie(PREV_COUNTER_STORAGE_KEY);
 };
+
+export type { Counter };
