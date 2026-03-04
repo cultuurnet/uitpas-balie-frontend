@@ -5,7 +5,16 @@ import { Spinner } from './Spinner';
 const meta = {
   title: 'UI/Spinner',
   component: Spinner,
-  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          '<a href="https://ui.shadcn.com/docs/components/radix/spinner" target="_blank" rel="noopener noreferrer">See the full shadcn component documentation</a>',
+      },
+    },
+  },
 } satisfies Meta<typeof Spinner>;
 
 type Story = StoryObj<typeof meta>;
