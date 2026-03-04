@@ -15,7 +15,10 @@ import {
 import { RangeMenu } from './RangeMenu';
 import { SearchInput } from './SearchInput';
 import dayjs from 'dayjs';
-import { EventAllOf, GetEvents200 } from '@/shared/lib/dataAccess/search/generated/model';
+import {
+  EventAllOf,
+  GetEvents200,
+} from '@/shared/lib/dataAccess/search/generated/model';
 import {
   ActionLink,
   StyledActionsStack,
@@ -144,7 +147,11 @@ export const ActivitiesPage = () => {
               sx={{ alignSelf: 'center', my: 10 }}
             />
           )}
-          <Pagination totalItems={(data?.data as GetEvents200 | undefined)?.totalItems ?? 0} />
+          <Pagination
+            totalItems={
+              (data?.data as GetEvents200 | undefined)?.totalItems ?? 0
+            }
+          />
         </StyledPageContainerStack>
       </PageWithSideBarNew>
 

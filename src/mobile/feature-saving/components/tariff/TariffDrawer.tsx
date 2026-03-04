@@ -132,7 +132,9 @@ export const TariffDrawer = ({
           <Tariff
             eventId={eventId}
             uitpasNumber={uitpasNumber}
-            priceInfo={(data?.data as EventWithReadExample | undefined)?.priceInfo!}
+            priceInfo={
+              (data?.data as EventWithReadExample | undefined)?.priceInfo!
+            }
             passHolderName={passHolderName}
             ticketSaleMutation={handleTicketSaleMutation}
             isDrawerOpen={isOpen}
