@@ -12,6 +12,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Tariff } from '@/mobile/feature-saving';
 import { OutlinedButton } from '@/mobile/lib/ui';
 import { useEventGet } from '@/shared/lib/dataAccess/entry/generated/events/events';
+import { EventWithReadExample } from '@/shared/lib/dataAccess/entry/generated/model';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { getUuid } from '@/shared/lib/utils';
 
@@ -128,11 +129,13 @@ export const TariffDrawer = ({
       >
         {isLoading ? (
           <CircularProgress sx={{ m: 'auto auto' }} />
-        ) : data?.data.priceInfo ? (
+        ) : (data?.data as EventWithReadExample | undefined)?.priceInfo ? (
           <Tariff
             eventId={eventId}
             uitpasNumber={uitpasNumber}
-            priceInfo={data?.data.priceInfo}
+            priceInfo={
+              (data?.data as EventWithReadExample | undefined)?.priceInfo!
+            }
             passHolderName={passHolderName}
             ticketSaleMutation={handleTicketSaleMutation}
             isDrawerOpen={isOpen}

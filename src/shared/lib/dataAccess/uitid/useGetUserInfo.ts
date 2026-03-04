@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import { getSession } from 'next-auth/react';
 
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
@@ -17,12 +17,11 @@ type UserInfo = {
 };
 
 type Props = {
-  token?: string;
   enabled?: boolean;
 };
 
 const queryKey = ['auth0', 'userInfo'];
-const useGetUserInfo = ({ token, enabled = true }: Props) => {
+const useGetUserInfo = ({ enabled = true }: Props) => {
   const { publicRuntimeConfig } = useConfig();
   const queryClient = useQueryClient();
 
@@ -30,10 +29,19 @@ const useGetUserInfo = ({ token, enabled = true }: Props) => {
     remove: () => queryClient.removeQueries({ queryKey }),
     ...useQuery({
       queryKey,
-      queryFn: () => {
-        return axios.get<UserInfo>(
+      queryFn: async () => {
+        const session = await getSession();
+        const response = await fetch(
           publicRuntimeConfig?.oauthUserInfoPath ?? '',
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken ?? ''}`,
+            },
+          },
         );
+        if (!response.ok) throw new Error(response.statusText);
+        const data = (await response.json()) as UserInfo;
+        return { data };
       },
       enabled,
     }),
