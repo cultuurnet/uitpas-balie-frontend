@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(yarn info orval version)",
-      "Bash(npm view orval version)"
+      "Bash(npm view orval version)",
+      "Bash(yarn lint)",
+      "Bash(yarn prettify)",
+      "Bash(yarn format:check:*)",
+      "Bash(yarn types:check:*)"
     ]
   }
 }
