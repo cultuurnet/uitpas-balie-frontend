@@ -179,7 +179,7 @@ export const getGetRewardsInfiniteQueryOptions = <TData = InfiniteData<Awaited<R
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
-  const queryKey =  (queryOptions as unknown as { queryKey?: QueryKey })?.queryKey ?? getGetRewardsInfiniteQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getGetRewardsInfiniteQueryKey(params);
 
   
 

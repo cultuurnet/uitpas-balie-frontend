@@ -3,12 +3,15 @@
 import { CircularProgress } from '@mui/joy';
 import type { Theme } from '@mui/joy/styles';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
 import { useGetEvents } from '@/shared/lib/dataAccess';
-import { EventAllOf } from '@/shared/lib/dataAccess/search/generated/model';
+import {
+  EventAllOf,
+  GetEvents200,
+} from '@/shared/lib/dataAccess/search/generated/model';
 import {
   getQrCodeUrl,
   getUitInDatabankurl,
@@ -80,8 +83,8 @@ export const ActivitiesPage = () => {
 
           {!isLoading && isSuccess ? (
             <>
-              {data.data.member.length > 0 ? (
-                data.data.member.map((member, i) => (
+              {(data.data as GetEvents200).member.length > 0 ? (
+                (data.data as GetEvents200).member.map((member, i) => (
                   <StyledActivityStack
                     key={`activity-${member.name[LANG_KEY]?.substring(0, 10)}}`}
                     sx={(theme: Theme) => ({
@@ -146,7 +149,11 @@ export const ActivitiesPage = () => {
               sx={{ alignSelf: 'center', my: 10 }}
             />
           )}
-          <Pagination totalItems={data?.data.totalItems ?? 0} />
+          <Pagination
+            totalItems={
+              (data?.data as GetEvents200 | undefined)?.totalItems ?? 0
+            }
+          />
         </StyledPageContainerStack>
       </PageWithSideBarNew>
 

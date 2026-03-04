@@ -130,7 +130,11 @@ export const ActivitiesPage = () => {
 
   useEffect(() => {
     if (isSuccess && fetchedData) {
-      dispatch({ type: 'fetchSuccess', fetchedData, searchQuery });
+      dispatch({
+        type: 'fetchSuccess',
+        fetchedData: fetchedData as { data: Search.GetEvents200 },
+        searchQuery,
+      });
     }
   }, [isSuccess, fetchedData, searchQuery]);
 
@@ -153,7 +157,10 @@ export const ActivitiesPage = () => {
           data={data}
           isInitialLoading={isInitialLoading}
           fetchLimit={FETCH_LIMIT}
-          totalFetchedItems={fetchedData ? fetchedData.data.totalItems : 0}
+          totalFetchedItems={
+            (fetchedData?.data as Search.GetEvents200 | undefined)
+              ?.totalItems ?? 0
+          }
           setOffset={setOffset}
           scrollPosition={scrollPosition}
           setScrollPosition={setScrollPosition}

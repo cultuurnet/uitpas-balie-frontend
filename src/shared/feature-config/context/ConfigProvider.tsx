@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { initAxios } from '@/shared/lib/dataAccess/initAxios';
+import { initFetch } from '@/shared/lib/dataAccess/initFetch';
 import { initUrlUtils } from '@/shared/lib/utils';
 
 import { getConfig } from '../getConfig';
@@ -21,7 +21,7 @@ export function ConfigProvider({
   useEffect(() => {
     getConfig().then((config) => {
       setConfig(config);
-      initAxios(config);
+      initFetch(config);
       initUrlUtils(config);
     });
   }, []);
