@@ -1,10 +1,11 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
-import { useConfig } from '../feature-config/context/useConfig';
 import ReactGA from 'react-ga4';
-import { AnalyticsContext } from './context/AnalyticsContext';
 import { UaEventOptions } from 'react-ga4/types/ga4';
+
+import { useConfig } from '../feature-config/context/useConfig';
+import { AnalyticsContext } from './context/AnalyticsContext';
 
 export const AnalyticsProvider = ({ children }: { children: ReactNode }) => {
   const { publicRuntimeConfig } = useConfig();

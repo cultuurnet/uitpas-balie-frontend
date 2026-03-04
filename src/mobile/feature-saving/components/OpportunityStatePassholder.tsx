@@ -1,12 +1,9 @@
-import {
-  CardSystemMembership,
-  CardSystemMembershipSocialTariff,
-  Passholder,
-} from '@/shared/lib/dataAccess';
 import dayjs from 'dayjs';
 import React, { Fragment } from 'react';
-import { useTranslation } from '@/shared/lib/i18n/client';
+
 import { OpportunityStateCard } from '@/mobile/feature-saving';
+import { CardSystemMembership, Passholder } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
 import { Require } from '@/shared/lib/utils/typescriptUtil';
 
 type OpportunityStateDateProps = {

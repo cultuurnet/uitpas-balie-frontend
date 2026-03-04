@@ -1,7 +1,8 @@
 'use client';
 
-import React, { Children, PropsWithChildren } from 'react';
 import type { Theme } from '@mui/joy/styles';
+import React, { Children, PropsWithChildren } from 'react';
+
 import { ModalCloseButton, Stack } from '@/web/lib/ui';
 
 export const ModalHeader = ({ children }: PropsWithChildren) => {

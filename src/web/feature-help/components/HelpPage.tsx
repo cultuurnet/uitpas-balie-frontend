@@ -1,14 +1,15 @@
 'use client';
 
+import { List } from '@mui/joy';
+
+import { useTranslation } from '@/shared/lib/i18n/client';
 import {
-  Stack,
   ListItem,
   PageWithSideBarNew,
-  SideBarTitle,
   SideBarSubTitle,
+  SideBarTitle,
+  Stack,
 } from '@/web/lib/ui';
-import { List } from '@mui/joy';
-import { useTranslation } from '@/shared/lib/i18n/client';
 
 const helpLinks = [
   {

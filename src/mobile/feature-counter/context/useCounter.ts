@@ -1,8 +1,10 @@
-import { useContext, useEffect } from 'react';
-import { CounterContext } from './CounterContext';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import { Organizer, useGetPermissions } from '@/shared/lib/dataAccess';
+import { useContext, useEffect } from 'react';
+
 import { clientRoutes } from '@/mobile/feature-routing';
+import { Organizer, useGetPermissions } from '@/shared/lib/dataAccess';
+
+import { CounterContext } from './CounterContext';
 
 export const useCounter = () => {
   const router = useRouter();

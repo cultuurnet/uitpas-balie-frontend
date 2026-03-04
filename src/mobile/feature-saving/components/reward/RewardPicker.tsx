@@ -1,15 +1,9 @@
-import { Reward } from '@/shared/lib/dataAccess';
 import { CircularProgress } from '@mui/material';
-import {
-  Dispatch,
-  SetStateAction,
-  useRef,
-  UIEvent,
-  useEffect,
-  useState,
-} from 'react';
+import { UIEvent, useEffect, useRef, useState } from 'react';
+
 import { RewardCard } from '@/mobile/feature-saving';
 import { ScrollableContainer } from '@/mobile/lib/ui';
+import { Reward } from '@/shared/lib/dataAccess';
 
 type RewardPickerProps = {
   isInitialLoading: boolean;

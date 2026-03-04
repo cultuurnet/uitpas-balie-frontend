@@ -1,11 +1,12 @@
 'use client';
 
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { ConfigContext } from './ConfigContext';
-import { PublicRuntimeConfig } from '../types';
-import { getConfig } from '../getConfig';
 import { initFetch } from '@/shared/lib/dataAccess/initFetch';
 import { initUrlUtils } from '@/shared/lib/utils';
+
+import { getConfig } from '../getConfig';
+import { PublicRuntimeConfig } from '../types';
+import { ConfigContext } from './ConfigContext';
 
 type ConfigProviderProps = {};
 

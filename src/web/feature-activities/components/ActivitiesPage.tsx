@@ -1,8 +1,27 @@
 'use client';
 
-import { useGetEvents } from '@/shared/lib/dataAccess';
+import { CircularProgress } from '@mui/joy';
 import type { Theme } from '@mui/joy/styles';
-import { SidebarContent } from './SidebarContent';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { getEventParams } from '@/shared/feature-events/getEventParams';
+import { useGetEvents } from '@/shared/lib/dataAccess';
+import {
+  EventAllOf,
+  GetEvents200,
+} from '@/shared/lib/dataAccess/search/generated/model';
+import {
+  getQrCodeUrl,
+  getUitInDatabankurl,
+  getUitInVlaanderenUrl,
+} from '@/shared/lib/utils';
+import { DATE_FORMAT } from '@/shared/lib/utils/dateUtils';
+import { useTranslation } from '@/shared/lib/utils/hooks';
+import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
+import { useRangeQuery } from '@/shared/lib/utils/hooks/useRangeQuery';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
 import {
   Grid,
   Modal,
@@ -12,13 +31,9 @@ import {
   PageWithSideBarNew,
   Typography,
 } from '@/web/lib/ui';
-import { RangeMenu } from './RangeMenu';
-import { SearchInput } from './SearchInput';
-import dayjs from 'dayjs';
-import {
-  EventAllOf,
-  GetEvents200,
-} from '@/shared/lib/dataAccess/search/generated/model';
+import { ActionButton } from '@/web/lib/ui/uitpas/ActionButton';
+import { Pagination } from '@/web/lib/ui/uitpas/Pagination';
+
 import {
   ActionLink,
   StyledActionsStack,
@@ -30,22 +45,9 @@ import {
   StyledPageTitle,
   StyledUserInputStack,
 } from './ActivitiesPages.styles';
-import React, { useState } from 'react';
-import {
-  getQrCodeUrl,
-  getUitInDatabankurl,
-  getUitInVlaanderenUrl,
-} from '@/shared/lib/utils';
-import { Pagination } from '@/web/lib/ui/uitpas/Pagination';
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
-import { CircularProgress } from '@mui/joy';
-import { DATE_FORMAT } from '@/shared/lib/utils/dateUtils';
-import { usePaginationQuery } from '@/shared/lib/utils/hooks/usePaginationQuery';
-import { ActionButton } from '@/web/lib/ui/uitpas/ActionButton';
-import { useRangeQuery } from '@/shared/lib/utils/hooks/useRangeQuery';
-import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
-import { useTranslation } from '@/shared/lib/utils/hooks';
-import { getEventParams } from '@/shared/feature-events/getEventParams';
+import { RangeMenu } from './RangeMenu';
+import { SearchInput } from './SearchInput';
+import { SidebarContent } from './SidebarContent';
 
 export const ActivitiesPage = () => {
   const { t, LANG_KEY } = useTranslation();

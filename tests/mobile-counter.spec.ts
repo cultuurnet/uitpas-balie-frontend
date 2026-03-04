@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect,test } from '@playwright/test';
 
 const CARD_NUMBER = '0900004518206';
 const CARD_NUMBER_WITH_SOCIAL_TARIFF = '0900011354819';

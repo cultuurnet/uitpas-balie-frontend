@@ -1,7 +1,8 @@
+import { Box, BoxProps, Typography, useTheme } from '@mui/material';
+
 import { Button } from '@/mobile/lib/ui';
 import { RewardType } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
-import { Box, BoxProps, Typography, useTheme } from '@mui/material';
 
 type rewardCardProps = BoxProps & {
   rewardId: string;

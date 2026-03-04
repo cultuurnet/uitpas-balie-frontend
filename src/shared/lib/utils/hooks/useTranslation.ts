@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslation as useNextTranslation } from '@/shared/lib/i18n/client';
+
 import { EventName } from '../../dataAccess/search/generated/model';
 
 export const useTranslation = () => {

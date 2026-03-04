@@ -1,18 +1,19 @@
 import { useParams, useRouter } from 'next/navigation';
-import { Search, useGetEvents } from '@/shared/lib/dataAccess';
-import { clientRoutes } from '@/mobile/feature-routing';
-import { getIdFromUrl } from '@/shared/lib/utils';
 import { useEffect } from 'react';
-import { getEventParams } from '@/shared/feature-events/getEventParams';
 
-export const noActivity = '-';
-export type NoActivity = typeof noActivity;
+import { clientRoutes } from '@/mobile/feature-routing';
+import { getEventParams } from '@/shared/feature-events/getEventParams';
+import { Search, useGetEvents } from '@/shared/lib/dataAccess';
+import { getIdFromUrl } from '@/shared/lib/utils';
+
+const noActivity = '-';
+type NoActivity = typeof noActivity;
 
 function isNoActivity(activity: unknown | NoActivity): activity is NoActivity {
   return activity === '-';
 }
 
-export const useActivity = () => {
+const useActivity = () => {
   const router = useRouter();
   const params = useParams<{ counter: string; activity: string }>();
 
@@ -90,3 +91,6 @@ export const useActivity = () => {
     },
   };
 };
+
+export type { NoActivity };
+export { noActivity, useActivity };

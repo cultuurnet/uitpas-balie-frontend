@@ -1,12 +1,13 @@
 'use client';
 import createCache from '@emotion/cache';
-import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider } from '@emotion/react';
-import { CssVarsProvider } from '@mui/joy/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
-import React from 'react';
-import { openSansFont, theme } from '@/web/lib/ui';
 import { GlobalStyles } from '@mui/joy';
+import CssBaseline from '@mui/joy/CssBaseline';
+import { CssVarsProvider } from '@mui/joy/styles';
+import { useServerInsertedHTML } from 'next/navigation';
+import React from 'react';
+
+import { openSansFont, theme } from '@/web/lib/ui';
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
@@ -69,9 +70,6 @@ export default function ThemeRegistry(props: any) {
             },
             iframe: {
               border: 0,
-            },
-            a: {
-              color: theme.palette.neutral[500],
             },
           }}
         />

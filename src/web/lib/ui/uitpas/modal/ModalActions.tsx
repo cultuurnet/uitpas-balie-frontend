@@ -2,6 +2,7 @@
 
 import { StackProps } from '@mui/joy';
 import type { Theme } from '@mui/joy/styles';
+
 import { Stack } from '@/web/lib/ui';
 
 export const ModalActions = ({ ...props }: StackProps) => {

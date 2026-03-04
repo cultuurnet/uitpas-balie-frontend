@@ -1,7 +1,9 @@
+import dayjs from 'dayjs';
+
 import { Grouppass } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/utils/hooks';
+
 import { OpportunityStateCard } from './OpportunityStateCard';
-import dayjs from 'dayjs';
 
 type OpportunityStateGrouppassProps = {
   groupPass: Grouppass;

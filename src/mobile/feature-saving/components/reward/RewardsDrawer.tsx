@@ -1,18 +1,10 @@
-import { OutlinedButton, SearchInput } from '@/mobile/lib/ui';
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
-import {
-  Reward,
-  RewardsPaginatedResponse,
-  useGetRewardsInfinite,
-} from '@/shared/lib/dataAccess';
-import { useTranslation } from '@/shared/lib/i18n/client';
 import { Close } from '@mui/icons-material';
 import {
+  debounce,
   IconButton,
   Stack,
   SwipeableDrawer,
   Typography,
-  debounce,
   useTheme,
 } from '@mui/material';
 import {
@@ -22,6 +14,16 @@ import {
   useEffect,
   useState,
 } from 'react';
+
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { OutlinedButton, SearchInput } from '@/mobile/lib/ui';
+import {
+  Reward,
+  RewardsPaginatedResponse,
+  useGetRewardsInfinite,
+} from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+
 import { RewardPicker } from './RewardPicker';
 
 type RewardsDrawerProps = {

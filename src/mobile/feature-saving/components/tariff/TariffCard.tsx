@@ -1,7 +1,8 @@
 import { Box, Typography, useTheme } from '@mui/material';
+import { useState } from 'react';
+
 import { Button, StepperField } from '@/mobile/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { useState } from 'react';
 
 type TariffCardProps = {
   tariffName?: string;

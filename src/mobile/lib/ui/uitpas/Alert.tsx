@@ -1,14 +1,14 @@
 'use client';
 
+import { keyframes } from '@emotion/react';
+import { CheckCircle } from '@mui/icons-material';
+import { Box, useTheme } from '@mui/material';
 import {
   HTMLAttributes,
   PropsWithChildren,
   useEffect,
   useReducer,
 } from 'react';
-import { Box, useTheme } from '@mui/material';
-import { CheckCircle } from '@mui/icons-material';
-import { keyframes } from '@emotion/react';
 
 type AlertProps = PropsWithChildren &
   HTMLAttributes<HTMLDivElement> & {

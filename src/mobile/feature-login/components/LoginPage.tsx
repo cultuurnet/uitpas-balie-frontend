@@ -1,12 +1,13 @@
 'use client';
 
-import { useTranslation } from '@/shared/lib/i18n/client';
 import { Stack } from '@mui/material';
 import Image from 'next/image';
-import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
-import { Typography } from '@/mobile/lib/ui';
 import uitpasHeart from 'public/images/png/uitpas_heart.png';
+import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
+
 import { LoginButton } from '@/mobile/feature-login';
+import { Typography } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
 
 export const MobileLoginPage = () => {
   const { t } = useTranslation();

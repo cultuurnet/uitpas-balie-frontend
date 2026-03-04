@@ -1,17 +1,19 @@
 'use client';
 
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
-import { PropsWithChildren } from 'react';
-import { Box } from '@mui/material';
-import uitpasLogo from 'public/images/svg/logo-uitpas.svg';
-import Image from 'next/image';
 import { ExitToApp, Settings } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
+import uitpasLogo from 'public/images/svg/logo-uitpas.svg';
+import { PropsWithChildren } from 'react';
+
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
 import { useLogout } from '@/shared/lib/auth';
 import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
+
 import { NavBarIcon } from './components/NavBarIcon';
-import { NavBarTypography } from './components/NavBarTypography';
 import { NavBarItemContainer } from './components/NavBarItemContainer';
+import { NavBarTypography } from './components/NavBarTypography';
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
   const { t } = useTranslation();
