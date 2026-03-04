@@ -7,7 +7,7 @@ import {
   readPrevCounter,
   storeCounter,
   storePrevCounter,
-} from '@/shared/feature-counter/context/counterStore';
+} from '@/utils/counterStore';
 
 import { Counter, CounterContext } from './CounterContext';
 import { RedirectWhenNoCounter } from './RedirectWhenNoCounter';

@@ -3,7 +3,7 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { Counter, CounterContext } from './CounterContext';
-import { readPrevCounter, storePrevCounter } from './counterStore';
+import { readPrevCounter, storePrevCounter } from '@/utils/counterStore';
 
 export const CounterProvider: FC<
   {
