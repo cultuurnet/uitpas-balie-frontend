@@ -13,9 +13,9 @@ async function fetchAndFixSearchSpec(url: string) {
   const spec = await fetch(url).then((r) => r.json());
   return JSON.parse(
     JSON.stringify(spec)
-      .replaceAll('Event-@id', 'EventAtId')
-      .replaceAll('Organizer-@id', 'OrganizerAtId')
-      .replaceAll('Place-@id', 'PlaceAtId'),
+      .replaceAll('Event-@id', 'EventId')
+      .replaceAll('Organizer-@id', 'OrganizerId')
+      .replaceAll('Place-@id', 'PlaceId'),
   );
 }
 
