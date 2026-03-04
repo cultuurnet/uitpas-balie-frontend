@@ -28,8 +28,6 @@ export function initFetch({
           ? input.href
           : input.url;
 
-    console.log({ url });
-
     const resolvedUrl = replaceUrl(url);
 
     if (resolvedUrl === url) {
