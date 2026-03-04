@@ -1,6 +1,7 @@
 'use client';
 
 import { PropsWithChildren, useEffect, useState } from 'react';
+
 import { initFetch } from '@/shared/lib/dataAccess/initFetch';
 import { initUrlUtils } from '@/shared/lib/utils';
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { getSession, signOut } from 'next-auth/react';
+
 import { PublicRuntimeConfig } from '@/shared/feature-config/types';
 
 let initialized = false;

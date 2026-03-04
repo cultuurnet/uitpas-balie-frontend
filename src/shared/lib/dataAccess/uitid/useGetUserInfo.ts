@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSession } from 'next-auth/react';
+
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 type UserInfo = {

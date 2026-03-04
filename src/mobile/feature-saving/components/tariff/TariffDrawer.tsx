@@ -12,9 +12,9 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Tariff } from '@/mobile/feature-saving';
 import { OutlinedButton } from '@/mobile/lib/ui';
 import { useEventGet } from '@/shared/lib/dataAccess/entry/generated/events/events';
+import { EventWithReadExample } from '@/shared/lib/dataAccess/entry/generated/model';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { getUuid } from '@/shared/lib/utils';
-import { EventWithReadExample } from '@/shared/lib/dataAccess/entry/generated/model';
 
 type TariffModalProps = {
   passHolderName?: string;
