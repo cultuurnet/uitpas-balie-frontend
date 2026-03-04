@@ -163,6 +163,7 @@ Use `cn()` from `@/utils/shadcn` to compose Tailwind classes when you need style
 - Avoid over-engineering: make only necessary changes
 - Prefer simple solutions over abstractions
 - Never create documentation that duplicates what code already expresses
+- Group all exports at the bottom of the file using `export { }`
 
 ## Visual testing (Storybook + Lost Pixel)
 

@@ -1,12 +1,14 @@
 'use client';
 
-import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
-import { Card, CardContent } from '@/web/lib/ui';
+import { CircularProgress } from '@mui/joy';
+
 import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { Card, CardContent } from '@/web/lib/ui';
+
 import { CounterPickerData } from './CounterPickerData';
 import { LastCounterData } from './LastCounterData';
-import { CircularProgress } from '@mui/joy';
-import { useTranslation } from '@/shared/lib/i18n/client';
 
 type CounterPickerProps = {
   data: OrganizerPermissions[];

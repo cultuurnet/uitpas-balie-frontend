@@ -1,3 +1,8 @@
+import { Typography } from '@mui/material';
+import { useState } from 'react';
+
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { ManualCardInput } from '@/mobile/feature-identification/components/ManualCardInput';
 import { MobileNavBar } from '@/mobile/layouts';
 import {
   ActivitySwitcher,
@@ -5,10 +10,6 @@ import {
   MobileContentStack,
   UitpasLoading,
 } from '@/mobile/lib/ui';
-import { Typography } from '@mui/material';
-import { useActivity } from '@/mobile/feature-activities/useActivity';
-import { useState } from 'react';
-import { ManualCardInput } from '@/mobile/feature-identification/components/ManualCardInput';
 import { useTranslation } from '@/shared/lib/utils/hooks';
 import { useCamera } from '@/shared/lib/utils/hooks/useCamera';
 

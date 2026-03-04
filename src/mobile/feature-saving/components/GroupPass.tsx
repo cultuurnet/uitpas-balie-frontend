@@ -1,10 +1,12 @@
 'use client';
 
+import { Stack, Typography, useTheme } from '@mui/material';
+
+import { Alert } from '@/mobile/lib/ui';
 import { Grouppass } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/utils/hooks';
-import { Stack, Typography, useTheme } from '@mui/material';
+
 import { OpportunityStateGrouppass } from './OpportunityStateGrouppass';
-import { Alert } from '@/mobile/lib/ui';
 
 type GroupPassProps = {
   groupPass: Grouppass;

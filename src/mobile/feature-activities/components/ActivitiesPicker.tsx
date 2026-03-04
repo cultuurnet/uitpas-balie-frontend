@@ -1,10 +1,11 @@
 import { CircularProgress, Stack } from '@mui/material';
-import { Search } from '@/shared/lib/dataAccess';
-import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
 import { Dispatch, SetStateAction, UIEvent, useEffect, useRef } from 'react';
-import { ScrollableContainer, Typography } from '@/mobile/lib/ui';
-import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
+
 import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { ScrollableContainer, Typography } from '@/mobile/lib/ui';
+import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
+import { Search } from '@/shared/lib/dataAccess';
+import { useSearchQuery } from '@/shared/lib/utils/hooks/useSearchQuery';
 import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
 
 type ActivitiesPickerProps = {

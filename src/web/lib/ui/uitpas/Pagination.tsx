@@ -1,6 +1,7 @@
 'use client';
 
-import { Stack } from '@/web/lib/ui';
+import { mdiMenuLeft, mdiMenuRight } from '@mdi/js';
+import Icon from '@mdi/react';
 import { styled } from '@mui/joy';
 import {
   ButtonHTMLAttributes,
@@ -8,10 +9,10 @@ import {
   forwardRef,
   HTMLProps,
 } from 'react';
-import { mdiMenuLeft, mdiMenuRight } from '@mdi/js';
-import Icon from '@mdi/react';
-import { usePagination } from '@/shared/lib/utils/hooks/usePagination';
+
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { usePagination } from '@/shared/lib/utils/hooks/usePagination';
+import { Stack } from '@/web/lib/ui';
 
 const StyledPaginationButton = styled(
   forwardRef(function ButtonWrapper(

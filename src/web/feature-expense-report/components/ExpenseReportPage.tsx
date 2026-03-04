@@ -1,28 +1,30 @@
 'use client';
+import { faDownload, faRefresh } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Alert, Box, FormControl, FormLabel } from '@mui/joy';
+import { useState } from 'react';
+
+import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useGetOrganizersFinancialReportsPeriods } from '@/shared/lib/dataAccess';
+import { ReportPeriod } from '@/shared/lib/dataAccess';
+import { useTranslation } from '@/shared/lib/i18n/client';
 import {
+  dateToISODateString,
+  isSamePeriod,
+  PeriodType,
+} from '@/shared/lib/utils';
+import {
+  Button,
+  DateInput,
+  ListItem,
   PageWithSideBarNew,
   Stack,
   Typography,
-  DateInput,
-  Button,
-  ListItem,
 } from '@/web/lib/ui';
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
-import { useGetOrganizersFinancialReportsPeriods } from '@/shared/lib/dataAccess';
-import { SidebarContent } from './SidebarContent';
-import { Alert, Box, FormControl, FormLabel } from '@mui/joy';
 import { AnchorButton } from '@/web/lib/ui/uitpas/AnchorButton';
-import { useState } from 'react';
+
 import { useDownloadReport } from '../hooks/useDownloadReport';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faRefresh } from '@fortawesome/free-solid-svg-icons';
-import {
-  PeriodType,
-  isSamePeriod,
-  dateToISODateString,
-} from '@/shared/lib/utils';
-import { ReportPeriod } from '@/shared/lib/dataAccess';
-import { useTranslation } from '@/shared/lib/i18n/client';
+import { SidebarContent } from './SidebarContent';
 
 export const ExpenseReportPage = () => {
   const [startDate, setStartDate] = useState<string>(dateToISODateString());

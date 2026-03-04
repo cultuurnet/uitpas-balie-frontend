@@ -1,6 +1,4 @@
-import { useEventGet } from '@/shared/lib/dataAccess/entry/generated/events/events';
-import { useTranslation } from '@/shared/lib/i18n/client';
-import { getUuid } from '@/shared/lib/utils';
+import { Close } from '@mui/icons-material';
 import {
   CircularProgress,
   IconButton,
@@ -9,10 +7,13 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { Close } from '@mui/icons-material';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { OutlinedButton } from '@/mobile/lib/ui';
+
 import { Tariff } from '@/mobile/feature-saving';
+import { OutlinedButton } from '@/mobile/lib/ui';
+import { useEventGet } from '@/shared/lib/dataAccess/entry/generated/events/events';
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { getUuid } from '@/shared/lib/utils';
 
 type TariffModalProps = {
   passHolderName?: string;

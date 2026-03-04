@@ -1,14 +1,15 @@
+import type { ComponentProps } from 'react';
+
 import {
   Card as ShadcnCard,
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from '@/ui/shadcn/card';
 import { cn } from '@/utils/shadcn';
-import type { ComponentProps } from 'react';
 
 const backgroundClasses = {
   white: 'bg-white',
@@ -46,10 +47,10 @@ export const Card = ({
 );
 
 export {
-  CardHeader,
-  CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 };

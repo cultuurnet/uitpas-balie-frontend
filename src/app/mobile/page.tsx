@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
 import { clientRoutes } from '@/mobile/feature-routing';
 
 // I didn't see a homepage on the mobile designs, perhaps this is still a WiP?

@@ -1,6 +1,7 @@
-import { dateToISODateTimeString } from '@/shared/lib/utils';
 import dayjs from 'dayjs';
+
 import { GetEventsParams } from '@/shared/lib/dataAccess/search/generated/model';
+import { dateToISODateTimeString } from '@/shared/lib/utils';
 
 export const getEventParams = (): GetEventsParams => {
   const dateFrom = dateToISODateTimeString(dayjs().startOf('day').toDate());

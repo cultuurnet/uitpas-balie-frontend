@@ -1,10 +1,10 @@
 'use client';
 
-import Icon from '@mdi/react';
 import { mdiMenuDown } from '@mdi/js';
-
+import Icon from '@mdi/react';
 import MenuUnstyled from '@mui/base/MenuUnstyled';
-import { useMenu } from '@/shared/lib/utils';
+import { Dispatch, SetStateAction } from 'react';
+
 import {
   NavLinkMobile,
   Popper,
@@ -13,8 +13,8 @@ import {
   StyledMenuItem,
   TriggerButton,
 } from '@/layouts/components/Navbar.styles';
-import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { useMenu } from '@/shared/lib/utils';
 
 const menuItems = [
   {

@@ -1,5 +1,6 @@
-import { Button as ShadcnButton, buttonVariants } from '@/ui/shadcn/button';
 import type { ComponentProps } from 'react';
+
+import { Button as ShadcnButton, buttonVariants } from '@/ui/shadcn/button';
 
 export type ButtonProps = ComponentProps<typeof ShadcnButton>;
 

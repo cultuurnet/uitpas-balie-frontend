@@ -1,15 +1,17 @@
 'use client';
 
+import { Divider, Stack, Typography, useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
+import { ElementRef, useEffect, useRef, useState } from 'react';
+
+import { useActivity } from '@/mobile/feature-activities/useActivity';
+import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { ManualCardInput } from '@/mobile/feature-identification';
 import {
-  type TicketSale,
-  type PassholdersPaginatedResponse,
-  type GrouppassesPaginatedResponse,
-  useGetPassholders,
-  usePostTicketSales,
-  usePostRewardsRedeemed,
-  useGetGrouppasses,
-} from '@/shared/lib/dataAccess';
+  RewardsDrawer,
+  ScanFailed,
+  TariffDrawer,
+} from '@/mobile/feature-saving';
 import { MobileNavBar } from '@/mobile/layouts';
 import {
   ActivitySwitcher,
@@ -19,22 +21,22 @@ import {
   UitpasLoading,
 } from '@/mobile/lib/ui';
 import {
-  ScanFailed,
-  TariffDrawer,
-  RewardsDrawer,
-} from '@/mobile/feature-saving';
-import { Stack, Typography, Divider, useTheme } from '@mui/material';
-import { useActivity } from '@/mobile/feature-activities/useActivity';
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
-import { ElementRef, useEffect, useRef, useState } from 'react';
-import { ManualCardInput } from '@/mobile/feature-identification';
+  type GrouppassesPaginatedResponse,
+  type PassholdersPaginatedResponse,
+  type TicketSale,
+  useGetGrouppasses,
+  useGetPassholders,
+  usePostRewardsRedeemed,
+  usePostTicketSales,
+} from '@/shared/lib/dataAccess';
 import { usePostCheckins } from '@/shared/lib/dataAccess/uitpas/generated/checkins/checkins';
+import type { AssociationMembership } from '@/shared/lib/dataAccess/uitpas/generated/model';
+import { useGetPassholdersPassholderIdAssociationMemberships } from '@/shared/lib/dataAccess/uitpas/generated/passholders/passholders';
 import { getIdFromUrl, getUuid } from '@/shared/lib/utils';
 import { useTranslation } from '@/shared/lib/utils/hooks';
-import { PassHolder } from './PassHolder';
+
 import { GroupPass } from './GroupPass';
-import { useGetPassholdersPassholderIdAssociationMemberships } from '@/shared/lib/dataAccess/uitpas/generated/passholders/passholders';
-import type { AssociationMembership } from '@/shared/lib/dataAccess/uitpas/generated/model';
+import { PassHolder } from './PassHolder';
 
 type UiTPASNumber = string;
 

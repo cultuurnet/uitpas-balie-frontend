@@ -1,6 +1,6 @@
 import { CircularProgress, Stack, StackProps } from '@mui/material';
-import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
 import Image from 'next/image';
+import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
 
 export const UitpasLoading = ({ ...props }: StackProps) => {
   return (
