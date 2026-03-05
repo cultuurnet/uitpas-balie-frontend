@@ -10,6 +10,7 @@ const handler = NextAuth({
       authorization: {
         params: {
           referrer: 'uitpas',
+          acr_values: 'optional',
         },
       },
     }),
