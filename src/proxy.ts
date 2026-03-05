@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const COUNTER_STORAGE_KEY = '@uitpas-balie/counter';
+import { COUNTER_STORAGE_KEY } from '@/utils/counterKeys';
+
 const COUNTERS_PATH = '/counters';
 const APP_PATH = '/';
 const MOBILE_COUNTERS_PATH = '/mobile/counters';

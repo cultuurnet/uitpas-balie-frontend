@@ -1,10 +1,9 @@
 import { Organizer } from '@/shared/lib/dataAccess';
 import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 
-type Counter = Organizer | null;
+import { COUNTER_STORAGE_KEY, PREV_COUNTER_STORAGE_KEY } from './counterKeys';
 
-const COUNTER_STORAGE_KEY = '@uitpas-balie/counter';
-const PREV_COUNTER_STORAGE_KEY = '@uitpas-balie/counter-prev';
+type Counter = Organizer | null;
 
 export const storeCounter = (counter: Counter) => {
   storeCookie(COUNTER_STORAGE_KEY, counter);
