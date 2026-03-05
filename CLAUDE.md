@@ -131,6 +131,10 @@ Key env vars: `NEXT_PUBLIC_API_PATH`, `NEXT_PUBLIC_SEARCH_API_PATH`, `NEXT_PUBLI
 > **Legacy path.** `src/shared/feature-config/` will move to `src/utils/getConfig.ts`
 > and `src/hooks/useConfig.ts` once `shared/` is dissolved.
 
+## API reference
+
+UiTPAS API documentation: https://docs.publiq.be/docs/uitpas/introduction
+
 ## API integration (Orval)
 
 Generated hooks live in `src/shared/lib/dataAccess/{service}/generated/`. Never edit these files — regenerate with `yarn orval` when OpenAPI specs change.
