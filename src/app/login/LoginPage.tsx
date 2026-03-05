@@ -84,6 +84,8 @@ export const LoginPage = () => {
                 href={publicRuntimeConfig?.login2faUrl || '#'}
                 variant="primary"
                 icon={<FontAwesomeIcon icon={faArrowRight} />}
+                onClick={() =>
+                  signIn('keycloak', undefined, { acr_values: 'strong' })
               >
                 {t('login.twoFa.link')}
               </Link>
