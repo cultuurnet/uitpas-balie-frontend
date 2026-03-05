@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { FeatureFlags, useFeatureFlag } from '@/hooks/useFeatureFlag';
-import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 const DEVICE = {
   mobile: 'mobile',
