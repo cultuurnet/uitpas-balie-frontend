@@ -29,20 +29,6 @@ setup('authenticate', async ({ baseURL, page }) => {
 
   await page.waitForLoadState('networkidle');
 
-  // Modify cookies after login
-  const cookies = await page.context().cookies();
-  const phpSession = cookies.find((c) => c.name === 'PHPSESSID');
-
-  if (phpSession) {
-    await page.context().addCookies([
-      {
-        ...phpSession,
-        sameSite: 'None',
-        secure: true,
-      },
-    ]);
-  }
-
   // Wait for network to be idle, if we save storage too early, needed storage values might not yet be available
   await page.context().storageState({ path: authFile });
 });
