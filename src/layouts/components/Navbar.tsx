@@ -4,6 +4,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Theme } from '@mui/joy/styles';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
 import { useCounter } from '@/hooks/useCounter';
@@ -32,7 +33,8 @@ type NavbarProps = {
 
 export const Navbar = ({ userInfo, counter }: NavbarProps) => {
   const { t } = useTranslation();
-  const { setActiveCounter, setLastCounterUsed } = useCounter();
+  const { setLastCounterUsed } = useCounter();
+  const router = useRouter();
   const logout = useLogout();
   const [open, setOpen] = useState<boolean>(false);
   const [mobile, setMobile] = useState<boolean>(
@@ -101,7 +103,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
                 onClick={(e) => {
                   e.preventDefault();
                   setLastCounterUsed(counter);
-                  setActiveCounter(null);
+                  router.push(e.currentTarget.pathname);
                 }}
               >
                 {t('counter.changeCounter')}

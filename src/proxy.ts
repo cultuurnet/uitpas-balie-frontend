@@ -35,6 +35,33 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  if (!hasCounter && isOnCountersPage) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_PATH}/permissions`,
+        { headers: { Authorization: `Bearer ${token.accessToken}` } },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const counters = Array.isArray(data) ? data : [];
+
+        if (counters.length === 1) {
+          const nextResponse = NextResponse.redirect(
+            new URL(APP_PATH, request.url),
+          );
+          nextResponse.cookies.set(
+            COUNTER_STORAGE_KEY,
+            JSON.stringify(counters[0].organizer),
+          );
+          return nextResponse;
+        }
+      }
+    } catch {
+      // network error — fall through
+    }
+  }
+
   if (!hasCounter && !isOnCountersPage) {
     return NextResponse.redirect(new URL(COUNTERS_PATH, request.url));
   }
