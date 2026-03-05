@@ -1,12 +1,12 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import {
   createContext,
   Dispatch,
   FC,
   PropsWithChildren,
   SetStateAction,
-  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -18,8 +18,6 @@ import {
   storeCounter,
   storePrevCounter,
 } from '@/utils/counterStore';
-
-import { RedirectWhenNoCounter } from './counters/components/RedirectWhenNoCounter';
 
 export const CounterContext = createContext<{
   activeCounter: Counter;
@@ -33,37 +31,27 @@ export const CounterContext = createContext<{
   setLastCounterUsed: () => {},
 });
 
-export const CounterProvider: FC<
-  {
-    counterPath: string;
-    whiteListedPages?: string | string[];
-  } & PropsWithChildren
-> = ({ counterPath, children, whiteListedPages }) => {
+export const CounterProvider: FC<PropsWithChildren> = ({ children }) => {
   const [activeCounter, setActiveCounter] = useState<Counter>(readCounter);
   const [lastCounterUsed, setLastCounterUsed] =
     useState<Counter>(readPrevCounter);
+  const { status } = useSession();
 
-  useEffect(() => storeCounter(activeCounter), [activeCounter]);
+  const effectiveCounter = status === 'unauthenticated' ? null : activeCounter;
+
+  useEffect(() => storeCounter(effectiveCounter), [effectiveCounter]);
   useEffect(() => storePrevCounter(lastCounterUsed), [lastCounterUsed]);
-  const clearCounter = useCallback(() => setActiveCounter(null), []);
 
   return (
     <CounterContext.Provider
       value={{
-        activeCounter,
+        activeCounter: effectiveCounter,
         setActiveCounter,
         lastCounterUsed,
         setLastCounterUsed,
       }}
     >
-      <RedirectWhenNoCounter
-        counterPath={counterPath}
-        counter={activeCounter}
-        clearCounter={clearCounter}
-        whiteListedPages={whiteListedPages}
-      >
-        {children}
-      </RedirectWhenNoCounter>
+      {children}
     </CounterContext.Provider>
   );
 };
