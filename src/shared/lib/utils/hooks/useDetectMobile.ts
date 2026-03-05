@@ -14,12 +14,10 @@ const DEVICE = {
 } as const;
 
 const useDetectMobile = () => {
-  const { publicRuntimeConfig } = useConfig();
-  const disableMobile = publicRuntimeConfig?.blacklist.includes('mobile');
   const [cookieDisableMobile] = useFeatureFlag(
     FeatureFlags.DISABLE_MOBILE_REDIRECT,
   );
-  const disabledMobileRoute = disableMobile || cookieDisableMobile;
+  const disabledMobileRoute = cookieDisableMobile;
   const path = usePathname();
   const { replace } = useRouter();
   const theme = useTheme();
