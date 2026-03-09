@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 
+import { useCounter } from '@/hooks/useCounter';
 import { Navbar } from '@/layouts/components/Navbar';
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
 import { useUserInfo } from '@/shared/lib/user';
 import { Box } from '@/web/lib/ui';
 

@@ -6,9 +6,9 @@ import { ChangeEvent, Fragment } from 'react';
 import { MobileNavBar } from '@/mobile/layouts';
 import { MobileContentStack, SearchInput, Typography } from '@/mobile/lib/ui';
 import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
-import { Counter } from '@/shared/feature-counter/context/CounterContext';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { Counter } from '@/store/counterStore';
 
 type CounterPickerProps = {
   totalCounters: number;

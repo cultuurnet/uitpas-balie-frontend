@@ -6,7 +6,7 @@ import type { Theme } from '@mui/joy/styles';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useCounter } from '@/hooks/useCounter';
 import { useLogout } from '@/shared/lib/auth';
 import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';

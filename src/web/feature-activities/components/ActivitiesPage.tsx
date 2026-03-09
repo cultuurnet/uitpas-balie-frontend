@@ -5,7 +5,7 @@ import type { Theme } from '@mui/joy/styles';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useCounter } from '@/hooks/useCounter';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
 import { useGetEvents } from '@/shared/lib/dataAccess';
 import {
