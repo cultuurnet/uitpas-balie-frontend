@@ -41,7 +41,10 @@ export const CounterProvider: FC<PropsWithChildren> = ({ children }) => {
   const activeCounterForStorage =
     status === 'unauthenticated' ? null : activeCounter;
 
-  useEffect(() => storeCounter(activeCounterForStorage), [activeCounterForStorage]);
+  useEffect(
+    () => storeCounter(activeCounterForStorage),
+    [activeCounterForStorage],
+  );
   useEffect(() => storePrevCounter(lastCounterUsed), [lastCounterUsed]);
 
   return (

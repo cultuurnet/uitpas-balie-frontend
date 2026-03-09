@@ -16,7 +16,9 @@ export async function proxy(request: NextRequest) {
 
   if (!token) {
     if (isOnLoginPage || isOnMobileLoginPage) return NextResponse.next();
-    const loginPath = pathname.startsWith('/mobile') ? '/mobile/login' : '/login';
+    const loginPath = pathname.startsWith('/mobile')
+      ? '/mobile/login'
+      : '/login';
     return NextResponse.redirect(new URL(loginPath, request.url));
   }
 
@@ -65,7 +67,9 @@ export async function proxy(request: NextRequest) {
   }
 
   if (!hasCounter && !isOnCountersPage && !isOnMobileCountersPage) {
-    const countersPath = pathname.startsWith('/mobile') ? MOBILE_COUNTERS_PATH : COUNTERS_PATH;
+    const countersPath = pathname.startsWith('/mobile')
+      ? MOBILE_COUNTERS_PATH
+      : COUNTERS_PATH;
     return NextResponse.redirect(new URL(countersPath, request.url));
   }
 
