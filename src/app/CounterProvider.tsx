@@ -37,15 +37,17 @@ export const CounterProvider: FC<PropsWithChildren> = ({ children }) => {
     useState<Counter>(readPrevCounter);
   const { status } = useSession();
 
-  const effectiveCounter = status === 'unauthenticated' ? null : activeCounter;
+  // Clear the counter cookie when the user logs out
+  const activeCounterForStorage =
+    status === 'unauthenticated' ? null : activeCounter;
 
-  useEffect(() => storeCounter(effectiveCounter), [effectiveCounter]);
+  useEffect(() => storeCounter(activeCounterForStorage), [activeCounterForStorage]);
   useEffect(() => storePrevCounter(lastCounterUsed), [lastCounterUsed]);
 
   return (
     <CounterContext.Provider
       value={{
-        activeCounter: effectiveCounter,
+        activeCounter: activeCounterForStorage,
         setActiveCounter,
         lastCounterUsed,
         setLastCounterUsed,
