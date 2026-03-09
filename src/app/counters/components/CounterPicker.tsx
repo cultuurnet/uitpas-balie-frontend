@@ -28,6 +28,7 @@ export const CounterPicker = ({
   const router = useRouter();
 
   const handleCounterClick = (organizer: Organizer) => () => {
+    // Store the selected counter in the cookie and context as the context change is to slow for the redirect.
     storeCounter(organizer);
     setActiveCounter(organizer);
     router.push('/');
