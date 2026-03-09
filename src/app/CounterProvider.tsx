@@ -17,7 +17,7 @@ import {
   readPrevCounter,
   storeCounter,
   storePrevCounter,
-} from '@/utils/counterStore';
+} from '@/store/counterStore';
 
 import { RedirectWhenNoCounter } from './counters/components/RedirectWhenNoCounter';
 

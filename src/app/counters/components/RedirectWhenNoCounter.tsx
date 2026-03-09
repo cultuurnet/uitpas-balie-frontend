@@ -2,7 +2,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { useIsLoggedIn } from '@/shared/lib/auth';
-import { Counter } from '@/utils/counterStore';
+import { Counter } from '@/store/counterStore';
 
 const APP_PATH = '/';
 
