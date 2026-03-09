@@ -16,12 +16,14 @@ export async function proxy(request: NextRequest) {
 
   if (!token) {
     if (isOnLoginPage || isOnMobileLoginPage) return NextResponse.next();
-    return NextResponse.redirect(new URL('/login', request.url));
+    const loginPath = pathname.startsWith('/mobile') ? '/mobile/login' : '/login';
+    return NextResponse.redirect(new URL(loginPath, request.url));
   }
 
   const counterCookie = request.cookies.get(COUNTER_STORAGE_KEY);
   const hasCounter = Boolean(counterCookie?.value);
   const isOnCountersPage = pathname === COUNTERS_PATH;
+  const isOnMobileCountersPage = pathname === MOBILE_COUNTERS_PATH;
 
   if (isOnLoginPage) {
     return NextResponse.redirect(
@@ -62,8 +64,9 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (!hasCounter && !isOnCountersPage) {
-    return NextResponse.redirect(new URL(COUNTERS_PATH, request.url));
+  if (!hasCounter && !isOnCountersPage && !isOnMobileCountersPage) {
+    const countersPath = pathname.startsWith('/mobile') ? MOBILE_COUNTERS_PATH : COUNTERS_PATH;
+    return NextResponse.redirect(new URL(countersPath, request.url));
   }
 
   return NextResponse.next();
@@ -73,5 +76,6 @@ export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico|mobile|.*\\..*).*)',
     '/mobile/login',
+    '/mobile/counters',
   ],
 };
