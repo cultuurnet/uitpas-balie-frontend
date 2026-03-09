@@ -8,7 +8,7 @@ import { MobileContentStack, SearchInput, Typography } from '@/mobile/lib/ui';
 import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Counter } from '@/utils/counterStore';
+import { Counter } from '@/store/counterStore';
 
 type CounterPickerProps = {
   totalCounters: number;

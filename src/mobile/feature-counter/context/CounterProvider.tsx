@@ -2,7 +2,7 @@
 
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
-import { readPrevCounter, storePrevCounter } from '@/utils/counterStore';
+import { readPrevCounter, storePrevCounter } from '@/store/counterStore';
 
 import { Counter, CounterContext } from './CounterContext';
 

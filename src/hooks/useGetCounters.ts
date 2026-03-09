@@ -2,7 +2,7 @@ import {
   OrganizerPermissions,
   useGetPermissions,
 } from '@/shared/lib/dataAccess';
-import { Counter } from '@/utils/counterStore';
+import { Counter } from '@/store/counterStore';
 
 export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
