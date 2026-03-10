@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { test as setup } from '@playwright/test';
 
-const authFile = 'playwright/.auth/user.json';
+const authFile = 'playwright/.auth/admin.json';
 
 setup('authenticate', async ({ baseURL, page }) => {
   await page.goto(`${baseURL}/login?redirectTo=/`);
@@ -16,10 +16,10 @@ setup('authenticate', async ({ baseURL, page }) => {
 
   await page
     .locator('input[name="username"]')
-    .fill(process.env.E2E_TEST_BASE_EMAIL ?? '');
+    .fill(process.env.E2E_TEST_ADMIN_EMAIL ?? '');
   await page
     .getByLabel('Je wachtwoord')
-    .fill(process.env.E2E_TEST_BASE_PASSWORD ?? '');
+    .fill(process.env.E2E_TEST_ADMIN_PASSWORD ?? '');
 
   await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
 

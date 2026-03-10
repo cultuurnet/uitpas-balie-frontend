@@ -24,7 +24,22 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: process.env.CI
+    ? [
+        ['list'], // Shows each test as it runs
+        ['github'], // GitHub Actions annotations
+        ['html'], // Generates HTML report
+        [
+          'json',
+          {
+            outputFile: 'playwright-report/test-results.json',
+          },
+        ],
+      ]
+    : [
+        ['list'], // Shows each test as it runs
+        ['html'], // Generates HTML report
+      ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -37,24 +52,44 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
-
     {
       name: 'setup-user',
       testMatch: /auth\.setup\.ts/,
-      use: { ...devices['Pixel 5'] },
     },
 
     {
-      name: 'Mobile Chrome',
+      name: 'setup-admin',
+      testMatch: /auth-admin\.setup\.ts/,
+    },
+
+    {
+      name: 'chromium-user',
+      dependencies: ['setup-user'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      testIgnore: [/.*mobile\..*\.spec\.ts/, /.*admin.*\.spec\.ts/],
+    },
+
+    {
+      name: 'chromium-admin',
+      dependencies: ['setup-admin'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/admin.json',
+      },
+      testMatch: /.*admin.*\.spec\.ts/,
+    },
+
+    {
+      name: 'mobile-chrome-user',
       dependencies: ['setup-user'],
       use: {
         ...devices['Pixel 5'],
         storageState: 'playwright/.auth/user.json',
       },
+      testMatch: /.*mobile\..*\.spec\.ts/,
     },
   ],
 
