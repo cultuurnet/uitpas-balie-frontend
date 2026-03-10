@@ -1,10 +1,12 @@
 'use client';
 
 import { CircularProgress } from '@mui/joy';
+import { useRouter } from 'next/navigation';
 
 import { useCounter } from '@/hooks/useCounter';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { storeCounter } from '@/store/counterStore';
 import { Card, CardContent } from '@/web/lib/ui';
 
 import { CounterPickerData } from './CounterPickerData';
@@ -23,9 +25,13 @@ export const CounterPicker = ({
 }: CounterPickerProps) => {
   const { t } = useTranslation();
   const { setActiveCounter, lastCounterUsed } = useCounter();
+  const router = useRouter();
 
   const handleCounterClick = (organizer: Organizer) => () => {
+    // Store the selected counter in the cookie and context as the context change is to slow for the redirect.
+    storeCounter(organizer);
     setActiveCounter(organizer);
+    router.push('/');
   };
 
   return (
