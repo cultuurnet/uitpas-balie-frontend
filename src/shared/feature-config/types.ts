@@ -10,7 +10,6 @@ export type PublicRuntimeConfig = {
   oauthUserInfoPath: string;
   legacyTokenEndpoint: string;
   legacyLogoutEndpoint: string;
-  blacklist: string;
   devAuthToken: string;
   gaTag: string;
   loginHowToLoginUrl: string;
