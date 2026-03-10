@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Trans } from 'react-i18next';
 
 import { useCounter } from '@/hooks/useCounter';
 import { useGetCounters } from '@/hooks/useGetCounters';
@@ -59,10 +60,11 @@ export const SelectCounterPage = () => {
           </div>
 
           <h1 className="text-center text-2xl mb-4">
-            {t('counter.welcome', { name: '' })}
-            <strong className="text-primary">
-              {userInfo?.given_name ?? ''}
-            </strong>
+            <Trans
+              i18nKey="counter.welcome"
+              values={{ name: userInfo?.given_name ?? '' }}
+              components={{ bold: <strong className="text-primary" /> }}
+            />
           </h1>
 
           <h2 className="text-xl font-bold">{t('counter.selectCounter')}</h2>
