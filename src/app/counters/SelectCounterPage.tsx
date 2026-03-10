@@ -47,7 +47,7 @@ export const SelectCounterPage = () => {
 
   return (
     <div className="flex min-h-screen justify-center bg-gray-100 px-4 pt-12">
-      <Card className="h-fit w-full max-w-125">
+      <Card className="h-fit w-full max-w-lg">
         <CardContent className="flex flex-col gap-4 p-8">
           <div className="flex justify-center">
             <Image

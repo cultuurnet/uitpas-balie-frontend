@@ -15,7 +15,7 @@ const CounterSelectorRow = ({
   <button
     type="button"
     onClick={onClick}
-    className="flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-[0.9rem] py-3 text-left shadow-[0_2px_3px_var(--color-gray-200)] transition-all duration-150 hover:bg-gray-200"
+    className="flex w-full cursor-pointer items-center justify-between rounded-lg bg-white px-4 py-3 text-left shadow-[0_2px_3px_var(--color-gray-200)] transition-all duration-150 hover:bg-gray-200"
   >
     <div className="min-w-0">
       <p className="truncate">{organizer.name}</p>
