@@ -37,24 +37,44 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name: 'chromium',
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
-
     {
       name: 'setup-user',
       testMatch: /auth\.setup\.ts/,
-      use: { ...devices['Pixel 5'] },
     },
 
     {
-      name: 'Mobile Chrome',
+      name: 'setup-admin',
+      testMatch: /auth-admin\.setup\.ts/,
+    },
+
+    {
+      name: 'chromium-user',
+      dependencies: ['setup-user'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      testIgnore: [/.*mobile\..*\.spec\.ts/, /.*admin.*\.spec\.ts/],
+    },
+
+    {
+      name: 'chromium-admin',
+      dependencies: ['setup-admin'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/admin.json',
+      },
+      testMatch: /.*admin.*\.spec\.ts/,
+    },
+
+    {
+      name: 'mobile-chrome-user',
       dependencies: ['setup-user'],
       use: {
         ...devices['Pixel 5'],
         storageState: 'playwright/.auth/user.json',
       },
+      testMatch: /.*mobile\..*\.spec\.ts/,
     },
   ],
 
