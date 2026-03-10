@@ -20,6 +20,7 @@ export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
         const matchesName = permission.organizer.name
           ?.toLowerCase()
           .includes(term);
+        // TODO: remove cast once Orval regenerates Organizer with cardSystems
         const matchesRegion = (
           permission.organizer as { cardSystems?: CardSystem[] }
         ).cardSystems?.some((cs) => cs.name.toLowerCase().includes(term));
