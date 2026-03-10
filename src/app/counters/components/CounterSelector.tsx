@@ -1,12 +1,10 @@
-'use client';
-
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useCounter } from '@/hooks/useCounter';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { Counter } from '@/store/counterStore';
 import { Spinner } from '@/ui';
 import { cn } from '@/utils/shadcn';
 
@@ -18,6 +16,7 @@ type CounterSelectorProps = {
   data: OrganizerPermissions[];
   filterString: string;
   isLoading: boolean;
+  lastCounterUsed: Counter;
   onSelect: (organizer: Organizer) => void;
 };
 
@@ -26,10 +25,10 @@ const CounterSelector = ({
   data,
   filterString,
   isLoading,
+  lastCounterUsed,
   onSelect,
 }: CounterSelectorProps) => {
   const { t } = useTranslation();
-  const { lastCounterUsed } = useCounter();
 
   const filteredLastCounter = (() => {
     if (!lastCounterUsed || !filterString) return lastCounterUsed;

@@ -94,6 +94,7 @@ export const SelectCounterPage = () => {
             data={data}
             filterString={searchString}
             isLoading={isLoading}
+            lastCounterUsed={lastCounterUsed}
             onSelect={handleSelect}
           />
         </CardContent>

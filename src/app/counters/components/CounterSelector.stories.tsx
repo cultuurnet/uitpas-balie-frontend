@@ -1,7 +1,4 @@
-import type { Decorator, Meta, StoryObj } from '@storybook/nextjs-vite';
-
-import { CounterContext } from '@/app/CounterProvider';
-import type { Counter } from '@/store/counterStore';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { CounterSelector } from './CounterSelector';
 
@@ -43,22 +40,6 @@ const mockData = [
   },
 ];
 
-const withContext = (lastCounterUsed: Counter = null): Decorator =>
-  function WithContext(Story) {
-    return (
-      <CounterContext.Provider
-        value={{
-          activeCounter: null,
-          lastCounterUsed,
-          setActiveCounter: () => {},
-          setLastCounterUsed: () => {},
-        }}
-      >
-        <Story />
-      </CounterContext.Provider>
-    );
-  };
-
 const meta = {
   title: 'Counters/CounterSelector',
   component: CounterSelector,
@@ -75,12 +56,12 @@ const meta = {
         <Story />
       </div>
     ),
-    withContext(),
   ],
   args: {
     data: mockData,
     filterString: '',
     isLoading: false,
+    lastCounterUsed: null,
     onSelect: () => {},
   },
 } satisfies Meta<typeof CounterSelector>;
@@ -92,7 +73,7 @@ export default meta;
 export const Default: Story = {};
 
 export const WithLastCounter: Story = {
-  decorators: [withContext(mockOrganizer)],
+  args: { lastCounterUsed: mockOrganizer },
 };
 
 export const Loading: Story = {
