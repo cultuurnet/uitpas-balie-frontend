@@ -1,0 +1,43 @@
+import { expect, test } from '@playwright/test';
+
+test('Go to counter page', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}`);
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+
+  await expect(
+    page.getByRole('heading', { name: 'selecteer je balie' }),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'muntpunt' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
+
+  const searchInput = page.getByPlaceholder('Zoek balie');
+  await searchInput.fill('Munt');
+  await expect(page.getByRole('button', { name: 'muntpunt' })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'publiq vzw' }),
+  ).not.toBeVisible();
+
+  await searchInput.fill('blah');
+  await expect(
+    page.getByText("Er werden geen balies gevonden met de zoekterm 'blah'."),
+  ).toBeVisible();
+
+  await searchInput.clear();
+
+  await page.getByRole('button', { name: 'muntpunt' }).click();
+
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+  await expect(page).toHaveURL('/');
+  await expect(page.getByRole('heading', { name: 'homepage' })).toBeVisible();
+
+  await page.getByRole('link', { name: 'Balie wijzigen' }).click();
+
+  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('domcontentloaded');
+
+  const counterList = page.locator('ul').filter({ hasText: 'Laatst gebruikt' });
+  await expect(counterList).toBeVisible();
+  await expect(counterList.getByRole('button', { name: 'Muntpunt' })).toBeVisible();
+});
