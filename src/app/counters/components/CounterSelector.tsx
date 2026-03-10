@@ -7,13 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCounter } from '@/hooks/useCounter';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Card, CardContent } from '@/ui';
 import { Spinner } from '@/ui';
+import { cn } from '@/utils/shadcn';
 
 import { CounterFallback } from './CounterFallback';
 import { CounterSelectorRow } from './CounterSelectorRow';
 
 type CounterSelectorProps = {
+  className?: string;
   data: OrganizerPermissions[];
   filterString: string;
   isLoading: boolean;
@@ -21,6 +22,7 @@ type CounterSelectorProps = {
 };
 
 const CounterSelector = ({
+  className,
   data,
   filterString,
   isLoading,
@@ -29,43 +31,55 @@ const CounterSelector = ({
   const { t } = useTranslation();
   const { lastCounterUsed } = useCounter();
 
+  const filteredLastCounter = (() => {
+    if (!lastCounterUsed || !filterString) return lastCounterUsed;
+    const term = filterString.toLowerCase();
+    const matchesName = lastCounterUsed.name?.toLowerCase().includes(term);
+    const matchesRegion = lastCounterUsed.cardSystems?.some((cs) =>
+      cs.name.toLowerCase().includes(term),
+    );
+    return matchesName || matchesRegion ? lastCounterUsed : null;
+  })();
+
   return (
-    <Card className="overflow-y-auto">
-      <CardContent>
-        {isLoading ? (
-          <Spinner className="mx-auto" />
-        ) : (
-          <ul className="flex flex-col gap-2">
-            {lastCounterUsed && (
-              <>
-                <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  <FontAwesomeIcon icon={faStar} />
-                  {t('counter.lastUsed')}
-                </li>
-                <li>
+    <div className={cn('overflow-y-auto', className)}>
+      {isLoading ? (
+        <Spinner className="mx-auto" />
+      ) : (
+        <ul className="flex flex-col gap-2">
+          {filteredLastCounter && (
+            <>
+              <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                <FontAwesomeIcon icon={faStar} />
+                {t('counter.lastUsed')}
+              </li>
+              <li className="mb-2">
+                <CounterSelectorRow
+                  organizer={filteredLastCounter}
+                  onClick={() => onSelect(filteredLastCounter)}
+                />
+              </li>
+            </>
+          )}
+          {data.length > 0 && (
+            <>
+              <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                <FontAwesomeIcon icon={faList} />
+                {t('counter.otherCounters')}
+              </li>
+              {data.map((permission) => (
+                <li key={permission.organizer.id} className="mb-2">
                   <CounterSelectorRow
-                    organizer={lastCounterUsed}
-                    onClick={() => onSelect(lastCounterUsed)}
+                    organizer={permission.organizer}
+                    onClick={() => onSelect(permission.organizer)}
                   />
                 </li>
-              </>
-            )}
-            {data.length > 0 ? (
-              <>
-                <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  <FontAwesomeIcon icon={faList} />
-                  {t('counter.otherCounters')}
-                </li>
-                {data.map((permission) => (
-                  <li key={permission.organizer.id}>
-                    <CounterSelectorRow
-                      organizer={permission.organizer}
-                      onClick={() => onSelect(permission.organizer)}
-                    />
-                  </li>
-                ))}
-              </>
-            ) : filterString ? (
+              ))}
+            </>
+          )}
+          {!filteredLastCounter &&
+            data.length === 0 &&
+            (filterString ? (
               <li className="italic text-muted-foreground">
                 {t('counter.noCounterSearch', { searchTerm: filterString })}
               </li>
@@ -73,11 +87,10 @@ const CounterSelector = ({
               <li>
                 <CounterFallback />
               </li>
-            )}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
+            ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

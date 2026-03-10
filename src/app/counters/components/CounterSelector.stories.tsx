@@ -5,17 +5,42 @@ import type { Counter } from '@/store/counterStore';
 
 import { CounterSelector } from './CounterSelector';
 
-const mockOrganizer = { id: '1', name: 'Muntpunt' };
+const mockOrganizer = {
+  id: '1',
+  name: 'Muntpunt',
+  cardSystems: [{ id: 1, name: 'Regio Gent' }],
+};
 
 const mockData = [
   {
     organizer: {
       id: '1',
-      name: '[TEST] UiTPAS Organisatie (Regio Gent + Paspartoe)',
+      name: '[TEST] UiTPAS Organisatie',
+      cardSystems: [
+        { id: 1, name: 'Regio Gent' },
+        { id: 2, name: 'Paspartoe' },
+      ],
     },
   },
-  { organizer: { id: '2', name: 'Danshuis De Ingang' } },
-  { organizer: { id: '3', name: 'Leietheater' } },
+  {
+    organizer: {
+      id: '2',
+      name: 'Danshuis De Ingang',
+      cardSystems: [{ id: 2, name: 'Paspartoe' }],
+    },
+  },
+  {
+    organizer: {
+      id: '3',
+      name: 'Leietheater',
+      cardSystems: [
+        { id: 1, name: 'Regio Gent' },
+        { id: 2, name: 'Paspartoe' },
+        { id: 3, name: 'UiTPAS Brussel' },
+        { id: 4, name: 'Regio Leuven' },
+      ],
+    },
+  },
 ];
 
 const withContext = (lastCounterUsed: Counter = null): Decorator =>
