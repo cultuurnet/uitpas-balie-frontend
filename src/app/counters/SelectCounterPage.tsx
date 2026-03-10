@@ -1,99 +1,104 @@
 'use client';
 
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Input } from '@mui/joy';
-import type { Theme } from '@mui/joy/styles';
 import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Trans } from 'react-i18next';
 
 import { useCounter } from '@/hooks/useCounter';
 import { useGetCounters } from '@/hooks/useGetCounters';
+import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { useUserInfo } from '@/shared/lib/user';
 import { getAssetUrl } from '@/shared/lib/utils';
-import { Box, Stack, Typography } from '@/web/lib/ui';
+import { storeCounter } from '@/store/counterStore';
+import {
+  Card,
+  CardContent,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/ui';
 
-import { CounterPicker } from './components/CounterPicker';
+import { CounterSelector } from './components/CounterSelector';
 
 export const SelectCounterPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
-  const [searchString, setSearchString] = useState<string>('');
-  const { lastCounterUsed } = useCounter();
+  const [searchString, setSearchString] = useState('');
+  const { lastCounterUsed, setActiveCounter } = useCounter();
   const { allData, data, isLoading } = useGetCounters(
     lastCounterUsed,
     searchString,
   );
+  const router = useRouter();
 
-  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchString(e.target.value);
+  const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
+  const showSearch = totalCounters > 1;
+
+  const handleSelect = (organizer: Organizer) => {
+    storeCounter(organizer);
+    setActiveCounter(organizer);
+    router.push('/');
   };
 
   return (
-    <Box sx={{ m: '40px auto;', pt: 12, maxWidth: 500 }}>
-      <Stack>
-        <Box display="flex" flexDirection="column" alignItems="center">
-          <Image
-            src={getAssetUrl('/images/svg/logo-uitpas-full.svg')}
-            alt={'UiTPAS Logo'}
-            width={280}
-            height={84}
-            priority
-          />
-        </Box>
+    <div className="flex min-h-screen justify-center bg-gray-100 px-4 pt-12">
+      <Card className="h-fit w-full max-w-lg">
+        <CardContent className="flex flex-col gap-4 p-8">
+          <div className="flex justify-center">
+            <Image
+              src={getAssetUrl('/images/svg/logo-uitpas-green.svg')}
+              alt="UiTPAS Logo"
+              width={200}
+              height={48}
+              priority
+            />
+          </div>
 
-        <Box
-          sx={{
-            px: { xs: 2, sm: 0 },
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <Typography
-            level="h1"
-            sx={{ alignSelf: 'center', m: 0, pt: '0.3em', pb: '1.2em' }}
-          >
-            {t('counter.welcome', { name: userInfo?.given_name ?? '' })}
-          </Typography>
+          <h1 className="text-center text-2xl mb-4">
+            <Trans
+              i18nKey="counter.welcome"
+              values={{ name: userInfo?.given_name ?? '' }}
+              components={{ bold: <strong className="text-primary" /> }}
+            />
+          </h1>
 
-          {Array.isArray(allData?.data) && allData.data.length > 0 && (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: '0.5em',
-              }}
-            >
-              <Typography level="h2" sx={{ m: 0 }}>
-                {t('counter.selectCounter')}
-              </Typography>
+          <h2 className="text-xl font-bold">{t('counter.selectCounter')}</h2>
 
-              <Input
-                placeholder={`${t('counter.searchCounter')}`}
-                variant="plain"
-                startDecorator={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-                sx={(theme: Theme) => ({
-                  ml: 'auto',
-                  border: `1px ${theme.vars.palette.neutral.solidBorder} solid`,
-                  '--Input-focusedHighlight':
-                    theme.vars.palette.primary.darkChannel,
-                  '--Input-focusedThickness': '1px',
-                  fontWeight: 600,
-                  letterSpacing: '4px',
-                })}
-                onChange={handleSearchInputChange}
+          {showSearch && (
+            <InputGroup className="mb-3">
+              <InputGroupAddon align="inline-start">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </InputGroupAddon>
+              <InputGroupInput
+                placeholder={t('counter.searchCounter')}
+                value={searchString}
+                onChange={(e) => setSearchString(e.target.value)}
               />
-            </Box>
+              {searchString && (
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton onClick={() => setSearchString('')}>
+                    <FontAwesomeIcon icon={faXmark} />
+                  </InputGroupButton>
+                </InputGroupAddon>
+              )}
+            </InputGroup>
           )}
-          <CounterPicker
+
+          <CounterSelector
+            className="max-h-[calc(100vh-420px)]"
             data={data}
             filterString={searchString}
             isLoading={isLoading}
+            lastCounterUsed={lastCounterUsed}
+            onSelect={handleSelect}
           />
-        </Box>
-      </Stack>
-    </Box>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
