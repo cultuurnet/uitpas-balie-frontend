@@ -9,9 +9,9 @@ setup('authenticate', async ({ baseURL, page }) => {
     page,
     baseURL,
     {
-      email: process.env.E2E_TEST_BASE_EMAIL ?? '',
-      password: process.env.E2E_TEST_BASE_PASSWORD ?? '',
+      email: process.env.E2E_TEST_ADMIN_EMAIL ?? '',
+      password: process.env.E2E_TEST_ADMIN_PASSWORD ?? '',
     },
-    'playwright/.auth/user.json',
+    'playwright/.auth/admin.json'
   );
 });
