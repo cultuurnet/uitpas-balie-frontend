@@ -5,22 +5,28 @@ import {
 import { Organizer } from '@/shared/lib/dataAccess';
 import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 
-type Counter = Organizer | null;
+interface CardSystem {
+  id: number;
+  name: string;
+}
 
-export const storeCounter = (counter: Counter) => {
+type Counter = (Organizer & { cardSystems?: CardSystem[] }) | null;
+
+const storeCounter = (counter: Counter) => {
   storeCookie(COUNTER_STORAGE_KEY, counter);
 };
 
-export const storePrevCounter = (counter: Counter) => {
+const storePrevCounter = (counter: Counter) => {
   storeCookie(PREV_COUNTER_STORAGE_KEY, counter);
 };
 
-export const readCounter = (): Counter => {
+const readCounter = (): Counter => {
   return readCookie(COUNTER_STORAGE_KEY);
 };
 
-export const readPrevCounter = (): Counter => {
+const readPrevCounter = (): Counter => {
   return readCookie(PREV_COUNTER_STORAGE_KEY);
 };
 
-export type { Counter };
+export type { CardSystem, Counter };
+export { readCounter, readPrevCounter, storeCounter, storePrevCounter };
