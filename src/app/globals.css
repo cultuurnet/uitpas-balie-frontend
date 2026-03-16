@@ -6,6 +6,7 @@
 
 @theme {
   --color-primary: #26a769;
+  --color-primary-light: #abefb6;
   --color-primary-dark: #1e8a56;
   --color-secondary: #3f2675;
   --color-neutral-50: #ffffff;
@@ -111,11 +112,10 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --sidebar-nav-hover-bg-color: #abefb680;
 }
 
 [data-sidebar='sidebar'] {
-  background: linear-gradient(180deg, #abefb626, #fff);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-primary-light) 15%, transparent), #fff);
 }
 
 .dark {
