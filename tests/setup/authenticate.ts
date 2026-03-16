@@ -22,19 +22,6 @@ async function authenticate(
 
   await page.waitForLoadState('networkidle');
 
-  const cookies = await page.context().cookies();
-  const phpSession = cookies.find((c) => c.name === 'PHPSESSID');
-
-  if (phpSession) {
-    await page.context().addCookies([
-      {
-        ...phpSession,
-        sameSite: 'None',
-        secure: true,
-      },
-    ]);
-  }
-
   await page.context().storageState({ path: authFile });
 }
 
