@@ -21,7 +21,7 @@ export function ConfigProvider({
   useEffect(() => {
     getConfig().then((config) => {
       setConfig(config);
-      initFetch(config);
+      initFetch();
       initUrlUtils(config);
     });
   }, []);
