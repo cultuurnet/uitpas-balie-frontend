@@ -1,22 +1,22 @@
 'use client';
 
-import { getSession, signOut } from 'next-auth/react';
-
-import { PublicRuntimeConfig } from '@/shared/feature-config/types';
+import { signOut } from 'next-auth/react';
 
 let initialized = false;
 
-export function initFetch({
-  publicRuntimeConfig,
-}: {
-  publicRuntimeConfig: PublicRuntimeConfig;
-}) {
+const PROXY_PATHS: Record<string, string> = {
+  NEXT_PUBLIC_API_PATH: '/api/proxy/uitpas',
+  NEXT_PUBLIC_ENTRY_API_PATH: '/api/proxy/entry',
+  NEXT_PUBLIC_SEARCH_API_PATH: '/api/proxy/search',
+};
+
+export function initFetch() {
   if (initialized) return;
   initialized = true;
 
   const replaceUrl = (url: string) =>
-    Object.keys(publicRuntimeConfig.apiPaths).reduce(
-      (newUrl, key) => newUrl.replace(key, publicRuntimeConfig.apiPaths[key]),
+    Object.keys(PROXY_PATHS).reduce(
+      (newUrl, key) => newUrl.replace(key, PROXY_PATHS[key]),
       url,
     );
 
@@ -35,16 +35,7 @@ export function initFetch({
       return nativeFetch(input, init);
     }
 
-    const headers: Record<string, string> = {
-      ...(init?.headers as Record<string, string>),
-    };
-
-    const session = await getSession();
-    if (session?.accessToken) {
-      headers.Authorization = `Bearer ${session.accessToken}`;
-    }
-
-    const response = await nativeFetch(resolvedUrl, { ...init, headers });
+    const response = await nativeFetch(resolvedUrl, init);
     if (response.status === 401) {
       signOut({ callbackUrl: '/' });
     }
