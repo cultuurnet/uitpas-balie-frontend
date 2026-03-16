@@ -5,6 +5,7 @@ test('Go to counter page', async ({ page, baseURL }) => {
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
+  await expect(page).toHaveURL('/counters');
   await expect(
     page.getByRole('heading', { name: 'selecteer je balie' }),
   ).toBeVisible();
@@ -24,6 +25,8 @@ test('Go to counter page', async ({ page, baseURL }) => {
   ).toBeVisible();
 
   await searchInput.clear();
+  await expect(page.getByRole('button', { name: 'muntpunt' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
 
   await page.getByRole('button', { name: 'muntpunt' }).click();
 
@@ -36,8 +39,10 @@ test('Go to counter page', async ({ page, baseURL }) => {
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
+  await expect(page).toHaveURL('/counters');
 
   const counterList = page.locator('ul').filter({ hasText: 'Laatst gebruikt' });
   await expect(counterList).toBeVisible();
   await expect(counterList.getByRole('button', { name: 'Muntpunt' })).toBeVisible();
+  await expect(page.getByText('Andere balies')).toBeVisible();
 });
