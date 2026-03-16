@@ -20,7 +20,6 @@
     "otherGroups": "Groepspas:",
     "otherGroupsLinkText": "bekijk het saldo van je groepspas",
     "loggedInAs": "Aangemeld als {{name}}",
-    "logoutBtn": "Afmelden",
     "mobile": {
       "title": "Mobiele balie",
       "intro": "Met de mobiele balie kan je als UiTPAS-organisator makkelijk een aantal UiTPAS-acties uitvoeren zoals een korting toekennen, een punt sparen en een voordeel omruilen.",
@@ -317,7 +316,12 @@
     "counterMemberships": "Medewerkers",
     "checkindevices": "Zuilen",
     "expenseReport": "Onkostennota",
-    "counterStatistics": "Statistieken & inzichten"
+    "counterStatistics": "Statistieken & inzichten",
+    "passholders": "Pashouders",
+    "advantages": "Voordelen",
+    "cardreaders": "Kaartlezers",
+    "news": "Nieuws",
+    "logout": "Afmelden"
   },
   "common": {
     "startDate": "Startdatum",
