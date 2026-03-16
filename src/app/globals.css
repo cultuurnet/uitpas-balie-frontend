@@ -114,7 +114,7 @@
   --sidebar-nav-hover-bg-color: #abefb680;
 }
 
-[data-sidebar="sidebar"] {
+[data-sidebar='sidebar'] {
   background: linear-gradient(180deg, #abefb626, #fff);
 }
 

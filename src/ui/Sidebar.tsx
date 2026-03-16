@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import { PropsWithChildren } from 'react';
+
 import { getAssetUrl } from '@/shared/lib/utils';
 import {
   Sidebar as ShadcnSidebar,
@@ -6,8 +9,6 @@ import {
   SidebarHeader,
   SidebarSeparator,
 } from '@/ui/shadcn/sidebar';
-import Image from 'next/image';
-import { PropsWithChildren } from 'react';
 
 const Sidebar = ({ children }: PropsWithChildren) => {
   return (
