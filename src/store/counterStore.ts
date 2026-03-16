@@ -7,7 +7,7 @@ import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 
 interface CardSystem {
   id: number;
-  name: string;
+  name?: string;
 }
 
 type Counter = (Organizer & { cardSystems?: CardSystem[] }) | null;

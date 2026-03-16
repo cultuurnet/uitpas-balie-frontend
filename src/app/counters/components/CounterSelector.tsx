@@ -35,7 +35,7 @@ const CounterSelector = ({
     const term = filterString.toLowerCase();
     const matchesName = lastCounterUsed.name?.toLowerCase().includes(term);
     const matchesRegion = lastCounterUsed.cardSystems?.some((cs) =>
-      cs.name.toLowerCase().includes(term),
+      cs.name?.toLowerCase().includes(term),
     );
     return matchesName || matchesRegion ? lastCounterUsed : null;
   })();
