@@ -1,9 +1,9 @@
-import { Organizer } from '@/shared/lib/dataAccess';
-import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 import {
   COUNTER_STORAGE_KEY,
   PREV_COUNTER_STORAGE_KEY,
 } from '@/app/const/storageKeys';
+import { Organizer } from '@/shared/lib/dataAccess';
+import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 
 type Counter = Organizer | null;
 
