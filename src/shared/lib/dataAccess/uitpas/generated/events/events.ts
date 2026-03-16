@@ -101,7 +101,7 @@ export const getPutEventsCardSystemsUrl = (eventId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`
+  return `/api/proxy/uitpas/events/${eventId}/card-systems`
 }
 
 export const putEventsCardSystems = async (eventId: string,
@@ -210,7 +210,7 @@ export const getGetEventsCardSystemsUrl = (eventId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`
+  return `/api/proxy/uitpas/events/${eventId}/card-systems`
 }
 
 export const getEventsCardSystems = async (eventId: string, options?: RequestInit): Promise<getEventsCardSystemsResponse> => {
@@ -236,7 +236,7 @@ export const getEventsCardSystems = async (eventId: string, options?: RequestIni
 
 export const getGetEventsCardSystemsQueryKey = (eventId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/events/${eventId}/card-systems`
+    `/api/proxy/uitpas/events/${eventId}/card-systems`
     ] as const;
     }
 
@@ -354,7 +354,7 @@ export const getPutEventsSettingsUrl = (eventId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/events/${eventId}/settings`
+  return `/api/proxy/uitpas/events/${eventId}/settings`
 }
 
 export const putEventsSettings = async (eventId: string,
@@ -464,7 +464,7 @@ export const getGetEventsSettingsUrl = (eventId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/events/${eventId}/settings`
+  return `/api/proxy/uitpas/events/${eventId}/settings`
 }
 
 export const getEventsSettings = async (eventId: string, options?: RequestInit): Promise<getEventsSettingsResponse> => {
@@ -490,7 +490,7 @@ export const getEventsSettings = async (eventId: string, options?: RequestInit):
 
 export const getGetEventsSettingsQueryKey = (eventId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/events/${eventId}/settings`
+    `/api/proxy/uitpas/events/${eventId}/settings`
     ] as const;
     }
 
@@ -611,7 +611,7 @@ export const getGetEventsQrCheckincodesDownloadlinkUrl = (eventId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/events/${eventId}/qr-checkincodes/download-link?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/events/${eventId}/qr-checkincodes/download-link`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/events/${eventId}/qr-checkincodes/download-link?${stringifiedParams}` : `/api/proxy/uitpas/events/${eventId}/qr-checkincodes/download-link`
 }
 
 export const getEventsQrCheckincodesDownloadlink = async (eventId: string,
@@ -639,7 +639,7 @@ export const getEventsQrCheckincodesDownloadlink = async (eventId: string,
 export const getGetEventsQrCheckincodesDownloadlinkQueryKey = (eventId: string,
     params?: GetEventsQrCheckincodesDownloadlinkParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/events/${eventId}/qr-checkincodes/download-link`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/events/${eventId}/qr-checkincodes/download-link`, ...(params ? [params] : [])
     ] as const;
     }
 

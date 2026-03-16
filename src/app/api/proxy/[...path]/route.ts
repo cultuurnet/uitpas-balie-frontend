@@ -80,7 +80,11 @@ async function handler(
   if (response.status === 401) {
     try {
       const refreshed = await refreshAccessToken(token.refreshToken as string);
-      response = await fetchUpstream(targetUrl, request, refreshed.access_token);
+      response = await fetchUpstream(
+        targetUrl,
+        request,
+        refreshed.access_token,
+      );
     } catch {
       return NextResponse.json({ error: 'Session expired' }, { status: 401 });
     }

@@ -90,7 +90,7 @@ export const getGetUitidPassholderRegistrationTokenUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`
+  return `/api/proxy/uitpas/passholders/me/uitid/registration-token`
 }
 
 export const getUitidPassholderRegistrationToken = async ( options?: RequestInit): Promise<getUitidPassholderRegistrationTokenResponse> => {
@@ -116,7 +116,7 @@ export const getUitidPassholderRegistrationToken = async ( options?: RequestInit
 
 export const getGetUitidPassholderRegistrationTokenQueryKey = () => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/me/uitid/registration-token`
+    `/api/proxy/uitpas/passholders/me/uitid/registration-token`
     ] as const;
     }
 
@@ -241,7 +241,7 @@ export const getGetUitidPassholderStatusUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`
+  return `/api/proxy/uitpas/passholders/me/uitid/status`
 }
 
 export const getUitidPassholderStatus = async ( options?: RequestInit): Promise<getUitidPassholderStatusResponse> => {
@@ -267,7 +267,7 @@ export const getUitidPassholderStatus = async ( options?: RequestInit): Promise<
 
 export const getGetUitidPassholderStatusQueryKey = () => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/me/uitid/status`
+    `/api/proxy/uitpas/passholders/me/uitid/status`
     ] as const;
     }
 
@@ -379,7 +379,7 @@ export const getRegisterUitidPassholderUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/me/uitid`
+  return `/api/proxy/uitpas/passholders/me/uitid`
 }
 
 export const registerUitidPassholder = async ( options?: RequestInit): Promise<registerUitidPassholderResponse> => {
@@ -486,7 +486,7 @@ export const getGetPassholdersMeUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/me`
+  return `/api/proxy/uitpas/passholders/me`
 }
 
 export const getPassholdersMe = async ( options?: RequestInit): Promise<getPassholdersMeResponse> => {
@@ -512,7 +512,7 @@ export const getPassholdersMe = async ( options?: RequestInit): Promise<getPassh
 
 export const getGetPassholdersMeQueryKey = () => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/me`
+    `/api/proxy/uitpas/passholders/me`
     ] as const;
     }
 
@@ -630,7 +630,7 @@ export const getPostPassholdersMeUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/me`
+  return `/api/proxy/uitpas/passholders/me`
 }
 
 export const postPassholdersMe = async (passholderSelfRegistration: PassholderSelfRegistration, options?: RequestInit): Promise<postPassholdersMeResponse> => {

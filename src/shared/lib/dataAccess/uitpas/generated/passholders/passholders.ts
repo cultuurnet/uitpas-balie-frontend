@@ -133,7 +133,7 @@ export const getGetPassholdersUrl = (params?: GetPassholdersParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/passholders?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/passholders`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/passholders?${stringifiedParams}` : `/api/proxy/uitpas/passholders`
 }
 
 export const getPassholders = async (params?: GetPassholdersParams, options?: RequestInit): Promise<getPassholdersResponse> => {
@@ -159,7 +159,7 @@ export const getPassholders = async (params?: GetPassholdersParams, options?: Re
 
 export const getGetPassholdersQueryKey = (params?: GetPassholdersParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/passholders`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -283,7 +283,7 @@ export const getPostPassholdersUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders`
+  return `/api/proxy/uitpas/passholders`
 }
 
 export const postPassholders = async (passholder: NonReadonly<Passholder>, options?: RequestInit): Promise<postPassholdersResponse> => {
@@ -391,7 +391,7 @@ export const getDeletePassholdersPassholderIdUrl = (passholderId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}`
+  return `/api/proxy/uitpas/passholders/${passholderId}`
 }
 
 export const deletePassholdersPassholderId = async (passholderId: string, options?: RequestInit): Promise<deletePassholdersPassholderIdResponse> => {
@@ -500,7 +500,7 @@ export const getGetPassholdersPassholderIdPictureUrl = (passholderId: string,) =
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/picture`
+  return `/api/proxy/uitpas/passholders/${passholderId}/picture`
 }
 
 export const getPassholdersPassholderIdPicture = async (passholderId: string, options?: RequestInit): Promise<getPassholdersPassholderIdPictureResponse> => {
@@ -526,7 +526,7 @@ export const getPassholdersPassholderIdPicture = async (passholderId: string, op
 
 export const getGetPassholdersPassholderIdPictureQueryKey = (passholderId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/picture`
+    `/api/proxy/uitpas/passholders/${passholderId}/picture`
     ] as const;
     }
 
@@ -644,7 +644,7 @@ export const getGetPassholdersPassholderIdAssociationMembershipsUrl = (passholde
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/association-memberships?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/association-memberships`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/passholders/${passholderId}/association-memberships?${stringifiedParams}` : `/api/proxy/uitpas/passholders/${passholderId}/association-memberships`
 }
 
 export const getPassholdersPassholderIdAssociationMemberships = async (passholderId: string,
@@ -672,7 +672,7 @@ export const getPassholdersPassholderIdAssociationMemberships = async (passholde
 export const getGetPassholdersPassholderIdAssociationMembershipsQueryKey = (passholderId: string,
     params?: GetPassholdersPassholderIdAssociationMembershipsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/association-memberships`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/passholders/${passholderId}/association-memberships`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -802,7 +802,7 @@ export const getGetPassholdersMembershipPricesCardSystemIdUrl = (cardSystemId: n
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/passholders/membership-prices/${cardSystemId}?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/passholders/membership-prices/${cardSystemId}`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/passholders/membership-prices/${cardSystemId}?${stringifiedParams}` : `/api/proxy/uitpas/passholders/membership-prices/${cardSystemId}`
 }
 
 export const getPassholdersMembershipPricesCardSystemId = async (cardSystemId: number,
@@ -830,7 +830,7 @@ export const getPassholdersMembershipPricesCardSystemId = async (cardSystemId: n
 export const getGetPassholdersMembershipPricesCardSystemIdQueryKey = (cardSystemId: number,
     params?: GetPassholdersMembershipPricesCardSystemIdParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/membership-prices/${cardSystemId}`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/passholders/membership-prices/${cardSystemId}`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -963,7 +963,7 @@ export const getGetPassholdersPassholderIdMembershipPricesCardSystemIdUrl = (pas
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices/${cardSystemId}?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices/${cardSystemId}`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/passholders/${passholderId}/membership-prices/${cardSystemId}?${stringifiedParams}` : `/api/proxy/uitpas/passholders/${passholderId}/membership-prices/${cardSystemId}`
 }
 
 export const getPassholdersPassholderIdMembershipPricesCardSystemId = async (passholderId: string,
@@ -993,7 +993,7 @@ export const getGetPassholdersPassholderIdMembershipPricesCardSystemIdQueryKey =
     cardSystemId: number,
     params?: GetPassholdersPassholderIdMembershipPricesCardSystemIdParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/membership-prices/${cardSystemId}`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/passholders/${passholderId}/membership-prices/${cardSystemId}`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1125,7 +1125,7 @@ export const getPostPassholdersPassholderIdCheckinUrl = (passholderId: string,) 
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/checkins`
+  return `/api/proxy/uitpas/passholders/${passholderId}/checkins`
 }
 
 export const postPassholdersPassholderIdCheckin = async (passholderId: string,
@@ -1249,7 +1249,7 @@ export const getGetPassholdersPassholderIdTransactionsUrl = (passholderId: strin
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/transactions?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/transactions`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/passholders/${passholderId}/transactions?${stringifiedParams}` : `/api/proxy/uitpas/passholders/${passholderId}/transactions`
 }
 
 export const getPassholdersPassholderIdTransactions = async (passholderId: string,
@@ -1277,7 +1277,7 @@ export const getPassholdersPassholderIdTransactions = async (passholderId: strin
 export const getGetPassholdersPassholderIdTransactionsQueryKey = (passholderId: string,
     params?: GetPassholdersPassholderIdTransactionsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/transactions`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/passholders/${passholderId}/transactions`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1399,7 +1399,7 @@ export const getGetPassesUitpasNumberUrl = (uitpasNumber: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passes/${uitpasNumber}`
+  return `/api/proxy/uitpas/passes/${uitpasNumber}`
 }
 
 export const getPassesUitpasNumber = async (uitpasNumber: string, options?: RequestInit): Promise<getPassesUitpasNumberResponse> => {
@@ -1425,7 +1425,7 @@ export const getPassesUitpasNumber = async (uitpasNumber: string, options?: Requ
 
 export const getGetPassesUitpasNumberQueryKey = (uitpasNumber: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passes/${uitpasNumber}`
+    `/api/proxy/uitpas/passes/${uitpasNumber}`
     ] as const;
     }
 
@@ -1542,7 +1542,7 @@ export const getGetInszNumbersInszNumberUrl = (inszNumber: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/insz-numbers/${inszNumber}`
+  return `/api/proxy/uitpas/insz-numbers/${inszNumber}`
 }
 
 export const getInszNumbersInszNumber = async (inszNumber: string, options?: RequestInit): Promise<getInszNumbersInszNumberResponse> => {
@@ -1568,7 +1568,7 @@ export const getInszNumbersInszNumber = async (inszNumber: string, options?: Req
 
 export const getGetInszNumbersInszNumberQueryKey = (inszNumber: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/insz-numbers/${inszNumber}`
+    `/api/proxy/uitpas/insz-numbers/${inszNumber}`
     ] as const;
     }
 
@@ -1685,7 +1685,7 @@ export const getGetChipNumbersChipNumberUrl = (chipNumber: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/chip-numbers/${chipNumber}`
+  return `/api/proxy/uitpas/chip-numbers/${chipNumber}`
 }
 
 export const getChipNumbersChipNumber = async (chipNumber: string, options?: RequestInit): Promise<getChipNumbersChipNumberResponse> => {
@@ -1711,7 +1711,7 @@ export const getChipNumbersChipNumber = async (chipNumber: string, options?: Req
 
 export const getGetChipNumbersChipNumberQueryKey = (chipNumber: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/chip-numbers/${chipNumber}`
+    `/api/proxy/uitpas/chip-numbers/${chipNumber}`
     ] as const;
     }
 
@@ -1827,7 +1827,7 @@ export const getPassholdersStatusInszNumbersInsznumberUrl = (inszNumber: string,
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/status/insz-numbers/${inszNumber}`
+  return `/api/proxy/uitpas/passholders/status/insz-numbers/${inszNumber}`
 }
 
 export const passholdersStatusInszNumbersInsznumber = async (inszNumber: string, options?: RequestInit): Promise<passholdersStatusInszNumbersInsznumberResponse> => {
@@ -1853,7 +1853,7 @@ export const passholdersStatusInszNumbersInsznumber = async (inszNumber: string,
 
 export const getPassholdersStatusInszNumbersInsznumberQueryKey = (inszNumber: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/status/insz-numbers/${inszNumber}`
+    `/api/proxy/uitpas/passholders/status/insz-numbers/${inszNumber}`
     ] as const;
     }
 
