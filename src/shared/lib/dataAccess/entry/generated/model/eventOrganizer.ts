@@ -5,11 +5,11 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import type { OrganizerAtId } from './organizerAtId';
+import type { OrganizerId } from './organizerId';
 
 /**
  * A reference to an [organizer](./models/organizer.json) linked to the event. When writing an event it should only contain an `@id` property. When reading an event it will contain all the properties from the [organizer](./models/organizer.json).
  */
 export interface EventOrganizer {
-  '@id': OrganizerAtId;
+  '@id': OrganizerId;
 }

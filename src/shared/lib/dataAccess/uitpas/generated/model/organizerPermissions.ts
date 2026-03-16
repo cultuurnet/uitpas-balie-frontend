@@ -5,17 +5,23 @@
  * With UiTPAS API 4.0 you can retrieve ticket prices and register ticket sales for passholders. You can also save UiTPAS points and exchange them for rewards for a passholder, and much more.
  * OpenAPI spec version: 4.0
  */
+import type { LinkedOrganizerPermissions } from './linkedOrganizerPermissions';
 import type { Organizer } from './organizer';
 import type { Permission } from './permission';
 import type { PermissionDetail } from './permissionDetail';
 
+/**
+ * Combination of organizer and its permissions
+ */
 export interface OrganizerPermissions {
   organizer: Organizer;
   /**
-   * Permissions of the calling client for this organizer. This field is deprecated. Please use `permissionsDetail`, which includes a user-readable label, instead.
+   * Permissions of the calling client for this organizer. This field is deprecated. Please use `permissionDetails`, which includes a user-readable label, instead.
    * @deprecated
    */
   permissions?: Permission[];
   /** Permissions of the calling client for this organizer. */
   permissionDetails?: PermissionDetail[];
+  /** Organizers linked to this organizer. */
+  linkedOrganizers?: LinkedOrganizerPermissions[];
 }

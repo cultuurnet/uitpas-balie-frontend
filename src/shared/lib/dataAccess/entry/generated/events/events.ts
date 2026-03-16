@@ -38,6 +38,7 @@ import type {
   EventCopiesPost201,
   EventDescriptionPut,
   EventFacilitiesPut,
+  EventFaqsPut,
   EventImagePost,
   EventImagePut,
   EventImportNew201,
@@ -2194,6 +2195,118 @@ export const useEventFacilitiesPut = <TError = Error | UnauthorizedResponse | Fo
         TContext
       > => {
       return useMutation(getEventFacilitiesPutMutationOptions(options), queryClient);
+    }
+    /**
+ * Updates the FAQs of an event. FAQs previously set on the event but not included in this list will be removed. If you do not provide an id on a FAQ a new one will be created. Existing items in the FAQs can be updated by providing the ID. Using an unkown ID will result in a 400.
+ * @summary faqs - update
+ */
+export type eventFaqsPutResponse204 = {
+  data: void
+  status: 204
+}
+
+export type eventFaqsPutResponse400 = {
+  data: Error
+  status: 400
+}
+
+export type eventFaqsPutResponse401 = {
+  data: UnauthorizedResponse
+  status: 401
+}
+
+export type eventFaqsPutResponse403 = {
+  data: ForbiddenResponse
+  status: 403
+}
+
+export type eventFaqsPutResponse404 = {
+  data: NotFoundResponse
+  status: 404
+}
+
+export type eventFaqsPutResponseSuccess = (eventFaqsPutResponse204) & {
+  headers: Headers;
+};
+export type eventFaqsPutResponseError = (eventFaqsPutResponse400 | eventFaqsPutResponse401 | eventFaqsPutResponse403 | eventFaqsPutResponse404) & {
+  headers: Headers;
+};
+
+export type eventFaqsPutResponse = (eventFaqsPutResponseSuccess | eventFaqsPutResponseError)
+
+export const getEventFaqsPutUrl = (eventId: string,) => {
+
+
+  
+
+  return `NEXT_PUBLIC_ENTRY_API_PATH/events/${eventId}/faqs`
+}
+
+export const eventFaqsPut = async (eventId: string,
+    eventFaqsPut: EventFaqsPut, options?: RequestInit): Promise<eventFaqsPutResponse> => {
+  
+  const res = await fetch(getEventFaqsPutUrl(eventId),
+  {      
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      eventFaqsPut,)
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: eventFaqsPutResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as eventFaqsPutResponse
+}
+  
+
+
+
+export const getEventFaqsPutMutationOptions = <TError = Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventFaqsPut>>, TError,{eventId: string;data: EventFaqsPut}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof eventFaqsPut>>, TError,{eventId: string;data: EventFaqsPut}, TContext> => {
+
+const mutationKey = ['eventFaqsPut'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof eventFaqsPut>>, {eventId: string;data: EventFaqsPut}> = (props) => {
+          const {eventId,data} = props ?? {};
+
+          return  eventFaqsPut(eventId,data,fetchOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type EventFaqsPutMutationResult = NonNullable<Awaited<ReturnType<typeof eventFaqsPut>>>
+    export type EventFaqsPutMutationBody = EventFaqsPut
+    export type EventFaqsPutMutationError = Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse
+
+    /**
+ * @summary faqs - update
+ */
+export const useEventFaqsPut = <TError = Error | UnauthorizedResponse | ForbiddenResponse | NotFoundResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof eventFaqsPut>>, TError,{eventId: string;data: EventFaqsPut}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof eventFaqsPut>>,
+        TError,
+        {eventId: string;data: EventFaqsPut},
+        TContext
+      > => {
+      return useMutation(getEventFaqsPutMutationOptions(options), queryClient);
     }
     /**
  * Adds an image to an event. To upload an image, use the [`POST /images`](./entry.json/paths/~1images/post) endpoint.

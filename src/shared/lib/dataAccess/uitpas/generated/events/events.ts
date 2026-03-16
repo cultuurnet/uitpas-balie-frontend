@@ -171,19 +171,9 @@ export const usePutEventsCardSystems = <TError = Error | UnauthorizedResponse | 
       return useMutation(getPutEventsCardSystemsMutationOptions(options), queryClient);
     }
     /**
- * Get all (enabled and disabled) `EventCardSystem` objects of the given event.
+ * Retrieve social tariff settings specific for this card system and the given postal code.
 
-The `EventCardSystem` object specifies that the event is available in
-this specific card system and optionally what manual distribution keys are enabled.
-
-Every `EventCardSystem` or `ManualDistributionKey` has an `enabled` property that can be altered using `PUT /events/{eventId}/card-systems`.
- 
-<!-- theme: warning -->
-
-> **This endpoint is only needed for exceptional cases.** In most cases card systems and distribution keys are set automatically on events, so you don't need to retrieve or change them.
-
-The caller of this request must have `EVENTS_READ` permission for the organizer of this event.
-
+This caller of this method, identified by client identification, client access token or user access token, does not require any permissions.
  * @summary Get event card systems
  */
 export type getEventsCardSystemsResponse200 = {
