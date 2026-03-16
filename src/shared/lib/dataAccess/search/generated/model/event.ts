@@ -6,7 +6,6 @@
  * OpenAPI spec version: 3.0
  */
 import type { CommonCompleteness } from './commonCompleteness';
-import type { EventAtId } from './eventAtId';
 import type { EventAttendanceMode } from './eventAttendanceMode';
 import type { EventAudience } from './eventAudience';
 import type { EventAvailableFrom } from './eventAvailableFrom';
@@ -22,7 +21,9 @@ import type { EventCreated } from './eventCreated';
 import type { EventCreator } from './eventCreator';
 import type { EventDescription } from './eventDescription';
 import type { EventEndDate } from './eventEndDate';
+import type { EventFaqs } from './eventFaqs';
 import type { EventHiddenLabels } from './eventHiddenLabels';
+import type { EventId } from './eventId';
 import type { EventImage } from './eventImage';
 import type { EventLabels } from './eventLabels';
 import type { EventLanguages } from './eventLanguages';
@@ -51,7 +52,7 @@ import type { EventWorkflowStatus } from './eventWorkflowStatus';
 For more information: <a href="https://docs.publiq.be/docs/uitdatabank/entry-api/events/what-are-events">What are events?</a>
  */
 export type Event = unknown & unknown & unknown & {
-  '@id'?: EventAtId;
+  '@id'?: EventId;
   mainLanguage: EventMainLanguage;
   name: EventName;
   terms: EventTerms;
@@ -90,4 +91,5 @@ export type Event = unknown & unknown & unknown & {
   contributors?: EventContributors;
   completeness?: CommonCompleteness;
   calendarSummary?: EventCalendarSummary;
+  faqs?: EventFaqs;
 };

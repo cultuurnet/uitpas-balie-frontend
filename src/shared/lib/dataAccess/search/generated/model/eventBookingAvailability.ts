@@ -5,15 +5,13 @@
  * With UiTdatabank's Search API you can search events, places and organizers.
  * OpenAPI spec version: 3.0
  */
-import type { EventBookingAvailabilityType } from './eventBookingAvailabilityType';
+import type { CommonBookingAvailabilityCapacity } from './commonBookingAvailabilityCapacity';
+import type { CommonBookingAvailabilityType } from './commonBookingAvailabilityType';
 
 /**
- * Indicates whether the event still has tickets or reservations available. Currently only contains a `type` that can be `Available` or `Unavailable`, but can later be expanded with more detailed info.
+ * Indicates whether the event still has tickets or reservations available. Currently contains a `type` that can be `Available` or `Unavailable`, and can optionally include capacity information.
  */
 export interface EventBookingAvailability {
-  /** One of two possible types.
-
-- `Available`:Tickets or reservations available
-- `Unavailable`: No more tickets or reservations available. */
-  type: EventBookingAvailabilityType;
+  type: CommonBookingAvailabilityType;
+  capacity?: CommonBookingAvailabilityCapacity;
 }

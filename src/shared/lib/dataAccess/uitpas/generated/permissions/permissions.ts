@@ -36,7 +36,9 @@ import type {
 
 
 /**
- * Lists the organizers that the current user or client (depending on the token) has access to incuding a list of its permissions.
+ * Lists the organizers that the current user or client (depending on the token) has access to including a list of its permissions.
+
+The OrganizerPermission response object can also contain `linkedOrganizers` for which admins of this organizer also have access to.
 
 Use this endpoint if you obtained a user or client access token and need to know its organizer permissions. Use [GET /permissions/clientID](/reference/uitpas.json/paths/~1permissions~1clientId/get) to manage permissions for any client.
  * @summary Get permissions

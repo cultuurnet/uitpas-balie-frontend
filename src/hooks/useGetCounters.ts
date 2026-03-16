@@ -2,7 +2,7 @@ import {
   OrganizerPermissions,
   useGetPermissions,
 } from '@/shared/lib/dataAccess';
-import { CardSystem, Counter } from '@/store/counterStore';
+import { Counter } from '@/store/counterStore';
 
 export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
@@ -20,10 +20,9 @@ export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
         const matchesName = permission.organizer.name
           ?.toLowerCase()
           .includes(term);
-        // TODO: remove cast once Orval regenerates Organizer with cardSystems
-        const matchesRegion = (
-          permission.organizer as { cardSystems?: CardSystem[] }
-        ).cardSystems?.some((cs) => cs.name.toLowerCase().includes(term));
+        const matchesRegion = permission.organizer.cardSystems?.some((cs) =>
+          cs.name?.toLowerCase().includes(term),
+        );
         return matchesName || matchesRegion;
       })
     : dataWithoutLastCounter;

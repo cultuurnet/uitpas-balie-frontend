@@ -7,7 +7,6 @@
  */
 import type { CommonCompleteness } from './commonCompleteness';
 import type { OrganizerAddress } from './organizerAddress';
-import type { OrganizerAtId } from './organizerAtId';
 import type { OrganizerCompletedLanguages } from './organizerCompletedLanguages';
 import type { OrganizerContactPoint } from './organizerContactPoint';
 import type { OrganizerContributors } from './organizerContributors';
@@ -17,6 +16,7 @@ import type { OrganizerDescription } from './organizerDescription';
 import type { OrganizerEducationalDescription } from './organizerEducationalDescription';
 import type { OrganizerGeo } from './organizerGeo';
 import type { OrganizerHiddenLabels } from './organizerHiddenLabels';
+import type { OrganizerId } from './organizerId';
 import type { OrganizerImages } from './organizerImages';
 import type { OrganizerLabels } from './organizerLabels';
 import type { OrganizerLanguages } from './organizerLanguages';
@@ -33,7 +33,7 @@ import type { OrganizerWorkflowStatus } from './organizerWorkflowStatus';
 For more information: <a href="https://docs.publiq.be/docs/uitdatabank/entry-api/organizers/what-are-organizers">What are organizers?</a>
  */
 export interface OrganizerWithReadExample {
-  '@id'?: OrganizerAtId;
+  '@id'?: OrganizerId;
   mainLanguage: OrganizerMainLanguage;
   url: OrganizerUrl;
   name: OrganizerName;

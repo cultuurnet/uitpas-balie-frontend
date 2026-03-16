@@ -7,9 +7,9 @@
  */
 import type { CommonAddressLocalized } from './commonAddressLocalized';
 import type { CommonNameLocalized } from './commonNameLocalized';
-import type { OrganizerAtId } from './organizerAtId';
 import type { OrganizerContact } from './organizerContact';
 import type { OrganizerHiddenLabels } from './organizerHiddenLabels';
+import type { OrganizerId } from './organizerId';
 import type { OrganizerLabels } from './organizerLabels';
 import type { OrganizerMainLanguage } from './organizerMainLanguage';
 import type { OrganizerUrl } from './organizerUrl';
@@ -18,7 +18,7 @@ import type { OrganizerUrl } from './organizerUrl';
  * @deprecated
  */
 export interface OrganizerPostDeprecated {
-  '@id'?: OrganizerAtId;
+  '@id'?: OrganizerId;
   mainLanguage: OrganizerMainLanguage;
   website: OrganizerUrl;
   /** The name of the organizer, localized in the language specified in the mainLanguage property. */

@@ -11,6 +11,6 @@ import type { EventAudienceAudienceType } from './eventAudienceAudienceType';
  * Indicates the intended audience of the [event](./models/event.json).
  */
 export interface EventAudience {
-  /** Indicates whether the event or place is accessible to `everyone`, `members` only, or `education` only. */
+  /** Indicates whether the event or place is accessible to `everyone`, `members` only, `education` only or `childrenOnly` without parents or guardians. */
   audienceType: EventAudienceAudienceType;
 }
