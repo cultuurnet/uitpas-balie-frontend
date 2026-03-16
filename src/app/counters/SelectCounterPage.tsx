@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Input } from '@mui/joy';
 import type { Theme } from '@mui/joy/styles';
 import Image from 'next/image';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { useCounter } from '@/hooks/useCounter';
 import { useGetCounters } from '@/hooks/useGetCounters';
@@ -20,7 +20,7 @@ export const SelectCounterPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState<string>('');
-  const { setActiveCounter, lastCounterUsed } = useCounter();
+  const { lastCounterUsed } = useCounter();
   const { allData, data, isLoading } = useGetCounters(
     lastCounterUsed,
     searchString,
@@ -29,13 +29,6 @@ export const SelectCounterPage = () => {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value);
   };
-
-  useEffect(() => {
-    const data = Array.isArray(allData?.data) ? allData.data : [];
-    if (data.length === 1) {
-      setActiveCounter(data[0].organizer);
-    }
-  }, [allData?.data, setActiveCounter]);
 
   return (
     <Box sx={{ m: '40px auto;', pt: 12, maxWidth: 500 }}>

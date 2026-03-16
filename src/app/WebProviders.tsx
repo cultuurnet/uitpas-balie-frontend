@@ -28,7 +28,7 @@ export function WebProviders({ children }: PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           <UserProvider>
-            <CounterProvider counterPath={'/counters'}>
+            <CounterProvider>
               <Layout>{children}</Layout>
             </CounterProvider>
           </UserProvider>

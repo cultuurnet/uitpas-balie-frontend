@@ -48,7 +48,7 @@ export const LoginPage = () => {
             <div className="mb-3">
               <Button
                 className="h-12 text-xl"
-                onClick={() => signIn('keycloak')}
+                onClick={() => signIn('keycloak', { callbackUrl: '/counters' })}
               >
                 <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 {t('login.loginBtn')}
