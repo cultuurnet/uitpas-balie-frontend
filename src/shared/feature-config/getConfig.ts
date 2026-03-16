@@ -36,7 +36,6 @@ export async function getConfig(): Promise<{
       legacyTokenEndpoint: process.env.NEXT_PUBLIC_LEGACY_TOKEN_ENDPOINT ?? '',
       legacyLogoutEndpoint:
         process.env.NEXT_PUBLIC_LEGACY_LOGOUT_ENDPOINT ?? '',
-      blacklist: process.env.NEXT_PUBLIC_BLACKLIST ?? '',
       devAuthToken: process.env.NEXT_PUBLIC_DEV_AUTH_TOKEN ?? '',
       gaTag: process.env.NEXT_PUBLIC_GA_TAG ?? '',
       loginHowToLoginUrl: process.env.NEXT_PUBLIC_LOGIN_HOW_TO_LOGIN_URL ?? '',

@@ -9,10 +9,34 @@ import {
   InputGroupTextarea,
 } from '@/ui/shadcn/input-group';
 
-export type InputGroupProps = ComponentProps<typeof ShadcnInputGroup>;
+type FocusColor = 'primary' | 'secondary' | 'muted';
 
-export const InputGroup = (props: InputGroupProps) => (
-  <ShadcnInputGroup {...props} />
+const focusColorValues: Record<FocusColor, string> = {
+  primary: 'var(--color-primary)',
+  secondary: 'var(--color-secondary)',
+  muted: 'var(--color-ring)',
+};
+
+export type InputGroupProps = ComponentProps<typeof ShadcnInputGroup> & {
+  focusColor?: FocusColor;
+};
+
+export const InputGroup = ({
+  focusColor = 'primary',
+  className,
+  style,
+  ...props
+}: InputGroupProps) => (
+  <ShadcnInputGroup
+    className={className}
+    style={
+      {
+        '--ring': focusColorValues[focusColor],
+        ...style,
+      } as React.CSSProperties
+    }
+    {...props}
+  />
 );
 
 export {

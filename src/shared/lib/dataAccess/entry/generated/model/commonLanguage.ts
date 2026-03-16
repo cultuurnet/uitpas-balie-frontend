@@ -7,7 +7,7 @@
  */
 
 /**
- * The language of the news article
+ * Locale of text used in the image and its description. If omitted, the language that was given when the image was uploaded will be used.
  */
 export type CommonLanguage = typeof CommonLanguage[keyof typeof CommonLanguage];
 

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 3.0
  */
 import type { CommonStringUuid } from './commonStringUuid';
-import type { EventAtId } from './eventAtId';
+import type { EventId } from './eventId';
 
 /**
  * The production that the [event](./models/event.json) belongs to.
@@ -24,5 +24,5 @@ export interface EventProduction {
    */
   readonly title: string;
   /** A list of globally unique URIs of other events that are part of this production. See also [@id](./event-@id.json). Automatically added by UiTdatabank. */
-  readonly otherEvents: EventAtId[];
+  readonly otherEvents: EventId[];
 }

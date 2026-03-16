@@ -5,10 +5,11 @@
  * With UiTdatabank's Entry API you can create new events, places and organizers, and add extra info to them with specific requests to add/update properties. For example there are operations to add a label, remove a label, add an image, and so on.
  * OpenAPI spec version: 3.0
  */
-import type { EventBookingAvailability } from './eventBookingAvailability';
+import type { EventBookingInfo } from './eventBookingInfo';
 import type { EventEndDate } from './eventEndDate';
 import type { EventStartDate } from './eventStartDate';
 import type { EventStatus } from './eventStatus';
+import type { EventSubEventBookingAvailability } from './eventSubEventBookingAvailability';
 
 export type EventSubEventItem = {
   /** Index of the subEvent on the parent event. `0` for the first subEvent, `1` for the second event, and so on. */
@@ -16,5 +17,6 @@ export type EventSubEventItem = {
   startDate: EventStartDate;
   endDate: EventEndDate;
   status?: EventStatus;
-  bookingAvailability?: EventBookingAvailability;
+  bookingAvailability?: EventSubEventBookingAvailability;
+  bookingInfo?: EventBookingInfo;
 };

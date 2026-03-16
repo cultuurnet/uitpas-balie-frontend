@@ -7,7 +7,7 @@
  */
 
 /**
- * Indicates whether the event or place is accessible to `everyone`, `members` only, or `education` only.
+ * Indicates whether the event or place is accessible to `everyone`, `members` only, `education` only or `childrenOnly` without parents or guardians.
  */
 export type EventAudienceAudienceType = typeof EventAudienceAudienceType[keyof typeof EventAudienceAudienceType];
 
@@ -16,4 +16,5 @@ export const EventAudienceAudienceType = {
   everyone: 'everyone',
   members: 'members',
   education: 'education',
+  childrenOnly: 'childrenOnly',
 } as const;

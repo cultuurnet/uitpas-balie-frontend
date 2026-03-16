@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, Box, FormControl, FormLabel } from '@mui/joy';
 import { useState } from 'react';
 
-import { useCounter } from '@/shared/feature-counter/context/useCounter';
+import { useCounter } from '@/hooks/useCounter';
 import { useGetOrganizersFinancialReportsPeriods } from '@/shared/lib/dataAccess';
 import { ReportPeriod } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';

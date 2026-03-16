@@ -6,6 +6,7 @@
  * OpenAPI spec version: 3.0
  */
 import type { EventBookingAvailability } from './eventBookingAvailability';
+import type { EventBookingInfo } from './eventBookingInfo';
 import type { EventEndDate } from './eventEndDate';
 import type { EventStartDate } from './eventStartDate';
 import type { EventStatus } from './eventStatus';
@@ -15,4 +16,5 @@ export type EventSubEventPutItem = {
   endDate: EventEndDate;
   status?: EventStatus;
   bookingAvailability?: EventBookingAvailability;
+  bookingInfo?: EventBookingInfo;
 };

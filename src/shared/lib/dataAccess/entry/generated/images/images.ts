@@ -28,8 +28,9 @@ import type {
   Error,
   ForbiddenResponse,
   Image,
+  ImagePost,
   ImagePost201,
-  ImagePostBody,
+  ImagePostBodyOne,
   NotFoundResponse,
   UnauthorizedResponse
 } from '.././model';
@@ -79,20 +80,15 @@ export const getImagePostUrl = () => {
   return `NEXT_PUBLIC_ENTRY_API_PATH/images`
 }
 
-export const imagePost = async (imagePostBody: ImagePostBody, options?: RequestInit): Promise<imagePostResponse> => {
-    const formData = new FormData();
-formData.append(`file`, imagePostBody.file);
-formData.append(`description`, imagePostBody.description);
-formData.append(`copyrightHolder`, imagePostBody.copyrightHolder);
-formData.append(`language`, imagePostBody.language);
-
+export const imagePost = async (imagePostBody: ImagePostBodyOne | ImagePost, options?: RequestInit): Promise<imagePostResponse> => {
+  
   const res = await fetch(getImagePostUrl(),
   {      
     ...options,
     method: 'POST'
     ,
-    body: 
-      formData,
+    body: JSON.stringify(
+      imagePostBody,)
   }
 )
 
@@ -106,8 +102,8 @@ formData.append(`language`, imagePostBody.language);
 
 
 export const getImagePostMutationOptions = <TError = Error | UnauthorizedResponse | ForbiddenResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBodyOne | ImagePost}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBodyOne | ImagePost}, TContext> => {
 
 const mutationKey = ['imagePost'];
 const {mutation: mutationOptions, fetch: fetchOptions} = options ?
@@ -119,7 +115,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof imagePost>>, {data: ImagePostBody}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof imagePost>>, {data: ImagePostBodyOne | ImagePost}> = (props) => {
           const {data} = props ?? {};
 
           return  imagePost(data,fetchOptions)
@@ -133,18 +129,18 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type ImagePostMutationResult = NonNullable<Awaited<ReturnType<typeof imagePost>>>
-    export type ImagePostMutationBody = ImagePostBody
+    export type ImagePostMutationBody = ImagePostBodyOne | ImagePost
     export type ImagePostMutationError = Error | UnauthorizedResponse | ForbiddenResponse
 
     /**
  * @summary image - upload
  */
 export const useImagePost = <TError = Error | UnauthorizedResponse | ForbiddenResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBody}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof imagePost>>, TError,{data: ImagePostBodyOne | ImagePost}, TContext>, fetch?: RequestInit}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof imagePost>>,
         TError,
-        {data: ImagePostBody},
+        {data: ImagePostBodyOne | ImagePost},
         TContext
       > => {
       return useMutation(getImagePostMutationOptions(options), queryClient);

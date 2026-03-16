@@ -4,9 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
+import { CounterProvider } from '@/app/CounterProvider';
 import ThemeRegistry from '@/app/ThemeRegistry';
 import { Layout } from '@/layouts';
-import { CounterProvider } from '@/shared/feature-counter/context/CounterProvider';
 import { UserProvider } from '@/shared/lib/user';
 
 const queryClient = new QueryClient({
@@ -28,7 +28,7 @@ export function WebProviders({ children }: PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           <UserProvider>
-            <CounterProvider counterPath={'/counters'}>
+            <CounterProvider>
               <Layout>{children}</Layout>
             </CounterProvider>
           </UserProvider>

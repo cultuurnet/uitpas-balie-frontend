@@ -22,12 +22,14 @@ import type {
 
 import type {
   CardSystem,
+  CardSystemCitySettings,
   CardSystemSocialTariffSettings,
   CardSystemsPaginatedCollection,
   Error,
   ForbiddenResponse,
   GetCardSystemsCardsystemidMembershipPricesParams,
   GetCardSystemsParams,
+  GetCardsystemsCardsystemidCitySettingsParams,
   GetCardsystemsCardsystemidSocialTariffSettingsParams,
   MembershipPrice,
   UnauthorizedResponse
@@ -330,9 +332,14 @@ export function useGetCardsystemsCardsystemid<TData = Awaited<ReturnType<typeof 
 
 
 /**
- * Retrieve social tariff settings specific for this card system and the given postal code.
+ * <!-- theme: warning -->
+
+> **Deprecated:** use [GET /cardsystems/{cardSystemId}/city-settings](/reference/uitpas.json/paths/~1cardssytems~1{cardSystemId}~1city-settings/get) instead.
+
+Retrieve social tariff settings specific for this card system and the given postal code.
 
 This caller of this method, identified by client identification, client access token or user access token, does not require any permissions.
+ * @deprecated
  * @summary Retrieve social tariff settings for card system
  */
 export type getCardsystemsCardsystemidSocialTariffSettingsResponse200 = {
@@ -466,6 +473,7 @@ export function useGetCardsystemsCardsystemidSocialTariffSettings<TData = Awaite
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
+ * @deprecated
  * @summary Retrieve social tariff settings for card system
  */
 
@@ -476,6 +484,162 @@ export function useGetCardsystemsCardsystemidSocialTariffSettings<TData = Awaite
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetCardsystemsCardsystemidSocialTariffSettingsQueryOptions(cardSystemId,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+/**
+ * Retrieve city specific settings for this card system.
+
+This caller of this method, identified by client identification, client access token or user access token, does not require any permissions.
+ * @summary Retrieve city settings for card system
+ */
+export type getCardsystemsCardsystemidCitySettingsResponse200 = {
+  data: CardSystemCitySettings[]
+  status: 200
+}
+
+export type getCardsystemsCardsystemidCitySettingsResponse400 = {
+  data: Error
+  status: 400
+}
+
+export type getCardsystemsCardsystemidCitySettingsResponse401 = {
+  data: UnauthorizedResponse
+  status: 401
+}
+
+export type getCardsystemsCardsystemidCitySettingsResponse403 = {
+  data: ForbiddenResponse
+  status: 403
+}
+
+export type getCardsystemsCardsystemidCitySettingsResponse404 = {
+  data: Error
+  status: 404
+}
+
+export type getCardsystemsCardsystemidCitySettingsResponseSuccess = (getCardsystemsCardsystemidCitySettingsResponse200) & {
+  headers: Headers;
+};
+export type getCardsystemsCardsystemidCitySettingsResponseError = (getCardsystemsCardsystemidCitySettingsResponse400 | getCardsystemsCardsystemidCitySettingsResponse401 | getCardsystemsCardsystemidCitySettingsResponse403 | getCardsystemsCardsystemidCitySettingsResponse404) & {
+  headers: Headers;
+};
+
+export type getCardsystemsCardsystemidCitySettingsResponse = (getCardsystemsCardsystemidCitySettingsResponseSuccess | getCardsystemsCardsystemidCitySettingsResponseError)
+
+export const getGetCardsystemsCardsystemidCitySettingsUrl = (cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings`
+}
+
+export const getCardsystemsCardsystemidCitySettings = async (cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams, options?: RequestInit): Promise<getCardsystemsCardsystemidCitySettingsResponse> => {
+  
+  const res = await fetch(getGetCardsystemsCardsystemidCitySettingsUrl(cardSystemId,params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getCardsystemsCardsystemidCitySettingsResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getCardsystemsCardsystemidCitySettingsResponse
+}
+  
+
+
+
+
+export const getGetCardsystemsCardsystemidCitySettingsQueryKey = (cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams,) => {
+    return [
+    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetCardsystemsCardsystemidCitySettingsQueryOptions = <TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCardsystemsCardsystemidCitySettingsQueryKey(cardSystemId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>> = ({ signal }) => getCardsystemsCardsystemidCitySettings(cardSystemId,params, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(cardSystemId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCardsystemsCardsystemidCitySettingsQueryResult = NonNullable<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>>
+export type GetCardsystemsCardsystemidCitySettingsQueryError = Error | UnauthorizedResponse | ForbiddenResponse
+
+
+export function useGetCardsystemsCardsystemidCitySettings<TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
+ cardSystemId: number,
+    params: undefined |  GetCardsystemsCardsystemidCitySettingsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>,
+          TError,
+          Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCardsystemsCardsystemidCitySettings<TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
+ cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>,
+          TError,
+          Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCardsystemsCardsystemidCitySettings<TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
+ cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Retrieve city settings for card system
+ */
+
+export function useGetCardsystemsCardsystemidCitySettings<TData = Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError = Error | UnauthorizedResponse | ForbiddenResponse>(
+ cardSystemId: number,
+    params?: GetCardsystemsCardsystemidCitySettingsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCardsystemsCardsystemidCitySettings>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCardsystemsCardsystemidCitySettingsQueryOptions(cardSystemId,params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

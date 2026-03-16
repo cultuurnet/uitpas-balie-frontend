@@ -22,7 +22,13 @@ const meta = {
       },
     },
   },
-  args: { className: 'w-80' },
+  argTypes: {
+    focusColor: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'muted'],
+    },
+  },
+  args: { className: 'w-80', focusColor: 'primary' },
 } satisfies Meta<typeof InputGroup>;
 
 type Story = StoryObj<typeof meta>;

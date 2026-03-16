@@ -6,9 +6,9 @@
  * OpenAPI spec version: 3.0
  */
 import type { EventAttendanceMode } from './eventAttendanceMode';
-import type { PlaceAtId } from './placeAtId';
+import type { PlaceId } from './placeId';
 
 export interface EventAttendanceModePut {
   attendanceMode: EventAttendanceMode;
-  location?: PlaceAtId;
+  location?: PlaceId;
 }

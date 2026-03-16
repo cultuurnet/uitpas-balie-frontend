@@ -7,7 +7,6 @@
  */
 import type { CommonCompleteness } from './commonCompleteness';
 import type { PlaceAddress } from './placeAddress';
-import type { PlaceAtId } from './placeAtId';
 import type { PlaceAvailableFrom } from './placeAvailableFrom';
 import type { PlaceAvailableTo } from './placeAvailableTo';
 import type { PlaceBookingAvailability } from './placeBookingAvailability';
@@ -23,6 +22,7 @@ import type { PlaceDescription } from './placeDescription';
 import type { PlaceEndDate } from './placeEndDate';
 import type { PlaceGeo } from './placeGeo';
 import type { PlaceHiddenLabels } from './placeHiddenLabels';
+import type { PlaceId } from './placeId';
 import type { PlaceImage } from './placeImage';
 import type { PlaceLabels } from './placeLabels';
 import type { PlaceLanguages } from './placeLanguages';
@@ -47,7 +47,7 @@ import type { PlaceWorkflowStatus } from './placeWorkflowStatus';
 For more information: <a href="https://docs.publiq.be/docs/uitdatabank/entry-api/places/what-are-places">What are places?</a>
  */
 export type PlaceWithReadExample = unknown & {
-  '@id'?: PlaceAtId;
+  '@id'?: PlaceId;
   mainLanguage: PlaceMainLanguage;
   name: PlaceName;
   terms: PlaceTerms;
