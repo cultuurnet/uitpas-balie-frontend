@@ -109,6 +109,24 @@ The web app uses **shadcn/ui + Tailwind v4**. Mobile uses **Material-UI + Emotio
 
 **Tailwind v4** is configured entirely in `src/app/globals.css` via `@theme` — there is no `tailwind.config.ts`. Brand colors, custom breakpoints (sm: 660px, md: 768px, lg: 1200px), and the Open Sans font are all defined there.
 
+**Brand colors** (source: UiTPAS Huisstijlgids, februari 2025) — use these tokens, never hardcode hex values:
+
+| Token | Hex | Usage |
+| ----- | --- | ----- |
+| `primary` | `#26a769` | Main UI elements, buttons, links |
+| `primary-light` | `#abefb6` | Backgrounds, highlights, accents |
+| `primary-dark` | `#1e8a56` | Dark green — not in brand guide, project-specific |
+| `secondary` | `#3f2675` | Main UI elements, buttons, links |
+| `secondary-light` | `#ccc5ff` | Backgrounds, highlights, accents |
+| `blue` | `#249dd9` | Main UI elements, buttons, links |
+| `blue-light` | `#b9effc` | Backgrounds, highlights, accents |
+| `red` | `#e5074c` | Main UI elements, buttons, links |
+| `red-light` | `#fbcfd3` | Backgrounds, highlights, accents |
+| `yellow` | `#fcd500` | Main UI elements, buttons, links |
+| `yellow-light` | `#fef6a6` | Backgrounds, highlights, accents |
+| `gray` | `#3b3b3b` | Text, dark backgrounds |
+| `gray-light` | `#dcdbdb` | Borders, dividers, subtle backgrounds |
+
 **Three-layer UI stack for web:**
 
 | Layer              | Location             | Rule                                                     |
