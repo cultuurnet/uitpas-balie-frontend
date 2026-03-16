@@ -12,6 +12,6 @@ setup('authenticate', async ({ baseURL, page }) => {
       email: process.env.E2E_TEST_BASE_EMAIL ?? '',
       password: process.env.E2E_TEST_BASE_PASSWORD ?? '',
     },
-    'playwright/.auth/user.json'
+    'playwright/.auth/user.json',
   );
 });

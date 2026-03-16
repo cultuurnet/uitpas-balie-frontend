@@ -7,6 +7,12 @@ const handler = NextAuth({
       clientId: process.env.KEYCLOAK_ID ?? '',
       clientSecret: process.env.KEYCLOAK_SECRET ?? '',
       issuer: process.env.KEYCLOAK_ISSUER,
+      authorization: {
+        params: {
+          referrer: 'uitpas',
+          acr_values: 'optional',
+        },
+      },
     }),
   ],
   callbacks: {
