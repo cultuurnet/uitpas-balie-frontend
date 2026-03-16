@@ -24,11 +24,28 @@ async function refreshAccessToken(refreshToken: string) {
   );
 
   if (!response.ok) throw new Error('Failed to refresh token');
-  return response.json() as Promise<{
-    access_token: string;
-    refresh_token?: string;
-    expires_in: number;
-  }>;
+  return response.json() as Promise<{ access_token: string }>;
+}
+
+async function fetchUpstream(
+  targetUrl: string,
+  request: NextRequest,
+  accessToken: string,
+) {
+  const headers = new Headers({ Authorization: `Bearer ${accessToken}` });
+  const contentType = request.headers.get('content-type');
+  if (contentType) headers.set('content-type', contentType);
+
+  return fetch(targetUrl, {
+    method: request.method,
+    headers,
+    body:
+      request.method !== 'GET' && request.method !== 'HEAD'
+        ? request.body
+        : null,
+    // @ts-expect-error — duplex required for streaming request bodies in Node 18+
+    duplex: 'half',
+  });
 }
 
 async function handler(
@@ -48,37 +65,26 @@ async function handler(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  let accessToken = token.accessToken as string;
-
-  if (Date.now() > (token.expiresAt as number) * 1000) {
-    try {
-      const refreshed = await refreshAccessToken(token.refreshToken as string);
-      accessToken = refreshed.access_token;
-    } catch {
-      return NextResponse.json({ error: 'Session expired' }, { status: 401 });
-    }
-  }
-
   const upstreamPath = request.nextUrl.pathname.replace(
     `/api/proxy/${service}`,
     '',
   );
   const targetUrl = `${targetBase}${upstreamPath}${request.nextUrl.search}`;
 
-  const headers = new Headers({ Authorization: `Bearer ${accessToken}` });
-  const contentType = request.headers.get('content-type');
-  if (contentType) headers.set('content-type', contentType);
+  let response = await fetchUpstream(
+    targetUrl,
+    request,
+    token.accessToken as string,
+  );
 
-  const response = await fetch(targetUrl, {
-    method: request.method,
-    headers,
-    body:
-      request.method !== 'GET' && request.method !== 'HEAD'
-        ? request.body
-        : null,
-    // @ts-expect-error — duplex required for streaming request bodies in Node 18+
-    duplex: 'half',
-  });
+  if (response.status === 401) {
+    try {
+      const refreshed = await refreshAccessToken(token.refreshToken as string);
+      response = await fetchUpstream(targetUrl, request, refreshed.access_token);
+    } catch {
+      return NextResponse.json({ error: 'Session expired' }, { status: 401 });
+    }
+  }
 
   const responseHeaders = new Headers(response.headers);
   responseHeaders.delete('content-encoding');
