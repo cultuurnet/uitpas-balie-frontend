@@ -2,43 +2,16 @@ import 'dotenv/config';
 
 import { test as setup } from '@playwright/test';
 
-const authFile = 'playwright/.auth/admin.json';
+import { authenticate } from './authenticate';
 
 setup('authenticate', async ({ baseURL, page }) => {
-  await page.goto(`${baseURL}/login?redirectTo=/`);
-
-  await page.waitForLoadState('networkidle');
-  await page.waitForLoadState('domcontentloaded');
-
-  await page.getByRole('button', { name: 'aanmelden' }).click();
-
-  await page.waitForURL(/account-test.uitid.be\/*/);
-
-  await page
-    .locator('input[name="username"]')
-    .fill(process.env.E2E_TEST_ADMIN_EMAIL ?? '');
-  await page
-    .getByLabel('Je wachtwoord')
-    .fill(process.env.E2E_TEST_ADMIN_PASSWORD ?? '');
-
-  await page.getByRole('button', { name: 'Meld je aan', exact: true }).click();
-
-  await page.waitForLoadState('networkidle');
-
-  // Modify cookies after login
-  const cookies = await page.context().cookies();
-  const phpSession = cookies.find((c) => c.name === 'PHPSESSID');
-
-  if (phpSession) {
-    await page.context().addCookies([
-      {
-        ...phpSession,
-        sameSite: 'None',
-        secure: true,
-      },
-    ]);
-  }
-
-  // Wait for network to be idle, if we save storage too early, needed storage values might not yet be available
-  await page.context().storageState({ path: authFile });
+  await authenticate(
+    page,
+    baseURL,
+    {
+      email: process.env.E2E_TEST_ADMIN_EMAIL ?? '',
+      password: process.env.E2E_TEST_ADMIN_PASSWORD ?? '',
+    },
+    'playwright/.auth/admin.json'
+  );
 });

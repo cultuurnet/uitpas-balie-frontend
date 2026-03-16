@@ -80,13 +80,15 @@ export const LoginPage = () => {
               </CardTitle>
               <p className="mb-3">{t('login.twoFa.text1')}</p>
               <p className="mb-4">{t('login.twoFa.text2')}</p>
-              <Link
-                href={publicRuntimeConfig?.login2faUrl || '#'}
-                variant="primary"
-                icon={<FontAwesomeIcon icon={faArrowRight} />}
+              <Button
+                variant="link"
+                className="self-start p-0"
+                onClick={() =>
+                  signIn('keycloak', undefined, { acr_values: 'strong' })
+                }
               >
-                {t('login.twoFa.link')}
-              </Link>
+                {t('login.twoFa.link')} <FontAwesomeIcon icon={faArrowRight} />
+              </Button>
             </CardContent>
           </Card>
 
