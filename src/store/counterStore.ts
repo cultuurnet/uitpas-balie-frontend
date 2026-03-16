@@ -3,7 +3,7 @@ import { readCookie, storeCookie } from '@/shared/lib/utils/cookieUtils';
 import {
   COUNTER_STORAGE_KEY,
   PREV_COUNTER_STORAGE_KEY,
-} from '@/utils/counterKeys';
+} from '@/app/const/storageKeys';
 
 type Counter = Organizer | null;
 

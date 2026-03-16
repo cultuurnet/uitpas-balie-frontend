@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-import { COUNTER_STORAGE_KEY } from '@/utils/counterKeys';
+import { COUNTER_STORAGE_KEY } from '@/app/const/storageKeys';
 
 const COUNTERS_PATH = '/counters';
 const APP_PATH = '/';
