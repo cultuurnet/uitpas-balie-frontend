@@ -6,7 +6,6 @@ import { PropsWithChildren } from 'react';
 
 import { CounterProvider } from '@/app/CounterProvider';
 import ThemeRegistry from '@/app/ThemeRegistry';
-import { Layout } from '@/layouts';
 import { UserProvider } from '@/shared/lib/user';
 
 const queryClient = new QueryClient({
@@ -28,9 +27,7 @@ export function WebProviders({ children }: PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <SessionProvider>
           <UserProvider>
-            <CounterProvider>
-              <Layout>{children}</Layout>
-            </CounterProvider>
+            <CounterProvider>{children}</CounterProvider>
           </UserProvider>
         </SessionProvider>
       </QueryClientProvider>

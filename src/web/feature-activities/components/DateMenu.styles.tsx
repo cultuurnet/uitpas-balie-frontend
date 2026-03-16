@@ -1,3 +1,6 @@
+import MenuItemUnstyled, {
+  menuItemUnstyledClasses,
+} from '@mui/base/MenuItemUnstyled';
 import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/joy';
 import {
@@ -85,8 +88,8 @@ export const StyledDateItem = styled('a')(
     color: ${theme.palette.text.primary};
     white-space: nowrap;
     text-decoration: underline;
-    
-    
+
+
     &:hover {
       text-decoration: none;
       color: ${theme.vars.palette.neutral[800]};
@@ -101,6 +104,22 @@ export const StyledDivider = styled('li')(({ theme }) => ({
   backgroundColor: theme.palette.neutral[400],
   overflow: 'hidden',
 }));
+
+export const StyledMenuItem = styled(MenuItemUnstyled)(
+  ({ theme }) => `
+      margin-bottom: 0.3em;
+
+      &.${menuItemUnstyledClasses.focusVisible} {
+        outline: none;
+      }
+
+      &.${menuItemUnstyledClasses.focusVisible} a {
+        text-decoration: none;
+        color: ${theme.vars.palette.neutral[800]};
+        background-color: ${theme.vars.palette.neutral[300]};
+      }
+  `,
+);
 
 export const Popper = styled(PopperUnstyled)`
   z-index: 1;

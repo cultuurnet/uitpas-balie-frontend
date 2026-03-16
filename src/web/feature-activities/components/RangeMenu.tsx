@@ -2,7 +2,6 @@ import { MenuUnstyled } from '@mui/base';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, isValidElement, type JSX, useState } from 'react';
 
-import { StyledMenuItem } from '@/layouts/components/Navbar.styles';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import {
   DATE_FORMAT_SEPARATED_FNS,
@@ -19,6 +18,7 @@ import {
   StyledDateItem,
   StyledDivider,
   StyledListbox,
+  StyledMenuItem,
 } from './DateMenu.styles';
 
 type rangeMenuItem = {
