@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
+import { encode, getToken } from 'next-auth/jwt';
 
 const SERVICE_URLS: Record<string, string> = {
   uitpas: process.env.NEXT_PUBLIC_API_PATH ?? '',
@@ -24,7 +24,11 @@ async function refreshAccessToken(refreshToken: string) {
   );
 
   if (!response.ok) throw new Error('Failed to refresh token');
-  return response.json() as Promise<{ access_token: string }>;
+  return response.json() as Promise<{
+    access_token: string;
+    refresh_token?: string;
+    expires_in: number;
+  }>;
 }
 
 async function fetchUpstream(
@@ -78,22 +82,49 @@ async function handler(
     token.accessToken as string,
   );
 
+  const responseHeaders = new Headers(response.headers);
+  responseHeaders.delete('content-encoding');
+  responseHeaders.delete('content-length');
+
   if (response.status === 401) {
     try {
       const refreshed = await refreshAccessToken(token.refreshToken as string);
+
       response = await fetchUpstream(
         targetUrl,
         requestClone,
         refreshed.access_token,
       );
+
+      const updatedToken = {
+        ...token,
+        accessToken: refreshed.access_token,
+        refreshToken: refreshed.refresh_token ?? token.refreshToken,
+        expiresAt: Math.floor(Date.now() / 1000) + refreshed.expires_in,
+      };
+      const useSecureCookies =
+        process.env.NEXTAUTH_URL?.startsWith('https://') ?? false;
+      const cookieName = `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`;
+      const encodedToken = await encode({
+        token: updatedToken,
+        secret: process.env.NEXTAUTH_SECRET ?? '',
+      });
+
+      const nextResponse = new NextResponse(response.body, {
+        status: response.status,
+        headers: responseHeaders,
+      });
+      nextResponse.cookies.set(cookieName, encodedToken, {
+        httpOnly: true,
+        secure: useSecureCookies,
+        sameSite: 'lax',
+        path: '/',
+      });
+      return nextResponse;
     } catch {
       return NextResponse.json({ error: 'Session expired' }, { status: 401 });
     }
   }
-
-  const responseHeaders = new Headers(response.headers);
-  responseHeaders.delete('content-encoding');
-  responseHeaders.delete('content-length');
 
   return new NextResponse(response.body, {
     status: response.status,
