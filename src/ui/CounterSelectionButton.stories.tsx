@@ -55,7 +55,7 @@ const meta = {
     activeCounter: mockCounter,
     counters: mockCounters,
     lastCounterUsed: mockCounter,
-    requestAccessHref: 'https://www.uitpas.be/toegang-aanvragen',
+    requestAccessHref: '/counters/request',
     totalCounters: 3,
     onSelect: () => {},
   },
