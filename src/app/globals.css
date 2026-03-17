@@ -22,6 +22,7 @@
   --color-neutral-200: #f3f3f3;
   --color-neutral-300: #f5f5f5;
   --color-neutral-400: #dddddd;
+  --color-neutral-450: #bdbdbd;
   --color-neutral-500: #8a8a8d;
   --color-neutral-550: #757575;
   --color-neutral-600: #2f3b4d;
@@ -165,18 +166,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+button,
+a,
+[role='button'],
+[role='menuitem'],
+[role='option'] {
+  cursor: pointer;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-  }
-  button,
-  a,
-  [role='button'],
-  [role='menuitem'],
-  [role='option'] {
-    cursor: pointer;
   }
 }
