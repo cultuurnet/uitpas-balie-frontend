@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const callbackUrl = searchParams.get('callbackUrl') ?? '/';
 
   const keycloakLogoutUrl = new URL(
-    `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/logout`,
+    `${process.env.KEYCLOAK_ISSUER}/realms/uitid/protocol/openid-connect/logout`,
   );
   keycloakLogoutUrl.searchParams.set(
     'post_logout_redirect_uri',
