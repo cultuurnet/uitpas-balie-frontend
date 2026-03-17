@@ -34,7 +34,7 @@
   },
   "counter": {
     "welcome": "Welkom, <bold>{{name}}</bold>",
-    "selectCounter": "Selecteer je balie",
+    "selectCounter": "Selecteer een balie",
     "noCounterP1": "Je bent nog geen lid van een UiTPAS-balie. Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
     "noCounterP2": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
     "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
@@ -42,6 +42,7 @@
     "lastUsed": "Laatst gebruikt",
     "otherCounters": "Andere balies",
     "searchCounter": "Zoek balie",
+    "requestCounterAccess": "Toegang aanvragen",
     "contact": [
       {
         "name": "Dender",
@@ -321,7 +322,8 @@
     "advantages": "Voordelen",
     "cardreaders": "Kaartlezers",
     "news": "Nieuws",
-    "logout": "Afmelden"
+    "logout": "Afmelden",
+    "profile": "Mijn profiel"
   },
   "common": {
     "startDate": "Startdatum",

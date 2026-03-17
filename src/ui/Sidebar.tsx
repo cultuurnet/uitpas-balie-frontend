@@ -10,9 +10,12 @@ import {
   SidebarSeparator,
 } from '@/ui/shadcn/sidebar';
 
-type Props = PropsWithChildren<{ headerContent?: ReactNode }>;
+type Props = PropsWithChildren<{
+  headerContent?: ReactNode;
+  footerContent?: ReactNode;
+}>;
 
-const Sidebar = ({ children, headerContent }: Props) => {
+const Sidebar = ({ children, headerContent, footerContent }: Props) => {
   return (
     <ShadcnSidebar>
       <SidebarHeader className="p-5">
@@ -27,7 +30,12 @@ const Sidebar = ({ children, headerContent }: Props) => {
       </SidebarHeader>
       <SidebarSeparator className="mx-0 w-full" />
       <SidebarContent>{children}</SidebarContent>
-      <SidebarFooter />
+      {footerContent && (
+        <>
+          <SidebarSeparator className="mx-0 w-full" />
+          <SidebarFooter>{footerContent}</SidebarFooter>
+        </>
+      )}
     </ShadcnSidebar>
   );
 };
