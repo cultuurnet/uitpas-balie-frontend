@@ -22,13 +22,12 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
   SidebarSeparator,
 } from '@/ui/shadcn/sidebar';
 import { Sidebar } from '@/ui/Sidebar';
-import { cn } from '@/utils/shadcn';
+import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 
 const primaryNavItems = [
   { label: 'Home', href: '/', icon: Home },
@@ -61,14 +60,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
                   href === '/' ? pathname === '/' : pathname.startsWith(href);
                 return (
                   <SidebarMenuItem key={href}>
-                    <SidebarMenuButton
-                      asChild
-                      className={cn(
-                        'px-5 py-6 hover:bg-primary-light/50 hover:text-primary-dark',
-                        isActive &&
-                          'border-l-4 border-primary-dark bg-primary-light pl-4 font-medium text-primary-dark hover:bg-primary-light',
-                      )}
-                    >
+                    <SidebarMenuButton asChild isActive={isActive}>
                       <Link href={href}>
                         <Icon />
                         <span>{label}</span>
@@ -86,10 +78,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
             <SidebarMenu>
               {secondaryNavItems.map(({ label, href, icon: Icon }) => (
                 <SidebarMenuItem key={href}>
-                  <SidebarMenuButton
-                    asChild
-                    className="px-5 py-6 hover:bg-primary-light/50 hover:text-primary-dark"
-                  >
+                  <SidebarMenuButton asChild>
                     <Link href={href}>
                       <Icon />
                       <span>{label}</span>
@@ -98,10 +87,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
                 </SidebarMenuItem>
               ))}
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  className="px-5 py-6 hover:bg-primary-light/50 hover:text-primary-dark"
-                  onClick={() => logout()}
-                >
+                <SidebarMenuButton onClick={() => logout()}>
                   <LogOut />
                   <span>Afmelden</span>
                 </SidebarMenuButton>
