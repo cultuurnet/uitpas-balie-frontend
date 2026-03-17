@@ -5,7 +5,6 @@ import { SessionProvider } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
 import { CounterProvider } from '@/app/CounterProvider';
-import ThemeRegistry from '@/app/ThemeRegistry';
 import { Layout } from '@/layouts';
 import { UserProvider } from '@/shared/lib/user';
 
@@ -24,16 +23,14 @@ const queryClient = new QueryClient({
 
 export function WebProviders({ children }: PropsWithChildren) {
   return (
-    <ThemeRegistry options={{ key: 'joy' }}>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider>
-          <UserProvider>
-            <CounterProvider>
-              <Layout>{children}</Layout>
-            </CounterProvider>
-          </UserProvider>
-        </SessionProvider>
-      </QueryClientProvider>
-    </ThemeRegistry>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <UserProvider>
+          <CounterProvider>
+            <Layout>{children}</Layout>
+          </CounterProvider>
+        </UserProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }
