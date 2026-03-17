@@ -126,7 +126,7 @@
 [data-sidebar='sidebar'] {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--color-primary-light) 15%, transparent),
+    color-mix(in srgb, var(--color-primary-light) 15%, #fff),
     #fff
   );
 }

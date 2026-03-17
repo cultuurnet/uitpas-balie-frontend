@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 import { getAssetUrl } from '@/shared/lib/utils';
 import {
@@ -10,7 +10,9 @@ import {
   SidebarSeparator,
 } from '@/ui/shadcn/sidebar';
 
-const Sidebar = ({ children }: PropsWithChildren) => {
+type Props = PropsWithChildren<{ headerContent?: ReactNode }>;
+
+const Sidebar = ({ children, headerContent }: Props) => {
   return (
     <ShadcnSidebar>
       <SidebarHeader className="p-5">
@@ -21,6 +23,7 @@ const Sidebar = ({ children }: PropsWithChildren) => {
           height={42}
           priority
         />
+        {headerContent}
       </SidebarHeader>
       <SidebarSeparator className="mx-0 w-full" />
       <SidebarContent>{children}</SidebarContent>

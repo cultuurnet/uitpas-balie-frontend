@@ -17,7 +17,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
+import { useCounter } from '@/hooks/useCounter';
+import { useGetCounters } from '@/hooks/useGetCounters';
 import { useLogout } from '@/shared/lib/auth';
+import { Organizer } from '@/shared/lib/dataAccess';
+import { storeCounter } from '@/store/counterStore';
+import { CounterSelectionButton } from '@/ui/CounterSelectionButton';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -25,6 +30,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarSeparator,
+  SidebarTrigger,
 } from '@/ui/shadcn/sidebar';
 import { Sidebar } from '@/ui/Sidebar';
 import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
@@ -48,10 +54,29 @@ const secondaryNavItems = [
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const logout = useLogout();
+  const { activeCounter, lastCounterUsed, setActiveCounter } = useCounter();
+  const { allData, data } = useGetCounters(lastCounterUsed);
+  const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
+
+  const handleSelectCounter = (organizer: Organizer) => {
+    storeCounter(organizer);
+    setActiveCounter(organizer);
+  };
 
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar
+        headerContent={
+          <CounterSelectionButton
+            activeCounter={activeCounter}
+            counters={data}
+            lastCounterUsed={lastCounterUsed}
+            requestAccessHref="https://www.uitpas.be/toegang-aanvragen"
+            totalCounters={totalCounters}
+            onSelect={handleSelectCounter}
+          />
+        }
+      >
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -96,7 +121,12 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           </SidebarGroupContent>
         </SidebarGroup>
       </Sidebar>
-      <main className="flex-1 bg-neutral-300">{children}</main>
+      <main className="flex-1 bg-neutral-300">
+        <div className="flex items-center p-2 md:hidden">
+          <SidebarTrigger />
+        </div>
+        {children}
+      </main>
     </SidebarProvider>
   );
 };
