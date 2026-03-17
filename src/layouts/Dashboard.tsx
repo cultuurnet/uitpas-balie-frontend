@@ -1,18 +1,20 @@
 'use client';
 
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faUsb } from '@fortawesome/free-brands-svg-icons';
 import {
-  BarChart3,
-  CalendarDays,
-  Download,
-  Gift,
-  Home,
-  IdCard,
-  LogOut,
-  Newspaper,
-  Tablet,
-  Usb,
-  Users,
-} from 'lucide-react';
+  faCalendarDays,
+  faChartBar,
+  faDownload,
+  faGift,
+  faHouse,
+  faIdCard,
+  faNewspaper,
+  faRightFromBracket,
+  faTablet,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
@@ -35,20 +37,20 @@ import {
 import { Sidebar } from '@/ui/Sidebar';
 import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 
-const primaryNavItems = [
-  { label: 'Home', href: '/', icon: Home },
-  { label: 'Pashouders', href: '/pashouders', icon: IdCard },
-  { label: 'Activiteiten', href: '/activities', icon: CalendarDays },
-  { label: 'Voordelen', href: '/voordelen', icon: Gift },
-  { label: 'Zuilen', href: '/zuilen', icon: Tablet },
-  { label: 'Onkostennota', href: '/expense-report', icon: Download },
-  { label: 'Medewerkers', href: '/medewerkers', icon: Users },
-  { label: 'Statistieken', href: '/statistieken', icon: BarChart3 },
+const primaryNavItems: { label: string; href: string; icon: IconDefinition }[] = [
+  { label: 'Home', href: '/', icon: faHouse },
+  { label: 'Pashouders', href: '/pashouders', icon: faIdCard },
+  { label: 'Activiteiten', href: '/activities', icon: faCalendarDays },
+  { label: 'Voordelen', href: '/voordelen', icon: faGift },
+  { label: 'Zuilen', href: '/zuilen', icon: faTablet },
+  { label: 'Onkostennota', href: '/expense-report', icon: faDownload },
+  { label: 'Medewerkers', href: '/medewerkers', icon: faUsers },
+  { label: 'Statistieken', href: '/statistieken', icon: faChartBar },
 ];
 
-const secondaryNavItems = [
-  { label: 'Kaartlezers', href: '/kaartlezers', icon: Usb },
-  { label: 'Nieuws', href: '/nieuws', icon: Newspaper },
+const secondaryNavItems: { label: string; href: string; icon: IconDefinition }[] = [
+  { label: 'Kaartlezers', href: '/kaartlezers', icon: faUsb },
+  { label: 'Nieuws', href: '/nieuws', icon: faNewspaper },
 ];
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -80,14 +82,14 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {primaryNavItems.map(({ label, href, icon: Icon }) => {
+              {primaryNavItems.map(({ label, href, icon }) => {
                 const isActive =
                   href === '/' ? pathname === '/' : pathname.startsWith(href);
                 return (
                   <SidebarMenuItem key={href}>
                     <SidebarMenuButton asChild isActive={isActive}>
                       <Link href={href}>
-                        <Icon />
+                        <FontAwesomeIcon icon={icon} />
                         <span>{label}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -101,11 +103,11 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           <SidebarSeparator className="mx-0 w-full" />
           <SidebarGroupContent>
             <SidebarMenu>
-              {secondaryNavItems.map(({ label, href, icon: Icon }) => (
+              {secondaryNavItems.map(({ label, href, icon }) => (
                 <SidebarMenuItem key={href}>
                   <SidebarMenuButton asChild>
                     <Link href={href}>
-                      <Icon />
+                      <FontAwesomeIcon icon={icon} />
                       <span>{label}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -113,7 +115,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
               ))}
               <SidebarMenuItem>
                 <SidebarMenuButton onClick={() => logout()}>
-                  <LogOut />
+                  <FontAwesomeIcon icon={faRightFromBracket} />
                   <span>Afmelden</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
