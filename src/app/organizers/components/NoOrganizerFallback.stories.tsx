@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { CounterFallback } from './CounterFallback';
+import { NoOrganizerFallback } from './NoOrganizerFallback';
 
 const meta = {
-  title: 'Counters/CounterFallback',
-  component: CounterFallback,
+  title: 'Organizers/NoOrganizerFallback',
+  component: NoOrganizerFallback,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof CounterFallback>;
+} satisfies Meta<typeof NoOrganizerFallback>;
 
 type Story = StoryObj<typeof meta>;
 

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { CounterSelectorRow } from './CounterSelectorRow';
+import { OrganizerSelectorRow } from './OrganizerSelectorRow';
 
 const meta = {
-  title: 'Counters/CounterSelectorRow',
-  component: CounterSelectorRow,
+  title: 'Organizers/OrganizerSelectorRow',
+  component: OrganizerSelectorRow,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

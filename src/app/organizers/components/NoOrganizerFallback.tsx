@@ -2,7 +2,7 @@
 
 import { useTranslation } from '@/shared/lib/i18n/client';
 
-const CounterFallback = () => {
+const NoOrganizerFallback = () => {
   const { t } = useTranslation();
 
   const contactDetails = t('counter.contact', { returnObjects: true }) as {
@@ -30,4 +30,4 @@ const CounterFallback = () => {
   );
 };
 
-export { CounterFallback };
+export { NoOrganizerFallback };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { CounterSelector } from './CounterSelector';
+import { OrganizerSelector } from './OrganizerSelector';
 
 const mockOrganizer = {
   id: '1',

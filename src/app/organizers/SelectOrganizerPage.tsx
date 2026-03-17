@@ -23,9 +23,9 @@ import {
   InputGroupInput,
 } from '@/ui';
 
-import { CounterSelector } from './components/CounterSelector';
+import { OrganizerSelector } from './components/OrganizerSelector';
 
-export const SelectCounterPage = () => {
+export const SelectOrganizerPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState('');
@@ -89,7 +89,7 @@ export const SelectCounterPage = () => {
             </InputGroup>
           )}
 
-          <CounterSelector
+          <OrganizerSelector
             className="max-h-[calc(100vh-420px)]"
             data={data}
             filterString={searchString}

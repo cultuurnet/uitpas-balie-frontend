@@ -3,15 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Counter } from '@/store/counterStore';
 
-type CounterSelectorRowProps = {
+type OrganizerSelectorRowProps = {
   organizer: NonNullable<Counter>;
   onClick: () => void;
 };
 
-const CounterSelectorRow = ({
+const OrganizerSelectorRow = ({
   organizer,
   onClick,
-}: CounterSelectorRowProps) => (
+}: OrganizerSelectorRowProps) => (
   <button
     type="button"
     onClick={onClick}
@@ -37,4 +37,4 @@ const CounterSelectorRow = ({
   </button>
 );
 
-export { CounterSelectorRow };
+export { OrganizerSelectorRow };

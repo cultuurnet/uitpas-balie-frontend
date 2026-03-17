@@ -8,10 +8,10 @@ import { Counter } from '@/store/counterStore';
 import { Spinner } from '@/ui';
 import { cn } from '@/utils/shadcn';
 
-import { CounterFallback } from './CounterFallback';
-import { CounterSelectorRow } from './CounterSelectorRow';
+import { NoOrganizerFallback } from './NoOrganizerFallback';
+import { CounterSelectorRow } from './OrganizerSelectorRow';
 
-type CounterSelectorProps = {
+type OrganizerSelectorProps = {
   className?: string;
   data: OrganizerPermissions[];
   filterString: string;
@@ -20,14 +20,14 @@ type CounterSelectorProps = {
   onSelect: (organizer: Organizer) => void;
 };
 
-const CounterSelector = ({
+const OrganizerSelector = ({
   className,
   data,
   filterString,
   isLoading,
   lastCounterUsed,
   onSelect,
-}: CounterSelectorProps) => {
+}: OrganizerSelectorProps) => {
   const { t } = useTranslation();
 
   const filteredLastCounter = (() => {
@@ -84,7 +84,7 @@ const CounterSelector = ({
               </li>
             ) : (
               <li>
-                <CounterFallback />
+                <NoOrganizerFallback />
               </li>
             ))}
         </ul>
@@ -93,4 +93,4 @@ const CounterSelector = ({
   );
 };
 
-export { CounterSelector };
+export { OrganizerSelector };
