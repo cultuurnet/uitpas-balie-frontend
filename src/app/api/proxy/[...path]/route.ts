@@ -29,7 +29,7 @@ async function refreshAccessToken(refreshToken: string) {
 
 async function fetchUpstream(
   targetUrl: string,
-  request: NextRequest,
+  request: Request,
   accessToken: string,
 ) {
   const headers = new Headers({ Authorization: `Bearer ${accessToken}` });
@@ -70,6 +70,7 @@ async function handler(
     '',
   );
   const targetUrl = `${targetBase}${upstreamPath}${request.nextUrl.search}`;
+  const requestClone = request.clone();
 
   let response = await fetchUpstream(
     targetUrl,
@@ -82,7 +83,7 @@ async function handler(
       const refreshed = await refreshAccessToken(token.refreshToken as string);
       response = await fetchUpstream(
         targetUrl,
-        request,
+        requestClone,
         refreshed.access_token,
       );
     } catch {
