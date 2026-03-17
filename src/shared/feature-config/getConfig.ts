@@ -41,6 +41,7 @@ export async function getConfig(): Promise<{
       loginHowToLoginUrl: process.env.NEXT_PUBLIC_LOGIN_HOW_TO_LOGIN_URL ?? '',
       loginHowTo2faUrl: process.env.NEXT_PUBLIC_LOGIN_HOW_TO_2FA_URL ?? '',
       login2faUrl: process.env.NEXT_PUBLIC_LOGIN_2FA_URL ?? '',
+      profileUrl: process.env.NEXT_PUBLIC_UITID_PROFILE_URL ?? '',
     },
   };
 }
