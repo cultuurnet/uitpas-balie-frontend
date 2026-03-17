@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { encode, getToken } from 'next-auth/jwt';
+import { getServerSession } from 'next-auth';
+import { getToken } from 'next-auth/jwt';
+import { authOptions } from '../../auth/[...nextauth]/route';
 
 const SERVICE_URLS: Record<string, string> = {
   uitpas: process.env.NEXT_PUBLIC_API_PATH ?? '',
@@ -7,50 +9,6 @@ const SERVICE_URLS: Record<string, string> = {
   entry: process.env.NEXT_PUBLIC_ENTRY_API_PATH ?? '',
   userinfo: process.env.NEXT_PUBLIC_OAUTH_USERINFO_PATH ?? '',
 };
-
-async function refreshAccessToken(refreshToken: string) {
-  const response = await fetch(
-    `${process.env.KEYCLOAK_ISSUER}/realms/uitid/protocol/openid-connect/token`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        client_id: process.env.KEYCLOAK_ID ?? '',
-        client_secret: process.env.KEYCLOAK_SECRET ?? '',
-        refresh_token: refreshToken,
-      }),
-    },
-  );
-
-  if (!response.ok) throw new Error('Failed to refresh token');
-  return response.json() as Promise<{
-    access_token: string;
-    refresh_token?: string;
-    expires_in: number;
-  }>;
-}
-
-async function fetchUpstream(
-  targetUrl: string,
-  request: Request,
-  accessToken: string,
-) {
-  const headers = new Headers({ Authorization: `Bearer ${accessToken}` });
-  const contentType = request.headers.get('content-type');
-  if (contentType) headers.set('content-type', contentType);
-
-  return fetch(targetUrl, {
-    method: request.method,
-    headers,
-    body:
-      request.method !== 'GET' && request.method !== 'HEAD'
-        ? request.body
-        : null,
-    // @ts-expect-error — duplex required for streaming request bodies in Node 18+
-    duplex: 'half',
-  });
-}
 
 async function handler(
   request: NextRequest,
@@ -64,8 +22,11 @@ async function handler(
     return NextResponse.json({ error: 'Unknown service' }, { status: 404 });
   }
 
+  await getServerSession(authOptions);
+
   const token = await getToken({ req: request });
-  if (!token) {
+  const isExpired = !token?.expiresAt || Date.now() > token.expiresAt * 1000;
+  if (!token?.accessToken || isExpired) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -74,57 +35,25 @@ async function handler(
     '',
   );
   const targetUrl = `${targetBase}${upstreamPath}${request.nextUrl.search}`;
-  const requestClone = request.clone();
 
-  let response = await fetchUpstream(
-    targetUrl,
-    request,
-    token.accessToken as string,
-  );
+  const headers = new Headers({ Authorization: `Bearer ${token.accessToken}` });
+  const contentType = request.headers.get('content-type');
+  if (contentType) headers.set('content-type', contentType);
+
+  const response = await fetch(targetUrl, {
+    method: request.method,
+    headers,
+    body:
+      request.method !== 'GET' && request.method !== 'HEAD'
+        ? request.body
+        : null,
+    // @ts-expect-error — duplex required for streaming request bodies in Node 18+
+    duplex: 'half',
+  });
 
   const responseHeaders = new Headers(response.headers);
   responseHeaders.delete('content-encoding');
   responseHeaders.delete('content-length');
-
-  if (response.status === 401) {
-    try {
-      const refreshed = await refreshAccessToken(token.refreshToken as string);
-
-      response = await fetchUpstream(
-        targetUrl,
-        requestClone,
-        refreshed.access_token,
-      );
-
-      const updatedToken = {
-        ...token,
-        accessToken: refreshed.access_token,
-        refreshToken: refreshed.refresh_token ?? token.refreshToken,
-        expiresAt: Math.floor(Date.now() / 1000) + refreshed.expires_in,
-      };
-      const useSecureCookies =
-        process.env.NEXTAUTH_URL?.startsWith('https://') ?? false;
-      const cookieName = `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`;
-      const encodedToken = await encode({
-        token: updatedToken,
-        secret: process.env.NEXTAUTH_SECRET ?? '',
-      });
-
-      const nextResponse = new NextResponse(response.body, {
-        status: response.status,
-        headers: responseHeaders,
-      });
-      nextResponse.cookies.set(cookieName, encodedToken, {
-        httpOnly: true,
-        secure: useSecureCookies,
-        sameSite: 'lax',
-        path: '/',
-      });
-      return nextResponse;
-    } catch {
-      return NextResponse.json({ error: 'Session expired' }, { status: 401 });
-    }
-  }
 
   return new NextResponse(response.body, {
     status: response.status,
