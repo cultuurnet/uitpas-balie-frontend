@@ -3,7 +3,7 @@
 import { ChevronsUpDown, Contact, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/shadcn/use-mobile';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import {
   DropdownMenu,

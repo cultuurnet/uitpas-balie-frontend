@@ -4,7 +4,7 @@ import { ChevronsUpDown, Search, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/shadcn/use-mobile';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { Counter } from '@/store/counterStore';
