@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react';
 
+import { FocusColor, focusColorValues } from '@/app/const/focusColors';
 import {
   InputGroup as ShadcnInputGroup,
   InputGroupAddon,
@@ -8,14 +9,6 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from '@/ui/shadcn/input-group';
-
-type FocusColor = 'primary' | 'secondary' | 'muted';
-
-const focusColorValues: Record<FocusColor, string> = {
-  primary: 'var(--color-primary)',
-  secondary: 'var(--color-secondary)',
-  muted: 'var(--color-ring)',
-};
 
 export type InputGroupProps = ComponentProps<typeof ShadcnInputGroup> & {
   focusColor?: FocusColor;

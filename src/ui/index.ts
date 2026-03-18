@@ -10,6 +10,8 @@ export {
   CardHeader,
   CardTitle,
 } from './Card';
+export type { InputProps } from './Input';
+export { Input } from './Input';
 export type { InputGroupProps } from './InputGroup';
 export {
   InputGroup,
@@ -21,5 +23,6 @@ export {
 } from './InputGroup';
 export type { LinkProps } from './Link';
 export { Link } from './Link';
+export { SearchUiTPASCard } from './SearchUiTPASCard';
 export type { SpinnerProps } from './Spinner';
 export { Spinner } from './Spinner';
