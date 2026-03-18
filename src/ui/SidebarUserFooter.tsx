@@ -75,7 +75,7 @@ const SidebarUserFooter = ({ name, email, profileUrl, onLogout }: Props) => {
           </>
         )}
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={onLogout}>
+        <DropdownMenuItem onClick={() => onLogout()}>
           <LogOut className="mr-2 size-4" />
           {t('nav.logout')}
         </DropdownMenuItem>
