@@ -7,7 +7,7 @@ import Link from 'next/link';
 import uitpasLogo from 'public/images/svg/logo-uitpas.svg';
 import { PropsWithChildren } from 'react';
 
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { useOrganizer } from '@/mobile/feature-organizer/context/useOrganizer';
 import { useLogout } from '@/shared/lib/auth';
 import { useTranslation } from '@/shared/lib/utils/hooks/useTranslation';
 
@@ -17,7 +17,7 @@ import { NavBarTypography } from './components/NavBarTypography';
 
 export const MobileNavBar = ({ children }: PropsWithChildren) => {
   const { t } = useTranslation();
-  const { clearCounter, activeCounter } = useCounter();
+  const { clearOrganizer, activeOrganizer } = useOrganizer();
   const logout = useLogout();
 
   return (
@@ -46,15 +46,15 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
             cursor: 'pointer',
           }}
           priority={true}
-          onClick={clearCounter}
+          onClick={clearOrganizer}
         />
-        {activeCounter ? (
+        {activeOrganizer ? (
           <NavBarItemContainer
             component={Link}
-            href="/mobile/counters"
-            onClick={clearCounter}
+            href="/mobile/organizers"
+            onClick={clearOrganizer}
           >
-            <NavBarTypography>{activeCounter.name}</NavBarTypography>
+            <NavBarTypography>{activeOrganizer.name}</NavBarTypography>
             <NavBarIcon icon={Settings} />
           </NavBarItemContainer>
         ) : (
@@ -62,7 +62,9 @@ export const MobileNavBar = ({ children }: PropsWithChildren) => {
             onClick={() => logout()}
             sx={{ columnGap: '4px', mr: '10px', cursor: 'pointer' }}
           >
-            <NavBarTypography>{t('counter.mobile.logoutBtn')}</NavBarTypography>
+            <NavBarTypography>
+              {t('organizer.mobile.logoutBtn')}
+            </NavBarTypography>
             <NavBarIcon icon={ExitToApp} />
           </NavBarItemContainer>
         )}

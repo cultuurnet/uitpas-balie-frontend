@@ -5,8 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { ElementRef, useEffect, useRef, useState } from 'react';
 
 import { useActivity } from '@/mobile/feature-activities/useActivity';
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
 import { ManualCardInput } from '@/mobile/feature-identification';
+import { useOrganizer } from '@/mobile/feature-organizer/context/useOrganizer';
 import {
   RewardsDrawer,
   ScanFailed,
@@ -47,7 +47,7 @@ export const MobileSavingPage = () => {
   const uitpasNumber = params.get('uitpas') ?? '';
   const inszNumber = params.get('insz') ?? undefined;
   const { selectedActivity, navigateToScanner } = useActivity();
-  const { activeCounter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
   const [showTariffDrawer, setShowTariffDrawer] = useState<boolean>(false);
   const [showRewardsDrawer, setShowRewardsDrawer] = useState<boolean>(false);
   const [drawerStartPosition, setDrawerStartPosition] = useState<number>(0);
@@ -89,7 +89,7 @@ export const MobileSavingPage = () => {
       {
         organiserId: selectedActivity?.organizer?.['@id']
           ? getIdFromUrl(selectedActivity.organizer['@id'])
-          : activeCounter?.id || '',
+          : activeOrganizer?.id || '',
       },
       {
         query: {

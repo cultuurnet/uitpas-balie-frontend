@@ -26,12 +26,12 @@ const primaryNavItems: NavItem[] = [
     icon: Download,
   },
   {
-    translationKey: 'nav.counterMemberships',
+    translationKey: 'nav.organizerMemberships',
     href: '/medewerkers',
     icon: Users,
   },
   {
-    translationKey: 'nav.counterStatistics',
+    translationKey: 'nav.organizerStatistics',
     href: '/statistieken',
     icon: ChartBar,
   },

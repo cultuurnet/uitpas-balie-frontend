@@ -5,7 +5,7 @@ import type { Theme } from '@mui/joy/styles';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { useCounter } from '@/hooks/useCounter';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { getEventParams } from '@/shared/feature-events/getEventParams';
 import { useGetEvents } from '@/shared/lib/dataAccess';
 import {
@@ -51,7 +51,7 @@ import { SidebarContent } from './SidebarContent';
 
 export const ActivitiesPage = () => {
   const { t, LANG_KEY } = useTranslation();
-  const { activeCounter: counter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
 
   const { fetchLimit, offset } = usePaginationQuery();
   const { rangeQuery, dateRange } = useRangeQuery();
@@ -63,7 +63,7 @@ export const ActivitiesPage = () => {
 
   const { data, isSuccess, isLoading } = useGetEvents({
     ...getEventParams(),
-    organizerId: counter?.id,
+    organizerId: activeOrganizer?.id,
     ...(rangeQuery && { dateFrom: dateRange.from, dateTo: dateRange.to }),
     ...(searchQuery && { q: searchQuery }),
     // @ts-expect-error Orval didn't include pagination in generated types
