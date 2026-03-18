@@ -36,11 +36,17 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation();
   const user = useUserInfo();
   const { publicRuntimeConfig } = useConfig();
-  const { activeCounter, lastCounterUsed, setActiveCounter } = useCounter();
+  const {
+    activeCounter,
+    lastCounterUsed,
+    setActiveCounter,
+    setLastCounterUsed,
+  } = useCounter();
   const { allData, data } = useGetCounters(lastCounterUsed);
   const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
 
   const handleSelectCounter = (organizer: Organizer) => {
+    setLastCounterUsed(organizer);
     storeCounter(organizer);
     setActiveCounter(organizer);
   };
