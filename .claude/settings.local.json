@@ -7,7 +7,8 @@
       "Bash(yarn prettify)",
       "Bash(yarn format:check:*)",
       "Bash(yarn types:check:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(yarn e2e:*)"
     ]
   }
 }

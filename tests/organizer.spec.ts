@@ -7,7 +7,7 @@ test('Go to organizers page', async ({ page, baseURL }) => {
 
   await expect(page).toHaveURL('/organizers');
   await expect(
-    page.getByRole('heading', { name: 'selecteer je balie' }),
+    page.getByRole('heading', { name: 'selecteer een balie' }),
   ).toBeVisible();
   await expect(page.getByRole('button', { name: 'muntpunt' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
@@ -35,7 +35,7 @@ test('Go to organizers page', async ({ page, baseURL }) => {
   await expect(page).toHaveURL('/');
   await expect(page.getByRole('heading', { name: 'homepage' })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Balie wijzigen' }).click();
+  await page.goto('/organizers');
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');

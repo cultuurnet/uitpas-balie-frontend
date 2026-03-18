@@ -29,7 +29,8 @@ export const SelectOrganizerPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState('');
-  const { lastOrganizerUsed, setActiveOrganizer } = useOrganizer();
+  const { lastOrganizerUsed, setActiveOrganizer, setLastOrganizerUsed } =
+    useOrganizer();
   const { allData, data, isLoading } = useGetOrganizers(
     lastOrganizerUsed,
     searchString,
@@ -42,6 +43,7 @@ export const SelectOrganizerPage = () => {
   const showSearch = totalOrganizers > 1;
 
   const handleSelect = (organizer: Organizer) => {
+    setLastOrganizerUsed(organizer);
     storeOrganizer(organizer);
     setActiveOrganizer(organizer);
     router.push('/');

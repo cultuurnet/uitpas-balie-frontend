@@ -6,12 +6,23 @@
 
 @theme {
   --color-primary: #26a769;
+  --color-primary-light: #abefb6;
   --color-primary-dark: #1e8a56;
+  --color-blue: #249dd9;
+  --color-blue-light: #b9effc;
+  --color-red: #e5074c;
+  --color-red-light: #fbcfd3;
+  --color-yellow: #fcd500;
+  --color-yellow-light: #fef6a6;
   --color-secondary: #3f2675;
+  --color-secondary-light: #ccc5ff;
+  --color-gray: #3b3b3b;
+  --color-gray-light: #dcdbdb;
   --color-neutral-50: #ffffff;
   --color-neutral-200: #f3f3f3;
   --color-neutral-300: #f5f5f5;
   --color-neutral-400: #dddddd;
+  --color-neutral-450: #bdbdbd;
   --color-neutral-500: #8a8a8d;
   --color-neutral-550: #757575;
   --color-neutral-600: #2f3b4d;
@@ -75,6 +86,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-nav-hover-bg-color: var(--sidebar-nav-hover-bg-color);
 }
 
 :root {
@@ -112,6 +124,14 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+[data-sidebar='sidebar'] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-primary-light) 15%, #fff),
+    #fff
+  );
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -144,6 +164,14 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+button,
+a,
+[role='button'],
+[role='menuitem'],
+[role='option'] {
+  cursor: pointer;
 }
 
 @layer base {

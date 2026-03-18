@@ -5,7 +5,6 @@ import { SessionProvider } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
 import { OrganizerProvider } from '@/app/OrganizerProvider';
-import { Layout } from '@/layouts';
 import { UserProvider } from '@/shared/lib/user';
 
 const queryClient = new QueryClient({
@@ -26,9 +25,7 @@ export function WebProviders({ children }: PropsWithChildren) {
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <UserProvider>
-          <OrganizerProvider>
-            <Layout>{children}</Layout>
-          </OrganizerProvider>
+          <OrganizerProvider>{children}</OrganizerProvider>
         </UserProvider>
       </SessionProvider>
     </QueryClientProvider>

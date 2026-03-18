@@ -1,8 +1,8 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import storybook from "eslint-plugin-storybook";
-import unusedImports from "eslint-plugin-unused-imports";
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import storybook from 'eslint-plugin-storybook';
+import unusedImports from 'eslint-plugin-unused-imports';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -15,11 +15,13 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     '.yarn',
     'storybook-static/**',
+    'src/ui/shadcn/**',
+    'src/hooks/shadcn/**',
   ]),
   {
     ignores: ['**/generated/**/*.ts'],
   },
-  ...storybook.configs["flat/recommended"],
+  ...storybook.configs['flat/recommended'],
   {
     plugins: {
       'simple-import-sort': simpleImportSort,

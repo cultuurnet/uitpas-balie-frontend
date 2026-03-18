@@ -12,7 +12,8 @@ test('Logout clears session and redirects to login', async ({
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
-  await page.getByRole('button', { name: 'Afmelden' }).click();
+  await page.getByRole('button', { name: 'dev tester' }).click();
+  await page.getByRole('menuitem', { name: 'afmelden' }).click();
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
@@ -24,7 +25,7 @@ test('Logout clears session and redirects to login', async ({
   );
   expect(sessionCookie).toBeUndefined();
 
-  await page.goto(`${baseURL}/counters`);
+  await page.goto(`${baseURL}/organizers`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
