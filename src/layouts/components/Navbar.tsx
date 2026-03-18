@@ -14,7 +14,6 @@ import { useTranslation } from '@/shared/lib/i18n/client';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { Button, Typography } from '@/web/lib/ui';
 
-import { OrganizerMenu } from './OrganizerMenu';
 import {
   HamburgerButton,
   Header,
@@ -25,6 +24,7 @@ import {
   NavLink,
   UserStack,
 } from './Navbar.styles';
+import { OrganizerMenu } from './OrganizerMenu';
 
 type NavbarProps = {
   userInfo: UserInfo;
