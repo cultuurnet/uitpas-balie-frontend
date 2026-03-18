@@ -1,2 +1,2 @@
-export const COUNTER_STORAGE_KEY = '@uitpas-balie/counter';
-export const PREV_COUNTER_STORAGE_KEY = '@uitpas-balie/counter-prev';
+export const ORGANIZER_STORAGE_KEY = '@uitpas-balie/organizer';
+export const PREV_ORGANIZER_STORAGE_KEY = '@uitpas-balie/organizer-prev';

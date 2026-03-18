@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
-import { CounterProvider } from '@/app/CounterProvider';
+import { OrganizerProvider } from '@/app/OrganizerProvider';
 import { Layout } from '@/layouts';
 import { UserProvider } from '@/shared/lib/user';
 
@@ -26,9 +26,9 @@ export function WebProviders({ children }: PropsWithChildren) {
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <UserProvider>
-          <CounterProvider>
+          <OrganizerProvider>
             <Layout>{children}</Layout>
-          </CounterProvider>
+          </OrganizerProvider>
         </UserProvider>
       </SessionProvider>
     </QueryClientProvider>
