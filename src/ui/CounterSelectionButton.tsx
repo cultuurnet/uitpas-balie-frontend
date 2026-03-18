@@ -24,7 +24,6 @@ const SEARCH_THRESHOLD = 5;
 type Props = {
   activeCounter: Counter;
   counters: OrganizerPermissions[];
-  lastCounterUsed: Counter;
   requestAccessHref: string;
   totalCounters: number;
   onSelect: (organizer: Organizer) => void;
@@ -33,7 +32,6 @@ type Props = {
 const CounterSelectionButton = ({
   activeCounter,
   counters,
-  lastCounterUsed,
   requestAccessHref,
   totalCounters,
   onSelect,
@@ -43,28 +41,17 @@ const CounterSelectionButton = ({
   const { t } = useTranslation();
   const showSearch = totalCounters > SEARCH_THRESHOLD;
 
-  const matchesTerm = (name?: string, cardSystems?: { name?: string }[]) => {
-    const term = search.toLowerCase();
-    return (
-      name?.toLowerCase().includes(term) ||
-      cardSystems?.some((cs) => cs.name?.toLowerCase().includes(term))
-    );
-  };
-
-  const filteredLastCounter =
-    search && lastCounterUsed
-      ? matchesTerm(lastCounterUsed.name, lastCounterUsed.cardSystems)
-        ? lastCounterUsed
-        : null
-      : lastCounterUsed;
-
   const filteredCounters = search
-    ? counters.filter(({ organizer }) =>
-        matchesTerm(organizer.name, organizer.cardSystems),
+    ? counters.filter(
+        ({ organizer }) =>
+          organizer.name?.toLowerCase().includes(search.toLowerCase()) ||
+          organizer.cardSystems?.some((cs) =>
+            cs.name?.toLowerCase().includes(search.toLowerCase()),
+          ),
       )
     : counters;
 
-  const hasResults = !!filteredLastCounter || filteredCounters.length > 0;
+  const hasResults = filteredCounters.length > 0;
 
   return (
     <DropdownMenu>
@@ -111,16 +98,6 @@ const CounterSelectionButton = ({
               <p className="px-3 py-2 text-sm italic text-muted-foreground">
                 {t('counter.noCounterSearch', { searchTerm: search })}
               </p>
-            )}
-            {filteredLastCounter && (
-              <DropdownMenuItem onClick={() => onSelect(filteredLastCounter)}>
-                <div className="flex flex-col">
-                  <span>{filteredLastCounter.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {filteredLastCounter.cardSystems?.[0]?.name}
-                  </span>
-                </div>
-              </DropdownMenuItem>
             )}
             {filteredCounters.map((permission) => (
               <DropdownMenuItem

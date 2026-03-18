@@ -54,7 +54,6 @@ const meta = {
   args: {
     activeCounter: mockCounter,
     counters: mockCounters,
-    lastCounterUsed: mockCounter,
     requestAccessHref: '/counters/request',
     totalCounters: 3,
     onSelect: () => {},

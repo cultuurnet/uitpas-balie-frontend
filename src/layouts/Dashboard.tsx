@@ -62,7 +62,6 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           <CounterSelectionButton
             activeCounter={activeCounter}
             counters={data}
-            lastCounterUsed={lastCounterUsed}
             requestAccessHref="/counters/request"
             totalCounters={totalCounters}
             onSelect={handleSelectCounter}
