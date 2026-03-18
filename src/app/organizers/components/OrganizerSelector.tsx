@@ -4,19 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Counter } from '@/store/counterStore';
 import { Spinner } from '@/ui';
 import { cn } from '@/utils/shadcn';
 
 import { NoOrganizerFallback } from './NoOrganizerFallback';
-import { CounterSelectorRow } from './OrganizerSelectorRow';
+import { OrganizerSelectorRow } from './OrganizerSelectorRow';
 
 type OrganizerSelectorProps = {
   className?: string;
   data: OrganizerPermissions[];
   filterString: string;
   isLoading: boolean;
-  lastCounterUsed: Counter;
+  lastOrganizerUsed: Organizer | null;
   onSelect: (organizer: Organizer) => void;
 };
 
@@ -25,19 +24,19 @@ const OrganizerSelector = ({
   data,
   filterString,
   isLoading,
-  lastCounterUsed,
+  lastOrganizerUsed,
   onSelect,
 }: OrganizerSelectorProps) => {
   const { t } = useTranslation();
 
-  const filteredLastCounter = (() => {
-    if (!lastCounterUsed || !filterString) return lastCounterUsed;
+  const filteredLastOrganizer = (() => {
+    if (!lastOrganizerUsed || !filterString) return lastOrganizerUsed;
     const term = filterString.toLowerCase();
-    const matchesName = lastCounterUsed.name?.toLowerCase().includes(term);
-    const matchesRegion = lastCounterUsed.cardSystems?.some((cs) =>
+    const matchesName = lastOrganizerUsed.name?.toLowerCase().includes(term);
+    const matchesRegion = lastOrganizerUsed.cardSystems?.some((cs) =>
       cs.name?.toLowerCase().includes(term),
     );
-    return matchesName || matchesRegion ? lastCounterUsed : null;
+    return matchesName || matchesRegion ? lastOrganizerUsed : null;
   })();
 
   return (
@@ -46,16 +45,16 @@ const OrganizerSelector = ({
         <Spinner className="mx-auto" />
       ) : (
         <ul className="flex flex-col gap-2">
-          {filteredLastCounter && (
+          {filteredLastOrganizer && (
             <>
               <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                 <FontAwesomeIcon icon={faStar} />
-                {t('counter.lastUsed')}
+                {t('organizer.lastUsed')}
               </li>
               <li className="mb-2">
-                <CounterSelectorRow
-                  organizer={filteredLastCounter}
-                  onClick={() => onSelect(filteredLastCounter)}
+                <OrganizerSelectorRow
+                  organizer={filteredLastOrganizer}
+                  onClick={() => onSelect(filteredLastOrganizer)}
                 />
               </li>
             </>
@@ -64,11 +63,11 @@ const OrganizerSelector = ({
             <>
               <li className="flex items-center gap-2 border-b pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                 <FontAwesomeIcon icon={faList} />
-                {t('counter.otherCounters')}
+                {t('organizer.otherOrganizers')}
               </li>
               {data.map((permission) => (
                 <li key={permission.organizer.id} className="mb-2">
-                  <CounterSelectorRow
+                  <OrganizerSelectorRow
                     organizer={permission.organizer}
                     onClick={() => onSelect(permission.organizer)}
                   />
@@ -76,11 +75,11 @@ const OrganizerSelector = ({
               ))}
             </>
           )}
-          {!filteredLastCounter &&
+          {!filteredLastOrganizer &&
             data.length === 0 &&
             (filterString ? (
               <li className="italic text-muted-foreground">
-                {t('counter.noCounterSearch', { searchTerm: filterString })}
+                {t('organizer.noOrganizerSearch', { searchTerm: filterString })}
               </li>
             ) : (
               <li>

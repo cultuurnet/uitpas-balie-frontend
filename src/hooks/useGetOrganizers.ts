@@ -1,21 +1,24 @@
 import {
+  Organizer,
   OrganizerPermissions,
   useGetPermissions,
 } from '@/shared/lib/dataAccess';
-import { Counter } from '@/store/counterStore';
 
-export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
+export const useGetOrganizers = (
+  lastOrganizerUsed: Organizer | null,
+  searchString = '',
+) => {
   const { data: allData, isSuccess, isLoading } = useGetPermissions();
 
   const permissions = Array.isArray(allData?.data) ? allData.data : [];
 
-  const dataWithoutLastCounter = permissions.filter(
+  const dataWithoutLastOrganizer = permissions.filter(
     (permission: OrganizerPermissions) =>
-      permission.organizer.id !== lastCounterUsed?.id,
+      permission.organizer.id !== lastOrganizerUsed?.id,
   );
 
   const filteredData = searchString
-    ? dataWithoutLastCounter.filter((permission: OrganizerPermissions) => {
+    ? dataWithoutLastOrganizer.filter((permission: OrganizerPermissions) => {
         const term = searchString.toLowerCase();
         const matchesName = permission.organizer.name
           ?.toLowerCase()
@@ -25,7 +28,7 @@ export const useGetCounters = (lastCounterUsed: Counter, searchString = '') => {
         );
         return matchesName || matchesRegion;
       })
-    : dataWithoutLastCounter;
+    : dataWithoutLastOrganizer;
 
   const sortedData = filteredData.toSorted((a, b) =>
     a.organizer.name!.localeCompare(b.organizer.name!),

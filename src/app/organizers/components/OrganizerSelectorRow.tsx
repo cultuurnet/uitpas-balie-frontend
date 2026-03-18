@@ -1,10 +1,10 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Counter } from '@/store/counterStore';
+import { Organizer } from '@/shared/lib/dataAccess';
 
 type OrganizerSelectorRowProps = {
-  organizer: NonNullable<Counter>;
+  organizer: NonNullable<Organizer>;
   onClick: () => void;
 };
 

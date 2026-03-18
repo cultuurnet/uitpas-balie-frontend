@@ -27,7 +27,7 @@ const meta = {
     },
     onClick: () => {},
   },
-} satisfies Meta<typeof CounterSelectorRow>;
+} satisfies Meta<typeof OrganizerSelectorRow>;
 
 type Story = StoryObj<typeof meta>;
 

@@ -5,16 +5,18 @@ import { useTranslation } from '@/shared/lib/i18n/client';
 const NoOrganizerFallback = () => {
   const { t } = useTranslation();
 
-  const contactDetails = t('counter.contact', { returnObjects: true }) as {
+  const contactDetails = t('organizer.contact', { returnObjects: true }) as {
     name: string;
     email: string;
   }[];
 
   return (
     <>
-      <p className="italic text-muted-foreground">{t('counter.noCounterP1')}</p>
+      <p className="italic text-muted-foreground">
+        {t('organizer.noOrganizerP1')}
+      </p>
       <p className="mb-4 italic text-muted-foreground">
-        {t('counter.noCounterP2')}
+        {t('organizer.noOrganizerP2')}
       </p>
       <ul className="mb-8 flex flex-col gap-1">
         {contactDetails.map((contact) => (

@@ -15,7 +15,7 @@ import {
   useState,
 } from 'react';
 
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { useOrganizer } from '@/mobile/feature-organizer/context/useOrganizer';
 import { OutlinedButton, SearchInput } from '@/mobile/lib/ui';
 import {
   Reward,
@@ -49,7 +49,7 @@ export const RewardsDrawer = ({
 }: RewardsDrawerProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { activeCounter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const {
@@ -60,7 +60,7 @@ export const RewardsDrawer = ({
     fetchNextPage,
   } = useGetRewardsInfinite(
     {
-      ...(activeCounter?.id && { organizerId: [activeCounter?.id] }),
+      ...(activeOrganizer?.id && { organizerId: [activeOrganizer?.id] }),
       ...(passHolderId && { isRedeemableByPassholderId: passHolderId }),
       ...(searchQuery && { text: searchQuery }),
       type: 'ANY',

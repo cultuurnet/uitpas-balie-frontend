@@ -7,13 +7,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Trans } from 'react-i18next';
 
-import { useCounter } from '@/hooks/useCounter';
-import { useGetCounters } from '@/hooks/useGetCounters';
+import { useGetOrganizers } from '@/hooks/useGetOrganizers';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { useUserInfo } from '@/shared/lib/user';
 import { getAssetUrl } from '@/shared/lib/utils';
-import { storeCounter } from '@/store/counterStore';
+import { storeOrganizer } from '@/store/organizerStore';
 import {
   Card,
   CardContent,
@@ -29,19 +29,21 @@ export const SelectOrganizerPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState('');
-  const { lastCounterUsed, setActiveCounter } = useCounter();
-  const { allData, data, isLoading } = useGetCounters(
-    lastCounterUsed,
+  const { lastOrganizerUsed, setActiveOrganizer } = useOrganizer();
+  const { allData, data, isLoading } = useGetOrganizers(
+    lastOrganizerUsed,
     searchString,
   );
   const router = useRouter();
 
-  const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
-  const showSearch = totalCounters > 1;
+  const totalOrganizers = Array.isArray(allData?.data)
+    ? allData.data.length
+    : 0;
+  const showSearch = totalOrganizers > 1;
 
   const handleSelect = (organizer: Organizer) => {
-    storeCounter(organizer);
-    setActiveCounter(organizer);
+    storeOrganizer(organizer);
+    setActiveOrganizer(organizer);
     router.push('/');
   };
 
@@ -61,13 +63,15 @@ export const SelectOrganizerPage = () => {
 
           <h1 className="text-center text-2xl mb-4">
             <Trans
-              i18nKey="counter.welcome"
+              i18nKey="organizer.welcome"
               values={{ name: userInfo?.given_name ?? '' }}
               components={{ bold: <strong className="text-primary" /> }}
             />
           </h1>
 
-          <h2 className="text-xl font-bold">{t('counter.selectCounter')}</h2>
+          <h2 className="text-xl font-bold">
+            {t('organizer.selectOrganizer')}
+          </h2>
 
           {showSearch && (
             <InputGroup className="mb-3">
@@ -75,7 +79,7 @@ export const SelectOrganizerPage = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </InputGroupAddon>
               <InputGroupInput
-                placeholder={t('counter.searchCounter')}
+                placeholder={t('organizer.searchOrganizer')}
                 value={searchString}
                 onChange={(e) => setSearchString(e.target.value)}
               />
@@ -94,7 +98,7 @@ export const SelectOrganizerPage = () => {
             data={data}
             filterString={searchString}
             isLoading={isLoading}
-            lastCounterUsed={lastCounterUsed}
+            lastOrganizerUsed={lastOrganizerUsed}
             onSelect={handleSelect}
           />
         </CardContent>

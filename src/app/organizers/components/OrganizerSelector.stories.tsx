@@ -41,8 +41,8 @@ const mockData = [
 ];
 
 const meta = {
-  title: 'Counters/CounterSelector',
-  component: CounterSelector,
+  title: 'Organizers/OrganizerSelector',
+  component: OrganizerSelector,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -61,10 +61,10 @@ const meta = {
     data: mockData,
     filterString: '',
     isLoading: false,
-    lastCounterUsed: null,
+    lastOrganizerUsed: undefined,
     onSelect: () => {},
   },
-} satisfies Meta<typeof CounterSelector>;
+} satisfies Meta<typeof OrganizerSelector>;
 
 type Story = StoryObj<typeof meta>;
 
@@ -72,8 +72,8 @@ export default meta;
 
 export const Default: Story = {};
 
-export const WithLastCounter: Story = {
-  args: { lastCounterUsed: mockOrganizer },
+export const WithLastOrganizer: Story = {
+  args: { lastOrganizerUsed: mockOrganizer },
 };
 
 export const Loading: Story = {
@@ -84,6 +84,6 @@ export const EmptySearch: Story = {
   args: { data: [], filterString: 'xyz' },
 };
 
-export const NoCounters: Story = {
+export const NoOrganizers: Story = {
   args: { data: [], filterString: '' },
 };

@@ -7,14 +7,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-import { useCounter } from '@/hooks/useCounter';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { useLogout } from '@/shared/lib/auth';
 import { Organizer, UserInfo } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { getAssetUrl } from '@/shared/lib/utils';
 import { Button, Typography } from '@/web/lib/ui';
 
-import { CounterMenu } from './CounterMenu';
+import { OrganizerMenu } from './OrganizerMenu';
 import {
   HamburgerButton,
   Header,
@@ -28,12 +28,12 @@ import {
 
 type NavbarProps = {
   userInfo: UserInfo;
-  counter: Organizer;
+  organizer: Organizer;
 };
 
-export const Navbar = ({ userInfo, counter }: NavbarProps) => {
+export const Navbar = ({ userInfo, organizer }: NavbarProps) => {
   const { t } = useTranslation();
-  const { setLastCounterUsed } = useCounter();
+  const { setLastOrganizerUsed } = useOrganizer();
   const router = useRouter();
   const logout = useLogout();
   const [open, setOpen] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
     };
   }, [handleWindowResize]);
 
-  if (!userInfo || !counter) return null;
+  if (!userInfo || !organizer) return null;
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -93,20 +93,20 @@ export const Navbar = ({ userInfo, counter }: NavbarProps) => {
         {(open || !mobile) && (
           <>
             <NavBarContentStack>
-              <CounterMenu
-                name={counter.name}
+              <OrganizerMenu
+                name={organizer.name}
                 isMobile={mobile}
                 setOpen={setOpen}
               />
               <NavLink
-                href="/counters"
+                href="/organizers"
                 onClick={(e) => {
                   e.preventDefault();
-                  setLastCounterUsed(counter);
+                  setLastOrganizerUsed(organizer);
                   router.push(e.currentTarget.pathname);
                 }}
               >
-                {t('counter.changeCounter')}
+                {t('organizer.changeOrganizer')}
               </NavLink>
             </NavBarContentStack>
             <UserStack>

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, Box, FormControl, FormLabel } from '@mui/joy';
 import { useState } from 'react';
 
-import { useCounter } from '@/hooks/useCounter';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { useGetOrganizersFinancialReportsPeriods } from '@/shared/lib/dataAccess';
 import { ReportPeriod } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
@@ -32,15 +32,15 @@ export const ExpenseReportPage = () => {
   const [periodToDownload, setPeriodToDownload] = useState<PeriodType | null>();
 
   const { t } = useTranslation();
-  const { activeCounter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
   const { data: reportsPeriodFetchData } =
-    useGetOrganizersFinancialReportsPeriods(activeCounter?.id || '');
+    useGetOrganizersFinancialReportsPeriods(activeOrganizer?.id || '');
   const {
     startReportRequest,
     isDownloading,
     hasFailed,
     period: isDownloadingPeriod,
-  } = useDownloadReport(activeCounter?.id || '');
+  } = useDownloadReport(activeOrganizer?.id || '');
 
   const periods = reportsPeriodFetchData?.data as ReportPeriod[] | undefined;
 
@@ -53,12 +53,12 @@ export const ExpenseReportPage = () => {
 
     if (selectedStartDate) setStartDate(selectedStartDate);
     if (selectedEndDate) setEndDate(selectedEndDate);
-    if (activeCounter && startDate && endDate) {
+    if (activeOrganizer && startDate && endDate) {
       const p = {
         startDate: startDateForReport,
         endDate: endDateForReport,
       };
-      startReportRequest(activeCounter?.id, p);
+      startReportRequest(activeOrganizer?.id, p);
       setPeriodToDownload(p);
     }
   };

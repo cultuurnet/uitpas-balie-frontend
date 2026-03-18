@@ -1,15 +1,15 @@
 import { FC, PropsWithChildren } from 'react';
 
-import { useCounter } from '@/hooks/useCounter';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { Navbar } from '@/layouts/components/Navbar';
 import { useUserInfo } from '@/shared/lib/user';
 import { Box } from '@/web/lib/ui';
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const userInfo = useUserInfo();
-  const { activeCounter: counter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
 
-  const renderNavBar = userInfo && counter;
+  const renderNavBar = userInfo && activeOrganizer;
 
   return (
     <Box
@@ -17,7 +17,9 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       width="100vw"
       overflow={renderNavBar ? 'hidden' : 'auto'}
     >
-      {renderNavBar && <Navbar userInfo={userInfo} counter={counter} />}
+      {renderNavBar && (
+        <Navbar userInfo={userInfo} organizer={activeOrganizer} />
+      )}
       {children}
     </Box>
   );

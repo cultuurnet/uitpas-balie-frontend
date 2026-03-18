@@ -26,8 +26,8 @@ const menuItems = [
     link: '/activities',
   },
   {
-    label: 'counterMemberships',
-    link: '/counter-memberships',
+    label: 'organizerMemberships',
+    link: '/organizer-memberships',
   },
   {
     label: 'checkindevices',
@@ -38,8 +38,8 @@ const menuItems = [
     link: '/expense-report',
   },
   {
-    label: 'counterStatistics',
-    link: '/counter-statistics',
+    label: 'organizerStatistics',
+    link: '/organizer-statistics',
   },
 ];
 
@@ -49,7 +49,7 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const CounterMenu = ({ name, isMobile, setOpen }: Props) => {
+export const OrganizerMenu = ({ name, isMobile, setOpen }: Props) => {
   const { t } = useTranslation();
   const {
     menuActions,

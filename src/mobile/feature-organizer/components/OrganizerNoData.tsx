@@ -9,7 +9,7 @@ import { LoginButton } from '@/mobile/feature-login';
 import { Link, Typography } from '@/mobile/lib/ui';
 import { useTranslation } from '@/shared/lib/i18n/client';
 
-export const CounterNoData = () => {
+export const OrganizerNoData = () => {
   const { t } = useTranslation();
 
   return (
@@ -33,7 +33,7 @@ export const CounterNoData = () => {
             margin: '0 auto',
           }}
         />
-        <Typography variant="h1">{t('counter.mobile.title')}</Typography>
+        <Typography variant="h1">{t('organizer.mobile.title')}</Typography>
         <WarningAmber
           sx={(theme) => ({
             fontSize: 48,
@@ -41,17 +41,17 @@ export const CounterNoData = () => {
           })}
         />
         <Typography sx={{ fontSize: '18px' }}>
-          {t('counter.mobile.noCounterP1')}
+          {t('organizer.mobile.noOrganizerP1')}
         </Typography>
         <Typography sx={{ fontSize: '18px' }}>
-          {t('counter.mobile.noCounterP2')}
+          {t('organizer.mobile.noOrganizerP2')}
         </Typography>
-        <Link color="secondary" href="/mobile/counters/contact">
-          {t('counter.mobile.noCounterLink')}
+        <Link color="secondary" href="/mobile/organizers/contact">
+          {t('organizer.mobile.noOrganizerLink')}
         </Link>
       </Stack>
       <LoginButton sx={{ mb: 1 }}>
-        {t('counter.mobile.loginOtherAccountBtn')}
+        {t('organizer.mobile.loginOtherAccountBtn')}
       </LoginButton>
     </Stack>
   );

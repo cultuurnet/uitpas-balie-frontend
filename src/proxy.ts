@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-import { COUNTER_STORAGE_KEY } from '@/app/const/storageKeys';
+import { ORGANIZER_STORAGE_KEY } from '@/app/const/storageKeys';
 
-const COUNTERS_PATH = '/counters';
+const ORGANIZERS_PATH = '/organizers';
 const APP_PATH = '/';
-const MOBILE_COUNTERS_PATH = '/mobile/counters';
+const MOBILE_ORGANIZERS_PATH = '/mobile/organizers';
 const MOBILE_APP_PATH = '/mobile';
 
 export async function proxy(request: NextRequest) {
@@ -22,24 +22,27 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(loginPath, request.url));
   }
 
-  const counterCookie = request.cookies.get(COUNTER_STORAGE_KEY);
-  const hasCounter = Boolean(counterCookie?.value);
-  const isOnCountersPage = pathname === COUNTERS_PATH;
-  const isOnMobileCountersPage = pathname === MOBILE_COUNTERS_PATH;
+  const organizerCookie = request.cookies.get(ORGANIZER_STORAGE_KEY);
+  const hasOrganizer = Boolean(organizerCookie?.value);
+  const isOnOrganizersPage = pathname === ORGANIZERS_PATH;
+  const isOnMobileOrganizersPage = pathname === MOBILE_ORGANIZERS_PATH;
 
   if (isOnLoginPage) {
     return NextResponse.redirect(
-      new URL(hasCounter ? APP_PATH : COUNTERS_PATH, request.url),
+      new URL(hasOrganizer ? APP_PATH : ORGANIZERS_PATH, request.url),
     );
   }
 
   if (isOnMobileLoginPage) {
     return NextResponse.redirect(
-      new URL(hasCounter ? MOBILE_APP_PATH : MOBILE_COUNTERS_PATH, request.url),
+      new URL(
+        hasOrganizer ? MOBILE_APP_PATH : MOBILE_ORGANIZERS_PATH,
+        request.url,
+      ),
     );
   }
 
-  if (!hasCounter && isOnCountersPage) {
+  if (!hasOrganizer && isOnOrganizersPage) {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_PATH}/permissions`,
@@ -48,15 +51,15 @@ export async function proxy(request: NextRequest) {
 
       if (response.ok) {
         const data = await response.json();
-        const counters = Array.isArray(data) ? data : [];
+        const organizers = Array.isArray(data) ? data : [];
 
-        if (counters.length === 1) {
+        if (organizers.length === 1) {
           const nextResponse = NextResponse.redirect(
             new URL(APP_PATH, request.url),
           );
           nextResponse.cookies.set(
-            COUNTER_STORAGE_KEY,
-            JSON.stringify(counters[0].organizer),
+            ORGANIZER_STORAGE_KEY,
+            JSON.stringify(organizers[0].organizer),
           );
           return nextResponse;
         }
@@ -66,11 +69,11 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (!hasCounter && !isOnCountersPage && !isOnMobileCountersPage) {
-    const countersPath = pathname.startsWith('/mobile')
-      ? MOBILE_COUNTERS_PATH
-      : COUNTERS_PATH;
-    return NextResponse.redirect(new URL(countersPath, request.url));
+  if (!hasOrganizer && !isOnOrganizersPage && !isOnMobileOrganizersPage) {
+    const organizersPath = pathname.startsWith('/mobile')
+      ? MOBILE_ORGANIZERS_PATH
+      : ORGANIZERS_PATH;
+    return NextResponse.redirect(new URL(organizersPath, request.url));
   }
 
   return NextResponse.next();
@@ -80,6 +83,6 @@ export const config = {
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico|mobile|.*\\..*).*)',
     '/mobile/login',
-    '/mobile/counters',
+    '/mobile/organizers',
   ],
 };

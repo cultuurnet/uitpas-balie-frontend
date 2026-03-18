@@ -8,57 +8,58 @@ import { MobileContentStack, SearchInput, Typography } from '@/mobile/lib/ui';
 import { OutlinedButton } from '@/mobile/lib/ui/uitpas/OutlinedButton';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Counter } from '@/store/counterStore';
 
-type CounterPickerProps = {
-  totalCounters: number;
-  counters: OrganizerPermissions[];
-  prevCounter: Counter;
+type OrganizerPickerProps = {
+  totalOrganizers: number;
+  organizerPermissions: OrganizerPermissions[];
+  prevOrganizer: Organizer | null;
   onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-  onCounterClick: (organizer: Organizer) => () => void;
+  onOrganizerClick: (organizer: Organizer) => () => void;
   searchString: string;
 };
 
-export const CounterPicker = ({
-  totalCounters,
-  counters,
-  prevCounter,
+export const OrganizerPicker = ({
+  totalOrganizers,
+  organizerPermissions,
+  prevOrganizer,
   onSearch,
-  onCounterClick,
+  onOrganizerClick,
   searchString,
-}: CounterPickerProps) => {
+}: OrganizerPickerProps) => {
   const { t } = useTranslation();
 
   return (
     <MobileNavBar>
       <MobileContentStack>
         <Typography variant="h1">
-          {t('counter.mobile.selectCounter')}
+          {t('organizer.mobile.selectOrganizer')}
         </Typography>
-        {totalCounters >= 10 && (
+        {totalOrganizers >= 10 && (
           <SearchInput
-            placeholder={t('counter.mobile.searchCounter')}
+            placeholder={t('organizer.mobile.searchOrganizer')}
             onChange={onSearch}
           />
         )}
-        {counters.length === 0 && searchString ? (
+        {organizerPermissions.length === 0 && searchString ? (
           <Typography>
-            {t('counter.mobile.noCounterSearch', { searchTerm: searchString })}
+            {t('organizer.mobile.noOrganizerSearch', {
+              searchTerm: searchString,
+            })}
           </Typography>
         ) : (
           <>
-            {prevCounter && (
+            {prevOrganizer && (
               <>
                 <Typography variant="h1">
-                  {t('counter.mobile.lastUsed')}
+                  {t('organizer.mobile.lastUsed')}
                 </Typography>
-                <OutlinedButton onClick={onCounterClick(prevCounter)}>
-                  {prevCounter.name}
+                <OutlinedButton onClick={onOrganizerClick(prevOrganizer)}>
+                  {prevOrganizer.name}
                 </OutlinedButton>
               </>
             )}
             <Typography variant="h1">
-              {t('counter.mobile.otherCounters')}
+              {t('organizer.mobile.otherOrganizers')}
             </Typography>
             <Stack
               gap="12px"
@@ -72,15 +73,15 @@ export const CounterPicker = ({
                 pb: 1,
               }}
             >
-              {counters.map((counter) => (
+              {organizerPermissions.map((permission) => (
                 <Fragment
-                  key={`${counter.organizer.id} ${counter.organizer.name}`}
+                  key={`${permission.organizer.id} ${permission.organizer.name}`}
                 >
                   <OutlinedButton
-                    key={counter.organizer.id}
-                    onClick={onCounterClick(counter.organizer)}
+                    key={permission.organizer.id}
+                    onClick={onOrganizerClick(permission.organizer)}
                   >
-                    {counter.organizer.name}
+                    {permission.organizer.name}
                   </OutlinedButton>
                 </Fragment>
               ))}

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import { Link, Typography } from '@/mobile/lib/ui';
 
-export const CounterContactsPage = () => {
+export const OrganizerContactsPage = () => {
   return (
     <Box
       sx={(theme) => ({
@@ -11,7 +11,7 @@ export const CounterContactsPage = () => {
       })}
     >
       <Typography variant="h1">Waiting on design</Typography>
-      <Link href="/mobile/counters">CLICK HERE TO GO BACK</Link>
+      <Link href="/mobile/organizers">CLICK HERE TO GO BACK</Link>
     </Box>
   );
 };
