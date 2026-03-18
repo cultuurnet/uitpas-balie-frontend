@@ -106,7 +106,8 @@
       "otherCounters": "Andere balies",
       "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
       "logoutBtn": "Afmelden"
-    }
+    },
+    "requestCounterAccess": "Toegang aanvragen"
   },
   "expenseReport": {
     "title": "Onkostennota",
@@ -316,7 +317,13 @@
     "counterMemberships": "Medewerkers",
     "checkindevices": "Zuilen",
     "expenseReport": "Onkostennota",
-    "counterStatistics": "Statistieken & inzichten"
+    "counterStatistics": "Statistieken & inzichten",
+    "logout": "Afmelden",
+    "profile": "Mijn profiel",
+    "passholders": "Pashouders",
+    "advantages": "Voordelen",
+    "cardreaders": "Kaartlezers",
+    "news": "Nieuws"
   },
   "common": {
     "startDate": "Startdatum",

@@ -29,7 +29,8 @@ export const SelectCounterPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState('');
-  const { lastCounterUsed, setActiveCounter } = useCounter();
+  const { lastCounterUsed, setActiveCounter, setLastCounterUsed } =
+    useCounter();
   const { allData, data, isLoading } = useGetCounters(
     lastCounterUsed,
     searchString,
@@ -40,6 +41,7 @@ export const SelectCounterPage = () => {
   const showSearch = totalCounters > 1;
 
   const handleSelect = (organizer: Organizer) => {
+    setLastCounterUsed(organizer);
     storeCounter(organizer);
     setActiveCounter(organizer);
     router.push('/');

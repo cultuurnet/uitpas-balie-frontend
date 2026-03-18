@@ -15,4 +15,5 @@ export type PublicRuntimeConfig = {
   loginHowToLoginUrl: string;
   loginHowTo2faUrl: string;
   login2faUrl: string;
+  profileUrl: string;
 };
