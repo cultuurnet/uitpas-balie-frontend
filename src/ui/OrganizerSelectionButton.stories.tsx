@@ -7,15 +7,15 @@ import {
   SidebarProvider,
 } from '@/ui/shadcn/sidebar';
 
-import { CounterSelectionButton } from './CounterSelectionButton';
+import { OrganizerSelectionButton } from './OrganizerSelectionButton';
 
-const mockCounter = {
+const mockOrganizer = {
   id: '1',
   name: 'Muntpunt',
   cardSystems: [{ id: 1, name: 'Paspartoe Brussel' }],
 };
 
-const mockCounters = [
+const mockOrganizerPermissions = [
   {
     organizer: {
       id: '2',
@@ -33,8 +33,8 @@ const mockCounters = [
 ];
 
 const meta = {
-  title: 'UI/CounterSelectionButton',
-  component: CounterSelectionButton,
+  title: 'UI/OrganizerSelectionButton',
+  component: OrganizerSelectionButton,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   decorators: [
@@ -52,19 +52,19 @@ const meta = {
     onSelect: { action: 'onSelect' },
   },
   args: {
-    activeCounter: mockCounter,
-    counters: mockCounters,
-    requestAccessHref: '/counters/request',
-    totalCounters: 3,
+    activeOrganizer: mockOrganizer,
+    organizerPermissions: mockOrganizerPermissions,
+    requestAccessHref: '/organizers/request',
+    totalOrganizers: 3,
     onSelect: () => {},
   },
-} satisfies Meta<typeof CounterSelectionButton>;
+} satisfies Meta<typeof OrganizerSelectionButton>;
 
 type Story = StoryObj<typeof meta>;
 
 faker.seed(42);
 
-const manyCounters = Array.from({ length: 20 }, (_, i) => ({
+const manyOrganizers = Array.from({ length: 20 }, (_, i) => ({
   organizer: {
     id: String(i + 10),
     name: faker.animal.petName(),
@@ -76,6 +76,6 @@ export default meta;
 
 export const Default: Story = {};
 
-export const ManyCounters: Story = {
-  args: { counters: manyCounters, totalCounters: 21 },
+export const ManyOrganizers: Story = {
+  args: { organizerPermissions: manyOrganizers, totalOrganizers: 21 },
 };

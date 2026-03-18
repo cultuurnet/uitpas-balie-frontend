@@ -34,7 +34,7 @@
   },
   "organizer": {
     "welcome": "Welkom, <bold>{{name}}</bold>",
-    "selectOrganizer": "Selecteer je balie",
+    "selectOrganizer": "Selecteer een balie",
     "noOrganizerP1": "Je bent nog geen lid van een UiTPAS-balie. Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
     "noOrganizerP2": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
     "noOrganizerSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
@@ -100,7 +100,7 @@
       "intro": "Met de mobiele balie kan je als UiTPAS-organisator makkelijk een aantal UiTPAS-acties uitvoeren zoals een korting toekennen, een punt sparen en een voordeel omruilen.",
       "loginBtn": "Aanmelden",
       "loginOtherAccountBtn": "Aanmelden met ander e-mailadres",
-      "selectOrganizer": "Selecteer je balie",
+      "selectOrganizer": "Selecteer een balie",
       "searchOrganizer": "Zoek balie",
       "lastUsed": "Laatst gebruikt",
       "otherOrganizers": "Andere balies",

@@ -9,7 +9,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.waitForLoadState('domcontentloaded');
 
   await expect(
-    page.getByRole('heading', { name: 'selecteer je balie' }),
+    page.getByRole('heading', { name: 'selecteer een balie' }),
   ).toBeVisible();
 
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();

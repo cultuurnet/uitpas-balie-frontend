@@ -8,15 +8,15 @@ import {
   primaryNavItems,
   secondaryNavItems,
 } from '@/app/const/navigationItems';
-import { useCounter } from '@/hooks/useCounter';
-import { useGetCounters } from '@/hooks/useGetCounters';
+import { useGetOrganizers } from '@/hooks/useGetOrganizers';
+import { useOrganizer } from '@/hooks/useOrganizer';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 import { useLogout } from '@/shared/lib/auth';
 import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { useUserInfo } from '@/shared/lib/user';
-import { storeCounter } from '@/store/counterStore';
-import { CounterSelectionButton } from '@/ui/CounterSelectionButton';
+import { storeOrganizer } from '@/store/organizerStore';
+import { OrganizerSelectionButton } from '@/ui/OrganizerSelectionButton';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -37,18 +37,20 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const user = useUserInfo();
   const { publicRuntimeConfig } = useConfig();
   const {
-    activeCounter,
-    lastCounterUsed,
-    setActiveCounter,
-    setLastCounterUsed,
-  } = useCounter();
-  const { allData, data } = useGetCounters(lastCounterUsed);
-  const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
+    activeOrganizer,
+    lastOrganizerUsed,
+    setActiveOrganizer,
+    setLastOrganizerUsed,
+  } = useOrganizer();
+  const { allData, data } = useGetOrganizers(lastOrganizerUsed);
+  const totalOrganizers = Array.isArray(allData?.data)
+    ? allData.data.length
+    : 0;
 
-  const handleSelectCounter = (organizer: Organizer) => {
-    setLastCounterUsed(organizer);
-    storeCounter(organizer);
-    setActiveCounter(organizer);
+  const handleSelectOrganizer = (organizer: Organizer) => {
+    setLastOrganizerUsed(organizer);
+    storeOrganizer(organizer);
+    setActiveOrganizer(organizer);
   };
 
   return (
@@ -65,12 +67,12 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           )
         }
         headerContent={
-          <CounterSelectionButton
-            activeCounter={activeCounter}
-            counters={data}
-            requestAccessHref="/counters/request"
-            totalCounters={totalCounters}
-            onSelect={handleSelectCounter}
+          <OrganizerSelectionButton
+            activeOrganizer={activeOrganizer}
+            organizerPermissions={data}
+            requestAccessHref="/organizers/request"
+            totalOrganizers={totalOrganizers}
+            onSelect={handleSelectOrganizer}
           />
         }
       >

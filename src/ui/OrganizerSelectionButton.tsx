@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { useIsMobile } from '@/hooks/shadcn/use-mobile';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
-import { Counter } from '@/store/counterStore';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,45 +21,45 @@ import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 const SEARCH_THRESHOLD = 5;
 
 type Props = {
-  activeCounter: Counter;
-  counters: OrganizerPermissions[];
+  activeOrganizer: Organizer | null;
+  organizerPermissions: OrganizerPermissions[];
   requestAccessHref: string;
-  totalCounters: number;
+  totalOrganizers: number;
   onSelect: (organizer: Organizer) => void;
 };
 
-const CounterSelectionButton = ({
-  activeCounter,
-  counters,
+const OrganizerSelectionButton = ({
+  activeOrganizer,
+  organizerPermissions,
   requestAccessHref,
-  totalCounters,
+  totalOrganizers,
   onSelect,
 }: Props) => {
   const [search, setSearch] = useState('');
   const isMobile = useIsMobile();
   const { t } = useTranslation();
-  const showSearch = totalCounters > SEARCH_THRESHOLD;
+  const showSearch = totalOrganizers > SEARCH_THRESHOLD;
 
-  const filteredCounters = search
-    ? counters.filter(
+  const filteredOrganizersPermissions = search
+    ? organizerPermissions.filter(
         ({ organizer }) =>
           organizer.name?.toLowerCase().includes(search.toLowerCase()) ||
           organizer.cardSystems?.some((cs) =>
             cs.name?.toLowerCase().includes(search.toLowerCase()),
           ),
       )
-    : counters;
+    : organizerPermissions;
 
-  const hasResults = filteredCounters.length > 0;
+  const hasResults = filteredOrganizersPermissions.length > 0;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <SidebarMenuButton className="mt-2 h-auto items-center justify-between gap-2 rounded-lg border border-neutral-400 bg-neutral-300 px-3.5 py-3 transition-all duration-150 hover:border-neutral-450 hover:bg-neutral-200 hover:text-inherit">
           <div className="flex flex-col items-start">
-            <span className="font-semibold">{activeCounter?.name}</span>
+            <span className="font-semibold">{activeOrganizer?.name}</span>
             <span className="text-xs text-muted-foreground">
-              {activeCounter?.cardSystems?.[0]?.name}
+              {activeOrganizer?.cardSystems?.[0]?.name}
             </span>
           </div>
           <ChevronsUpDown className="shrink-0" />
@@ -78,7 +77,7 @@ const CounterSelectionButton = ({
               <Search className="absolute left-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 className="pl-8"
-                placeholder={t('counter.searchCounter')}
+                placeholder={t('organizer.searchOrganizer')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.stopPropagation()}
@@ -88,7 +87,9 @@ const CounterSelectionButton = ({
         )}
         {hasResults && (
           <>
-            <DropdownMenuLabel>{t('counter.selectCounter')}</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              {t('organizer.selectOrganizer')}
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
           </>
         )}
@@ -96,10 +97,10 @@ const CounterSelectionButton = ({
           <div className="[direction:ltr]">
             {!hasResults && (
               <p className="px-3 py-2 text-sm italic text-muted-foreground">
-                {t('counter.noCounterSearch', { searchTerm: search })}
+                {t('organizer.noOrganizerSearch', { searchTerm: search })}
               </p>
             )}
-            {filteredCounters.map((permission) => (
+            {filteredOrganizersPermissions.map((permission) => (
               <DropdownMenuItem
                 key={permission.organizer.id}
                 onClick={() => onSelect(permission.organizer)}
@@ -118,7 +119,7 @@ const CounterSelectionButton = ({
         <DropdownMenuItem asChild>
           <Link href={requestAccessHref}>
             <UserPlus className="mr-2 size-4" />
-            {t('counter.requestCounterAccess')}
+            {t('organizer.requestOrganizerAccess')}
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -126,4 +127,4 @@ const CounterSelectionButton = ({
   );
 };
 
-export { CounterSelectionButton };
+export { OrganizerSelectionButton };
