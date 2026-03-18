@@ -1,5 +1,13 @@
+'use client';
+
+import { SearchUiTPASCard } from '@/ui';
+
 const Homepage = () => {
-  return <h1>Homepage</h1>;
+  return (
+    <div className="flex pt-8 pl-8">
+      <SearchUiTPASCard onSubmit={() => {}} searchPassholderHref="#" />
+    </div>
+  );
 };
 
 export default Homepage;
