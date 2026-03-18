@@ -1,2 +1,3 @@
 src/shared/lib/dataAccess/**/generated/**
 src/ui/shadcn/**
+src/hooks/shadcn/**

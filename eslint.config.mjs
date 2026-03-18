@@ -16,6 +16,7 @@ const eslintConfig = defineConfig([
     '.yarn',
     'storybook-static/**',
     'src/ui/shadcn/**',
+    'src/hooks/shadcn/**',
   ]),
   {
     ignores: ['**/generated/**/*.ts'],
