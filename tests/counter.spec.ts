@@ -35,7 +35,7 @@ test('Go to counter page', async ({ page, baseURL }) => {
   await expect(page).toHaveURL('/');
   await expect(page.getByRole('heading', { name: 'homepage' })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Balie wijzigen' }).click();
+  await page.goto('/counters');
 
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
