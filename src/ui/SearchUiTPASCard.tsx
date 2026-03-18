@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { Trans } from 'react-i18next';
 
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { Badge } from '@/ui/Badge';
 import { Button } from '@/ui/Button';
 import { Card, CardContent } from '@/ui/Card';
 import { Input } from '@/ui/Input';
 import { Link } from '@/ui/Link';
-import { Badge } from '@/ui/shadcn/badge';
 import { Separator } from '@/ui/shadcn/separator';
 
 type Props = {
@@ -54,17 +54,11 @@ const SearchUiTPASCard = ({ onSubmit, searchPassholderHref }: Props) => {
         </div>
 
         <div className="flex gap-2">
-          <Badge
-            variant="outline"
-            className="gap-1 border-primary text-primary"
-          >
+          <Badge className="gap-1">
             <Check className="size-3" />
             {t('home.eIdReaderFound')}
           </Badge>
-          <Badge
-            variant="outline"
-            className="gap-1 border-primary text-primary"
-          >
+          <Badge className="gap-1">
             <Check className="size-3" />
             {t('home.nfcReaderFound')}
           </Badge>
