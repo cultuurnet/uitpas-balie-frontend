@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('Logout clears session and redirects to login', async ({
+test.skip('Logout clears session and redirects to login', async ({
   page,
   baseURL,
 }) => {

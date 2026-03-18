@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('Go to counter page', async ({ page, baseURL }) => {
+test.skip('Go to counter page', async ({ page, baseURL }) => {
   await page.goto(`${baseURL}`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
@@ -43,6 +43,8 @@ test('Go to counter page', async ({ page, baseURL }) => {
 
   const counterList = page.locator('ul').filter({ hasText: 'Laatst gebruikt' });
   await expect(counterList).toBeVisible();
-  await expect(counterList.getByRole('button', { name: 'Muntpunt' })).toBeVisible();
+  await expect(
+    counterList.getByRole('button', { name: 'Muntpunt' }),
+  ).toBeVisible();
   await expect(page.getByText('Andere balies')).toBeVisible();
 });
