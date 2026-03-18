@@ -74,7 +74,9 @@ const SearchUiTPASCard = ({ onSubmit, searchPassholderHref }: Props) => {
 
         <p>
           <strong>{t('home.noCard')}</strong>{' '}
-          <Link href={searchPassholderHref}>{t('home.searchPassholder')}</Link>
+          <Link variant="primary" href={searchPassholderHref}>
+            {t('home.searchPassholder')}
+          </Link>
         </p>
 
         <Separator />

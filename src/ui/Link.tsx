@@ -5,8 +5,8 @@ import { cn } from '@/utils/shadcn';
 
 const variantClasses = {
   default: 'text-neutral-550 hover:text-primary',
-  primary: 'text-primary font-semibold hover:text-primary-dark',
-  secondary: 'text-secondary font-semibold hover:text-secondary/80',
+  primary: 'text-primary hover:text-primary-dark',
+  secondary: 'text-secondary hover:text-secondary/80',
 };
 
 export type LinkProps = {
