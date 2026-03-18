@@ -29,7 +29,8 @@ export const SelectCounterPage = () => {
   const { t } = useTranslation();
   const userInfo = useUserInfo();
   const [searchString, setSearchString] = useState('');
-  const { lastCounterUsed, setActiveCounter, setLastCounterUsed } = useCounter();
+  const { lastCounterUsed, setActiveCounter, setLastCounterUsed } =
+    useCounter();
   const { allData, data, isLoading } = useGetCounters(
     lastCounterUsed,
     searchString,
