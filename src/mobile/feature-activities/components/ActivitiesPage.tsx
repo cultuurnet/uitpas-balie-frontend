@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useReducer, useState } from 'react';
 
 import { ActivitiesPicker } from '@/mobile/feature-activities';
 import { noActivity } from '@/mobile/feature-activities/useActivity';
-import { useCounter } from '@/mobile/feature-counter/context/useCounter';
+import { useOrganizer } from '@/mobile/feature-organizer/context/useOrganizer';
 import { clientRoutes } from '@/mobile/feature-routing';
 import { MobileNavBar } from '@/mobile/layouts';
 import {
@@ -98,7 +98,7 @@ function activitiesReducer(
 
 export const ActivitiesPage = () => {
   const { t } = useTranslation();
-  const { activeCounter } = useCounter();
+  const { activeOrganizer } = useOrganizer();
 
   const { searchQuery, setSearchQuery } = useSearchQuery();
   const [scrollPosition, setScrollPosition] = useState<number>(0);
@@ -114,7 +114,7 @@ export const ActivitiesPage = () => {
     isFetching,
   } = useGetEvents({
     ...getEventParams(),
-    organizerId: activeCounter?.id,
+    organizerId: activeOrganizer?.id,
     ...(searchQuery && { q: searchQuery }),
     // @ts-expect-error Orval didn't include pagination in generated types
     limit: FETCH_LIMIT,
@@ -166,10 +166,10 @@ export const ActivitiesPage = () => {
           setScrollPosition={setScrollPosition}
           isFetching={isFetching}
         />
-        {!isInitialLoading && activeCounter && (
+        {!isInitialLoading && activeOrganizer && (
           <Link
             color="primary"
-            href={clientRoutes.identification(activeCounter.id, noActivity)}
+            href={clientRoutes.identification(activeOrganizer.id, noActivity)}
           >
             {t('activities.mobile.continueNoActivity')}
           </Link>

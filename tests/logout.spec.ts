@@ -25,7 +25,7 @@ test('Logout clears session and redirects to login', async ({
   );
   expect(sessionCookie).toBeUndefined();
 
-  await page.goto(`${baseURL}/counters`);
+  await page.goto(`${baseURL}/organizers`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 

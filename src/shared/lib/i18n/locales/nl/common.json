@@ -32,16 +32,16 @@
     "SPLIT_Y": "Legacy mode: Splits kolom",
     "PREFER_LEGACY": "Legacy mode: Legacy"
   },
-  "counter": {
+  "organizer": {
     "welcome": "Welkom, <bold>{{name}}</bold>",
-    "selectCounter": "Selecteer een balie",
-    "noCounterP1": "Je bent nog geen lid van een UiTPAS-balie. Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
-    "noCounterP2": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
-    "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
-    "changeCounter": "Balie wijzigen",
+    "selectOrganizer": "Selecteer een balie",
+    "noOrganizerP1": "Je bent nog geen lid van een UiTPAS-balie. Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
+    "noOrganizerP2": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
+    "noOrganizerSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
+    "changeOrganizer": "Balie wijzigen",
     "lastUsed": "Laatst gebruikt",
-    "otherCounters": "Andere balies",
-    "searchCounter": "Zoek balie",
+    "otherOrganizers": "Andere balies",
+    "searchOrganizer": "Zoek balie",
     "contact": [
       {
         "name": "Dender",
@@ -94,20 +94,20 @@
     ],
     "mobile": {
       "title": "Mobiele balie",
-      "noCounterP1": "Je bent nog geen lid van een UiTPAS-balie.",
-      "noCounterP2": "Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
-      "noCounterLink": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
+      "noOrganizerP1": "Je bent nog geen lid van een UiTPAS-balie.",
+      "noOrganizerP2": "Om deze applicatie te kunnen gebruiken, moet je lid zijn van een UiTPAS-balie.",
+      "noOrganizerLink": "Stuur je e-mailadres en de naam van je organisatie naar de verantwoordelijke.",
       "intro": "Met de mobiele balie kan je als UiTPAS-organisator makkelijk een aantal UiTPAS-acties uitvoeren zoals een korting toekennen, een punt sparen en een voordeel omruilen.",
       "loginBtn": "Aanmelden",
       "loginOtherAccountBtn": "Aanmelden met ander e-mailadres",
-      "selectCounter": "Selecteer je balie",
-      "searchCounter": "Zoek balie",
+      "selectOrganizer": "Selecteer een balie",
+      "searchOrganizer": "Zoek balie",
       "lastUsed": "Laatst gebruikt",
-      "otherCounters": "Andere balies",
-      "noCounterSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
+      "otherOrganizers": "Andere balies",
+      "noOrganizerSearch": "Er werden geen balies gevonden met de zoekterm '{{searchTerm}}'.",
       "logoutBtn": "Afmelden"
     },
-    "requestCounterAccess": "Toegang aanvragen"
+    "requestOrganizerAccess": "Toegang aanvragen"
   },
   "expenseReport": {
     "title": "Onkostennota",
@@ -314,10 +314,10 @@
     "home": "Home",
     "back": "Terug",
     "activities": "Activiteiten",
-    "counterMemberships": "Medewerkers",
+    "organizerMemberships": "Medewerkers",
     "checkindevices": "Zuilen",
     "expenseReport": "Onkostennota",
-    "counterStatistics": "Statistieken & inzichten",
+    "organizerStatistics": "Statistieken & inzichten",
     "logout": "Afmelden",
     "profile": "Mijn profiel",
     "passholders": "Pashouders",
