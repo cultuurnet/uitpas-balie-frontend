@@ -57,5 +57,5 @@ test('Go to organizers page', async ({ page, baseURL }) => {
 
   await page.locator('[data-sidebar="header"]').getByRole('button').click();
 
-  await expect(page.getByRole('menuitem', { name: /muntpunt/i })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'muntpunt' })).toBeVisible();
 });
