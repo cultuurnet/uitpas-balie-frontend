@@ -45,8 +45,8 @@ export async function proxy(request: NextRequest) {
   if (!hasOrganizer && isOnOrganizersPage) {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_PATH}/permissions`,
-        { headers: { Authorization: `Bearer ${token.accessToken}` } },
+        new URL('/api/proxy/uitpas/permissions', request.url),
+        { headers: { cookie: request.headers.get('cookie') ?? '' } },
       );
 
       if (response.ok) {

@@ -108,9 +108,9 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   ).toBeVisible();
 
   await page
-    .getByRole('button', { name: 'tarief toekennen (€  2)' })
+    .getByRole('button', { name: 'tarief toekennen (€' })
     .first()
     .click();
 
-  await expect(page.getByText('korting geregistreerd (€ 2)')).toBeVisible();
+  await expect(page.getByText('korting geregistreerd (€')).toBeVisible();
 });

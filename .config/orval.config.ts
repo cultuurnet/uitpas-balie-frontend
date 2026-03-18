@@ -31,7 +31,11 @@ export default defineConfig(async () => ({
       schemas: '../src/shared/lib/dataAccess/uitpas/generated/model',
       client: 'react-query',
       mock: false,
-      baseUrl: 'NEXT_PUBLIC_API_PATH',
+      baseUrl: '/api/proxy/uitpas',
+      mutator: {
+        path: '../src/shared/lib/dataAccess/fetcher.ts',
+        name: 'fetcher',
+      },
       override: {
         operations: {
           'get-rewards': {
@@ -54,7 +58,11 @@ export default defineConfig(async () => ({
       schemas: '../src/shared/lib/dataAccess/search/generated/model',
       client: 'react-query',
       mock: false,
-      baseUrl: 'NEXT_PUBLIC_SEARCH_API_PATH',
+      baseUrl: '/api/proxy/search',
+      mutator: {
+        path: '../src/shared/lib/dataAccess/fetcher.ts',
+        name: 'fetcher',
+      },
     },
   },
   entry: {
@@ -67,7 +75,11 @@ export default defineConfig(async () => ({
       schemas: '../src/shared/lib/dataAccess/entry/generated/model',
       client: 'react-query',
       mock: false,
-      baseUrl: 'NEXT_PUBLIC_ENTRY_API_PATH',
+      baseUrl: '/api/proxy/entry',
+      mutator: {
+        path: '../src/shared/lib/dataAccess/fetcher.ts',
+        name: 'fetcher',
+      },
     },
   },
 }));

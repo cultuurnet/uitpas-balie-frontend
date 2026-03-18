@@ -85,7 +85,7 @@ export const getGetCardsUrl = (params?: GetCardsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/cards?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/cards`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/cards?${stringifiedParams}` : `/api/proxy/uitpas/cards`
 }
 
 export const getCards = async (params?: GetCardsParams, options?: RequestInit): Promise<getCardsResponse> => {
@@ -111,7 +111,7 @@ export const getCards = async (params?: GetCardsParams, options?: RequestInit): 
 
 export const getGetCardsQueryKey = (params?: GetCardsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/cards`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/cards`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -223,7 +223,7 @@ export const getGetCardsSocialTariffCardSystemIdActiveUrl = (cardSystemId: strin
 
   
 
-  return `NEXT_PUBLIC_API_PATH/cards/social-tariff/${cardSystemId}/active`
+  return `/api/proxy/uitpas/cards/social-tariff/${cardSystemId}/active`
 }
 
 export const getCardsSocialTariffCardSystemIdActive = async (cardSystemId: string, options?: RequestInit): Promise<getCardsSocialTariffCardSystemIdActiveResponse> => {
@@ -249,7 +249,7 @@ export const getCardsSocialTariffCardSystemIdActive = async (cardSystemId: strin
 
 export const getGetCardsSocialTariffCardSystemIdActiveQueryKey = (cardSystemId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/cards/social-tariff/${cardSystemId}/active`
+    `/api/proxy/uitpas/cards/social-tariff/${cardSystemId}/active`
     ] as const;
     }
 

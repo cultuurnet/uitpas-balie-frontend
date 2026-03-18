@@ -72,7 +72,7 @@ export const getGetPermissionsUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/permissions`
+  return `/api/proxy/uitpas/permissions`
 }
 
 export const getPermissions = async ( options?: RequestInit): Promise<getPermissionsResponse> => {
@@ -98,7 +98,7 @@ export const getPermissions = async ( options?: RequestInit): Promise<getPermiss
 
 export const getGetPermissionsQueryKey = () => {
     return [
-    `NEXT_PUBLIC_API_PATH/permissions`
+    `/api/proxy/uitpas/permissions`
     ] as const;
     }
 
@@ -211,7 +211,7 @@ export const getGetPermissionsClientIdUrl = (clientId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/permissions/${clientId}`
+  return `/api/proxy/uitpas/permissions/${clientId}`
 }
 
 export const getPermissionsClientId = async (clientId: string, options?: RequestInit): Promise<getPermissionsClientIdResponse> => {
@@ -237,7 +237,7 @@ export const getPermissionsClientId = async (clientId: string, options?: Request
 
 export const getGetPermissionsClientIdQueryKey = (clientId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/permissions/${clientId}`
+    `/api/proxy/uitpas/permissions/${clientId}`
     ] as const;
     }
 
@@ -352,7 +352,7 @@ export const getPutPermissionsClientIdUrl = (clientId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/permissions/${clientId}`
+  return `/api/proxy/uitpas/permissions/${clientId}`
 }
 
 export const putPermissionsClientId = async (clientId: string,
