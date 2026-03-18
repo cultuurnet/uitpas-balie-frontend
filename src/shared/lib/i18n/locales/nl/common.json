@@ -319,7 +319,11 @@
     "expenseReport": "Onkostennota",
     "counterStatistics": "Statistieken & inzichten",
     "logout": "Afmelden",
-    "profile": "Mijn profiel"
+    "profile": "Mijn profiel",
+    "passholders": "Pashouders",
+    "advantages": "Voordelen",
+    "cardreaders": "Kaartlezers",
+    "news": "Nieuws"
   },
   "common": {
     "startDate": "Startdatum",
