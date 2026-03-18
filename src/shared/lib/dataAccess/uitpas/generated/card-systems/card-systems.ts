@@ -99,7 +99,7 @@ export const getGetCardSystemsUrl = (params?: GetCardSystemsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/card-systems?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/card-systems`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/card-systems?${stringifiedParams}` : `/api/proxy/uitpas/card-systems`
 }
 
 export const getCardSystems = async (params?: GetCardSystemsParams, options?: RequestInit): Promise<getCardSystemsResponse> => {
@@ -125,7 +125,7 @@ export const getCardSystems = async (params?: GetCardSystemsParams, options?: Re
 
 export const getGetCardSystemsQueryKey = (params?: GetCardSystemsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/card-systems`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/card-systems`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -235,7 +235,7 @@ export const getGetCardsystemsCardsystemidUrl = (cardSystemId: number,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`
+  return `/api/proxy/uitpas/card-systems/${cardSystemId}`
 }
 
 export const getCardsystemsCardsystemid = async (cardSystemId: number, options?: RequestInit): Promise<getCardsystemsCardsystemidResponse> => {
@@ -261,7 +261,7 @@ export const getCardsystemsCardsystemid = async (cardSystemId: number, options?:
 
 export const getGetCardsystemsCardsystemidQueryKey = (cardSystemId: number,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}`
+    `/api/proxy/uitpas/card-systems/${cardSystemId}`
     ] as const;
     }
 
@@ -389,7 +389,7 @@ export const getGetCardsystemsCardsystemidSocialTariffSettingsUrl = (cardSystemI
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/card-systems/${cardSystemId}/social-tariff-settings?${stringifiedParams}` : `/api/proxy/uitpas/card-systems/${cardSystemId}/social-tariff-settings`
 }
 
 export const getCardsystemsCardsystemidSocialTariffSettings = async (cardSystemId: number,
@@ -417,7 +417,7 @@ export const getCardsystemsCardsystemidSocialTariffSettings = async (cardSystemI
 export const getGetCardsystemsCardsystemidSocialTariffSettingsQueryKey = (cardSystemId: number,
     params?: GetCardsystemsCardsystemidSocialTariffSettingsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/social-tariff-settings`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/card-systems/${cardSystemId}/social-tariff-settings`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -546,7 +546,7 @@ export const getGetCardsystemsCardsystemidCitySettingsUrl = (cardSystemId: numbe
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/card-systems/${cardSystemId}/city-settings?${stringifiedParams}` : `/api/proxy/uitpas/card-systems/${cardSystemId}/city-settings`
 }
 
 export const getCardsystemsCardsystemidCitySettings = async (cardSystemId: number,
@@ -574,7 +574,7 @@ export const getCardsystemsCardsystemidCitySettings = async (cardSystemId: numbe
 export const getGetCardsystemsCardsystemidCitySettingsQueryKey = (cardSystemId: number,
     params?: GetCardsystemsCardsystemidCitySettingsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/city-settings`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/card-systems/${cardSystemId}/city-settings`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -697,7 +697,7 @@ export const getGetCardSystemsCardsystemidMembershipPricesUrl = (cardSystemId: n
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/card-systems/${cardSystemId}/membership-prices?${stringifiedParams}` : `/api/proxy/uitpas/card-systems/${cardSystemId}/membership-prices`
 }
 
 export const getCardSystemsCardsystemidMembershipPrices = async (cardSystemId: number,
@@ -725,7 +725,7 @@ export const getCardSystemsCardsystemidMembershipPrices = async (cardSystemId: n
 export const getGetCardSystemsCardsystemidMembershipPricesQueryKey = (cardSystemId: number,
     params?: GetCardSystemsCardsystemidMembershipPricesParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/card-systems/${cardSystemId}/membership-prices`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/card-systems/${cardSystemId}/membership-prices`, ...(params ? [params] : [])
     ] as const;
     }
 

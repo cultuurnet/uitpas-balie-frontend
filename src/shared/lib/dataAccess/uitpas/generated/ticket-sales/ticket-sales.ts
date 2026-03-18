@@ -124,7 +124,7 @@ export const getGetTariffsUrl = (params: GetTariffsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/tariffs?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/tariffs`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/tariffs?${stringifiedParams}` : `/api/proxy/uitpas/tariffs`
 }
 
 export const getTariffs = async (params: GetTariffsParams, options?: RequestInit): Promise<getTariffsResponse> => {
@@ -150,7 +150,7 @@ export const getTariffs = async (params: GetTariffsParams, options?: RequestInit
 
 export const getGetTariffsQueryKey = (params?: GetTariffsParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/tariffs`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/tariffs`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -281,7 +281,7 @@ export const getGetTariffsStaticUrl = (params: GetTariffsStaticParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/tariffs/static?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/tariffs/static`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/tariffs/static?${stringifiedParams}` : `/api/proxy/uitpas/tariffs/static`
 }
 
 export const getTariffsStatic = async (params: GetTariffsStaticParams, options?: RequestInit): Promise<getTariffsStaticResponse> => {
@@ -307,7 +307,7 @@ export const getTariffsStatic = async (params: GetTariffsStaticParams, options?:
 
 export const getGetTariffsStaticQueryKey = (params?: GetTariffsStaticParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/tariffs/static`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/tariffs/static`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -440,7 +440,7 @@ export const getPostTicketSalesUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/ticket-sales`
+  return `/api/proxy/uitpas/ticket-sales`
 }
 
 export const postTicketSales = async (ticketSale: NonReadonly<TicketSale[]>, options?: RequestInit): Promise<postTicketSalesResponse> => {
@@ -557,7 +557,7 @@ export const getGetTicketSalesUrl = (params: GetTicketSalesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_API_PATH/ticket-sales?${stringifiedParams}` : `NEXT_PUBLIC_API_PATH/ticket-sales`
+  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/ticket-sales?${stringifiedParams}` : `/api/proxy/uitpas/ticket-sales`
 }
 
 export const getTicketSales = async (params: GetTicketSalesParams, options?: RequestInit): Promise<getTicketSalesResponse> => {
@@ -583,7 +583,7 @@ export const getTicketSales = async (params: GetTicketSalesParams, options?: Req
 
 export const getGetTicketSalesQueryKey = (params?: GetTicketSalesParams,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/ticket-sales`, ...(params ? [params] : [])
+    `/api/proxy/uitpas/ticket-sales`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -693,7 +693,7 @@ export const getDeleteTicketSalesUrl = (ticketSaleId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/ticket-sales/${ticketSaleId}`
+  return `/api/proxy/uitpas/ticket-sales/${ticketSaleId}`
 }
 
 export const deleteTicketSales = async (ticketSaleId: string, options?: RequestInit): Promise<deleteTicketSalesResponse> => {

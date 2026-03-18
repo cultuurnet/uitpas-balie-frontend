@@ -102,7 +102,7 @@ export const getPostOrdersUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/orders`
+  return `/api/proxy/uitpas/orders`
 }
 
 export const postOrders = async (order: NonReadonly<Order>, options?: RequestInit): Promise<postOrdersResponse> => {
@@ -219,7 +219,7 @@ export const getGetOrdersOrderidUrl = (orderId: string,) => {
 
   
 
-  return `NEXT_PUBLIC_API_PATH/orders/${orderId}`
+  return `/api/proxy/uitpas/orders/${orderId}`
 }
 
 export const getOrdersOrderid = async (orderId: string, options?: RequestInit): Promise<getOrdersOrderidResponse> => {
@@ -245,7 +245,7 @@ export const getOrdersOrderid = async (orderId: string, options?: RequestInit): 
 
 export const getGetOrdersOrderidQueryKey = (orderId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/orders/${orderId}`
+    `/api/proxy/uitpas/orders/${orderId}`
     ] as const;
     }
 

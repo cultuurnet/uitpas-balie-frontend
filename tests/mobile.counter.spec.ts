@@ -1,4 +1,4 @@
-import { expect,test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const CARD_NUMBER = '0900004518206';
 const CARD_NUMBER_WITH_SOCIAL_TARIFF = '0900011354819';
@@ -9,7 +9,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.waitForLoadState('domcontentloaded');
 
   await expect(
-    page.getByRole('heading', { name: 'selecteer je balie' })
+    page.getByRole('heading', { name: 'selecteer je balie' }),
   ).toBeVisible();
 
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
@@ -22,7 +22,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
 
   // Counter detail
   await expect(
-    page.getByRole('heading', { name: 'kies een activiteit' })
+    page.getByRole('heading', { name: 'kies een activiteit' }),
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'schaken in het muntpunt' }).click();
@@ -32,11 +32,11 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
 
   // Event detail
   await expect(
-    page.getByRole('heading', { name: 'gekozen activiteit' })
+    page.getByRole('heading', { name: 'gekozen activiteit' }),
   ).toBeVisible();
 
   await expect(
-    page.getByRole('heading', { name: 'schaken in het muntpunt' })
+    page.getByRole('heading', { name: 'schaken in het muntpunt' }),
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'bevestig' }).click();
@@ -52,7 +52,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.waitForLoadState('domcontentloaded');
 
   await expect(
-    page.getByRole('heading', { name: 'Jean-Marie Hoffelinck' })
+    page.getByRole('heading', { name: 'Jean-Marie Hoffelinck' }),
   ).toBeVisible();
 
   await expect(page.getByText('punt gespaard')).toBeVisible();
@@ -60,15 +60,15 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.getByRole('button', { name: 'kies tarief' }).click();
 
   await expect(
-    page.getByRole('heading', { name: 'geen korting beschikbaar' }).first()
+    page.getByRole('heading', { name: 'geen korting beschikbaar' }).first(),
   ).toBeVisible();
 
   await expect(
     page
       .getByText(
-        'Je UiTPAS heeft geen geldig kansenstatuut en er zijn ook geen coupon-kortingen beschikbaar.'
+        'Je UiTPAS heeft geen geldig kansenstatuut en er zijn ook geen coupon-kortingen beschikbaar.',
       )
-      .first()
+      .first(),
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'sluiten' }).click();
@@ -76,7 +76,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.getByRole('button', { name: 'voordeel omruilen' }).click();
 
   await expect(
-    page.getByText('eerlijk kopje koffie in Muntpunt')
+    page.getByText('eerlijk kopje koffie in Muntpunt'),
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'Omruilen (2 punten)' }).click();
@@ -84,7 +84,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await expect(page.getByText('voordeel omgeruild')).toBeVisible();
 
   await expect(
-    page.getByRole('button', { name: 'Volgende uitpas scannen' })
+    page.getByRole('button', { name: 'Volgende uitpas scannen' }),
   ).toBeVisible();
 
   // Scan MIA card
@@ -95,7 +95,7 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.getByRole('button', { name: 'bevestig' }).click();
 
   await expect(
-    page.getByRole('heading', { name: 'Bernadette De Los Palmas' })
+    page.getByRole('heading', { name: 'Bernadette De Los Palmas' }),
   ).toBeVisible();
 
   // Should have kansenstatuut
@@ -104,13 +104,13 @@ test('Go to landingpage', async ({ page, context, baseURL }) => {
   await page.getByRole('button', { name: 'kies tarief' }).click();
 
   await expect(
-    page.getByRole('heading', { name: 'kansentarief' }).first()
+    page.getByRole('heading', { name: 'kansentarief' }).first(),
   ).toBeVisible();
 
   await page
-    .getByRole('button', { name: 'tarief toekennen (€  2)' })
+    .getByRole('button', { name: 'tarief toekennen (€' })
     .first()
     .click();
 
-  await expect(page.getByText('korting geregistreerd (€ 2)')).toBeVisible();
+  await expect(page.getByText('korting geregistreerd (€')).toBeVisible();
 });

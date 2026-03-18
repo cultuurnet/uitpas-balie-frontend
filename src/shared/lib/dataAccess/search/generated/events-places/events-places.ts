@@ -103,7 +103,7 @@ export const getGetEventsUrl = (params?: GetEventsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_SEARCH_API_PATH/events?${stringifiedParams}` : `NEXT_PUBLIC_SEARCH_API_PATH/events`
+  return stringifiedParams.length > 0 ? `/api/proxy/search/events?${stringifiedParams}` : `/api/proxy/search/events`
 }
 
 export const getEvents = async (params?: GetEventsParams, options?: RequestInit): Promise<getEventsResponse> => {
@@ -129,7 +129,7 @@ export const getEvents = async (params?: GetEventsParams, options?: RequestInit)
 
 export const getGetEventsQueryKey = (params?: GetEventsParams,) => {
     return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/events`, ...(params ? [params] : [])
+    `/api/proxy/search/events`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -264,7 +264,7 @@ export const getGetOffersUrl = (params?: GetOffersParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_SEARCH_API_PATH/offers?${stringifiedParams}` : `NEXT_PUBLIC_SEARCH_API_PATH/offers`
+  return stringifiedParams.length > 0 ? `/api/proxy/search/offers?${stringifiedParams}` : `/api/proxy/search/offers`
 }
 
 export const getOffers = async (params?: GetOffersParams, options?: RequestInit): Promise<getOffersResponse> => {
@@ -290,7 +290,7 @@ export const getOffers = async (params?: GetOffersParams, options?: RequestInit)
 
 export const getGetOffersQueryKey = (params?: GetOffersParams,) => {
     return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/offers`, ...(params ? [params] : [])
+    `/api/proxy/search/offers`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -428,7 +428,7 @@ export const getGetPlacesUrl = (params?: GetPlacesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `NEXT_PUBLIC_SEARCH_API_PATH/places?${stringifiedParams}` : `NEXT_PUBLIC_SEARCH_API_PATH/places`
+  return stringifiedParams.length > 0 ? `/api/proxy/search/places?${stringifiedParams}` : `/api/proxy/search/places`
 }
 
 export const getPlaces = async (params?: GetPlacesParams, options?: RequestInit): Promise<getPlacesResponse> => {
@@ -454,7 +454,7 @@ export const getPlaces = async (params?: GetPlacesParams, options?: RequestInit)
 
 export const getGetPlacesQueryKey = (params?: GetPlacesParams,) => {
     return [
-    `NEXT_PUBLIC_SEARCH_API_PATH/places`, ...(params ? [params] : [])
+    `/api/proxy/search/places`, ...(params ? [params] : [])
     ] as const;
     }
 

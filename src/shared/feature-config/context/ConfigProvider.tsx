@@ -2,7 +2,6 @@
 
 import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { initFetch } from '@/shared/lib/dataAccess/initFetch';
 import { initUrlUtils } from '@/shared/lib/utils';
 
 import { getConfig } from '../getConfig';
@@ -21,7 +20,6 @@ export function ConfigProvider({
   useEffect(() => {
     getConfig().then((config) => {
       setConfig(config);
-      initFetch(config);
       initUrlUtils(config);
     });
   }, []);
