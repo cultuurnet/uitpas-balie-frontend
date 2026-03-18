@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
 
-test.skip('Go to counter page', async ({ page, baseURL }) => {
+test('Go to counter page', async ({ page, baseURL }) => {
   await page.goto(`${baseURL}`);
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
   await expect(page).toHaveURL('/counters');
   await expect(
-    page.getByRole('heading', { name: 'selecteer je balie' }),
+    page.getByRole('heading', { name: 'selecteer een balie' }),
   ).toBeVisible();
   await expect(page.getByRole('button', { name: 'muntpunt' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'publiq vzw' })).toBeVisible();
