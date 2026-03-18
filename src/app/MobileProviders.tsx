@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
 
-import { CounterProvider } from '@/mobile/feature-counter';
+import { OrganizerProvider } from '@/mobile/feature-organizer';
 import { clientRoutes } from '@/mobile/feature-routing';
 import { theme } from '@/mobile/lib/ui';
 import { UserProvider } from '@/shared/lib/user';
@@ -32,9 +32,9 @@ export function MobileProviders({ children }: PropsWithChildren) {
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
             <UserProvider>
-              <CounterProvider counterPath={clientRoutes.counters()}>
+              <OrganizerProvider organizerPath={clientRoutes.organizers()}>
                 {children}
-              </CounterProvider>
+              </OrganizerProvider>
             </UserProvider>
           </SessionProvider>
         </QueryClientProvider>

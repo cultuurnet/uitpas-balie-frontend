@@ -1,0 +1,58 @@
+'use client';
+
+import { WarningAmber } from '@mui/icons-material';
+import { Stack } from '@mui/material';
+import Image from 'next/image';
+import uitpasLogoGreen from 'public/images/svg/logo-uitpas-green.svg';
+
+import { LoginButton } from '@/mobile/feature-login';
+import { Link, Typography } from '@/mobile/lib/ui';
+import { useTranslation } from '@/shared/lib/i18n/client';
+
+export const OrganizerNoData = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Stack
+      sx={(theme) => ({
+        height: '100dvh',
+        backgroundColor: theme.palette.background.primary,
+        justifyContent: 'space-between',
+        padding: '49px 16px 0 16px',
+      })}
+    >
+      <Stack sx={{ alignItems: 'center', gap: 4 }}>
+        <Image
+          src={uitpasLogoGreen}
+          alt="uitpas logo green"
+          style={{
+            maxWidth: '300px',
+            maxHeight: '8vh',
+            width: 'auto',
+            height: '100%',
+            margin: '0 auto',
+          }}
+        />
+        <Typography variant="h1">{t('organizer.mobile.title')}</Typography>
+        <WarningAmber
+          sx={(theme) => ({
+            fontSize: 48,
+            color: theme.palette.error.main,
+          })}
+        />
+        <Typography sx={{ fontSize: '18px' }}>
+          {t('organizer.mobile.noOrganizerP1')}
+        </Typography>
+        <Typography sx={{ fontSize: '18px' }}>
+          {t('organizer.mobile.noOrganizerP2')}
+        </Typography>
+        <Link color="secondary" href="/mobile/organizers/contact">
+          {t('organizer.mobile.noOrganizerLink')}
+        </Link>
+      </Stack>
+      <LoginButton sx={{ mb: 1 }}>
+        {t('organizer.mobile.loginOtherAccountBtn')}
+      </LoginButton>
+    </Stack>
+  );
+};

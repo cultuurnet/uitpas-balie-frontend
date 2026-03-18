@@ -15,7 +15,7 @@ function isNoActivity(activity: unknown | NoActivity): activity is NoActivity {
 
 const useActivity = () => {
   const router = useRouter();
-  const params = useParams<{ counter: string; activity: string }>();
+  const params = useParams<{ organizer: string; activity: string }>();
 
   const { data, isSuccess } = useGetEvents({
     ...getEventParams(),
@@ -37,9 +37,9 @@ const useActivity = () => {
 
   useEffect(() => {
     if (idIsActivityId && !selectedActivityId && isSuccess) {
-      router.push(clientRoutes.activities(params.counter));
+      router.push(clientRoutes.activities(params.organizer));
     }
-  }, [selectedActivityId, params.counter, router, isSuccess, idIsActivityId]);
+  }, [selectedActivityId, params.organizer, router, isSuccess, idIsActivityId]);
 
   return {
     selectedActivity,
@@ -48,7 +48,7 @@ const useActivity = () => {
 
       router.push(
         clientRoutes.identification(
-          params.counter,
+          params.organizer,
           isNoActivity(activity)
             ? noActivity
             : getIdFromUrl(activity['@id'] ?? ''),
@@ -56,13 +56,13 @@ const useActivity = () => {
       );
     },
     clearActivity: () => {
-      router.push(clientRoutes.activities(params.counter));
+      router.push(clientRoutes.activities(params.organizer));
     },
     navigateToIdentification: (
       navigationType: 'replace' | 'push' = 'replace',
     ) => {
       router[navigationType](
-        clientRoutes.identification(params.counter, params.activity),
+        clientRoutes.identification(params.organizer, params.activity),
       );
     },
     navigateToScanner: (
@@ -70,7 +70,7 @@ const useActivity = () => {
       firstCardEntry = true,
     ) => {
       router[navigationType](
-        clientRoutes.scan(params.counter, params.activity, firstCardEntry),
+        clientRoutes.scan(params.organizer, params.activity, firstCardEntry),
       );
     },
     navigateToSaving: (
@@ -81,7 +81,7 @@ const useActivity = () => {
     ) => {
       router[navigationType](
         clientRoutes.saving(
-          params.counter,
+          params.organizer,
           params.activity,
           code,
           cardType,
