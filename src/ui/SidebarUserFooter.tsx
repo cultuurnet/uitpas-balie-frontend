@@ -63,13 +63,17 @@ const SidebarUserFooter = ({ name, email, profileUrl, onLogout }: Props) => {
             </span>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href={profileUrl} rel="noopener noreferrer" target="_blank">
-            <Contact className="mr-2 size-4" />
-            {t('nav.profile')}
-          </Link>
-        </DropdownMenuItem>
+        {profileUrl && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={profileUrl} rel="noopener noreferrer" target="_blank">
+                <Contact className="mr-2 size-4" />
+                {t('nav.profile')}
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogout}>
           <LogOut className="mr-2 size-4" />
