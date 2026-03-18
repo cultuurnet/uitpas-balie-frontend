@@ -1,7 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getSession } from 'next-auth/react';
-
-import { useConfig } from '@/shared/feature-config/context/useConfig';
 
 type UserInfo = {
   email: string;
@@ -22,7 +19,6 @@ type Props = {
 
 const queryKey = ['auth0', 'userInfo'];
 const useGetUserInfo = ({ enabled = true }: Props) => {
-  const { publicRuntimeConfig } = useConfig();
   const queryClient = useQueryClient();
 
   return {
@@ -30,15 +26,7 @@ const useGetUserInfo = ({ enabled = true }: Props) => {
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        const session = await getSession();
-        const response = await fetch(
-          publicRuntimeConfig?.oauthUserInfoPath ?? '',
-          {
-            headers: {
-              Authorization: `Bearer ${session?.accessToken ?? ''}`,
-            },
-          },
-        );
+        const response = await fetch('/api/proxy/userinfo');
         if (!response.ok) throw new Error(response.statusText);
         const data = (await response.json()) as UserInfo;
         return { data };

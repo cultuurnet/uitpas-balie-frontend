@@ -108,7 +108,7 @@ export const getGetPassholdersPassholderIdFamilyMembersUrl = (passholderId: stri
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`
+  return `/api/proxy/uitpas/passholders/${passholderId}/family-members`
 }
 
 export const getPassholdersPassholderIdFamilyMembers = async (passholderId: string, options?: RequestInit): Promise<getPassholdersPassholderIdFamilyMembersResponse> => {
@@ -134,7 +134,7 @@ export const getPassholdersPassholderIdFamilyMembers = async (passholderId: stri
 
 export const getGetPassholdersPassholderIdFamilyMembersQueryKey = (passholderId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`
+    `/api/proxy/uitpas/passholders/${passholderId}/family-members`
     ] as const;
     }
 
@@ -255,7 +255,7 @@ export const getPostPassholdersPassholderIdFamilyMembersUrl = (passholderId: str
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members`
+  return `/api/proxy/uitpas/passholders/${passholderId}/family-members`
 }
 
 export const postPassholdersPassholderIdFamilyMembers = async (passholderId: string,
@@ -371,7 +371,7 @@ export const getPutPassholdersPassholderIdFamilyMembersFamilyMemberIdUrl = (pass
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`
+  return `/api/proxy/uitpas/passholders/${passholderId}/family-members/${familyMemberId}`
 }
 
 export const putPassholdersPassholderIdFamilyMembersFamilyMemberId = async (passholderId: string,
@@ -491,7 +491,7 @@ export const getDeletePassholdersPassholderIdFamilyMembersFamilyMemberIdUrl = (p
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/family-members/${familyMemberId}`
+  return `/api/proxy/uitpas/passholders/${passholderId}/family-members/${familyMemberId}`
 }
 
 export const deletePassholdersPassholderIdFamilyMembersFamilyMemberId = async (passholderId: string,
@@ -599,7 +599,7 @@ export const getGetPassholdersPassholderIdFamiliesUrl = (passholderId: string,) 
 
   
 
-  return `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`
+  return `/api/proxy/uitpas/passholders/${passholderId}/families`
 }
 
 export const getPassholdersPassholderIdFamilies = async (passholderId: string, options?: RequestInit): Promise<getPassholdersPassholderIdFamiliesResponse> => {
@@ -625,7 +625,7 @@ export const getPassholdersPassholderIdFamilies = async (passholderId: string, o
 
 export const getGetPassholdersPassholderIdFamiliesQueryKey = (passholderId: string,) => {
     return [
-    `NEXT_PUBLIC_API_PATH/passholders/${passholderId}/families`
+    `/api/proxy/uitpas/passholders/${passholderId}/families`
     ] as const;
     }
 

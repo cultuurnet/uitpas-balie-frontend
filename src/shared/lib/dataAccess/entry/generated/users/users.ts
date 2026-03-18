@@ -63,7 +63,7 @@ export const getUserGetUrl = () => {
 
   
 
-  return `NEXT_PUBLIC_ENTRY_API_PATH/user`
+  return `/api/proxy/entry/user`
 }
 
 export const userGet = async ( options?: RequestInit): Promise<userGetResponse> => {
@@ -89,7 +89,7 @@ export const userGet = async ( options?: RequestInit): Promise<userGetResponse> 
 
 export const getUserGetQueryKey = () => {
     return [
-    `NEXT_PUBLIC_ENTRY_API_PATH/user`
+    `/api/proxy/entry/user`
     ] as const;
     }
 
