@@ -1,22 +1,13 @@
 'use client';
 
-import {
-  CalendarDays,
-  ChartBar,
-  Download,
-  Gift,
-  House,
-  IdCard,
-  LucideIcon,
-  Newspaper,
-  Tablet,
-  Usb,
-  Users,
-} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren } from 'react';
 
+import {
+  primaryNavItems,
+  secondaryNavItems,
+} from '@/app/const/navigationItems';
 import { useCounter } from '@/hooks/useCounter';
 import { useGetCounters } from '@/hooks/useGetCounters';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
@@ -39,8 +30,6 @@ import { Sidebar } from '@/ui/Sidebar';
 import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 import { SidebarUserFooter } from '@/ui/SidebarUserFooter';
 
-type NavItem = { label: string; href: string; icon: LucideIcon };
-
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const logout = useLogout();
@@ -50,26 +39,6 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const { activeCounter, lastCounterUsed, setActiveCounter } = useCounter();
   const { allData, data } = useGetCounters(lastCounterUsed);
   const totalCounters = Array.isArray(allData?.data) ? allData.data.length : 0;
-
-  const primaryNavItems: NavItem[] = [
-    { label: t('nav.home'), href: '/', icon: House },
-    { label: t('nav.passholders'), href: '/pashouders', icon: IdCard },
-    { label: t('nav.activities'), href: '/activities', icon: CalendarDays },
-    { label: t('nav.advantages'), href: '/voordelen', icon: Gift },
-    { label: t('nav.checkindevices'), href: '/zuilen', icon: Tablet },
-    { label: t('nav.expenseReport'), href: '/expense-report', icon: Download },
-    { label: t('nav.counterMemberships'), href: '/medewerkers', icon: Users },
-    {
-      label: t('nav.counterStatistics'),
-      href: '/statistieken',
-      icon: ChartBar,
-    },
-  ];
-
-  const secondaryNavItems: NavItem[] = [
-    { label: t('nav.cardreaders'), href: '/kaartlezers', icon: Usb },
-    { label: t('nav.news'), href: '/nieuws', icon: Newspaper },
-  ];
 
   const handleSelectCounter = (organizer: Organizer) => {
     storeCounter(organizer);
@@ -103,7 +72,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {primaryNavItems.map(({ label, href, icon: Icon }) => {
+              {primaryNavItems.map(({ translationKey, href, icon: Icon }) => {
                 const isActive =
                   href === '/' ? pathname === '/' : pathname.startsWith(href);
                 return (
@@ -111,7 +80,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
                     <SidebarMenuButton asChild isActive={isActive}>
                       <Link href={href}>
                         <Icon />
-                        <span>{label}</span>
+                        <span>{t(translationKey)}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -124,12 +93,12 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           <SidebarSeparator className="mx-0 w-full" />
           <SidebarGroupContent>
             <SidebarMenu>
-              {secondaryNavItems.map(({ label, href, icon: Icon }) => (
+              {secondaryNavItems.map(({ translationKey, href, icon: Icon }) => (
                 <SidebarMenuItem key={href}>
                   <SidebarMenuButton asChild>
                     <Link href={href}>
                       <Icon />
-                      <span>{label}</span>
+                      <span>{t(translationKey)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
