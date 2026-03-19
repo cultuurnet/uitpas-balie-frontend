@@ -32,6 +32,11 @@ const meta = {
         'secondary-inverted',
         'gray',
         'gray-inverted',
+        'default',
+        'destructive',
+        'outline',
+        'ghost',
+        'link',
       ],
     },
   },
@@ -52,19 +57,37 @@ const colorPairs = [
   ['gray', 'gray-inverted'],
 ] as const;
 
+const shadcnVariants = [
+  'default',
+  'secondary',
+  'destructive',
+  'outline',
+  'ghost',
+  'link',
+] as const;
+
 export default meta;
 
 export const Default: Story = {};
 
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-2">
-      {colorPairs.map(([normal, inverted]) => (
-        <div key={normal} className="flex gap-2">
-          <Badge variant={normal}>Badge</Badge>
-          <Badge variant={inverted}>Badge</Badge>
-        </div>
-      ))}
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        {colorPairs.map(([normal, inverted]) => (
+          <div key={normal} className="flex gap-2">
+            <Badge variant={normal}>Badge</Badge>
+            <Badge variant={inverted}>Badge</Badge>
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-2">
+        {shadcnVariants.map((variant) => (
+          <Badge key={variant} variant={variant}>
+            Badge
+          </Badge>
+        ))}
+      </div>
     </div>
   ),
 };

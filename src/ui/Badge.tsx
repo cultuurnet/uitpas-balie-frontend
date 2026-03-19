@@ -3,7 +3,9 @@ import type { ComponentProps } from 'react';
 import { Badge as ShadcnBadge } from '@/ui/shadcn/badge';
 import { cn } from '@/utils/shadcn';
 
-type BadgeVariant =
+type ShadcnVariant = NonNullable<ComponentProps<typeof ShadcnBadge>['variant']>;
+
+type BrandVariant =
   | 'primary'
   | 'primary-inverted'
   | 'blue'
@@ -17,7 +19,9 @@ type BadgeVariant =
   | 'gray'
   | 'gray-inverted';
 
-const variantClasses: Record<BadgeVariant, string> = {
+type BadgeVariant = ShadcnVariant | BrandVariant;
+
+const brandVariantClasses: Record<BrandVariant, string> = {
   primary: 'bg-primary-light text-primary-dark border-transparent',
   'primary-inverted': 'bg-primary text-white border-transparent',
   blue: 'bg-blue-light text-blue border-transparent',
@@ -32,16 +36,24 @@ const variantClasses: Record<BadgeVariant, string> = {
   'gray-inverted': 'bg-gray text-white border-transparent',
 };
 
-type BadgeProps = ComponentProps<typeof ShadcnBadge> & {
+const isBrandVariant = (v: BadgeVariant): v is BrandVariant =>
+  v in brandVariantClasses;
+
+type BadgeProps = Omit<ComponentProps<typeof ShadcnBadge>, 'variant'> & {
   variant?: BadgeVariant;
 };
 
 const Badge = ({ variant = 'primary', className, ...props }: BadgeProps) => (
   <ShadcnBadge
-    className={cn('rounded-md font-normal', variantClasses[variant], className)}
+    variant={isBrandVariant(variant) ? undefined : variant}
+    className={cn(
+      'rounded-md font-normal',
+      isBrandVariant(variant) && brandVariantClasses[variant],
+      className,
+    )}
     {...props}
   />
 );
 
 export { Badge };
-export type { BadgeProps, BadgeVariant };
+export type { BadgeProps, BadgeVariant, BrandVariant };
