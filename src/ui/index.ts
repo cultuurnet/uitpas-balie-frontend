@@ -25,6 +25,5 @@ export {
 } from './InputGroup';
 export type { LinkProps } from './Link';
 export { Link } from './Link';
-export { SearchUiTPASCard } from './SearchUiTPASCard';
 export type { SpinnerProps } from './Spinner';
 export { Spinner } from './Spinner';

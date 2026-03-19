@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { SearchUiTPASCard } from './SearchUiTPASCard';
 
 const meta = {
-  title: 'UI/SearchUiTPASCard',
+  title: 'Dashboard/SearchUiTPASCard',
   component: SearchUiTPASCard,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

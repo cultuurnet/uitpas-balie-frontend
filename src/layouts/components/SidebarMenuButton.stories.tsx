@@ -10,7 +10,7 @@ import {
 import { SidebarMenuButton } from './SidebarMenuButton';
 
 const meta = {
-  title: 'UI/SidebarMenuButton',
+  title: 'Sidebar/SidebarMenuButton',
   component: SidebarMenuButton,
   tags: ['autodocs'],
   parameters: {

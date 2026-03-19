@@ -4,6 +4,7 @@ import { ChevronsUpDown, Contact, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 
 import { useIsMobile } from '@/hooks/shadcn/use-mobile';
+import { SidebarMenuButton } from '@/layouts/components/SidebarMenuButton';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import {
   DropdownMenu,
@@ -13,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/shadcn/dropdown-menu';
-import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 
 type Props = {
   name: string;

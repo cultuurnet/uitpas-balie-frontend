@@ -8,15 +8,17 @@ import {
   primaryNavItems,
   secondaryNavItems,
 } from '@/app/const/navigationItems';
+import { OrganizerSelectionButton } from '@/app/organizers/components/OrganizerSelectionButton';
 import { useGetOrganizers } from '@/hooks/useGetOrganizers';
 import { useOrganizer } from '@/hooks/useOrganizer';
+import { SidebarMenuButton } from '@/layouts/components/SidebarMenuButton';
+import { SidebarUserFooter } from '@/layouts/components/SidebarUserFooter';
 import { useConfig } from '@/shared/feature-config/context/useConfig';
 import { useLogout } from '@/shared/lib/auth';
 import { Organizer } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
 import { useUserInfo } from '@/shared/lib/user';
 import { storeOrganizer } from '@/store/organizerStore';
-import { OrganizerSelectionButton } from '@/ui/OrganizerSelectionButton';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -27,8 +29,6 @@ import {
   SidebarTrigger,
 } from '@/ui/shadcn/sidebar';
 import { Sidebar } from '@/ui/Sidebar';
-import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
-import { SidebarUserFooter } from '@/ui/SidebarUserFooter';
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();

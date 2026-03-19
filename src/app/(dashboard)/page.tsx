@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchUiTPASCard } from '@/ui';
+import { SearchUiTPASCard } from '@/app/(dashboard)/components/SearchUiTPASCard';
 
 const Homepage = () => {
   return (
