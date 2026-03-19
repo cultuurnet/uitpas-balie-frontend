@@ -16,34 +16,38 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary'],
+    },
+  },
   args: {
     href: '/example',
     title: 'Link label',
   },
 } satisfies Meta<typeof Link>;
+
 type Story = StoryObj<typeof meta>;
 
 export default meta;
 
 export const Default: Story = {};
 
-export const Primary: Story = {
-  args: { variant: 'primary' },
-};
-
-export const Secondary: Story = {
-  args: { variant: 'secondary' },
+export const AllVariants: Story = {
+  render: () => (
+    <div className="flex flex-col gap-2">
+      {(['default', 'primary', 'secondary'] as const).map((variant) => (
+        <Link key={variant} href="/example" variant={variant}>
+          Link label
+        </Link>
+      ))}
+    </div>
+  ),
 };
 
 export const WithIcon: Story = {
   args: {
-    icon: <ArrowRight />,
-  },
-};
-
-export const PrimaryWithIcon: Story = {
-  args: {
-    variant: 'primary',
     icon: <ArrowRight />,
   },
 };

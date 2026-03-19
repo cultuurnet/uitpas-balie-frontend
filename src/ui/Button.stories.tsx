@@ -16,23 +16,38 @@ const meta = {
       },
     },
   },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+    },
+    size: {
+      control: 'select',
+      options: ['default', 'xs', 'sm', 'lg', 'icon'],
+    },
+  },
   args: { children: 'Button' },
 } satisfies Meta<typeof Button>;
+
 type Story = StoryObj<typeof meta>;
 
 export default meta;
 
 export const Default: Story = {};
 
-export const Destructive: Story = { args: { variant: 'destructive' } };
-
-export const Outline: Story = { args: { variant: 'outline' } };
-
-export const Secondary: Story = { args: { variant: 'secondary' } };
-
-export const Ghost: Story = { args: { variant: 'ghost' } };
-
-export const Link: Story = { args: { variant: 'link' } };
+export const AllVariants: Story = {
+  render: () => (
+    <div className="flex items-center gap-2">
+      {(['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const).map(
+        (variant) => (
+          <Button key={variant} variant={variant}>
+            Button
+          </Button>
+        ),
+      )}
+    </div>
+  ),
+};
 
 export const Sizes: Story = {
   render: () => (
