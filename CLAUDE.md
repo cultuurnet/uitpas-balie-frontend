@@ -229,6 +229,10 @@ If the component directly wraps a third-party primitive (shadcn, Next.js, etc.),
 - Import from feature `index.ts` only, never from internal paths of another feature
 - Translations: all user-facing strings go in `src/shared/lib/i18n/locales/nl/common.json` (legacy — will move to `src/i18n/locales/nl/common.json`)
 
+## Communication
+
+- Use numbered lists (1. 2. 3.) instead of bullet lists when presenting multiple items to the user.
+
 ## Routes
 
 | Path                  | Description                      |
