@@ -78,7 +78,7 @@ export const getGetOrganizersFinancialReportsPeriodsUrl = (organizerId: string,)
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/periods`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/periods`
 }
 
 export const getOrganizersFinancialReportsPeriods = async (organizerId: string, options?: RequestInit): Promise<getOrganizersFinancialReportsPeriodsResponse> => {
@@ -104,7 +104,7 @@ export const getOrganizersFinancialReportsPeriods = async (organizerId: string, 
 
 export const getGetOrganizersFinancialReportsPeriodsQueryKey = (organizerId: string,) => {
     return [
-    `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/periods`
+    `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/periods`
     ] as const;
     }
 
@@ -220,7 +220,7 @@ export const getPostOrganizersFinancialReportsUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
 }
 
 export const postOrganizersFinancialReports = async (organizerId: string,
@@ -333,7 +333,7 @@ export const getGetOrganizersFinancialReportsUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
 }
 
 export const getOrganizersFinancialReports = async (organizerId: string, options?: RequestInit): Promise<getOrganizersFinancialReportsResponse> => {
@@ -359,7 +359,7 @@ export const getOrganizersFinancialReports = async (organizerId: string, options
 
 export const getGetOrganizersFinancialReportsQueryKey = (organizerId: string,) => {
     return [
-    `/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
+    `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports`
     ] as const;
     }
 
@@ -471,7 +471,7 @@ export const getGetOrganizersFinancialReportsReportIdUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}`
 }
 
 export const getOrganizersFinancialReportsReportId = async (organizerId: string,
@@ -499,7 +499,7 @@ export const getOrganizersFinancialReportsReportId = async (organizerId: string,
 export const getGetOrganizersFinancialReportsReportIdQueryKey = (organizerId: string,
     reportId: number,) => {
     return [
-    `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}`
+    `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}`
     ] as const;
     }
 
@@ -618,7 +618,7 @@ export const getGetOrganizersFinancialReportsReportIdDownloadLinkUrl = (organize
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}/download-link`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}/download-link`
 }
 
 export const getOrganizersFinancialReportsReportIdDownloadLink = async (organizerId: string,
@@ -646,7 +646,7 @@ export const getOrganizersFinancialReportsReportIdDownloadLink = async (organize
 export const getGetOrganizersFinancialReportsReportIdDownloadLinkQueryKey = (organizerId: string,
     reportId: number,) => {
     return [
-    `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}/download-link`
+    `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}/download-link`
     ] as const;
     }
 
@@ -765,7 +765,7 @@ export const getGetOrganizersFinancialReportsReportIdZipUrl = (organizerId: stri
 
   
 
-  return `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}.zip`
+  return `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}.zip`
 }
 
 export const getOrganizersFinancialReportsReportIdZip = async (organizerId: string,
@@ -793,7 +793,7 @@ export const getOrganizersFinancialReportsReportIdZip = async (organizerId: stri
 export const getGetOrganizersFinancialReportsReportIdZipQueryKey = (organizerId: string,
     reportId: number,) => {
     return [
-    `/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}.zip`
+    `/app/api/proxy/uitpas/organizers/${organizerId}/financial-reports/${reportId}.zip`
     ] as const;
     }
 

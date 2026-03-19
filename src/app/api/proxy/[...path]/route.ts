@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
-
 import { authOptions } from '../../auth/[...nextauth]/route';
 
 const SERVICE_URLS: Record<string, string> = {
@@ -25,14 +24,18 @@ async function handler(
 
   await getServerSession(authOptions);
 
-  const token = await getToken({ req: request });
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
   const isExpired = !token?.expiresAt || Date.now() > token.expiresAt * 1000;
   if (!token?.accessToken || isExpired) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const upstreamPath = request.nextUrl.pathname.replace(
-    `/api/proxy/${service}`,
+    `${request.nextUrl.basePath}/api/proxy/${service}`,
     '',
   );
   const targetUrl = `${targetBase}${upstreamPath}${request.nextUrl.search}`;

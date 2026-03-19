@@ -81,7 +81,7 @@ export const getGetAssociationsUrl = (params: GetAssociationsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/associations?${stringifiedParams}` : `/api/proxy/uitpas/associations`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/associations?${stringifiedParams}` : `/app/api/proxy/uitpas/associations`
 }
 
 export const getAssociations = async (params: GetAssociationsParams, options?: RequestInit): Promise<getAssociationsResponse> => {
@@ -107,7 +107,7 @@ export const getAssociations = async (params: GetAssociationsParams, options?: R
 
 export const getGetAssociationsQueryKey = (params?: GetAssociationsParams,) => {
     return [
-    `/api/proxy/uitpas/associations`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/associations`, ...(params ? [params] : [])
     ] as const;
     }
 

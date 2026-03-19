@@ -49,7 +49,7 @@ export const LoginPage = () => {
               <Button
                 className="h-12 text-xl"
                 onClick={() =>
-                  signIn('keycloak', { callbackUrl: '/organizers' })
+                  signIn('keycloak', { callbackUrl: '/app/organizers' })
                 }
               >
                 <FontAwesomeIcon icon={faArrowRightFromBracket} />

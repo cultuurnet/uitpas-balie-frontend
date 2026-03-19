@@ -87,7 +87,7 @@ export const getGetGrouppassesUrl = (params?: GetGrouppassesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/grouppasses?${stringifiedParams}` : `/api/proxy/uitpas/grouppasses`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/grouppasses?${stringifiedParams}` : `/app/api/proxy/uitpas/grouppasses`
 }
 
 export const getGrouppasses = async (params?: GetGrouppassesParams, options?: RequestInit): Promise<getGrouppassesResponse> => {
@@ -113,7 +113,7 @@ export const getGrouppasses = async (params?: GetGrouppassesParams, options?: Re
 
 export const getGetGrouppassesQueryKey = (params?: GetGrouppassesParams,) => {
     return [
-    `/api/proxy/uitpas/grouppasses`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/grouppasses`, ...(params ? [params] : [])
     ] as const;
     }
 

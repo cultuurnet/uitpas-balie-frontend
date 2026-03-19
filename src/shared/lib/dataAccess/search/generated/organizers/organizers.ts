@@ -93,7 +93,7 @@ export const getGetOrganizersUrl = (params?: GetOrganizersParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/search/organizers?${stringifiedParams}` : `/api/proxy/search/organizers`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/search/organizers?${stringifiedParams}` : `/app/api/proxy/search/organizers`
 }
 
 export const getOrganizers = async (params?: GetOrganizersParams, options?: RequestInit): Promise<getOrganizersResponse> => {
@@ -119,7 +119,7 @@ export const getOrganizers = async (params?: GetOrganizersParams, options?: Requ
 
 export const getGetOrganizersQueryKey = (params?: GetOrganizersParams,) => {
     return [
-    `/api/proxy/search/organizers`, ...(params ? [params] : [])
+    `/app/api/proxy/search/organizers`, ...(params ? [params] : [])
     ] as const;
     }
 

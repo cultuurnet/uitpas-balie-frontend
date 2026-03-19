@@ -9,7 +9,7 @@ export const fetcher = async (
   const response = await fetch(url, options);
 
   if (response.status === 401) {
-    signOut({ callbackUrl: '/' });
+    signOut({ callbackUrl: '/app' });
   }
 
   return response;

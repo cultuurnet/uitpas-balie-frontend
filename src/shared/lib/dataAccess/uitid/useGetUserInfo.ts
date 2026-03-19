@@ -26,7 +26,7 @@ const useGetUserInfo = ({ enabled = true }: Props) => {
     ...useQuery({
       queryKey,
       queryFn: async () => {
-        const response = await fetch('/api/proxy/userinfo');
+        const response = await fetch('/app/api/proxy/userinfo');
         if (!response.ok) throw new Error(response.statusText);
         const data = (await response.json()) as UserInfo;
         return { data };

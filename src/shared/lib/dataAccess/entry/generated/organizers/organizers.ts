@@ -95,7 +95,7 @@ export const getOrganizerPostUrl = () => {
 
   
 
-  return `/api/proxy/entry/organizers`
+  return `/app/api/proxy/entry/organizers`
 }
 
 export const organizerPost = async (organizerOrganizerPostDeprecated: Organizer | OrganizerPostDeprecated, options?: RequestInit): Promise<organizerPostResponse> => {
@@ -191,7 +191,7 @@ export const getOrganizerGetUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}`
+  return `/app/api/proxy/entry/organizers/${organizerId}`
 }
 
 export const organizerGet = async (organizerId: string, options?: RequestInit): Promise<organizerGetResponse> => {
@@ -217,7 +217,7 @@ export const organizerGet = async (organizerId: string, options?: RequestInit): 
 
 export const getOrganizerGetQueryKey = (organizerId: string,) => {
     return [
-    `/api/proxy/entry/organizers/${organizerId}`
+    `/app/api/proxy/entry/organizers/${organizerId}`
     ] as const;
     }
 
@@ -333,7 +333,7 @@ export const getOrganizerPutUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}`
+  return `/app/api/proxy/entry/organizers/${organizerId}`
 }
 
 export const organizerPut = async (organizerId: string,
@@ -452,7 +452,7 @@ export const getOrganizerAddressPutUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/address/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/address/${language}`
 }
 
 export const organizerAddressPut = async (organizerId: string,
@@ -577,7 +577,7 @@ export const getOrganizerAddressNlPutUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/address`
+  return `/app/api/proxy/entry/organizers/${organizerId}/address`
 }
 
 export const organizerAddressNlPut = async (organizerId: string,
@@ -695,7 +695,7 @@ export const getOrganizerContactPointPutUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/contact-point`
+  return `/app/api/proxy/entry/organizers/${organizerId}/contact-point`
 }
 
 export const organizerContactPointPut = async (organizerId: string,
@@ -808,7 +808,7 @@ export const getOrganizerDescriptionPutUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/description/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/description/${language}`
 }
 
 export const organizerDescriptionPut = async (organizerId: string,
@@ -917,7 +917,7 @@ export const getOrganizerDescriptionDeleteUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/description/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/description/${language}`
 }
 
 export const organizerDescriptionDelete = async (organizerId: string,
@@ -1029,7 +1029,7 @@ export const getOrganizerEducationalDescriptionPutUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/educational-description/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/educational-description/${language}`
 }
 
 export const organizerEducationalDescriptionPut = async (organizerId: string,
@@ -1138,7 +1138,7 @@ export const getOrganizerEducationalDescriptionDeleteUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/educational-description/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/educational-description/${language}`
 }
 
 export const organizerEducationalDescriptionDelete = async (organizerId: string,
@@ -1258,7 +1258,7 @@ export const getOrganizerImagesPostUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/images`
+  return `/app/api/proxy/entry/organizers/${organizerId}/images`
 }
 
 export const organizerImagesPost = async (organizerId: string,
@@ -1378,7 +1378,7 @@ export const getOrganizerImagesPatchUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/images`
+  return `/app/api/proxy/entry/organizers/${organizerId}/images`
 }
 
 export const organizerImagesPatch = async (organizerId: string,
@@ -1486,7 +1486,7 @@ export const getOrganizerImageDeleteUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/images/${imageId}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/images/${imageId}`
 }
 
 export const organizerImageDelete = async (organizerId: string,
@@ -1597,7 +1597,7 @@ export const getOrganizerLabelsAddUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/labels/${labelName}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/labels/${labelName}`
 }
 
 export const organizerLabelsAdd = async (organizerId: string,
@@ -1706,7 +1706,7 @@ export const getOrganizerLabelsDeleteUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/labels/${labelName}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/labels/${labelName}`
 }
 
 export const organizerLabelsDelete = async (organizerId: string,
@@ -1820,7 +1820,7 @@ export const getOrganizerMainImageUpdateUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/images/main`
+  return `/app/api/proxy/entry/organizers/${organizerId}/images/main`
 }
 
 export const organizerMainImageUpdate = async (organizerId: string,
@@ -1933,7 +1933,7 @@ export const getOrganizerNamePutUrl = (organizerId: string,
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/name/${language}`
+  return `/app/api/proxy/entry/organizers/${organizerId}/name/${language}`
 }
 
 export const organizerNamePut = async (organizerId: string,
@@ -2051,7 +2051,7 @@ export const getOrganizerNameNlPutUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/name`
+  return `/app/api/proxy/entry/organizers/${organizerId}/name`
 }
 
 export const organizerNameNlPut = async (organizerId: string,
@@ -2164,7 +2164,7 @@ export const getOrganizerUrlPutUrl = (organizerId: string,) => {
 
   
 
-  return `/api/proxy/entry/organizers/${organizerId}/url`
+  return `/app/api/proxy/entry/organizers/${organizerId}/url`
 }
 
 export const organizerUrlPut = async (organizerId: string,

@@ -137,7 +137,7 @@ export const getGetRewardsUrl = (params?: GetRewardsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/rewards?${stringifiedParams}` : `/api/proxy/uitpas/rewards`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/rewards?${stringifiedParams}` : `/app/api/proxy/uitpas/rewards`
 }
 
 export const getRewards = async (params?: GetRewardsParams, options?: RequestInit): Promise<getRewardsResponse> => {
@@ -163,13 +163,13 @@ export const getRewards = async (params?: GetRewardsParams, options?: RequestIni
 
 export const getGetRewardsInfiniteQueryKey = (params?: GetRewardsParams,) => {
     return [
-    'infinite', `/api/proxy/uitpas/rewards`, ...(params ? [params] : [])
+    'infinite', `/app/api/proxy/uitpas/rewards`, ...(params ? [params] : [])
     ] as const;
     }
 
 export const getGetRewardsQueryKey = (params?: GetRewardsParams,) => {
     return [
-    `/api/proxy/uitpas/rewards`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/rewards`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -344,7 +344,7 @@ export const getPostRewardsUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/rewards`
+  return `/app/api/proxy/uitpas/rewards`
 }
 
 export const postRewards = async (reward: NonReadonly<Reward>, options?: RequestInit): Promise<postRewardsResponse> => {
@@ -452,7 +452,7 @@ export const getGetRewardsIdUrl = (rewardId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/rewards/${rewardId}`
+  return `/app/api/proxy/uitpas/rewards/${rewardId}`
 }
 
 export const getRewardsId = async (rewardId: string, options?: RequestInit): Promise<getRewardsIdResponse> => {
@@ -478,7 +478,7 @@ export const getRewardsId = async (rewardId: string, options?: RequestInit): Pro
 
 export const getGetRewardsIdQueryKey = (rewardId: string,) => {
     return [
-    `/api/proxy/uitpas/rewards/${rewardId}`
+    `/app/api/proxy/uitpas/rewards/${rewardId}`
     ] as const;
     }
 
@@ -601,7 +601,7 @@ export const getPutRewardsIdUrl = (rewardId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/rewards/${rewardId}`
+  return `/app/api/proxy/uitpas/rewards/${rewardId}`
 }
 
 export const putRewardsId = async (rewardId: string,
@@ -724,7 +724,7 @@ export const getGetRewardsIdRedeemStatusUrl = (rewardId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/rewards/${rewardId}/redeem-status?${stringifiedParams}` : `/api/proxy/uitpas/rewards/${rewardId}/redeem-status`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/rewards/${rewardId}/redeem-status?${stringifiedParams}` : `/app/api/proxy/uitpas/rewards/${rewardId}/redeem-status`
 }
 
 export const getRewardsIdRedeemStatus = async (rewardId: string,
@@ -752,7 +752,7 @@ export const getRewardsIdRedeemStatus = async (rewardId: string,
 export const getGetRewardsIdRedeemStatusQueryKey = (rewardId: string,
     params?: GetRewardsIdRedeemStatusParams,) => {
     return [
-    `/api/proxy/uitpas/rewards/${rewardId}/redeem-status`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/rewards/${rewardId}/redeem-status`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -872,7 +872,7 @@ export const getPostRewardsRedeemedUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/rewards/redeemed`
+  return `/app/api/proxy/uitpas/rewards/redeemed`
 }
 
 export const postRewardsRedeemed = async (postRewardsRedeemedBody: PostRewardsRedeemedBody, options?: RequestInit): Promise<postRewardsRedeemedResponse> => {
@@ -987,7 +987,7 @@ export const getGetRewardsRedeemedUrl = (params: GetRewardsRedeemedParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/rewards/redeemed?${stringifiedParams}` : `/api/proxy/uitpas/rewards/redeemed`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/rewards/redeemed?${stringifiedParams}` : `/app/api/proxy/uitpas/rewards/redeemed`
 }
 
 export const getRewardsRedeemed = async (params: GetRewardsRedeemedParams, options?: RequestInit): Promise<getRewardsRedeemedResponse> => {
@@ -1013,7 +1013,7 @@ export const getRewardsRedeemed = async (params: GetRewardsRedeemedParams, optio
 
 export const getGetRewardsRedeemedQueryKey = (params?: GetRewardsRedeemedParams,) => {
     return [
-    `/api/proxy/uitpas/rewards/redeemed`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/rewards/redeemed`, ...(params ? [params] : [])
     ] as const;
     }
 

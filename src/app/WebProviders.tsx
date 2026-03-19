@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 export function WebProviders({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>
+      <SessionProvider basePath="/app/api/auth">
         <UserProvider>
           <OrganizerProvider>{children}</OrganizerProvider>
         </UserProvider>

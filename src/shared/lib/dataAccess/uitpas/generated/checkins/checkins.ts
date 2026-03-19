@@ -113,7 +113,7 @@ export const getPostCheckinsUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/checkins`
+  return `/app/api/proxy/uitpas/checkins`
 }
 
 export const postCheckins = async (checkin: NonReadonly<Checkin>, options?: RequestInit): Promise<postCheckinsResponse> => {
@@ -228,7 +228,7 @@ export const getGetCheckinStatusUrl = (params: GetCheckinStatusParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/checkin-status?${stringifiedParams}` : `/api/proxy/uitpas/checkin-status`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/checkin-status?${stringifiedParams}` : `/app/api/proxy/uitpas/checkin-status`
 }
 
 export const getCheckinStatus = async (params: GetCheckinStatusParams, options?: RequestInit): Promise<getCheckinStatusResponse> => {
@@ -254,7 +254,7 @@ export const getCheckinStatus = async (params: GetCheckinStatusParams, options?:
 
 export const getGetCheckinStatusQueryKey = (params?: GetCheckinStatusParams,) => {
     return [
-    `/api/proxy/uitpas/checkin-status`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/checkin-status`, ...(params ? [params] : [])
     ] as const;
     }
 
