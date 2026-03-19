@@ -1,49 +1,47 @@
 import type { ComponentProps } from 'react';
 
-import { FocusColor } from '@/app/const/focusColors';
 import { Badge as ShadcnBadge } from '@/ui/shadcn/badge';
 import { cn } from '@/utils/shadcn';
 
-const badgeBgClasses: Record<FocusColor, string> = {
-  primary: 'bg-primary text-white border-transparent',
-  secondary: 'bg-secondary text-white border-transparent',
-  muted: 'bg-neutral-200 border-transparent',
-};
+type BadgeVariant =
+  | 'primary'
+  | 'primary-inverted'
+  | 'blue'
+  | 'blue-inverted'
+  | 'red'
+  | 'red-inverted'
+  | 'yellow'
+  | 'yellow-inverted'
+  | 'secondary'
+  | 'secondary-inverted'
+  | 'gray'
+  | 'gray-inverted';
 
-const badgeTextClasses: Record<FocusColor, string> = {
-  primary: 'text-primary',
-  secondary: 'text-secondary',
-  muted: 'text-neutral-700',
-};
-
-const defaultTextColor: Partial<Record<FocusColor, FocusColor>> = {
-  muted: 'primary',
+const variantClasses: Record<BadgeVariant, string> = {
+  primary: 'bg-primary-light text-primary-dark border-transparent',
+  'primary-inverted': 'bg-primary text-white border-transparent',
+  blue: 'bg-blue-light text-blue border-transparent',
+  'blue-inverted': 'bg-blue text-blue-light border-transparent',
+  red: 'bg-red-light text-red border-transparent',
+  'red-inverted': 'bg-red text-red-light border-transparent',
+  yellow: 'bg-yellow-light text-gray border-transparent',
+  'yellow-inverted': 'bg-yellow text-white border-transparent',
+  secondary: 'bg-secondary-light text-secondary border-transparent',
+  'secondary-inverted': 'bg-secondary text-secondary-light border-transparent',
+  gray: 'bg-gray-light text-gray border-transparent',
+  'gray-inverted': 'bg-gray text-white border-transparent',
 };
 
 type BadgeProps = ComponentProps<typeof ShadcnBadge> & {
-  color?: FocusColor;
-  textColor?: FocusColor;
+  variant?: BadgeVariant;
 };
 
-const Badge = ({
-  color = 'muted',
-  textColor,
-  className,
-  ...props
-}: BadgeProps) => {
-  const resolvedTextColor = textColor ?? defaultTextColor[color];
-  return (
-    <ShadcnBadge
-      className={cn(
-        'rounded-md font-normal',
-        badgeBgClasses[color],
-        resolvedTextColor && badgeTextClasses[resolvedTextColor],
-        className,
-      )}
-      {...props}
-    />
-  );
-};
+const Badge = ({ variant = 'primary', className, ...props }: BadgeProps) => (
+  <ShadcnBadge
+    className={cn('rounded-md font-normal', variantClasses[variant], className)}
+    {...props}
+  />
+);
 
 export { Badge };
-export type { BadgeProps };
+export type { BadgeProps, BadgeVariant };

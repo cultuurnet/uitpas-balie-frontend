@@ -17,14 +17,27 @@ const meta = {
     },
   },
   argTypes: {
-    color: { control: 'select', options: ['primary', 'secondary', 'muted'] },
-    textColor: {
+    variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'muted'],
+      options: [
+        'primary',
+        'primary-inverted',
+        'blue',
+        'blue-inverted',
+        'red',
+        'red-inverted',
+        'yellow',
+        'yellow-inverted',
+        'secondary',
+        'secondary-inverted',
+        'gray',
+        'gray-inverted',
+      ],
     },
   },
   args: {
     children: 'Badge',
+    variant: 'primary',
   },
 } satisfies Meta<typeof Badge>;
 
@@ -34,9 +47,27 @@ export default meta;
 
 export const Default: Story = {};
 
-export const Primary: Story = { args: { color: 'primary' } };
+const colorPairs = [
+  ['primary', 'primary-inverted'],
+  ['blue', 'blue-inverted'],
+  ['red', 'red-inverted'],
+  ['yellow', 'yellow-inverted'],
+  ['secondary', 'secondary-inverted'],
+  ['gray', 'gray-inverted'],
+] as const;
 
-export const Secondary: Story = { args: { color: 'secondary' } };
+export const AllVariants: Story = {
+  render: () => (
+    <div className="flex flex-col gap-2">
+      {colorPairs.map(([normal, inverted]) => (
+        <div key={normal} className="flex gap-2">
+          <Badge variant={normal}>Badge</Badge>
+          <Badge variant={inverted}>Badge</Badge>
+        </div>
+      ))}
+    </div>
+  ),
+};
 
 export const WithIcon: Story = {
   args: {
