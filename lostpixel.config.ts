@@ -3,8 +3,9 @@ import type { CustomProjectConfig } from 'lost-pixel';
 export const config: CustomProjectConfig = {
   storybookShots: {
     storybookUrl: './storybook-static',
+    elementLocator: '#storybook-root',
   },
-  generateOnly: true,
+  generateOnly: false,
   failOnDifference: true,
-  threshold: 0.001,
+  threshold: 20,
 };
