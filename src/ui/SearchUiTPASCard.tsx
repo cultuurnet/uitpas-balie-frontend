@@ -35,25 +35,25 @@ const SearchUiTPASCard = ({ onSubmit, searchPassholderHref }: Props) => {
             i18nKey="home.heading"
             components={{
               bold: <strong />,
-              italic: (
-                <em className="font-normal not-italic text-muted-foreground" />
-              ),
+              italic: <em className="text-base text-muted-foreground" />,
             }}
           />
         </h1>
 
         <div className="flex gap-2">
           <Input
-            className="flex-1"
+            className="flex-1 h-12 text-base md:text-base"
             placeholder={t('home.inputPlaceholder')}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
           />
-          <Button onClick={handleSubmit}>{t('home.confirmBtn')}</Button>
+          <Button className="h-12 text-base" onClick={handleSubmit}>
+            {t('home.confirmBtn')}
+          </Button>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-6">
           <Badge className="gap-1">
             <Check className="size-3" />
             {t('home.eIdReaderFound')}
@@ -64,22 +64,20 @@ const SearchUiTPASCard = ({ onSubmit, searchPassholderHref }: Props) => {
           </Badge>
         </div>
 
-        <Separator />
-
         <p>
-          <strong>{t('home.noCard')}</strong>{' '}
+          <span className="font-bold text-neutral-500">{t('home.noCard')}</span>{' '}
           <Link variant="primary" href={searchPassholderHref}>
             {t('home.searchPassholder')}
           </Link>
         </p>
 
-        <Separator />
+        <Separator className="my-3" />
 
         <div className="flex flex-col gap-1">
-          <h2 className="text-lg font-bold italic">
+          <h2 className="text-lg font-bold italic text-neutral-500">
             {t('home.registerNewTitle')}
           </h2>
-          <p className="italic text-muted-foreground">
+          <p className="italic text-neutral-500">
             {t('home.registerNewSubtitle')}
           </p>
         </div>
