@@ -9,6 +9,7 @@ import {
   Usb,
 } from 'lucide-react';
 
+import { SidebarMenuButton } from '@/layouts/components/SidebarMenuButton';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -19,7 +20,6 @@ import {
 } from '@/ui/shadcn/sidebar';
 
 import { Sidebar } from './Sidebar';
-import { SidebarMenuButton } from './SidebarMenuButton';
 
 const meta = {
   title: 'UI/Sidebar',

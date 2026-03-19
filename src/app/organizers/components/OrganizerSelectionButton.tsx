@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { useIsMobile } from '@/hooks/shadcn/use-mobile';
+import { SidebarMenuButton } from '@/layouts/components/SidebarMenuButton';
 import { Organizer, OrganizerPermissions } from '@/shared/lib/dataAccess';
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { Input } from '@/ui/Input';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/shadcn/dropdown-menu';
-import { Input } from '@/ui/shadcn/input';
-import { SidebarMenuButton } from '@/ui/SidebarMenuButton';
 
 const SEARCH_THRESHOLD = 5;
 

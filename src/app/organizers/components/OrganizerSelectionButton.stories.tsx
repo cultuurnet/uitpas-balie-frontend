@@ -33,7 +33,7 @@ const mockOrganizerPermissions = [
 ];
 
 const meta = {
-  title: 'UI/OrganizerSelectionButton',
+  title: 'Organizers/OrganizerSelectionButton',
   component: OrganizerSelectionButton,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

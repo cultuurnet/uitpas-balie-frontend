@@ -1,0 +1,89 @@
+'use client';
+
+import { Check } from 'lucide-react';
+import { useState } from 'react';
+import { Trans } from 'react-i18next';
+
+import { useTranslation } from '@/shared/lib/i18n/client';
+import { Badge } from '@/ui/Badge';
+import { Button } from '@/ui/Button';
+import { Card, CardContent } from '@/ui/Card';
+import { Input } from '@/ui/Input';
+import { Link } from '@/ui/Link';
+import { Separator } from '@/ui/shadcn/separator';
+
+type Props = {
+  onSubmit: (value: string) => void;
+  searchPassholderHref: string;
+};
+
+const SearchUiTPASCard = ({ onSubmit, searchPassholderHref }: Props) => {
+  const { t } = useTranslation();
+  const [value, setValue] = useState('');
+
+  const handleSubmit = () => {
+    if (value.trim()) onSubmit(value.trim());
+  };
+
+  return (
+    <Card className="w-full max-w-lg">
+      <CardContent className="flex flex-col gap-4 p-4">
+        <p className="italic text-muted-foreground">{t('home.subtitle')}</p>
+
+        <h1 className="text-2xl">
+          <Trans
+            i18nKey="home.heading"
+            components={{
+              bold: <strong />,
+              italic: <em className="text-base text-muted-foreground" />,
+            }}
+          />
+        </h1>
+
+        <div className="flex gap-2">
+          <Input
+            className="flex-1 h-12 text-base md:text-base"
+            placeholder={t('home.inputPlaceholder')}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+          />
+          <Button className="h-12 text-base" onClick={handleSubmit}>
+            {t('home.confirmBtn')}
+          </Button>
+        </div>
+
+        <div className="flex gap-2 mb-6">
+          <Badge className="gap-1">
+            <Check className="size-3" />
+            {t('home.eIdReaderFound')}
+          </Badge>
+          <Badge className="gap-1">
+            <Check className="size-3" />
+            {t('home.nfcReaderFound')}
+          </Badge>
+        </div>
+
+        <p>
+          <span className="font-bold text-neutral-500">{t('home.noCard')}</span>{' '}
+          <Link variant="primary" href={searchPassholderHref}>
+            {t('home.searchPassholder')}
+          </Link>
+        </p>
+
+        <Separator className="my-3" />
+
+        <div className="flex flex-col gap-1">
+          <h2 className="text-lg font-bold italic text-neutral-500">
+            {t('home.registerNewTitle')}
+          </h2>
+          <p className="italic text-neutral-500">
+            {t('home.registerNewSubtitle')}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export { SearchUiTPASCard };

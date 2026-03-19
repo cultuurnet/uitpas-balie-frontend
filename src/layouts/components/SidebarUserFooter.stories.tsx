@@ -9,7 +9,7 @@ import {
 import { SidebarUserFooter } from './SidebarUserFooter';
 
 const meta = {
-  title: 'UI/SidebarUserFooter',
+  title: 'Sidebar/SidebarUserFooter',
   component: SidebarUserFooter,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

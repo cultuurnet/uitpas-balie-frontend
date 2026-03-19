@@ -325,6 +325,18 @@
     "cardreaders": "Kaartlezers",
     "news": "Nieuws"
   },
+  "home": {
+    "subtitle": "Scan de UiTPAS of vul het kaartnummer manueel in.",
+    "heading": "<bold>UiTPAS-nummer</bold> <italic>of Rijksregisternummer</italic>",
+    "inputPlaceholder": "Voer nummer in...",
+    "confirmBtn": "Bevestigen",
+    "eIdReaderFound": "eID lezer gevonden",
+    "nfcReaderFound": "NFC lezer gevonden",
+    "noCard": "Geen kaart?",
+    "searchPassholder": "Zoek een pashouder",
+    "registerNewTitle": "Nieuwe UiTPAS registreren?",
+    "registerNewSubtitle": "Start met het scannen van een lege kaart."
+  },
   "common": {
     "startDate": "Startdatum",
     "endDate": "Einddatum",
