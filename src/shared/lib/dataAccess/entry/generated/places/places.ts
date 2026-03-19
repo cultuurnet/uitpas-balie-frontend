@@ -112,7 +112,7 @@ export const getPlacePostUrl = () => {
 
   
 
-  return `/api/proxy/entry/places`
+  return `/app/api/proxy/entry/places`
 }
 
 export const placePost = async (placePost: PlacePost, options?: RequestInit): Promise<placePostResponse> => {
@@ -208,7 +208,7 @@ export const getPlaceGetUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}`
+  return `/app/api/proxy/entry/places/${placeId}`
 }
 
 export const placeGet = async (placeId: string, options?: RequestInit): Promise<placeGetResponse> => {
@@ -234,7 +234,7 @@ export const placeGet = async (placeId: string, options?: RequestInit): Promise<
 
 export const getPlaceGetQueryKey = (placeId: string,) => {
     return [
-    `/api/proxy/entry/places/${placeId}`
+    `/app/api/proxy/entry/places/${placeId}`
     ] as const;
     }
 
@@ -353,7 +353,7 @@ export const getPlacePutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}`
+  return `/app/api/proxy/entry/places/${placeId}`
 }
 
 export const placePut = async (placeId: string,
@@ -460,7 +460,7 @@ export const getPlaceDeleteUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}`
+  return `/app/api/proxy/entry/places/${placeId}`
 }
 
 export const placeDelete = async (placeId: string, options?: RequestInit): Promise<placeDeleteResponse> => {
@@ -576,7 +576,7 @@ export const getPlaceImportCreateUrl = () => {
 
   
 
-  return `/api/proxy/entry/imports/places`
+  return `/app/api/proxy/entry/imports/places`
 }
 
 export const placeImportCreate = async (placePlacePostDeprecated: Place | PlacePostDeprecated, options?: RequestInit): Promise<placeImportCreateResponse> => {
@@ -693,7 +693,7 @@ export const getPlaceImportUpdateUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/imports/places/${placeId}`
+  return `/app/api/proxy/entry/imports/places/${placeId}`
 }
 
 export const placeImportUpdate = async (placeId: string,
@@ -807,7 +807,7 @@ export const getPlaceAddressPutUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/address/${language}`
+  return `/app/api/proxy/entry/places/${placeId}/address/${language}`
 }
 
 export const placeAddressPut = async (placeId: string,
@@ -920,7 +920,7 @@ export const getPlaceAvailableFromPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/available-from`
+  return `/app/api/proxy/entry/places/${placeId}/available-from`
 }
 
 export const placeAvailableFromPut = async (placeId: string,
@@ -1036,7 +1036,7 @@ export const getPlaceBookingInfoPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/booking-info`
+  return `/app/api/proxy/entry/places/${placeId}/booking-info`
 }
 
 export const placeBookingInfoPut = async (placeId: string,
@@ -1163,7 +1163,7 @@ export const getPlaceCalendarPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/calendar`
+  return `/app/api/proxy/entry/places/${placeId}/calendar`
 }
 
 export const placeCalendarPut = async (placeId: string,
@@ -1270,7 +1270,7 @@ export const getPlaceCalendarSummaryGetUrl = (placeId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/entry/places/${placeId}/calendar-summary?${stringifiedParams}` : `/api/proxy/entry/places/${placeId}/calendar-summary`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/entry/places/${placeId}/calendar-summary?${stringifiedParams}` : `/app/api/proxy/entry/places/${placeId}/calendar-summary`
 }
 
 export const placeCalendarSummaryGet = async (placeId: string,
@@ -1298,7 +1298,7 @@ export const placeCalendarSummaryGet = async (placeId: string,
 export const getPlaceCalendarSummaryGetQueryKey = (placeId: string,
     params?: PlaceCalendarSummaryGetParams,) => {
     return [
-    `/api/proxy/entry/places/${placeId}/calendar-summary`, ...(params ? [params] : [])
+    `/app/api/proxy/entry/places/${placeId}/calendar-summary`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1424,7 +1424,7 @@ export const getPlaceContactPointPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/contact-point`
+  return `/app/api/proxy/entry/places/${placeId}/contact-point`
 }
 
 export const placeContactPointPut = async (placeId: string,
@@ -1545,7 +1545,7 @@ export const getPlaceDescriptionPutUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/description/${language}`
+  return `/app/api/proxy/entry/places/${placeId}/description/${language}`
 }
 
 export const placeDescriptionPut = async (placeId: string,
@@ -1656,7 +1656,7 @@ export const getPlaceDescriptionDeleteUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/description/${language}`
+  return `/app/api/proxy/entry/places/${placeId}/description/${language}`
 }
 
 export const placeDescriptionDelete = async (placeId: string,
@@ -1771,7 +1771,7 @@ export const getPlaceFacilitiesPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/facilities`
+  return `/app/api/proxy/entry/places/${placeId}/facilities`
 }
 
 export const placeFacilitiesPut = async (placeId: string,
@@ -1883,7 +1883,7 @@ export const getPlaceImagesPostUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/images`
+  return `/app/api/proxy/entry/places/${placeId}/images`
 }
 
 export const placeImagesPost = async (placeId: string,
@@ -1986,7 +1986,7 @@ export const getPlaceImageDeleteUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/images/${imageId}`
+  return `/app/api/proxy/entry/places/${placeId}/images/${imageId}`
 }
 
 export const placeImageDelete = async (placeId: string,
@@ -2098,7 +2098,7 @@ export const getPlaceImagePutUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/images/${imageId}`
+  return `/app/api/proxy/entry/places/${placeId}/images/${imageId}`
 }
 
 export const placeImagePut = async (placeId: string,
@@ -2211,7 +2211,7 @@ export const getPlaceMainImagePutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/images/main`
+  return `/app/api/proxy/entry/places/${placeId}/images/main`
 }
 
 export const placeMainImagePut = async (placeId: string,
@@ -2323,7 +2323,7 @@ export const getPlacesLabelsAddUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/labels/${labelName}`
+  return `/app/api/proxy/entry/places/${placeId}/labels/${labelName}`
 }
 
 export const placesLabelsAdd = async (placeId: string,
@@ -2430,7 +2430,7 @@ export const getPlaceLabelsDeleteUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/labels/${labelName}`
+  return `/app/api/proxy/entry/places/${placeId}/labels/${labelName}`
 }
 
 export const placeLabelsDelete = async (placeId: string,
@@ -2559,7 +2559,7 @@ export const getPlaceMajorInfoPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/major-info`
+  return `/app/api/proxy/entry/places/${placeId}/major-info`
 }
 
 export const placeMajorInfoPut = async (placeId: string,
@@ -2673,7 +2673,7 @@ export const getPlaceNamePutUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/name/${language}`
+  return `/app/api/proxy/entry/places/${placeId}/name/${language}`
 }
 
 export const placeNamePut = async (placeId: string,
@@ -2782,7 +2782,7 @@ export const getPlaceOrganizerDeleteUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/organizer/${organizerId}`
+  return `/app/api/proxy/entry/places/${placeId}/organizer/${organizerId}`
 }
 
 export const placeOrganizerDelete = async (placeId: string,
@@ -2893,7 +2893,7 @@ export const getPlaceOrganizerUpdateUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/organizer/${organizerId}`
+  return `/app/api/proxy/entry/places/${placeId}/organizer/${organizerId}`
 }
 
 export const placeOrganizerUpdate = async (placeId: string,
@@ -3004,7 +3004,7 @@ export const getPlacePriceInfoPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/price-info`
+  return `/app/api/proxy/entry/places/${placeId}/price-info`
 }
 
 export const placePriceInfoPut = async (placeId: string,
@@ -3116,7 +3116,7 @@ export const getPlaceStatusPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/status`
+  return `/app/api/proxy/entry/places/${placeId}/status`
 }
 
 export const placeStatusPut = async (placeId: string,
@@ -3228,7 +3228,7 @@ export const getPlaceTypePutUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/type/${termId}`
+  return `/app/api/proxy/entry/places/${placeId}/type/${termId}`
 }
 
 export const placeTypePut = async (placeId: string,
@@ -3334,7 +3334,7 @@ export const getPlaceTypicalAgeRangeDeleteUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/typical-age-range`
+  return `/app/api/proxy/entry/places/${placeId}/typical-age-range`
 }
 
 export const placeTypicalAgeRangeDelete = async (placeId: string, options?: RequestInit): Promise<placeTypicalAgeRangeDeleteResponse> => {
@@ -3444,7 +3444,7 @@ export const getPlaceTypicalAgeRangePutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/typical-age-range`
+  return `/app/api/proxy/entry/places/${placeId}/typical-age-range`
 }
 
 export const placeTypicalAgeRangePut = async (placeId: string,
@@ -3561,7 +3561,7 @@ export const getPlaceVideosPostUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/videos`
+  return `/app/api/proxy/entry/places/${placeId}/videos`
 }
 
 export const placeVideosPost = async (placeId: string,
@@ -3683,7 +3683,7 @@ export const getPlacesVideosPatchUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/videos`
+  return `/app/api/proxy/entry/places/${placeId}/videos`
 }
 
 export const placesVideosPatch = async (placeId: string,
@@ -3791,7 +3791,7 @@ export const getPlaceVideosDeleteUrl = (placeId: string,
 
   
 
-  return `/api/proxy/entry/places/${placeId}/videos/${videoId}`
+  return `/app/api/proxy/entry/places/${placeId}/videos/${videoId}`
 }
 
 export const placeVideosDelete = async (placeId: string,
@@ -3908,7 +3908,7 @@ export const getPlaceWorkflowStatusPutUrl = (placeId: string,) => {
 
   
 
-  return `/api/proxy/entry/places/${placeId}/workflow-status`
+  return `/app/api/proxy/entry/places/${placeId}/workflow-status`
 }
 
 export const placeWorkflowStatusPut = async (placeId: string,

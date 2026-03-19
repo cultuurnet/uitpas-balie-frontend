@@ -30,7 +30,7 @@ export function MobileProviders({ children }: PropsWithChildren) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <SessionProvider>
+          <SessionProvider basePath="/app/api/auth">
             <UserProvider>
               <OrganizerProvider organizerPath={clientRoutes.organizers()}>
                 {children}

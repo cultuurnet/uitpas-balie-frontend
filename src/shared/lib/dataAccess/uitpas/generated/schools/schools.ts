@@ -81,7 +81,7 @@ export const getGetPassholdersSchoolUrl = (passholderId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/passholders/${passholderId}/school`
+  return `/app/api/proxy/uitpas/passholders/${passholderId}/school`
 }
 
 export const getPassholdersSchool = async (passholderId: string, options?: RequestInit): Promise<getPassholdersSchoolResponse> => {
@@ -107,7 +107,7 @@ export const getPassholdersSchool = async (passholderId: string, options?: Reque
 
 export const getGetPassholdersSchoolQueryKey = (passholderId: string,) => {
     return [
-    `/api/proxy/uitpas/passholders/${passholderId}/school`
+    `/app/api/proxy/uitpas/passholders/${passholderId}/school`
     ] as const;
     }
 
@@ -228,7 +228,7 @@ export const getPutPassholdersSchoolUrl = (passholderId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/passholders/${passholderId}/school`
+  return `/app/api/proxy/uitpas/passholders/${passholderId}/school`
 }
 
 export const putPassholdersSchool = async (passholderId: string,
@@ -343,7 +343,7 @@ export const getDeletePassholdersSchoolUrl = (passholderId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/passholders/${passholderId}/school`
+  return `/app/api/proxy/uitpas/passholders/${passholderId}/school`
 }
 
 export const deletePassholdersSchool = async (passholderId: string, options?: RequestInit): Promise<deletePassholdersSchoolResponse> => {

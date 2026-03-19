@@ -90,7 +90,7 @@ export const getPutKiosksSetupUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/setup`
+  return `/app/api/proxy/uitpas/kiosk-devices/setup`
 }
 
 export const putKiosksSetup = async (kioskDeviceSetup: KioskDeviceSetup, options?: RequestInit): Promise<putKiosksSetupResponse> => {
@@ -197,7 +197,7 @@ export const getGetKiosksUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices`
+  return `/app/api/proxy/uitpas/kiosk-devices`
 }
 
 export const getKiosks = async ( options?: RequestInit): Promise<getKiosksResponse> => {
@@ -223,7 +223,7 @@ export const getKiosks = async ( options?: RequestInit): Promise<getKiosksRespon
 
 export const getGetKiosksQueryKey = () => {
     return [
-    `/api/proxy/uitpas/kiosk-devices`
+    `/app/api/proxy/uitpas/kiosk-devices`
     ] as const;
     }
 
@@ -339,7 +339,7 @@ export const getGetKiosksEventUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/events`
+  return `/app/api/proxy/uitpas/kiosk-devices/events`
 }
 
 export const getKiosksEvent = async ( options?: RequestInit): Promise<getKiosksEventResponse> => {
@@ -365,7 +365,7 @@ export const getKiosksEvent = async ( options?: RequestInit): Promise<getKiosksE
 
 export const getGetKiosksEventQueryKey = () => {
     return [
-    `/api/proxy/uitpas/kiosk-devices/events`
+    `/app/api/proxy/uitpas/kiosk-devices/events`
     ] as const;
     }
 
@@ -479,7 +479,7 @@ export const getPutKiosksEventsUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/events`
+  return `/app/api/proxy/uitpas/kiosk-devices/events`
 }
 
 export const putKiosksEvents = async (kioskDeviceEventRequest: KioskDeviceEventRequest, options?: RequestInit): Promise<putKiosksEventsResponse> => {
@@ -586,7 +586,7 @@ export const getDeleteKiosksEventsUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/events`
+  return `/app/api/proxy/uitpas/kiosk-devices/events`
 }
 
 export const deleteKiosksEvents = async ( options?: RequestInit): Promise<deleteKiosksEventsResponse> => {
@@ -697,7 +697,7 @@ export const getPostKiosksCheckinUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/checkins`
+  return `/app/api/proxy/uitpas/kiosk-devices/checkins`
 }
 
 export const postKiosksCheckin = async (kioskDeviceCheckinRequest: KioskDeviceCheckinRequest, options?: RequestInit): Promise<postKiosksCheckinResponse> => {
@@ -813,7 +813,7 @@ export const getGetKiosksCheckinsUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/checkins`
+  return `/app/api/proxy/uitpas/kiosk-devices/checkins`
 }
 
 export const getKiosksCheckins = async ( options?: RequestInit): Promise<getKiosksCheckinsResponse> => {
@@ -839,7 +839,7 @@ export const getKiosksCheckins = async ( options?: RequestInit): Promise<getKios
 
 export const getGetKiosksCheckinsQueryKey = () => {
     return [
-    `/api/proxy/uitpas/kiosk-devices/checkins`
+    `/app/api/proxy/uitpas/kiosk-devices/checkins`
     ] as const;
     }
 
@@ -958,7 +958,7 @@ export const getGetKiosksChipNumbersChipNumberUrl = (chipNumber: string,) => {
 
   
 
-  return `/api/proxy/uitpas/kiosk-devices/chip-numbers/${chipNumber}`
+  return `/app/api/proxy/uitpas/kiosk-devices/chip-numbers/${chipNumber}`
 }
 
 export const getKiosksChipNumbersChipNumber = async (chipNumber: string, options?: RequestInit): Promise<getKiosksChipNumbersChipNumberResponse> => {
@@ -984,7 +984,7 @@ export const getKiosksChipNumbersChipNumber = async (chipNumber: string, options
 
 export const getGetKiosksChipNumbersChipNumberQueryKey = (chipNumber: string,) => {
     return [
-    `/api/proxy/uitpas/kiosk-devices/chip-numbers/${chipNumber}`
+    `/app/api/proxy/uitpas/kiosk-devices/chip-numbers/${chipNumber}`
     ] as const;
     }
 

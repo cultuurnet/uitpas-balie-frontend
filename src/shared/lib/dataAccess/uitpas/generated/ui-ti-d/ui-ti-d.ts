@@ -79,7 +79,7 @@ export const getGetUitidEmailUrl = (email: string,) => {
 
   
 
-  return `/api/proxy/uitpas/uitid/emails/${email}`
+  return `/app/api/proxy/uitpas/uitid/emails/${email}`
 }
 
 export const getUitidEmail = async (email: string, options?: RequestInit): Promise<getUitidEmailResponse> => {
@@ -105,7 +105,7 @@ export const getUitidEmail = async (email: string, options?: RequestInit): Promi
 
 export const getGetUitidEmailQueryKey = (email: string,) => {
     return [
-    `/api/proxy/uitpas/uitid/emails/${email}`
+    `/app/api/proxy/uitpas/uitid/emails/${email}`
     ] as const;
     }
 

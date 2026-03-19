@@ -79,7 +79,7 @@ export const getGetOrganizersUrl = (params?: GetOrganizersParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/organizers?${stringifiedParams}` : `/api/proxy/uitpas/organizers`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/organizers?${stringifiedParams}` : `/app/api/proxy/uitpas/organizers`
 }
 
 export const getOrganizers = async (params?: GetOrganizersParams, options?: RequestInit): Promise<getOrganizersResponse> => {
@@ -105,7 +105,7 @@ export const getOrganizers = async (params?: GetOrganizersParams, options?: Requ
 
 export const getGetOrganizersQueryKey = (params?: GetOrganizersParams,) => {
     return [
-    `/api/proxy/uitpas/organizers`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/organizers`, ...(params ? [params] : [])
     ] as const;
     }
 

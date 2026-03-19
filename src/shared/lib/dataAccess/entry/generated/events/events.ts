@@ -109,7 +109,7 @@ export const getEventPostUrl = () => {
 
   
 
-  return `/api/proxy/entry/events`
+  return `/app/api/proxy/entry/events`
 }
 
 export const eventPost = async (eventPost: EventPost, options?: RequestInit): Promise<eventPostResponse> => {
@@ -205,7 +205,7 @@ export const getEventGetUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}`
+  return `/app/api/proxy/entry/events/${eventId}`
 }
 
 export const eventGet = async (eventId: string, options?: RequestInit): Promise<eventGetResponse> => {
@@ -231,7 +231,7 @@ export const eventGet = async (eventId: string, options?: RequestInit): Promise<
 
 export const getEventGetQueryKey = (eventId: string,) => {
     return [
-    `/api/proxy/entry/events/${eventId}`
+    `/app/api/proxy/entry/events/${eventId}`
     ] as const;
     }
 
@@ -350,7 +350,7 @@ export const getEventPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}`
+  return `/app/api/proxy/entry/events/${eventId}`
 }
 
 export const eventPut = async (eventId: string,
@@ -457,7 +457,7 @@ export const getEventDeleteUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}`
+  return `/app/api/proxy/entry/events/${eventId}`
 }
 
 export const eventDelete = async (eventId: string, options?: RequestInit): Promise<eventDeleteResponse> => {
@@ -573,7 +573,7 @@ export const getEventImportNewUrl = () => {
 
   
 
-  return `/api/proxy/entry/imports/events`
+  return `/app/api/proxy/entry/imports/events`
 }
 
 export const eventImportNew = async (eventPost: EventPost, options?: RequestInit): Promise<eventImportNewResponse> => {
@@ -690,7 +690,7 @@ export const getEventImportUpdateUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/imports/events/${eventId}`
+  return `/app/api/proxy/entry/imports/events/${eventId}`
 }
 
 export const eventImportUpdate = async (eventId: string,
@@ -805,7 +805,7 @@ export const getEventCopiesPostUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/copies`
+  return `/app/api/proxy/entry/events/${eventId}/copies`
 }
 
 export const eventCopiesPost = async (eventId: string,
@@ -922,7 +922,7 @@ export const getEventAttendanceModePutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/attendance-mode`
+  return `/app/api/proxy/entry/events/${eventId}/attendance-mode`
 }
 
 export const eventAttendanceModePut = async (eventId: string,
@@ -1036,7 +1036,7 @@ export const getEventAudiencePutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/audience`
+  return `/app/api/proxy/entry/events/${eventId}/audience`
 }
 
 export const eventAudiencePut = async (eventId: string,
@@ -1148,7 +1148,7 @@ export const getEventAvailableFromPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/available-from`
+  return `/app/api/proxy/entry/events/${eventId}/available-from`
 }
 
 export const eventAvailableFromPut = async (eventId: string,
@@ -1266,7 +1266,7 @@ export const getEventBookingAvailabilityPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/booking-availability`
+  return `/app/api/proxy/entry/events/${eventId}/booking-availability`
 }
 
 export const eventBookingAvailabilityPut = async (eventId: string,
@@ -1382,7 +1382,7 @@ export const getEventBookingInfoPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/booking-info`
+  return `/app/api/proxy/entry/events/${eventId}/booking-info`
 }
 
 export const eventBookingInfoPut = async (eventId: string,
@@ -1519,7 +1519,7 @@ export const getEventCalendarPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/calendar`
+  return `/app/api/proxy/entry/events/${eventId}/calendar`
 }
 
 export const eventCalendarPut = async (eventId: string,
@@ -1626,7 +1626,7 @@ export const getEventCalendarSummaryGetUrl = (eventId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/entry/events/${eventId}/calendar-summary?${stringifiedParams}` : `/api/proxy/entry/events/${eventId}/calendar-summary`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/entry/events/${eventId}/calendar-summary?${stringifiedParams}` : `/app/api/proxy/entry/events/${eventId}/calendar-summary`
 }
 
 export const eventCalendarSummaryGet = async (eventId: string,
@@ -1654,7 +1654,7 @@ export const eventCalendarSummaryGet = async (eventId: string,
 export const getEventCalendarSummaryGetQueryKey = (eventId: string,
     params?: EventCalendarSummaryGetParams,) => {
     return [
-    `/api/proxy/entry/events/${eventId}/calendar-summary`, ...(params ? [params] : [])
+    `/app/api/proxy/entry/events/${eventId}/calendar-summary`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -1780,7 +1780,7 @@ export const getEventContactPointPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/contact-point`
+  return `/app/api/proxy/entry/events/${eventId}/contact-point`
 }
 
 export const eventContactPointPut = async (eventId: string,
@@ -1901,7 +1901,7 @@ export const getEventDescriptionPutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/description/${language}`
+  return `/app/api/proxy/entry/events/${eventId}/description/${language}`
 }
 
 export const eventDescriptionPut = async (eventId: string,
@@ -2012,7 +2012,7 @@ export const getEventDescriptionDeleteUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/description/${language}`
+  return `/app/api/proxy/entry/events/${eventId}/description/${language}`
 }
 
 export const eventDescriptionDelete = async (eventId: string,
@@ -2127,7 +2127,7 @@ export const getEventFacilitiesPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/facilities`
+  return `/app/api/proxy/entry/events/${eventId}/facilities`
 }
 
 export const eventFacilitiesPut = async (eventId: string,
@@ -2239,7 +2239,7 @@ export const getEventFaqsPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/faqs`
+  return `/app/api/proxy/entry/events/${eventId}/faqs`
 }
 
 export const eventFaqsPut = async (eventId: string,
@@ -2351,7 +2351,7 @@ export const getEventImagesPostUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/images`
+  return `/app/api/proxy/entry/events/${eventId}/images`
 }
 
 export const eventImagesPost = async (eventId: string,
@@ -2454,7 +2454,7 @@ export const getEventImageDeleteUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/images/${imageId}`
+  return `/app/api/proxy/entry/events/${eventId}/images/${imageId}`
 }
 
 export const eventImageDelete = async (eventId: string,
@@ -2566,7 +2566,7 @@ export const getEventImagePutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/images/${imageId}`
+  return `/app/api/proxy/entry/events/${eventId}/images/${imageId}`
 }
 
 export const eventImagePut = async (eventId: string,
@@ -2679,7 +2679,7 @@ export const getEventMainImagePutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/images/main`
+  return `/app/api/proxy/entry/events/${eventId}/images/main`
 }
 
 export const eventMainImagePut = async (eventId: string,
@@ -2791,7 +2791,7 @@ export const getEventLabelsAddUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/labels/${labelName}`
+  return `/app/api/proxy/entry/events/${eventId}/labels/${labelName}`
 }
 
 export const eventLabelsAdd = async (eventId: string,
@@ -2898,7 +2898,7 @@ export const getEventLabelsDeleteUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/labels/${labelName}`
+  return `/app/api/proxy/entry/events/${eventId}/labels/${labelName}`
 }
 
 export const eventLabelsDelete = async (eventId: string,
@@ -3012,7 +3012,7 @@ export const getEventLocationPutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/location/${placeId}`
+  return `/app/api/proxy/entry/events/${eventId}/location/${placeId}`
 }
 
 export const eventLocationPut = async (eventId: string,
@@ -3141,7 +3141,7 @@ export const getEventMajorInfoPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/major-info`
+  return `/app/api/proxy/entry/events/${eventId}/major-info`
 }
 
 export const eventMajorInfoPut = async (eventId: string,
@@ -3255,7 +3255,7 @@ export const getEventNamePutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/name/${language}`
+  return `/app/api/proxy/entry/events/${eventId}/name/${language}`
 }
 
 export const eventNamePut = async (eventId: string,
@@ -3368,7 +3368,7 @@ export const getEventOnlineUrlPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/online-url`
+  return `/app/api/proxy/entry/events/${eventId}/online-url`
 }
 
 export const eventOnlineUrlPut = async (eventId: string,
@@ -3475,7 +3475,7 @@ export const getEventOnlineUrlDeleteUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/online-url`
+  return `/app/api/proxy/entry/events/${eventId}/online-url`
 }
 
 export const eventOnlineUrlDelete = async (eventId: string, options?: RequestInit): Promise<eventOnlineUrlDeleteResponse> => {
@@ -3581,7 +3581,7 @@ export const getEventOrganizerDeleteUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/organizer/${organizerId}`
+  return `/app/api/proxy/entry/events/${eventId}/organizer/${organizerId}`
 }
 
 export const eventOrganizerDelete = async (eventId: string,
@@ -3692,7 +3692,7 @@ export const getEventOrganizerUpdateUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/organizer/${organizerId}`
+  return `/app/api/proxy/entry/events/${eventId}/organizer/${organizerId}`
 }
 
 export const eventOrganizerUpdate = async (eventId: string,
@@ -3803,7 +3803,7 @@ export const getEventPriceInfoPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/price-info`
+  return `/app/api/proxy/entry/events/${eventId}/price-info`
 }
 
 export const eventPriceInfoPut = async (eventId: string,
@@ -3917,7 +3917,7 @@ export const getEventStatusPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/status`
+  return `/app/api/proxy/entry/events/${eventId}/status`
 }
 
 export const eventStatusPut = async (eventId: string,
@@ -4039,7 +4039,7 @@ export const getEventSubEventPatchUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/sub-events`
+  return `/app/api/proxy/entry/events/${eventId}/sub-events`
 }
 
 export const eventSubEventPatch = async (eventId: string,
@@ -4151,7 +4151,7 @@ export const getEventTermsEventtypePutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/type/${termId}`
+  return `/app/api/proxy/entry/events/${eventId}/type/${termId}`
 }
 
 export const eventTermsEventtypePut = async (eventId: string,
@@ -4259,7 +4259,7 @@ export const getEventTermsThemeDeleteUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/theme`
+  return `/app/api/proxy/entry/events/${eventId}/theme`
 }
 
 export const eventTermsThemeDelete = async (eventId: string, options?: RequestInit): Promise<eventTermsThemeDeleteResponse> => {
@@ -4369,7 +4369,7 @@ export const getEventTermsThemePutUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/theme/${termId}`
+  return `/app/api/proxy/entry/events/${eventId}/theme/${termId}`
 }
 
 export const eventTermsThemePut = async (eventId: string,
@@ -4475,7 +4475,7 @@ export const getEventTypicalAgeRangeDeleteUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/typical-age-range`
+  return `/app/api/proxy/entry/events/${eventId}/typical-age-range`
 }
 
 export const eventTypicalAgeRangeDelete = async (eventId: string, options?: RequestInit): Promise<eventTypicalAgeRangeDeleteResponse> => {
@@ -4585,7 +4585,7 @@ export const getEventTypicalAgeRangePutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/typical-age-range`
+  return `/app/api/proxy/entry/events/${eventId}/typical-age-range`
 }
 
 export const eventTypicalAgeRangePut = async (eventId: string,
@@ -4702,7 +4702,7 @@ export const getEventVideosPostUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/videos`
+  return `/app/api/proxy/entry/events/${eventId}/videos`
 }
 
 export const eventVideosPost = async (eventId: string,
@@ -4824,7 +4824,7 @@ export const getEventVideosPatchUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/videos`
+  return `/app/api/proxy/entry/events/${eventId}/videos`
 }
 
 export const eventVideosPatch = async (eventId: string,
@@ -4932,7 +4932,7 @@ export const getEventVideosDeleteUrl = (eventId: string,
 
   
 
-  return `/api/proxy/entry/events/${eventId}/videos/${videoId}`
+  return `/app/api/proxy/entry/events/${eventId}/videos/${videoId}`
 }
 
 export const eventVideosDelete = async (eventId: string,
@@ -5049,7 +5049,7 @@ export const getEventWorkflowStatusPutUrl = (eventId: string,) => {
 
   
 
-  return `/api/proxy/entry/events/${eventId}/workflow-status`
+  return `/app/api/proxy/entry/events/${eventId}/workflow-status`
 }
 
 export const eventWorkflowStatusPut = async (eventId: string,

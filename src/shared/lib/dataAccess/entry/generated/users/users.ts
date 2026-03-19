@@ -63,7 +63,7 @@ export const getUserGetUrl = () => {
 
   
 
-  return `/api/proxy/entry/user`
+  return `/app/api/proxy/entry/user`
 }
 
 export const userGet = async ( options?: RequestInit): Promise<userGetResponse> => {
@@ -89,7 +89,7 @@ export const userGet = async ( options?: RequestInit): Promise<userGetResponse> 
 
 export const getUserGetQueryKey = () => {
     return [
-    `/api/proxy/entry/user`
+    `/app/api/proxy/entry/user`
     ] as const;
     }
 

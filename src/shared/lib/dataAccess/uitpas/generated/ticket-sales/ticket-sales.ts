@@ -124,7 +124,7 @@ export const getGetTariffsUrl = (params: GetTariffsParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/tariffs?${stringifiedParams}` : `/api/proxy/uitpas/tariffs`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/tariffs?${stringifiedParams}` : `/app/api/proxy/uitpas/tariffs`
 }
 
 export const getTariffs = async (params: GetTariffsParams, options?: RequestInit): Promise<getTariffsResponse> => {
@@ -150,7 +150,7 @@ export const getTariffs = async (params: GetTariffsParams, options?: RequestInit
 
 export const getGetTariffsQueryKey = (params?: GetTariffsParams,) => {
     return [
-    `/api/proxy/uitpas/tariffs`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/tariffs`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -281,7 +281,7 @@ export const getGetTariffsStaticUrl = (params: GetTariffsStaticParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/tariffs/static?${stringifiedParams}` : `/api/proxy/uitpas/tariffs/static`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/tariffs/static?${stringifiedParams}` : `/app/api/proxy/uitpas/tariffs/static`
 }
 
 export const getTariffsStatic = async (params: GetTariffsStaticParams, options?: RequestInit): Promise<getTariffsStaticResponse> => {
@@ -307,7 +307,7 @@ export const getTariffsStatic = async (params: GetTariffsStaticParams, options?:
 
 export const getGetTariffsStaticQueryKey = (params?: GetTariffsStaticParams,) => {
     return [
-    `/api/proxy/uitpas/tariffs/static`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/tariffs/static`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -440,7 +440,7 @@ export const getPostTicketSalesUrl = () => {
 
   
 
-  return `/api/proxy/uitpas/ticket-sales`
+  return `/app/api/proxy/uitpas/ticket-sales`
 }
 
 export const postTicketSales = async (ticketSale: NonReadonly<TicketSale[]>, options?: RequestInit): Promise<postTicketSalesResponse> => {
@@ -557,7 +557,7 @@ export const getGetTicketSalesUrl = (params: GetTicketSalesParams,) => {
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/api/proxy/uitpas/ticket-sales?${stringifiedParams}` : `/api/proxy/uitpas/ticket-sales`
+  return stringifiedParams.length > 0 ? `/app/api/proxy/uitpas/ticket-sales?${stringifiedParams}` : `/app/api/proxy/uitpas/ticket-sales`
 }
 
 export const getTicketSales = async (params: GetTicketSalesParams, options?: RequestInit): Promise<getTicketSalesResponse> => {
@@ -583,7 +583,7 @@ export const getTicketSales = async (params: GetTicketSalesParams, options?: Req
 
 export const getGetTicketSalesQueryKey = (params?: GetTicketSalesParams,) => {
     return [
-    `/api/proxy/uitpas/ticket-sales`, ...(params ? [params] : [])
+    `/app/api/proxy/uitpas/ticket-sales`, ...(params ? [params] : [])
     ] as const;
     }
 
@@ -693,7 +693,7 @@ export const getDeleteTicketSalesUrl = (ticketSaleId: string,) => {
 
   
 
-  return `/api/proxy/uitpas/ticket-sales/${ticketSaleId}`
+  return `/app/api/proxy/uitpas/ticket-sales/${ticketSaleId}`
 }
 
 export const deleteTicketSales = async (ticketSaleId: string, options?: RequestInit): Promise<deleteTicketSalesResponse> => {

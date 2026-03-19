@@ -77,7 +77,7 @@ export const getImagePostUrl = () => {
 
   
 
-  return `/api/proxy/entry/images`
+  return `/app/api/proxy/entry/images`
 }
 
 export const imagePost = async (imagePostBody: ImagePostBodyOne | ImagePost, options?: RequestInit): Promise<imagePostResponse> => {
@@ -173,7 +173,7 @@ export const getImageGetUrl = (imageId: string,) => {
 
   
 
-  return `/api/proxy/entry/images/${imageId}`
+  return `/app/api/proxy/entry/images/${imageId}`
 }
 
 export const imageGet = async (imageId: string, options?: RequestInit): Promise<imageGetResponse> => {
@@ -199,7 +199,7 @@ export const imageGet = async (imageId: string, options?: RequestInit): Promise<
 
 export const getImageGetQueryKey = (imageId: string,) => {
     return [
-    `/api/proxy/entry/images/${imageId}`
+    `/app/api/proxy/entry/images/${imageId}`
     ] as const;
     }
 

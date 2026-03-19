@@ -5,7 +5,7 @@ test('Go to organizers page', async ({ page, baseURL }) => {
   await page.waitForLoadState('networkidle');
   await page.waitForLoadState('domcontentloaded');
 
-  await expect(page).toHaveURL('/organizers');
+  await expect(page).toHaveURL('/app/organizers');
   await expect(
     page.getByRole('heading', { name: 'selecteer een balie' }),
   ).toBeVisible();
