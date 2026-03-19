@@ -3,6 +3,15 @@ import { ChevronRight, Loader2, Mail } from 'lucide-react';
 
 import { Button } from './Button';
 
+const variants = [
+  'default',
+  'destructive',
+  'outline',
+  'secondary',
+  'ghost',
+  'link',
+] as const;
+
 const meta = {
   title: 'UI/Button',
   component: Button,
@@ -19,7 +28,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+      options: variants,
     },
     size: {
       control: 'select',
@@ -38,13 +47,11 @@ export const Default: Story = {};
 export const AllVariants: Story = {
   render: () => (
     <div className="flex items-center gap-2">
-      {(['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'] as const).map(
-        (variant) => (
-          <Button key={variant} variant={variant}>
-            Button
-          </Button>
-        ),
-      )}
+      {variants.map((variant) => (
+        <Button key={variant} variant={variant}>
+          Button
+        </Button>
+      ))}
     </div>
   ),
 };

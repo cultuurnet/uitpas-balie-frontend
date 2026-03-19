@@ -43,10 +43,6 @@ const meta = {
 
 type Story = StoryObj<typeof meta>;
 
-export default meta;
-
-export const Default: Story = {};
-
 const colorPairs = [
   ['primary', 'primary-inverted'],
   ['blue', 'blue-inverted'],
@@ -55,6 +51,10 @@ const colorPairs = [
   ['secondary', 'secondary-inverted'],
   ['gray', 'gray-inverted'],
 ] as const;
+
+export default meta;
+
+export const Default: Story = {};
 
 export const AllVariants: Story = {
   render: () => (
