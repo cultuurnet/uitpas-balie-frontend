@@ -181,6 +181,14 @@ export const Button = (props) => <ShadcnButton variant="default" {...props} />;
 
 Use `cn()` from `@/utils/shadcn` to compose Tailwind classes when you need style overrides. To update a component, re-run `npx shadcn add <component> --overwrite`, then check the git diff to re-apply any intentional structural changes.
 
+## Workflow
+
+- Always propose a concise plan before making code changes. For multi-file changes, list every file you'll touch and what you'll change in each. Wait for approval before implementing.
+- Never switch git branches unless explicitly asked.
+- Never create new files when the user asks to modify an existing one.
+- Never restructure or reorganize code unless explicitly asked.
+- Always run `yarn types:check` and `yarn lint` after making changes.
+
 ## Code Style
 
 - No unnecessary comments (code should be self-explanatory)
