@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslation } from '@/shared/lib/i18n/client';
+import { OrganizerSearch } from './OrganizerSearch';
 
 const NoOrganizerFallback = () => {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ const NoOrganizerFallback = () => {
 
   return (
     <>
+      <OrganizerSearch />
       <p className="italic text-muted-foreground">
         {t('organizer.noOrganizerP1')}
       </p>
